@@ -1,0 +1,10 @@
+Octree2BufBase:
+  - [int, OctreeContainerEmpty]
+  - [OctreeContainerPointIndices, OctreeContainerEmpty]
+OctreeBase:
+  - [int, OctreeContainerEmpty]
+  - [OctreeContainerEmpty, OctreeContainerEmpty]
+  - [OctreeContainerPointIndices, OctreeContainerEmpty]
+MeshIO:
+  - ["geometry::PolygonMesh<DefaultMeshTraits<>>"]
+  - ["geometry::TriangleMesh<DefaultMeshTraits<>>"]
