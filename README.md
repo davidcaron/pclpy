@@ -15,6 +15,29 @@ With pybind11, we can use c++ templates directly.
 - All point types are planned to be wrapped
 - You can access point cloud attributes as numpy arrays using `point_cloud.x` or `point_cloud.xyz`
 
+## Example
+
+Here is how you would use the library to process a Moving Least Squares.
+
+(see PCL documentation: http://pointclouds.org/documentation/tutorials/resampling.php)
+
+```python
+import pclpy
+from pclpy import pcl
+
+point_cloud = pclpy.io.read_las(test_data("street.las"))
+mls = pcl.surface.MovingLeastSquaresOMP.PointXYZRGBA_PointNormal()
+mls.search_radius = 0.05
+mls.polynomial_fit = False
+mls.set_number_of_threads(12)
+mls.input_cloud = input
+tree = pcl.search.KdTree.PointXYZRGBA()
+mls.search_method = tree
+mls.set_compute_normals(True)
+output = pcl.PointCloudPointNormal()
+mls.process(output)
+```
+
 ## Modules
 - Build, but largely untested
     - 2d
