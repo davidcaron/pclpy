@@ -8,7 +8,7 @@ __Current focus is on Windows x64 and python 3.5+__
 
 ## Why
 While Cython is great, binding templated code isn't one of its strenghts.
-The python-pcl are hard to maintain and adding features or point types is quite tedious.
+The python-pcl bindings are hard to maintain and adding features or point types is quite tedious.
 With pybind11, we can use c++ templates directly.
 
 ## Features
@@ -39,7 +39,7 @@ mls.process(output)
 ```
 
 ## Modules
-- Build, but largely untested
+- These modules build. They should work, but are largely untested.
     - 2d
     - common
     - geometry
