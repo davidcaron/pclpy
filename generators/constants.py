@@ -17,8 +17,6 @@ common_includes = """
 
 namespace py = pybind11;
 using namespace pybind11::literals;
-
-using namespace pcl;
 """
 
 # -------------
@@ -140,8 +138,8 @@ HEADERS_TO_SKIP = [
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
     ("io", "pxc_grabber.h"),
-    ("io", "vtk_lib_io.h"),
-    ("io", "vtk_io.h"),
+    # ("io", "vtk_lib_io.h"),
+    # ("io", "vtk_io.h"),
     ("io", "io_exception.h"),
 
     # todo: everything in pcl/ml/dt/ is actually at pcl/ml/

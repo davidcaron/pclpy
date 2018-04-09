@@ -60,7 +60,7 @@ class ClassDefinition:
             c = i["class"]
             if c.startswith("boost::"):  # skip boost inheritance
                 continue
-            inherits.append(c.replace("pcl::", ""))
+            inherits.append(c)
         return ", ".join(inherits)
 
     def to_str(self):
@@ -79,7 +79,7 @@ class ClassDefinition:
         return s.format(**data)
 
     def get_namespace(self):
-        namespace = self.class_["namespace"].replace("pcl::", "").replace("pcl", "")
+        namespace = self.class_["namespace"]
         if namespace:
             namespace += "::"
         return namespace
