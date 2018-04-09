@@ -63,16 +63,11 @@ def gen_class_function_definitions(main_classes, module, header_name, needs_over
                                                                             needs_overloading)
         if not class_["can_be_instantiated"]:
             constructors = []
-        constructors = filter_constructors(constructors)
         class_def = ClassDefinition(class_, constructors, properties, variables, others, module)
         text.append(class_def.to_class_function_definition())
         text.append("")
 
     return text
-
-
-def filter_constructors(constructors):
-    return [c for c in constructors if not any(p["raw_type"].startswith("vtk") for p in c.params)]
 
 
 def filter_class_properties(module, header, class_name, properties):
@@ -252,7 +247,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
-    key = lambda x: sorted_base_classes_first.index(dependency_tree.make_namespace_class(x["namespace"], x["name"]))
+    key = lambda x: sorted_base_classes_first.index((x["name"], x["namespace"]))
     for module, header in main_classes:
         main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
 
@@ -353,12 +348,12 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 def main():
     modules = ["visualization"]
     all_headers = get_headers(modules)
-    headers = [
-        ("", "correspondence.h"),
+    # headers = [
+    #     ("io", "file_io.h"),
         # ("io", "image.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
-    ]
+    # ]
     # generated_headers = generate(headers)
     generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
