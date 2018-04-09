@@ -127,7 +127,7 @@ def read_header(header_path):
     try:
         header_file_str = replace_some_terms(open(header_path, encoding="utf8").readlines())
     except UnicodeDecodeError:
-        header_file_str = replace_some_terms(open(header_path).readlines()).replace("PCL_EXPORTS", "")
+        header_file_str = replace_some_terms(open(header_path).readlines())
     parser = CppHeaderParser
     parser.debug = False
     header = parser.CppHeader(header_file_str, argType="string")
