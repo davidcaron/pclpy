@@ -6,9 +6,7 @@
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
 
-using namespace pcl;
-
-PYBIND11_MAKE_OPAQUE(std::vector<PointIndices>);
+PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
 PYBIND11_MAKE_OPAQUE(std::vector<int>);
 
 // todo: there are way more than this
