@@ -9,7 +9,7 @@ from generators.definitions.enum import Enum
 from generators.definitions.method import Method
 from generators.definitions.variable import Variable
 from generators.definitions.property import Property
-from generators.constants import INDENT, EXTERNAL_INHERITANCE
+from generators.constants import INDENT
 from generators.utils import filter_template_types
 
 
@@ -57,16 +57,10 @@ class ClassDefinition:
             return ""
         inherits = []
         for i in self.class_["inherits"]:
-            inherited_class = i["class"]
-            if inherited_class.startswith("boost::"):  # skip boost inheritance todo: fixme?
+            c = i["class"]
+            if c.startswith("boost::"):  # skip boost inheritance
                 continue
-            # if inherited_class.startswith("vtk"):  # skip vtk inheritance todo: fixme?
-            #     continue
-            if any([inherited_class.startswith(v) for v in EXTERNAL_INHERITANCE]):
-                full_name = inherited_class
-            else:
-                full_name = "%s::%s" % (self.class_["namespace"], inherited_class)
-            inherits.append(full_name)
+            inherits.append(c)
         return ", ".join(inherits)
 
     def to_str(self):
