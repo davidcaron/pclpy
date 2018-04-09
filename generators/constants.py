@@ -17,8 +17,6 @@ common_includes = """
 
 namespace py = pybind11;
 using namespace pybind11::literals;
-
-using namespace pcl;
 """
 
 # -------------
@@ -226,6 +224,9 @@ METHODS_TO_SKIP = [
     # ("PLYReader", "read"),
     # ("PLYWriter", "write"),
     ("ASCIIReader", "setInputFields"),
+    ("CloudViewer", "registerKeyboardCallback"),
+    ("CloudViewer", "registerMouseCallback"),
+    ("CloudViewer", "registerPointPickingCallback"),
     ("PCLPlotter", "addPlotData"),
     ("ORROctree", "createLeaf"),  # linking error
 ]

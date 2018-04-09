@@ -348,10 +348,10 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 def main():
     modules = ["io"]
     # modules = ["geometry", "search", "surface", "segmentation"]
-    all_headers = get_headers(modules)
+    all_headers = get_headers()
     headers = [
         ("io", "file_io.h"),
-        ("io", "pcd_io.h"),
+        # ("io", "image.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
     ]
