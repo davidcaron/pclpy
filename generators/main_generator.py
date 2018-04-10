@@ -346,14 +346,14 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 def main():
     modules = ["visualization"]
     all_headers = get_headers(modules)
-    # headers = [
-    #     ("io", "file_io.h"),
+    headers = [
+        ("visualization", "cloud_viewer.h"),
         # ("io", "image.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
-    # ]
-    # generated_headers = generate(headers)
-    generated_headers = generate(all_headers)
+    ]
+    generated_headers = generate(headers)
+    # generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 
