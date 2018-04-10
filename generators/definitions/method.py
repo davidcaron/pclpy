@@ -134,6 +134,8 @@ class Method:
 
 def flag_overload_and_templated(other_methods: List[Method], needs_overloading: List[str] = None):
     for method in other_methods:
+        if "operator" in method.cppmethod["name"]:
+            continue
         template = method.cppmethod["template"]
         if template:
             pos = template.find("<")
@@ -141,7 +143,9 @@ def flag_overload_and_templated(other_methods: List[Method], needs_overloading: 
             for name in type_names:
                 pcl_point_types = TEMPLATED_METHOD_TYPES.get(name)
                 if not pcl_point_types:
-                    raise NotImplementedError("Templated method name not implemented:%s" % pcl_point_types)
+                    attrs = (name, method.cppmethod["name"], method.cppmethod["parent"]["name"])
+                    message = "Templated method name not implemented (name=%s method=%s class=%s)"
+                    raise NotImplementedError(message % attrs)
                 method.templated_types[name] = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
 
     templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]

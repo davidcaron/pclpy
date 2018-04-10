@@ -132,6 +132,7 @@ EXPLICIT_IMPORTED_TYPES = [
 
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
+    "OutputType": "PCL_POINT_TYPES",
 }
 
 # ------------
@@ -140,13 +141,13 @@ TEMPLATED_METHOD_TYPES = {
 
 HEADERS_TO_SKIP = [
     # ("module", "header")
+    ("io", "pxc_grabber.h"),  # deprecated
     ("ml", "multi_channel_2d_comparison_feature_handler.h"),  # can't find class FeatureHandlerCodeGenerator ??
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
-    ("io", "pxc_grabber.h"),
-    ("io", "vtk_lib_io.h"),
-    ("io", "vtk_io.h"),
-    ("io", "io_exception.h"),
+    # ("io", "vtk_lib_io.h"),
+    # ("io", "vtk_io.h"),
+    # ("io", "io_exception.h"),
 
     # todo: everything in pcl/ml/dt/ is actually at pcl/ml/
     ("ml", "decision_tree_evaluator.h"),
@@ -172,9 +173,9 @@ HEADERS_TO_SKIP = [
     ("io", "openni2_timer_filter.h"),
     ("io", "openni2_video_mode.h"),
 
-    ("io", "image_ir.h"),
-    ("io", "image_depth.h"),
-    ("io", "obj_io.h"),
+    # ("io", "image_ir.h"),
+    # ("io", "image_depth.h"),
+    # ("io", "obj_io.h"),
 
     ("", "exceptions.h"),  # todo: implement exceptions
     ("registration", "exceptions.h"),  # todo: implement exceptions
@@ -210,24 +211,21 @@ METHODS_TO_SKIP = [
     # ("class", "method")
 
     # ("FileReader", "read"),
-    ("FileWriter", "write"),
+    # ("FileWriter", "write"),
     # ("PCDReader", "read"),
-    ("PCDWriter", "write"),
-    ("IFSReader", "read"),
-    ("IFSWriter", "write"),
-    ("OBJReader", "read"),
-    ("OBJWriter", "write"),
-    ("MTLReader", "read"),
-    ("MTLWriter", "write"),
-    ("PCDWriter", "writeASCII"),
-    ("PCDWriter", "writeBinary"),
-    ("PCDWriter", "writeBinaryCompressed"),
-    ("PLYReader", "read"),
-    ("PLYWriter", "write"),
+    # ("PCDWriter", "write"),
+    # ("IFSReader", "read"),
+    # ("IFSWriter", "write"),
+    # ("OBJReader", "read"),
+    # ("OBJWriter", "write"),
+    # ("MTLReader", "read"),
+    # ("MTLWriter", "write"),
+    # ("PCDWriter", "writeASCII"),
+    # ("PCDWriter", "writeBinary"),
+    # ("PCDWriter", "writeBinaryCompressed"),
+    # ("PLYReader", "read"),
+    # ("PLYWriter", "write"),
     ("ASCIIReader", "setInputFields"),
-    ("CloudViewer", "registerKeyboardCallback"),
-    ("CloudViewer", "registerMouseCallback"),
-    ("CloudViewer", "registerPointPickingCallback"),
     ("PCLPlotter", "addPlotData"),
     ("ORROctree", "createLeaf"),  # linking error
 ]

@@ -30,7 +30,8 @@ def filter_methods_for_parser_errors(methods):
 
 
 def filter_methods_to_skip(methods):
-    return [m for m in methods if (m["parent"]["name"], m["name"]) not in METHODS_TO_SKIP]
+    return [m for m in methods
+            if (m["parent"]["name"], m["name"]) not in METHODS_TO_SKIP and "Callback" not in m["name"]]
 
 
 def gen_class_function_definitions(main_classes, module, header_name, needs_overloading: List[str]) -> List[str]:
@@ -347,14 +348,15 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 def main():
     modules = ["io"]
     # modules = ["geometry", "search", "surface", "segmentation"]
-    all_headers = get_headers()
+    all_headers = get_headers(modules)
     headers = [
         ("io", "file_io.h"),
+        ("io", "pcd_io.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
     ]
-    generated_headers = generate(headers)
-    # generated_headers = generate(all_headers)
+    # generated_headers = generate(headers)
+    generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 
