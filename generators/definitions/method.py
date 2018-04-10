@@ -36,26 +36,32 @@ class Method:
                     param["type"] += " &"
                     param["reference"] = 1
 
+                type_ = param["type"] if not param["unresolved"] else param["raw_type"]
+
+                if template_types:
+                    for name, template_type in template_types:
+                        type_ = type_.replace(name, template_type)
+
                 if param["unresolved"]:
                     const = "const " if param["constant"] or "const" in param["type"] else ""
-                    raw_type = param["raw_type"]
-                    if "const" in raw_type:  # fix for parsing error 'std::vector<double>const' (no space)
+                    type_ = type_.replace("typename ", "")
+                    if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
                         const = ""
                     ref = " &" if param["reference"] else ""
-                    custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], raw_type))
-                    if any(raw_type.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
+                    custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
+                    if any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
                         pass
-                    elif raw_type in self.cppmethod["parent"].get("template", ""):  # templated argument
+                    elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
                         pass
-                    elif raw_type in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
+                    elif type_ in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
                         pass
                     elif custom:
-                        raw_type = custom
-                    elif any(raw_type.startswith(t) for t in EXTERNAL_INHERITANCE):
+                        type_ = custom
+                    elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
                         pass
                     else:
-                        raw_type = "%s::%s" % (class_name, raw_type)
-                    type_ = const + raw_type + ref
+                        type_ = "%s::%s" % (class_name, type_)
+                    type_ = const + type_ + ref
                     if param.get("pointer"):
                         type_ += "*"
                     type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
@@ -65,16 +71,12 @@ class Method:
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")
 
-                if template_types:
-                    for name, template_type in template_types.items():
-                        type_ = type_.replace(name, template_type)
-
                 types.append(type_)
             type_ = ", ".join(types)
         else:
             type_ = ""
 
-        template = ("<%s>" % ", ".join(template_types.values())) if template_types else ""
+        template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
         disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})".format(type_=type_,
                                                                                        cls=class_name,
@@ -105,15 +107,15 @@ class Method:
         #                                                  )
         #                                                  """
         elif self.templated_types:
-            if len(self.templated_types) > 1:
-                raise NotImplementedError("More than one templated type")
             return_values = []
-            for name, types in self.templated_types.items():
-                for type_ in types:
-                    disamb = self.make_disambiguation(class_name, template_types={name: type_})
-                    return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
-                                                                                    name=self.name,
-                                                                                    disamb=disamb))
+            names = list(self.templated_types.keys())
+            types = list(self.templated_types.values())
+            for types_combination in product(*types):
+                template_types = tuple(zip(names, types_combination))
+                disamb = self.make_disambiguation(class_name, template_types=template_types)
+                return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
+                                                                                name=self.name,
+                                                                                disamb=disamb))
             ret_val = return_values
         elif self.is_an_overload:
             disamb = self.make_disambiguation(class_name)
