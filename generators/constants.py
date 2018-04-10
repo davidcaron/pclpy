@@ -127,6 +127,8 @@ EXPLICIT_IMPORTED_TYPES = [
     "ModelCoefficients",
     "PointWithRange",
     "Camera",
+    "PointCloudGeometryHandler",
+    "PointCloudColorHandler",
 ]
 
 EXTERNAL_INHERITANCE = [
@@ -142,7 +144,7 @@ TEMPLATED_METHOD_TYPES = {
     "OutputType": "PCL_POINT_TYPES",
     "T": "PCL_POINT_TYPES",
     "PointNT": "PCL_NORMAL_POINT_TYPES",
-    "GradientT": ["IntensityGradient"],
+    "GradientT": ["pcl::IntensityGradient"],
     "P1": "PCL_XYZ_POINT_TYPES",
     "P2": "PCL_XYZ_POINT_TYPES",
 }

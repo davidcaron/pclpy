@@ -49,11 +49,12 @@ class Method:
                         const = ""
                     ref = " &" if param["reference"] else ""
                     custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
+                    type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
                     if any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
                         pass
                     elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
                         pass
-                    elif type_ in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
+                    elif type_no_template in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
                         pass
                     elif custom:
                         type_ = custom
