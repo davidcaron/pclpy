@@ -233,27 +233,7 @@ METHODS_TO_SKIP = [
     # ("PLYReader", "read"),
     # ("PLYWriter", "write"),
     ("ASCIIReader", "setInputFields"),
-    ("CloudViewer", "registerKeyboardCallback"),
-    ("CloudViewer", "registerMouseCallback"),
-    ("CloudViewer", "registerPointPickingCallback"),
-    ("PCLVisualizerInteractorStyle", "registerKeyboardCallback"),
-    ("PCLVisualizerInteractorStyle", "registerMouseCallback"),
-    ("PCLVisualizerInteractorStyle", "registerPointPickingCallback"),
-    ("PCLVisualizerInteractorStyle", "registerAreaPickingCallback"),
-    ("PCLVisualizer", "registerKeyboardCallback"),
-    ("PCLVisualizer", "registerMouseCallback"),
-    ("PCLVisualizer", "registerPointPickingCallback"),
-    ("PCLVisualizer", "registerAreaPickingCallback"),
-    ("PCLVisualizer", "addPointCloud"),
-    ("PCLVisualizer", "addPolygonMesh"),
-    ("Window", "registerKeyboardCallback"),
-    ("Window", "registerMouseCallback"),
-    ("ImageViewer", "showRGBImage"),  # templated and non templated function disambiguation
-    ("ImageViewer", "addRGBImage"),  # templated and non templated function disambiguation
-    ("ImageViewer", "registerKeyboardCallback"),
-    ("ImageViewer", "registerMouseCallback"),
-    ("ImageViewer", "addRectangle"),  # templated and non templated function disambiguation
-    ("PCLPlotter", "addPlotData"),  # templated and non templated function disambiguation
+    ("PCLPlotter", "addPlotData"),
     ("PCLPlotter", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "spinOnce"),
     ("PCLHistogramVisualizer", "addFeatureHistogram"),
