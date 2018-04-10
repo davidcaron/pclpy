@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from itertools import chain
 
 from generators.utils import split_overloads
@@ -25,16 +26,17 @@ class Method:
         self.cppmethod = method
         self.name = underscore(method["name"])
         self.is_an_overload = is_an_overload
-        self.templated_types = []
+        self.templated_types = OrderedDict()
         self.needs_lambda_call = False
 
-    def make_disambiguation(self, class_name):
+    def make_disambiguation(self, class_name, template_types=None):
         if len(self.cppmethod["parameters"]):
             types = []
             for param in self.cppmethod["parameters"]:
                 if param["name"] == "&":  # fix for CppHeaderParser bug
                     param["type"] += " &"
                     param["reference"] = 1
+
                 if param["unresolved"]:
                     const = "const " if param["constant"] or "const" in param["type"] else ""
                     raw_type = param["raw_type"]
@@ -57,41 +59,38 @@ class Method:
                         type_ += "*"
                 else:
                     type_ = param["type"]
+
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")
+
+                if template_types:
+                    for name, template_type in template_types.items():
+                        type_ = type_.replace(name, template_type)
+
                 types.append(type_)
             type_ = ", ".join(types)
         else:
             type_ = ""
+
+        template = ("<%s>" % ", ".join(template_types.values())) if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}::{name}{const})".format(type_=type_,
-                                                                             cls=class_name,
-                                                                             name=self.cppmethod["name"],
-                                                                             const=constant_method)
-        # ret_const = " const" if self.method["const"] else ""
-        # ret = self.method["returns"]
-        # disamb = "({ret}{ret_const} ({cls}::*)({type_})) ".format(cls=class_name,
-        #                                                           type_=type_,
-        #                                                           ret=ret,
-        #                                                           ret_const=ret_const)
+        disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})".format(type_=type_,
+                                                                                       cls=class_name,
+                                                                                       name=self.cppmethod["name"],
+                                                                                       template=template,
+                                                                                       const=constant_method)
         return disamb
 
     def to_str(self, class_name, class_var_name):
         params = self.cppmethod["parameters"]
-        has_templated_parameters = len(params) and any("T" in p["raw_type"] for p in params)
         if "operator" in self.cppmethod["name"]:
             message = "Operators not implemented (%s)" % (self.cppmethod["name"],)
             print("Warning: " + message)
             ret_val = "// " + message
-        elif self.is_an_overload:
-            disamb = self.make_disambiguation(class_name)
-            ret_val = '{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
-                                                                 name=self.name,
-                                                                 disamb=disamb)
-        # elif has_templated_parameters:
-        #     message = "templated arguments not implemented (%s)" % (self.method["name"],)
-        #     print("Warning: " + message)
-        #     ret_val = "// " + message
+        elif self.needs_lambda_call:
+            message = "Non templated function disambiguation not implemented (%s)" % (self.cppmethod["name"],)
+            print("Warning: " + message)
+            ret_val = "// " + message
         #     """ Example of how to implement for kdtreeFlann:
         #     .def("nearest_k_search", []
         #     (Class &class_, const PointT &point, int k,
@@ -103,8 +102,23 @@ class Method:
         #                                                  "k_sqr_distances"_a
         #                                                  )
         #                                                  """
+        elif self.templated_types:
+            if len(self.templated_types) > 1:
+                raise NotImplementedError("More than one templated type")
+            return_values = []
+            for name, types in self.templated_types.items():
+                for type_ in types:
+                    disamb = self.make_disambiguation(class_name, template_types={name: type_})
+                    return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
+                                                                                    name=self.name,
+                                                                                    disamb=disamb))
+            ret_val = return_values
+        elif self.is_an_overload:
+            disamb = self.make_disambiguation(class_name)
+            ret_val = '{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
+                                                                 name=self.name,
+                                                                 disamb=disamb)
         else:
-
             s = '{cls_var}.def("{name}", &{cls}::{cppname})'
             data = {"name": self.name,
                     "cls": class_name,
@@ -118,8 +132,8 @@ class Method:
         return "<Method %s>" % (self.name,)
 
 
-def flag_templated_overloads(other_overloads: List[Method]):
-    for method in other_overloads:
+def flag_overload_and_templated(other_methods: List[Method], needs_overloading: List[str] = None):
+    for method in other_methods:
         template = method.cppmethod["template"]
         if template:
             pos = template.find("<")
@@ -128,17 +142,21 @@ def flag_templated_overloads(other_overloads: List[Method]):
                 pcl_point_types = TEMPLATED_METHOD_TYPES.get(name)
                 if not pcl_point_types:
                     raise NotImplementedError("Templated method name not implemented:%s" % pcl_point_types)
-                method.templated_types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
-    templated_methods = [m for m in other_overloads if m.templated_types]
+                method.templated_types[name] = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
 
+    templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)
-    for method in other_overloads:
-        if method in templated_methods:
-            continue
-        n_parameters = len(method.cppmethod["parameters"])
-        for m in templated_methods:
-            if n_parameters == len(m.cppmethod["parameters"]):
-                method.needs_lambda_call = True
+    for method in other_methods:
+        name_ = method.cppmethod["name"]
+        method.is_an_overload = True
+        if method.templated_types:
+            pass
+        elif name_ in templated_method_names:
+            method.needs_lambda_call = True
+        elif name_ in needs_overloading:
+            pass
+        else:
+            method.is_an_overload = False
 
 
 def split_methods_by_type(methods: List[CppMethod],
@@ -153,13 +171,15 @@ def split_methods_by_type(methods: List[CppMethod],
 
     identified_methods = chain(constructors_methods, copy_const, destructors, setters, getters)
     identified_methods_line_numbers = set([m["line_number"] for m in identified_methods])
-    others_methods = [m for m in methods if m["line_number"] not in identified_methods_line_numbers]
+    other_methods = [m for m in methods if m["line_number"] not in identified_methods_line_numbers]
 
-    others_overloads, others_unique = split_overloads(others_methods, needs_overloading)
-    others_overloads = [Method(m, is_an_overload=True) for m in others_overloads]
-    others_unique = [Method(m) for m in others_unique]
+    # others_overloads, others_unique = split_overloads(others_methods, needs_overloading)
+    # others_overloads = [Method(m, is_an_overload=True) for m in others_overloads]
+    # others_unique = [Method(m) for m in others_unique]
 
-    flag_templated_overloads(others_overloads)
+    other_methods = [Method(m) for m in other_methods]
+
+    flag_overload_and_templated(other_methods, needs_overloading)
 
     properties_overloads, properties = make_properties_split_overloads(setters, getters)
     properties_overloads = [Method(m, is_an_overload=True) for m in properties_overloads]
@@ -167,7 +187,7 @@ def split_methods_by_type(methods: List[CppMethod],
     variables = list(map(Variable, class_variables))
     constructors = list(map(Constructor, constructors_methods))
 
-    others = others_overloads + others_unique + properties_overloads
+    others = other_methods + properties_overloads
 
     return constructors, properties, variables, others
 

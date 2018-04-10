@@ -144,7 +144,10 @@ class ClassDefinition:
               for c in self.constructors]
         s += ["{ind}%s;" % p.to_str("Class", class_var_name=self.CLS_VAR) for p in self.properties]
         s += ["{ind}%s;" % v.to_str("Class", class_var_name=self.CLS_VAR) for v in self.variables]
-        s += ["{ind}%s;" % m.to_str("Class", class_var_name=self.CLS_VAR) for m in self.other_methods]
+        templated_methods = [m for m in self.other_methods if m.templated_types]
+        s += ["{ind}%s;" % m.to_str("Class", class_var_name=self.CLS_VAR) for m in self.other_methods
+              if not m in templated_methods]
+        s += ["{ind}%s;" % m for method in templated_methods for m in method.to_str("Class", class_var_name=self.CLS_VAR)]
         data = {
             "ind": ind,
             "i": i
