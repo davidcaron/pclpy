@@ -247,7 +247,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
-    key = lambda x: sorted_base_classes_first.index((x["name"], x["namespace"]))
+    key = lambda x: sorted_base_classes_first.index(dependency_tree.make_namespace_class(x["namespace"], x["name"]))
     for module, header in main_classes:
         main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
 
@@ -349,13 +349,13 @@ def main():
     modules = ["visualization"]
     all_headers = get_headers(modules)
     headers = [
-        ("visualization", "cloud_viewer.h"),
+        ("", "correspondence.h"),
         # ("io", "image.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
     ]
-    generated_headers = generate(headers)
-    # generated_headers = generate(all_headers)
+    # generated_headers = generate(headers)
+    generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 
