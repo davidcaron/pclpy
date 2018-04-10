@@ -252,8 +252,9 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "spinOnce"),
     ("PCLHistogramVisualizer", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "updateFeatureHistogram"),
-    # ("PCLPlotter", "addFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
+
+    # todo: also constructors taking vtk objects as parameters
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5

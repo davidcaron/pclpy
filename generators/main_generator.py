@@ -61,11 +61,16 @@ def gen_class_function_definitions(main_classes, module, header_name, needs_over
                                                                             needs_overloading)
         if not class_["can_be_instantiated"]:
             constructors = []
+        constructors = filter_constructors(constructors)
         class_def = ClassDefinition(class_, constructors, properties, variables, others, module)
         text.append(class_def.to_class_function_definition())
         text.append("")
 
     return text
+
+
+def filter_constructors(constructors):
+    return [c for c in constructors if not any(p["raw_type"].startswith("vtk") for p in c.params)]
 
 
 def filter_class_properties(module, header, class_name, properties):
