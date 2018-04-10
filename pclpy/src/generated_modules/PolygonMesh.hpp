@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/PolygonMesh.h>
 
 
 
 void definePolygonMesh(py::module &m) {
-    using Class = PolygonMesh;
+    using Class = pcl::PolygonMesh;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "PolygonMesh");

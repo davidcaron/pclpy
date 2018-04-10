@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/PCLImage.h>
 
 
 
 void definePCLImage(py::module &m) {
-    using Class = PCLImage;
+    using Class = pcl::PCLImage;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "PCLImage");

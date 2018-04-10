@@ -8,4 +8,4 @@ dist
 vc140.pdb
 *.pyd
 street2.las
-generated_modules
+pclpy/src/generated_modules

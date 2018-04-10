@@ -8,8 +8,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/point_traits.h>
 
@@ -17,7 +15,7 @@ using namespace pcl;
 
 template <typename PointInT, typename OutT>
 void defineCopyIfFieldExists(py::module &m, std::string const & suffix) {
-    using Class = CopyIfFieldExists<PointInT, OutT>;
+    using Class = pcl::CopyIfFieldExists<PointInT, OutT>;
     using Pod = Class::Pod;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<PointInT, std::string, bool, OutT>(), "pt"_a, "field"_a, "exists"_a, "value"_a);
@@ -27,7 +25,7 @@ void defineCopyIfFieldExists(py::module &m, std::string const & suffix) {
 
 template<typename PointT, typename Tag>
 void defineFieldMatches(py::module &m, std::string const & suffix) {
-    using Class = FieldMatches<PointT, Tag>;
+    using Class = pcl::FieldMatches<PointT, Tag>;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     // Operators not implemented (operator());
         
@@ -35,7 +33,7 @@ void defineFieldMatches(py::module &m, std::string const & suffix) {
 
 template <typename PointOutT, typename InT>
 void defineSetIfFieldExists(py::module &m, std::string const & suffix) {
-    using Class = SetIfFieldExists<PointOutT, InT>;
+    using Class = pcl::SetIfFieldExists<PointOutT, InT>;
     using Pod = Class::Pod;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<PointOutT, std::string, InT>(), "pt"_a, "field"_a, "value"_a);

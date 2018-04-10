@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/Vertices.h>
 
 
 
 void defineVertices(py::module &m) {
-    using Class = Vertices;
+    using Class = pcl::Vertices;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "Vertices");

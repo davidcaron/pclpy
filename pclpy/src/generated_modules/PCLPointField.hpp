@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/PCLPointField.h>
 
 
 
 void definePCLPointField(py::module &m) {
-    using Class = PCLPointField;
+    using Class = pcl::PCLPointField;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "PCLPointField");

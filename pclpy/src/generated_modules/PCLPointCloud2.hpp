@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/PCLPointCloud2.h>
 
 
 
 void definePCLPointCloud2(py::module &m) {
-    using Class = PCLPointCloud2;
+    using Class = pcl::PCLPointCloud2;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "PCLPointCloud2");

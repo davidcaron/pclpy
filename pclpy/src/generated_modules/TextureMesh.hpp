@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/TextureMesh.h>
 
 
 
 void defineTexMaterial(py::module &m) {
-    using Class = TexMaterial;
+    using Class = pcl::TexMaterial;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "TexMaterial");
     cls.def(py::init<>());
     cls.def_readonly("tex_name", &Class::tex_name);
@@ -30,7 +28,7 @@ void defineTexMaterial(py::module &m) {
 }
 
 void defineTextureMesh(py::module &m) {
-    using Class = TextureMesh;
+    using Class = pcl::TextureMesh;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "TextureMesh");

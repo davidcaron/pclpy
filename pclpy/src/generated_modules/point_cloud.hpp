@@ -8,8 +8,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/point_cloud.h>
 
@@ -17,7 +15,7 @@ using namespace pcl;
 
 template <typename PointOutT>
 void defineNdCopyEigenPointFunctor(py::module &m, std::string const & suffix) {
-    using Class = NdCopyEigenPointFunctor<PointOutT>;
+    using Class = pcl::NdCopyEigenPointFunctor<PointOutT>;
     using Pod = Class::Pod;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<Eigen::VectorXf, PointOutT>(), "p1"_a, "p2"_a);
@@ -26,7 +24,7 @@ void defineNdCopyEigenPointFunctor(py::module &m, std::string const & suffix) {
 
 template <typename PointInT>
 void defineNdCopyPointEigenFunctor(py::module &m, std::string const & suffix) {
-    using Class = NdCopyPointEigenFunctor<PointInT>;
+    using Class = pcl::NdCopyPointEigenFunctor<PointInT>;
     using Pod = Class::Pod;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<PointInT, Eigen::VectorXf>(), "p1"_a, "p2"_a);
@@ -35,7 +33,7 @@ void defineNdCopyPointEigenFunctor(py::module &m, std::string const & suffix) {
 
 template <typename PointT>
 void definePointCloud(py::module &m, std::string const & suffix) {
-    using Class = PointCloud<PointT>;
+    using Class = pcl::PointCloud<PointT>;
     using PointType = Class::PointType;
     using VectorType = Class::VectorType;
     using CloudVectorType = Class::CloudVectorType;

@@ -8,15 +8,13 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/PCLHeader.h>
 
 
 
 void definePCLHeader(py::module &m) {
-    using Class = PCLHeader;
+    using Class = pcl::PCLHeader;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "PCLHeader");

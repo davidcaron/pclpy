@@ -8,8 +8,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/point_representation.h>
 
@@ -17,7 +15,7 @@ using namespace pcl;
 
 template <typename PointT>
 void definePointRepresentation(py::module &m, std::string const & suffix) {
-    using Class = PointRepresentation<PointT>;
+    using Class = pcl::PointRepresentation<PointT>;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
@@ -30,7 +28,7 @@ void definePointRepresentation(py::module &m, std::string const & suffix) {
 
 template <typename PointDefault>
 void defineCustomPointRepresentation(py::module &m, std::string const & suffix) {
-    using Class = CustomPointRepresentation<PointDefault>;
+    using Class = pcl::CustomPointRepresentation<PointDefault>;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, PointRepresentation<PointDefault>, boost::shared_ptr<Class>> cls(m, suffix.c_str());
@@ -42,7 +40,7 @@ void defineCustomPointRepresentation(py::module &m, std::string const & suffix) 
 
 template <typename PointDefault>
 void defineDefaultFeatureRepresentation(py::module &m, std::string const & suffix) {
-    using Class = DefaultFeatureRepresentation<PointDefault>;
+    using Class = pcl::DefaultFeatureRepresentation<PointDefault>;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     using FieldList = Class::FieldList;
@@ -55,7 +53,7 @@ void defineDefaultFeatureRepresentation(py::module &m, std::string const & suffi
 
 template <typename PointDefault>
 void defineDefaultPointRepresentation(py::module &m, std::string const & suffix) {
-    using Class = DefaultPointRepresentation<PointDefault>;
+    using Class = pcl::DefaultPointRepresentation<PointDefault>;
     using Ptr = Class::Ptr;
     using ConstPtr = Class::ConstPtr;
     py::class_<Class, PointRepresentation<PointDefault>, boost::shared_ptr<Class>> cls(m, suffix.c_str());

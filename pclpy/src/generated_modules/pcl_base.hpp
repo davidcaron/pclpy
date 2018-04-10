@@ -8,8 +8,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/pcl_base.h>
 
@@ -17,7 +15,7 @@ using namespace pcl;
 
 template <typename PointT>
 void definePCLBase(py::module &m, std::string const & suffix) {
-    using Class = PCLBase<PointT>;
+    using Class = pcl::PCLBase<PointT>;
     using PointCloud = Class::PointCloud;
     using PointCloudPtr = Class::PointCloudPtr;
     using PointCloudConstPtr = Class::PointCloudConstPtr;

@@ -8,8 +8,6 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-using namespace pcl;
-
 
 #include <pcl/cloud_iterator.h>
 
@@ -17,7 +15,7 @@ using namespace pcl;
 
 template <typename PointT>
 void defineCloudIterator(py::module &m, std::string const & suffix) {
-    using Class = CloudIterator<PointT>;
+    using Class = pcl::CloudIterator<PointT>;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<PointCloud<PointT>>(), "cloud"_a);
     cls.def(py::init<PointCloud<PointT>, std::vector<int>>(), "cloud"_a, "indices"_a);
@@ -36,7 +34,7 @@ void defineCloudIterator(py::module &m, std::string const & suffix) {
 
 template <typename PointT>
 void defineConstCloudIterator(py::module &m, std::string const & suffix) {
-    using Class = ConstCloudIterator<PointT>;
+    using Class = pcl::ConstCloudIterator<PointT>;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<PointCloud<PointT>>(), "cloud"_a);
     cls.def(py::init<PointCloud<PointT>, std::vector<int>>(), "cloud"_a, "indices"_a);
