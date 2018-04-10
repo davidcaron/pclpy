@@ -82,10 +82,11 @@ class TemplatedClassInstantiations:
                     s.append(self.repr_sub_module(c["name"]))
                     for types in list_types:
                         define = 'define{sub}{name}<{types}>({sub_module_name}, "{types_names}")'
+                        types_str = ", ".join(["pcl::" + t for t in types])
                         define = define.format(sub=camelize(self.module),
                                                name=c["name"],
                                                sub_module_name=sub_module_name,
-                                               types=", ".join(types),
+                                               types=types_str,
                                                types_names="_".join(types))
                         s.append(define)
             elif c.get("template"):

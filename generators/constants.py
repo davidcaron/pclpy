@@ -126,6 +126,15 @@ EXPLICIT_IMPORTED_TYPES = [
     "PointIndices",
     "ModelCoefficients",
     "PointWithRange",
+    "Camera",
+]
+
+EXTERNAL_INHERITANCE = [
+    "svm_parameter",
+    "svm_model",
+    "std",
+    "boost",
+    "vtk",
 ]
 
 # ------------
@@ -221,6 +230,31 @@ METHODS_TO_SKIP = [
     ("CloudViewer", "registerKeyboardCallback"),
     ("CloudViewer", "registerMouseCallback"),
     ("CloudViewer", "registerPointPickingCallback"),
-    ("PCLPlotter", "addPlotData"),
+    ("PCLVisualizerInteractorStyle", "registerKeyboardCallback"),
+    ("PCLVisualizerInteractorStyle", "registerMouseCallback"),
+    ("PCLVisualizerInteractorStyle", "registerPointPickingCallback"),
+    ("PCLVisualizerInteractorStyle", "registerAreaPickingCallback"),
+    ("PCLVisualizer", "registerKeyboardCallback"),
+    ("PCLVisualizer", "registerMouseCallback"),
+    ("PCLVisualizer", "registerPointPickingCallback"),
+    ("PCLVisualizer", "registerAreaPickingCallback"),
+    ("PCLVisualizer", "addPointCloud"),
+    ("PCLVisualizer", "addPolygonMesh"),
+    ("Window", "registerKeyboardCallback"),
+    ("Window", "registerMouseCallback"),
+    ("ImageViewer", "showRGBImage"),  # templated and non templated function disambiguation
+    ("ImageViewer", "addRGBImage"),  # templated and non templated function disambiguation
+    ("ImageViewer", "registerKeyboardCallback"),
+    ("ImageViewer", "registerMouseCallback"),
+    ("ImageViewer", "addRectangle"),  # templated and non templated function disambiguation
+    ("PCLPlotter", "addPlotData"),  # templated and non templated function disambiguation
+    ("PCLPlotter", "addFeatureHistogram"),
+    ("PCLHistogramVisualizer", "spinOnce"),
+    ("PCLHistogramVisualizer", "addFeatureHistogram"),
+    ("PCLHistogramVisualizer", "updateFeatureHistogram"),
+    # ("PCLPlotter", "addFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
+
+    ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
+    ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
 ]

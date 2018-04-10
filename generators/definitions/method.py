@@ -2,7 +2,8 @@ from inflection import underscore
 
 from CppHeaderParser import CppMethod
 
-from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH
+from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
+    EXTERNAL_INHERITANCE
 
 
 class Method:
@@ -38,11 +39,14 @@ class Method:
                         pass
                     elif custom:
                         raw_type = custom
+                    elif any(raw_type.startswith(t) for t in EXTERNAL_INHERITANCE):
+                        pass
                     else:
                         raw_type = "%s::%s" % (class_name, raw_type)
                     type_ = const + raw_type + ref
                     if param.get("pointer"):
                         type_ += "*"
+                    type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
                 else:
                     type_ = param["type"]
                 if param.get("array_size"):
