@@ -12,7 +12,7 @@ from typing import List
 from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
-    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES
+    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
 
 
 class Method:
@@ -64,7 +64,7 @@ class Method:
                         type_ = "%s::%s" % (class_name, type_)
                     type_ = const + type_ + ref
                     if param.get("pointer"):
-                        type_ += "*"
+                        type_ = type_.strip() + "*"
                     type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
                 else:
                     type_ = param["type"]
@@ -139,25 +139,34 @@ class Method:
 
 def flag_overload_and_templated(other_methods: List[Method], needs_overloading: List[str] = None):
     for method in other_methods:
-        if "operator" in method.cppmethod["name"]:
+        method_name = method.cppmethod["name"]
+        if "operator" in method_name:
             continue
         template = method.cppmethod["template"]
         if template:
             pos = template.find("<")
             type_names = filter_template_types(template[pos + 1:-1], keep=["typename"])
-            for name in type_names:
-                pcl_point_types = TEMPLATED_METHOD_TYPES.get(name)
-                if not pcl_point_types:
-                    attrs = (name, method.cppmethod["name"], method.cppmethod["parent"]["name"])
+
+            class_name = method.cppmethod["parent"]["name"]
+            method_key = (class_name, method_name, type_names)
+            all_methods_key = (class_name, "", type_names)
+            specific = SPECIFIC_TEMPLATED_METHOD_TYPES
+            pcl_point_types = specific.get(all_methods_key, specific.get(method_key))
+            if not pcl_point_types:
+                pcl_point_types = [TEMPLATED_METHOD_TYPES.get(type_name) for type_name in type_names]
+
+            for type_name, pcl_types in zip(type_names, pcl_point_types):
+                if not pcl_types:
+                    attrs = (type_name, method_name, class_name)
                     message = "Templated method name not implemented (name=%s method=%s class=%s)"
                     raise NotImplementedError(message % attrs)
-                if isinstance(pcl_point_types, list):
-                    types = pcl_point_types
-                elif pcl_point_types in PCL_POINT_TYPES:
-                    types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
+                if isinstance(pcl_types, list):
+                    types = pcl_types
+                elif pcl_types in PCL_POINT_TYPES:
+                    types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_types]]  # remove parentheses
                 else:
                     raise ValueError
-                method.templated_types[name] = types
+                method.templated_types[type_name] = types
 
     templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)
@@ -214,7 +223,7 @@ def filter_template_types(template_string, keep=None):
         return []
     types = template_string.split(", ")
     types = [s.strip().split(" ")[1] for s in types if any(k in s for k in keep)]  # and "=" not in s]
-    return types
+    return tuple(types)
 
 
 def is_copy_constructor(method):

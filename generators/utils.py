@@ -9,8 +9,8 @@ from inflection import camelize
 from generators.constants import PCL_BASE, common_includes, INDENT
 
 
-def make_header_include_name(module, header_name, path_only=False):
-    name = "/".join([module, header_name]) if module else header_name
+def make_header_include_name(module, header_name, path=None, path_only=False):
+    name = path.replace("\\", "/") if path else "/".join([module, header_name]) if module else header_name
     if path_only:
         return "pcl/%s" % name
     else:
@@ -60,11 +60,11 @@ def sort_headers_by_dependencies(headers):
                 headers.append(make_header_include_name(module, include_string, path_only=True))
         return headers
 
-    headers_dependencies = {header: get_include_lines(join(PCL_BASE, *header), header[0]) for header in headers}
+    headers_dependencies = {header: get_include_lines(join(PCL_BASE, header[2]), header[0]) for header in headers}
 
     headers_include_names = OrderedDict()  # output is sorted in the same way always
     for h in headers:
-        headers_include_names[h] = make_header_include_name(*h, path_only=True)
+        headers_include_names[h] = make_header_include_name(h[0], h[1], path=h[2], path_only=True)
 
     sorted_headers = []
     while headers_include_names:
