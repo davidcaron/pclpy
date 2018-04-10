@@ -11,7 +11,7 @@ from CppHeaderParser import CppHeaderParser
 
 import yaml
 
-from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MAIN_CPP, PATH_MODULES, MODULES_TO_BUILD, \
+from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP
 
 from generators.definitions.templated_class_definition import ClassDefinition
@@ -19,7 +19,8 @@ from generators.definitions.templated_class_instantiations import TemplatedClass
 from generators.definitions.submodule_loader import generate_loader
 
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    split_methods_by_type, generate_main_loader, explicit_includes
+    generate_main_loader, explicit_includes
+from generators.definitions.method import split_methods_by_type
 
 from generators import point_types_utils
 
@@ -349,12 +350,11 @@ def main():
     all_headers = get_headers()
     headers = [
         ("io", "file_io.h"),
-        # ("io", "image.h"),
         # ("filters", "filter.h"),
         # ("", "pcl_base.h"),
     ]
-    # generated_headers = generate(headers)
-    generated_headers = generate(all_headers)
+    generated_headers = generate(headers)
+    # generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 

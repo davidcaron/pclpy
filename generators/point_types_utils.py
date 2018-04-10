@@ -108,11 +108,11 @@ PCL_POINT_TYPES = {
         "(pcl::Narf36)"],
 
     "PCL_STATE_POINT_TYPES": [
-        "pcl::tracking::ParticleXYR",
-        "pcl::tracking::ParticleXYZRPY",
-        "pcl::tracking::ParticleXYZR",
-        "pcl::tracking::ParticleXYRPY",
-        "pcl::tracking::ParticleXYRP"],
+        "(pcl::tracking::ParticleXYR)",
+        "(pcl::tracking::ParticleXYZRPY)",
+        "(pcl::tracking::ParticleXYZR)",
+        "(pcl::tracking::ParticleXYRPY)",
+        "(pcl::tracking::ParticleXYRP)"],
 }
 
 

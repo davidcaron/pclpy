@@ -2,21 +2,22 @@ from typing import List
 
 from inflection import underscore
 
-from generators.definitions.method import Method
+# from generators.definitions.method import Method
+from CppHeaderParser import CppMethod
+from generators.utils import split_overloads
 
 
 class Property:
-    def __init__(self, setter_method: Method, getters_methods: List[Method]):
+    def __init__(self, setter_method: CppMethod, getters_methods: List[CppMethod]):
         """
         Generates definition for a property
         Example:
             .def_property("stuff", &Class::getStuff, &Class::setStuff)
         """
-        self.setter = setter_method.method
-        getters = [g.method for g in getters_methods]
-        getter = [g for g in getters if g["name"][3:] == self.setter["name"][3:]]
+        self.cppsetter = setter_method
+        getter = [g for g in getters_methods if g["name"][3:] == self.cppsetter["name"][3:]]
         self.getter = getter[0] if getter else None
-        self.name = underscore(self.setter["name"].replace("set", ""))
+        self.name = underscore(self.cppsetter["name"].replace("set", ""))
 
     def __eq__(self, other):
         return self.name == other.name
@@ -30,9 +31,17 @@ class Property:
                 "cls": class_name,
                 "cls_var": class_var_name,
                 "get": self.getter["name"] if self.getter else None,
-                "set": self.setter["name"],
+                "set": self.cppsetter["name"],
                 }
         return s.format(**data)
 
     def __repr__(self):
         return "<Property %s>" % (self.name, )
+
+
+def make_properties_split_overloads(setters, getters):
+    setters_overloads, setters_unique = split_overloads(setters)
+    getters_overloads, getters_unique = split_overloads(getters)
+
+    props = [Property(s, getters_unique) for s in setters_unique]
+    return setters_overloads + getters_overloads, props

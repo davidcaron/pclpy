@@ -10,7 +10,7 @@ class Variable:
         Example:
             .def("indices", &Class::indices)
         """
-        self.variable = variable
+        self.cppvariable = variable
         self.name = underscore(variable["name"])
         self.is_an_override = False
 
@@ -19,9 +19,9 @@ class Variable:
         data = {"name": self.name,
                 "cls": class_name,
                 "cls_var": class_var_name,
-                "cppname": self.variable["name"],
-                "only": "write" if self.variable["mutable"] else "only",
-                "static": "_static" if self.variable["static"] else "",
+                "cppname": self.cppvariable["name"],
+                "only": "write" if self.cppvariable["mutable"] else "only",
+                "static": "_static" if self.cppvariable["static"] else "",
                 }
         ret_val = s.format(**data)
         return ret_val

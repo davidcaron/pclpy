@@ -6,11 +6,10 @@ from inflection import camelize
 
 from generators.definitions.constructor import Constructor
 from generators.definitions.enum import Enum
-from generators.definitions.method import Method
+from generators.definitions.method import Method, filter_template_types
 from generators.definitions.variable import Variable
 from generators.definitions.property import Property
 from generators.constants import INDENT
-from generators.utils import filter_template_types
 
 
 class ClassDefinition:
@@ -137,7 +136,7 @@ class ClassDefinition:
 
     def py_class_definition(self, ind=""):
         i = INDENT
-        class_enums_names = [v["name"] for e in self.enums for v in e.enum["values"]]
+        class_enums_names = [v["name"] for e in self.enums for v in e.cppenum["values"]]
         s = ["{ind}%s;" % self.to_str()]
         for enum in self.enums:
             s += ["{ind}%s;" % enum.to_str("Class", class_var_name=self.CLS_VAR)]

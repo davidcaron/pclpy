@@ -4,7 +4,8 @@ import re
 from inflection import camelize
 
 from generators.constants import INDENT
-from generators.utils import function_definition_name, filter_template_types
+from generators.utils import function_definition_name
+from generators.definitions.method import filter_template_types
 
 from CppHeaderParser import CppClass
 

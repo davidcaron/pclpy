@@ -10,8 +10,8 @@ class Constructor:
         Example:
             .def(py::init<str>(), "info"_a="None")
         """
-        self.const = const
-        self.params = self.const["parameters"]
+        self.cppconst = const
+        self.params = self.cppconst["parameters"]
 
     def to_str(self, class_var_name, class_enums_names):
 

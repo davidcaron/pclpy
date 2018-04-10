@@ -130,6 +130,10 @@ EXPLICIT_IMPORTED_TYPES = [
     "PointWithRange",
 ]
 
+TEMPLATED_METHOD_TYPES = {
+    "PointT": "PCL_POINT_TYPES",
+}
+
 # ------------
 # what to skip
 # ------------
@@ -204,16 +208,17 @@ ATTRIBUTES_TO_SKIP = {
 
 METHODS_TO_SKIP = [
     # ("class", "method")
-    ("FileReader", "read"),
+
+    # ("FileReader", "read"),
     ("FileWriter", "write"),
+    # ("PCDReader", "read"),
+    ("PCDWriter", "write"),
     ("IFSReader", "read"),
     ("IFSWriter", "write"),
     ("OBJReader", "read"),
     ("OBJWriter", "write"),
     ("MTLReader", "read"),
     ("MTLWriter", "write"),
-    ("PCDReader", "read"),
-    ("PCDWriter", "write"),
     ("PCDWriter", "writeASCII"),
     ("PCDWriter", "writeBinary"),
     ("PCDWriter", "writeBinaryCompressed"),
