@@ -10,7 +10,7 @@ from generators.definitions.method import Method, filter_template_types
 from generators.definitions.variable import Variable
 from generators.definitions.property import Property
 from generators.constants import INDENT
-from generators.utils import filter_template_types
+from generators.definitions.method import filter_template_types
 
 
 class ClassDefinition:

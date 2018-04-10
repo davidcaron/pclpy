@@ -1,7 +1,7 @@
 from collections import OrderedDict
-from itertools import chain
+from itertools import chain, product
 
-from generators.utils import split_overloads
+from generators.point_types_utils import PCL_POINT_TYPES
 from generators.definitions.property import make_properties_split_overloads
 
 from generators.definitions.constructor import Constructor
@@ -12,7 +12,7 @@ from typing import List
 from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
-    EXTERNAL_INHERITANCE
+    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES
 
 
 class Method:
@@ -148,7 +148,13 @@ def flag_overload_and_templated(other_methods: List[Method], needs_overloading: 
                     attrs = (name, method.cppmethod["name"], method.cppmethod["parent"]["name"])
                     message = "Templated method name not implemented (name=%s method=%s class=%s)"
                     raise NotImplementedError(message % attrs)
-                method.templated_types[name] = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
+                if isinstance(pcl_point_types, list):
+                    types = pcl_point_types
+                elif pcl_point_types in PCL_POINT_TYPES:
+                    types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
+                else:
+                    raise ValueError
+                method.templated_types[name] = types
 
     templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)

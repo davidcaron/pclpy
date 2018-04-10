@@ -140,6 +140,11 @@ EXTERNAL_INHERITANCE = [
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
+    "T": "PCL_POINT_TYPES",
+    "PointNT": "PCL_NORMAL_POINT_TYPES",
+    "GradientT": ["IntensityGradient"],
+    "P1": "PCL_XYZ_POINT_TYPES",
+    "P2": "PCL_XYZ_POINT_TYPES",
 }
 
 # ------------

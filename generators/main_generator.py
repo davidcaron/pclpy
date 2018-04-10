@@ -19,7 +19,7 @@ from generators.definitions.templated_class_instantiations import TemplatedClass
 from generators.definitions.submodule_loader import generate_loader
 
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, explicit_includes
+    generate_main_loader, explicit_includes, make_namespace_class
 from generators.definitions.method import split_methods_by_type
 
 from generators import point_types_utils
@@ -247,7 +247,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
-    key = lambda x: sorted_base_classes_first.index((x["name"], x["namespace"]))
+    key = lambda x: sorted_base_classes_first.index(make_namespace_class(x["namespace"], x["name"]))
     for module, header in main_classes:
         main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
 

@@ -3,7 +3,7 @@ from itertools import product
 from typing import Dict, List
 
 from generators.constants import IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER, EXTERNAL_INHERITANCE
-from generators.utils import parentheses_are_balanced
+from generators.utils import parentheses_are_balanced, make_namespace_class
 
 from CppHeaderParser import CppClass
 
@@ -128,7 +128,7 @@ def unpack_point_types(types_info: List):
 
 class DependencyTree:
     def __init__(self, classes: List[CppClass]):
-        self.tree = {self.make_namespace_class(c["namespace"], c["name"]): dict(self.clean_inheritance(c)) for c in classes}
+        self.tree = {make_namespace_class(c["namespace"], c["name"]): dict(self.clean_inheritance(c)) for c in classes}
         self.n_template_point_types = {k: len(v) for inheritance in self.tree.values() for k, v in inheritance.items()}
 
     def fix_templated_inheritance(self, inherits):
@@ -157,7 +157,7 @@ class DependencyTree:
         for c in inheritance:
             c = template_typenames.get(c, c)
             if not any(c.startswith(i) for i in EXTERNAL_INHERITANCE):
-                c = self.make_namespace_class(class_["namespace"], c)
+                c = make_namespace_class(class_["namespace"], c)
 
             template_types = tuple()
             if "<" in c:
@@ -169,13 +169,8 @@ class DependencyTree:
         assert "::" in class_name
         return class_name[class_name.rfind("::"):]
 
-    def make_namespace_class(self, namespace, class_name):
-        if not namespace.startswith("pcl"):
-            namespace = "pcl::%s" % namespace
-        return "%s::%s" % (namespace, class_name)
-
     def breadth_first_iterator(self, start_class=None):
-        all_inheritances = [self.make_namespace_class(self.get_class_namespace(class_), class_)
+        all_inheritances = [make_namespace_class(self.get_class_namespace(class_), class_)
                             for class_, inheritance in self.tree.items()
                             for i in inheritance]
         if start_class is None:

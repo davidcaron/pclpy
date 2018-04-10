@@ -32,6 +32,12 @@ def explicit_includes(module, header_name):
     return ""
 
 
+def make_namespace_class(namespace, class_name):
+    if not namespace.startswith("pcl"):
+        namespace = "pcl::%s" % namespace
+    return "%s::%s" % (namespace, class_name)
+
+
 def function_definition_name(header_name):
     return camelize(header_name.replace(".h", "")).replace(" ", "")
 
