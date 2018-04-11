@@ -1,4 +1,3 @@
-from inflection import underscore
 from generators.constants import INDENT
 
 from CppHeaderParser import CppVariable
@@ -15,7 +14,7 @@ class Enum:
                 .export_values();
         """
         self.cppenum = enum
-        self.name = underscore(enum["name"])
+        self.name = enum["name"]
 
     def to_str(self, class_name, class_var_name):
         s = []

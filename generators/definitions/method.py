@@ -6,7 +6,6 @@ from generators.definitions.property import make_properties_split_overloads
 
 from generators.definitions.constructor import Constructor
 from generators.definitions.variable import Variable
-from inflection import underscore
 from typing import List
 
 from CppHeaderParser import CppMethod, CppVariable
@@ -24,7 +23,7 @@ class Method:
             .def("go", &Class::go)
         """
         self.cppmethod = method
-        self.name = underscore(method["name"])
+        self.name = method["name"]
         self.is_an_overload = is_an_overload
         self.templated_types = OrderedDict()
         self.needs_lambda_call = False

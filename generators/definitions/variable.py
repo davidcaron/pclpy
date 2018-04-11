@@ -1,5 +1,3 @@
-from inflection import underscore
-
 from CppHeaderParser import CppVariable
 
 
@@ -11,7 +9,7 @@ class Variable:
             .def("indices", &Class::indices)
         """
         self.cppvariable = variable
-        self.name = underscore(variable["name"])
+        self.name = variable["name"]
         self.is_an_override = False
 
     def to_str(self, class_name, class_var_name):

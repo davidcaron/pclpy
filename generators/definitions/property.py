@@ -1,7 +1,5 @@
 from typing import List
 
-from inflection import underscore
-
 # from generators.definitions.method import Method
 from CppHeaderParser import CppMethod
 from generators.utils import split_overloads, make_pybind_argument_list
@@ -17,7 +15,7 @@ class Property:
         self.cppsetter = setter_method
         getter = [g for g in getters_methods if g["name"][3:] == self.cppsetter["name"][3:]]
         self.getter = getter[0] if getter else None
-        self.name = underscore(self.cppsetter["name"].replace("set", ""))
+        self.name = self.cppsetter["name"].replace("set", "")
 
     def __eq__(self, other):
         return self.name == other.name
