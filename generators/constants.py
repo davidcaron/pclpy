@@ -149,19 +149,23 @@ TEMPLATED_METHOD_TYPES = {
     "P2": "PCL_XYZ_POINT_TYPES",
 }
 
+pcl_visualizer_xyz = ["pcl::PointSurfel", "pcl::PointXYZ", "pcl::PointXYZL", "pcl::PointXYZI", "pcl::PointXYZRGB",
+                      "pcl::PointXYZRGBA", "pcl::PointNormal", "pcl::PointXYZRGBNormal", "pcl::PointXYZRGBL",
+                      "pcl::PointWithRange"]
+
 SPECIFIC_TEMPLATED_METHOD_TYPES = {
     # ("class_name", "method_name", ("templated_parameter_names", ))
     # if method_name is empty, it's considered as the default template type for this class
-    ("ImageViewer", "", ("T",)): ("PCL_RGB_POINT_TYPES", ),
-    ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES", ),
-    ("ImageViewer", "addRectangle", ("T",)): ("PCL_XYZ_POINT_TYPES", ),
+    ("ImageViewer", "", ("T",)): ("PCL_RGB_POINT_TYPES",),
+    ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
+    ("ImageViewer", "addRectangle", ("T",)): ("PCL_XYZ_POINT_TYPES",),
 
-    ("Camera", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES", ),
-    ("PCLVisualizer", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES", ),
-    ("PCLVisualizer", "", ("PointT", "GradientT")): ("PCL_XYZ_POINT_TYPES", ["pcl::IntensityGradient"]),
+    ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
+    ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
+    ("PCLVisualizer", "", ("PointT", "GradientT")): (pcl_visualizer_xyz, ["pcl::IntensityGradient"]),
     ("PCLVisualizer", "", ("PointNT",)): (["pcl::PointNormal", "pcl::PointXYZRGBNormal", "pcl::PointXYZINormal",
-                                          "pcl::PointXYZLNormal", "pcl::PointSurfel"], ),
-    ("PCLVisualizer", "", ("PointT", "PointNT")): ("PCL_XYZ_POINT_TYPES", "PCL_NORMAL_POINT_TYPES"),
+                                           "pcl::PointXYZLNormal", "pcl::PointSurfel"],),
+    ("PCLVisualizer", "", ("PointT", "PointNT")): (pcl_visualizer_xyz, "PCL_NORMAL_POINT_TYPES"),
 }
 
 # ------------
@@ -216,6 +220,9 @@ HEADERS_TO_SKIP = [
     ("visualization", "pcl_painter2D.h"),  # tricky protected vtkContextItem destructor
     ("visualization", "pcl_context_item.h"),  # tricky protected vtkContextItem destructor
     ("visualization", "interactor_style.h"),  # tricky protected vtkContextItem destructor
+    ("visualization", "histogram_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
+    ("visualization", "simple_buffer_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
+    ("visualization", "ren_win_interact_map.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
 
     ("common", "gaussian.h"),  # templated method?
 
@@ -255,8 +262,6 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "updateFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
-
-    # todo: also constructors taking vtk objects as parameters
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
