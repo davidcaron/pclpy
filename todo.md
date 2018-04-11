@@ -1,2 +1,2 @@
 
-- add enums (example RenderingProperties)
+- add enums (example visualization/RenderingProperties)

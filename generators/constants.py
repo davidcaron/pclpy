@@ -110,19 +110,19 @@ CUSTOM_OVERLOAD_TYPES = {
     ("SamplingSurfaceNormal", "PointCloud"): "Filter<PointT>::PointCloud",
 
     ("PointCloudColorHandlerCustom",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerGenericField",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerHSVField",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerLabelField",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerRGBAField",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerRGBField",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerRandom",
-     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+     "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
 
     ("LeastMedianSquares", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
     ("MaximumLikelihoodSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
@@ -284,6 +284,8 @@ METHODS_TO_SKIP = [
     # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
     ("PCLVisualizer", "convertToVtkMatrix"),  # number of arguments does not match??
     ("PCLVisualizer", "convertToEigenMatrix"),  # number of arguments does not match??
+
+    ("FloatImageUtils", "getVisualImage"),  # number of arguments does not match??
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
