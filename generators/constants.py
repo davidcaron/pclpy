@@ -246,7 +246,8 @@ HEADERS_TO_SKIP = [
     # Inherits from Keypoint <PointT, PointT> (which seems weird to me...)
 
     ("features", "range_image_border_extractor.h"),  # depends on range_image
-    # ImportError: generic_type: type "NarfDescriptor" referenced unknown base type "pcl::Feature<pcl::PointWithRange,pcl::Narf36>"
+    # ImportError: generic_type: type "NarfDescriptor" referenced unknown
+    # base type "pcl::Feature<pcl::PointWithRange,pcl::Narf36>"
     ("features", "narf_descriptor.h"),  # depends on range_image
     ("features", "narf.h"),  # depends on range_image
     ("keypoints", "narf_keypoint.h"),  # depends on range_image and range_image_border_extractor
@@ -282,10 +283,6 @@ METHODS_TO_SKIP = [
     # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
     ("PCLVisualizer", "addOrientationMarkerWidgetAxes"),
     # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
-    ("PCLVisualizer", "convertToVtkMatrix"),  # number of arguments does not match??
-    ("PCLVisualizer", "convertToEigenMatrix"),  # number of arguments does not match??
-
-    ("FloatImageUtils", "getVisualImage"),  # number of arguments does not match??
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5

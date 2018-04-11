@@ -87,11 +87,15 @@ class Method:
                                const=constant_method)
         return disamb
 
+    def static_value(self):
+        return "_static" if self.cppmethod["static"] else ""
+
     def disambiguated_function_call(self, cls_var, disamb, args):
-        return '{cls_var}.def("{name}", {disamb}{args})'.format(cls_var=cls_var,
-                                                                name=self.name,
-                                                                disamb=disamb,
-                                                                args=args)
+        return '{cls_var}.def{static}("{name}", {disamb}{args})'.format(cls_var=cls_var,
+                                                                        name=self.name,
+                                                                        disamb=disamb,
+                                                                        static=self.static_value(),
+                                                                        args=args)
 
     def to_str(self, class_name, class_var_name):
         params = self.cppmethod["parameters"]
@@ -128,8 +132,9 @@ class Method:
             disamb = self.make_disambiguation(class_name)
             ret_val = self.disambiguated_function_call(class_var_name, disamb, args)
         else:
-            s = '{cls_var}.def("{name}", &{cls}::{cppname}{args})'
+            s = '{cls_var}.def{static}("{name}", &{cls}::{cppname}{args})'
             data = {"name": self.name,
+                    "static": self.static_value(),
                     "cls": class_name,
                     "cls_var": class_var_name,
                     "cppname": self.cppmethod["name"],
