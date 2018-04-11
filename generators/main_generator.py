@@ -69,11 +69,11 @@ def gen_class_function_definitions(main_classes, module, header_name, path, need
                             if "union" in nested_class["name"]]
         class_properties += union_properties
         class_properties = filter_class_properties(module, header_name, class_["name"], class_properties)
-        constructors, properties, variables, others = split_methods_by_type(methods, class_properties,
-                                                                            needs_overloading)
+        constructors, variables, others = split_methods_by_type(methods, class_properties,
+                                                                needs_overloading)
         if not class_["can_be_instantiated"]:
             constructors = []
-        class_def = ClassDefinition(class_, constructors, properties, variables, others, module)
+        class_def = ClassDefinition(class_, constructors, variables, others, module)
         text.append(class_def.to_class_function_definition())
         text.append("")
 

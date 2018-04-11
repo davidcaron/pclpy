@@ -19,7 +19,6 @@ class ClassDefinition:
     def __init__(self,
                  class_: CppClass,
                  constructors: List[Constructor],
-                 properties: List[Property],
                  variables: List[Variable],
                  other_methods: List[Method],
                  sub_module: str):
@@ -44,7 +43,6 @@ class ClassDefinition:
             self.inherits = self.clean_inherits()
         self.class_name = class_["name"]
         self.constructors = constructors
-        self.properties = properties
         self.variables = variables
         named_enums = [e for e in class_["enums"]["public"] if e.get("name")]
         self.enums = list(map(Enum, named_enums))
@@ -149,7 +147,6 @@ class ClassDefinition:
             s += ["{ind}%s;" % enum.to_str("Class", class_var_name=self.CLS_VAR)]
         s += ["{ind}%s;" % c.to_str(class_var_name=self.CLS_VAR, class_enums_names=class_enums_names)
               for c in self.constructors]
-        s += ["{ind}%s;" % p.to_str("Class", class_var_name=self.CLS_VAR) for p in self.properties]
         s += ["{ind}%s;" % v.to_str("Class", class_var_name=self.CLS_VAR) for v in self.variables]
         templated_methods = [m for m in self.other_methods if m.templated_types]
         s += ["{ind}%s;" % m.to_str("Class", class_var_name=self.CLS_VAR) for m in self.other_methods

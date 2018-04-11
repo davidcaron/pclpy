@@ -206,19 +206,14 @@ def split_methods_by_type(methods: List[CppMethod],
     # others_overloads = [Method(m, is_an_overload=True) for m in others_overloads]
     # others_unique = [Method(m) for m in others_unique]
 
-    other_methods = [Method(m) for m in other_methods]
+    others = [Method(m) for m in chain(other_methods, setters, getters)]
 
-    flag_overload_and_templated(other_methods, needs_overloading)
-
-    properties_overloads, properties = make_properties_split_overloads(setters, getters)
-    properties_overloads = [Method(m, is_an_overload=True) for m in properties_overloads]
+    flag_overload_and_templated(others, needs_overloading)
 
     variables = list(map(Variable, class_variables))
     constructors = list(map(Constructor, constructors_methods))
 
-    others = other_methods + properties_overloads
-
-    return constructors, properties, variables, others
+    return constructors, variables, others
 
 
 def filter_template_types(template_string, keep=None):
