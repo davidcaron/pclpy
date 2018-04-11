@@ -29,4 +29,4 @@ def test_pcl_visualizer_simple():
     viewer.init_camera_parameters()
 
     while not viewer.was_stopped():
-        viewer.spin_once(100)
+        viewer.spin_once(10, False)
