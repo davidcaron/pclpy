@@ -109,6 +109,21 @@ CUSTOM_OVERLOAD_TYPES = {
     ("VoxelGrid", "PointCloud"): "Filter<PointT>::PointCloud",
     ("SamplingSurfaceNormal", "PointCloud"): "Filter<PointT>::PointCloud",
 
+    ("PointCloudColorHandlerCustom",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerGenericField",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerHSVField",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerLabelField",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerRGBAField",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerRGBField",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+    ("PointCloudColorHandlerRandom",
+     "PointCloudConstPtr"): "PointCloudColorHandler<pcl::PCLPointCloud2>::PointCloud::ConstPtr",
+
     ("LeastMedianSquares", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
     ("MaximumLikelihoodSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
     ("MEstimatorSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
@@ -263,8 +278,10 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "updateFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
 
-    ("PCLVisualizer", "setupInteractor"),  # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
-    ("PCLVisualizer", "addOrientationMarkerWidgetAxes"),  # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
+    ("PCLVisualizer", "setupInteractor"),
+    # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
+    ("PCLVisualizer", "addOrientationMarkerWidgetAxes"),
+    # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
     ("PCLVisualizer", "convertToVtkMatrix"),  # number of arguments does not match??
     ("PCLVisualizer", "convertToEigenMatrix"),  # number of arguments does not match??
 
