@@ -59,8 +59,8 @@ def sort_headers_by_dependencies(headers):
                 # fix for relative_imports
                 headers.append(make_header_include_name(module, include_string, path_only=True))
         return headers
-
-    headers_dependencies = {header: get_include_lines(join(PCL_BASE, header[2]), header[0]) for header in headers}
+    make_header_path = lambda module, header, path: join(PCL_BASE, path) if path else join(PCL_BASE, module, header)
+    headers_dependencies = {header: get_include_lines(make_header_path(*header), header[0]) for header in headers}
 
     headers_include_names = OrderedDict()  # output is sorted in the same way always
     for h in headers:

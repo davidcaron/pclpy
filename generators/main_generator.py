@@ -246,7 +246,8 @@ def generate(headers_to_generate) -> OrderedDict:
 
     for module, header_name, path in headers_to_generate[:]:
         try:
-            header = read_header(join(PCL_BASE, path))
+            header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
+            header = read_header(header_full_path)
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
@@ -362,14 +363,13 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 
 def main():
-    modules = ["visualization"]
-    all_headers = get_headers(modules)
-    # headers = [
-    #     ("io", "file_io.h", ""),
-    #     ("io", "image.h", ""),
-    # ]
-    # generated_headers = generate(headers)
-    generated_headers = generate(all_headers)
+    # modules = ["visualization"]
+    # all_headers = get_headers(modules)
+    headers = [
+        ("visualization", "pcl_visualizer.h", ""),
+    ]
+    generated_headers = generate(headers)
+    # generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 
