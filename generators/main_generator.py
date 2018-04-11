@@ -30,8 +30,18 @@ def filter_methods_for_parser_errors(methods):
 
 
 def filter_methods_to_skip(methods):
-    return [m for m in methods
-            if (m["parent"]["name"], m["name"]) not in METHODS_TO_SKIP and "Callback" not in m["name"]]
+    filtered_methods = []
+    for m in methods:
+        if (m["parent"]["name"], m["name"]) in METHODS_TO_SKIP:
+            continue
+        if "Callback" in m["name"]:
+            continue
+        # "Double pointer arguments are not supported by pybind11."  -wjakob
+        parameters_types = [p["type"] for p in m["parameters"]]
+        if any("**" in type_.replace(" ", "") for type_ in parameters_types):
+            continue
+        filtered_methods.append(m)
+    return filtered_methods
 
 
 def gen_class_function_definitions(main_classes, module, header_name, path, needs_overloading: List[str]) -> List[str]:
