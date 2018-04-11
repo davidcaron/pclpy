@@ -17,8 +17,6 @@ common_includes = """
 
 namespace py = pybind11;
 using namespace pybind11::literals;
-
-using namespace pcl;
 """
 
 # -------------
@@ -128,11 +126,46 @@ EXPLICIT_IMPORTED_TYPES = [
     "PointIndices",
     "ModelCoefficients",
     "PointWithRange",
+    "Camera",
+    "PointCloudGeometryHandler",
+    "PointCloudColorHandler",
+]
+
+EXTERNAL_INHERITANCE = [
+    "svm_parameter",
+    "svm_model",
+    "std",
+    "boost",
+    "vtk",
 ]
 
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
+    "T": "PCL_POINT_TYPES",
+    "PointNT": "PCL_NORMAL_POINT_TYPES",
+    "GradientT": ["pcl::IntensityGradient"],
+    "P1": "PCL_XYZ_POINT_TYPES",
+    "P2": "PCL_XYZ_POINT_TYPES",
+}
+
+pcl_visualizer_xyz = ["pcl::PointSurfel", "pcl::PointXYZ", "pcl::PointXYZL", "pcl::PointXYZI", "pcl::PointXYZRGB",
+                      "pcl::PointXYZRGBA", "pcl::PointNormal", "pcl::PointXYZRGBNormal", "pcl::PointXYZRGBL",
+                      "pcl::PointWithRange"]
+
+SPECIFIC_TEMPLATED_METHOD_TYPES = {
+    # ("class_name", "method_name", ("templated_parameter_names", ))
+    # if method_name is empty, it's considered as the default template type for this class
+    ("ImageViewer", "", ("T",)): ("PCL_RGB_POINT_TYPES",),
+    ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
+    ("ImageViewer", "addRectangle", ("T",)): ("PCL_XYZ_POINT_TYPES",),
+
+    ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
+    ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
+    ("PCLVisualizer", "", ("PointT", "GradientT")): (pcl_visualizer_xyz, ["pcl::IntensityGradient"]),
+    ("PCLVisualizer", "", ("PointNT",)): (["pcl::PointNormal", "pcl::PointXYZRGBNormal", "pcl::PointXYZINormal",
+                                           "pcl::PointXYZLNormal", "pcl::PointSurfel"],),
+    ("PCLVisualizer", "", ("PointT", "PointNT")): (pcl_visualizer_xyz, "PCL_NORMAL_POINT_TYPES"),
 }
 
 # ------------
@@ -184,10 +217,18 @@ HEADERS_TO_SKIP = [
     ("common", "time_trigger.h"),  # init containing boost::function
     ("common", "synchronizer.h"),
 
+    ("visualization", "pcl_painter2D.h"),  # tricky protected vtkContextItem destructor
+    ("visualization", "pcl_context_item.h"),  # tricky protected vtkContextItem destructor
+    ("visualization", "interactor_style.h"),  # tricky protected vtkContextItem destructor
+    ("visualization", "histogram_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
+    ("visualization", "simple_buffer_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
+    ("visualization", "ren_win_interact_map.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
+
     ("common", "gaussian.h"),  # templated method?
 
     ("recognition", "trimmed_icp.h"),  # depends on registration
-    ("keypoints", "smoothed_surfaces_keypoint.h"),  # Inherits from Keypoint <PointT, PointT> (which seems weird to me...)
+    ("keypoints", "smoothed_surfaces_keypoint.h"),
+    # Inherits from Keypoint <PointT, PointT> (which seems weird to me...)
 
     ("features", "range_image_border_extractor.h"),  # depends on range_image
     # ImportError: generic_type: type "NarfDescriptor" referenced unknown base type "pcl::Feature<pcl::PointWithRange,pcl::Narf36>"
@@ -210,22 +251,18 @@ ATTRIBUTES_TO_SKIP = {
 METHODS_TO_SKIP = [
     # ("class", "method")
 
-    # ("FileReader", "read"),
-    # ("FileWriter", "write"),
-    # ("PCDReader", "read"),
-    # ("PCDWriter", "write"),
-    # ("IFSReader", "read"),
-    # ("IFSWriter", "write"),
-    # ("OBJReader", "read"),
-    # ("OBJWriter", "write"),
-    # ("MTLReader", "read"),
-    # ("MTLWriter", "write"),
-    # ("PCDWriter", "writeASCII"),
-    # ("PCDWriter", "writeBinary"),
-    # ("PCDWriter", "writeBinaryCompressed"),
-    # ("PLYReader", "read"),
-    # ("PLYWriter", "write"),
+    ("PointCloud", "insert"),  # templated InputIterator
+
+    ("PCLVisualizer", "getCameraParameters"),  # fix char ** variable type
+
     ("ASCIIReader", "setInputFields"),
     ("PCLPlotter", "addPlotData"),
+    ("PCLPlotter", "addFeatureHistogram"),
+    ("PCLHistogramVisualizer", "spinOnce"),
+    ("PCLHistogramVisualizer", "addFeatureHistogram"),
+    ("PCLHistogramVisualizer", "updateFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
+
+    ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
+    ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
 ]

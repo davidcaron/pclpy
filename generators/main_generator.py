@@ -19,7 +19,7 @@ from generators.definitions.templated_class_instantiations import TemplatedClass
 from generators.definitions.submodule_loader import generate_loader
 
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, explicit_includes
+    generate_main_loader, explicit_includes, make_namespace_class
 from generators.definitions.method import split_methods_by_type
 
 from generators import point_types_utils
@@ -30,14 +30,24 @@ def filter_methods_for_parser_errors(methods):
 
 
 def filter_methods_to_skip(methods):
-    return [m for m in methods
-            if (m["parent"]["name"], m["name"]) not in METHODS_TO_SKIP and "Callback" not in m["name"]]
+    filtered_methods = []
+    for m in methods:
+        if (m["parent"]["name"], m["name"]) in METHODS_TO_SKIP:
+            continue
+        if "Callback" in m["name"]:
+            continue
+        # "Double pointer arguments are not supported by pybind11."  -wjakob
+        parameters_types = [p["type"] for p in m["parameters"]]
+        if any("**" in type_.replace(" ", "") for type_ in parameters_types):
+            continue
+        filtered_methods.append(m)
+    return filtered_methods
 
 
-def gen_class_function_definitions(main_classes, module, header_name, needs_overloading: List[str]) -> List[str]:
+def gen_class_function_definitions(main_classes, module, header_name, path, needs_overloading: List[str]) -> List[str]:
     text = [common_includes]
     text.append(explicit_includes(module, header_name))
-    text.append(make_header_include_name(module, header_name))
+    text.append(make_header_include_name(module, header_name, path))
     text.append("")
 
     namespaces = set([c["namespace"] for c in main_classes])
@@ -165,22 +175,29 @@ def needs_overloading(main_classes):
 
 def get_headers(modules=None):
     def listmod(module):
-        return [f for f in os.listdir(join(PCL_BASE, module)) if f.endswith(".h")]
+        found_modules = []
+        for base, folders, files in os.walk(join(PCL_BASE, module)):
+            relative_base = os.path.abspath(base).replace(PCL_BASE, "")[1:]
+            for f in files:
+                if f.endswith(".h"):
+                    found_modules.append([f, join(relative_base, f)])
+        return found_modules
 
     if modules is None:
         modules = MODULES_TO_BUILD
 
-    headers_to_generate = [(module, header_name) for module in modules
-                           for header_name in listmod(module)]
-    base_headers = [("", f) for f in os.listdir(PCL_BASE) if f.endswith(".h")]
+    headers_to_generate = [(module, header_name, path) for module in modules
+                           for header_name, path in listmod(module)]
+    base_headers = [("", f, f) for f in os.listdir(PCL_BASE) if f.endswith(".h")]
     headers_to_generate += base_headers
 
-    for h in HEADERS_TO_SKIP:
-        try:
-            headers_to_generate.remove(h)
-        except ValueError:
+    headers_to_generate_temp = []
+    for module, header_name, path in headers_to_generate:
+        if (module, header_name) in HEADERS_TO_SKIP:
             continue
-    return headers_to_generate
+        headers_to_generate_temp.append(tuple([module, header_name, path]))
+
+    return headers_to_generate_temp
 
 
 def get_pure_virtual_methods(class_: CppHeaderParser.CppClass):
@@ -227,17 +244,17 @@ def generate(headers_to_generate) -> OrderedDict:
 
     main_classes = {}
 
-    for module, header_name in headers_to_generate[:]:
+    for module, header_name, path in headers_to_generate[:]:
         try:
-            header = read_header(join(PCL_BASE, module, header_name))
+            header = read_header(join(PCL_BASE, path))
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
-            headers_to_generate.remove((module, header_name))
+            headers_to_generate.remove((module, header_name, path))
 
     print("read header in %.2f s" % (time.time() - t,))
 
-    classes = [c for module, header in headers_to_generate
+    classes = [c for module, header, path in headers_to_generate
                for c in main_classes[(module, header)]]
 
     dependency_tree = point_types_utils.DependencyTree(classes)
@@ -247,7 +264,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
-    key = lambda x: sorted_base_classes_first.index((x["name"], x["namespace"]))
+    key = lambda x: sorted_base_classes_first.index(make_namespace_class(x["namespace"], x["name"]))
     for module, header in main_classes:
         main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
 
@@ -258,16 +275,16 @@ def generate(headers_to_generate) -> OrderedDict:
     flag_instantiatable_methods(dependency_tree, main_classes)
 
     # for module, header in headers_to_generate:
-    def generate_header(module, header, main_classes) -> str:
-        text = gen_class_function_definitions(main_classes, module, header,
+    def generate_header(module, header, path, main_classes) -> str:
+        text = gen_class_function_definitions(main_classes, module, header, path,
                                               methods_needs_overloading.get(module))
         module_def = TemplatedClassInstantiations(main_classes, module, header, point_types)
         text.append(module_def.to_module_function_definition())
         return "\n".join(text)
 
     generated_headers = OrderedDict()
-    for module, header in headers_to_generate:
-        generated_headers[(module, header)] = generate_header(module, header, main_classes[(module, header)])
+    for module, header, path in headers_to_generate:
+        generated_headers[(module, header)] = generate_header(module, header, path, main_classes[(module, header)])
 
     print("generated in %.2f s" % (time.time() - t,))
 
@@ -339,22 +356,18 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 # todo:
 # (skipped) io: templated parameters AND non templated with same name
 # registration correspondence_rejection_distance (implement templated methods)
-# (skipped) vtk 'detail': ambiguous symbol
 # (skipped) cloud_viewer (implement function callbacks)
 # (skipped) pcl_plotter (implement function callbacks)
 # (skipped) pcl_plotter (implement boost::function callbacks)
 
 
 def main():
-    modules = ["io"]
-    # modules = ["geometry", "search", "surface", "segmentation"]
+    modules = ["visualization"]
     all_headers = get_headers(modules)
-    headers = [
-        ("io", "file_io.h"),
-        ("io", "pcd_io.h"),
-        # ("filters", "filter.h"),
-        # ("", "pcl_base.h"),
-    ]
+    # headers = [
+    #     ("io", "file_io.h", ""),
+    #     ("io", "image.h", ""),
+    # ]
     # generated_headers = generate(headers)
     generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)

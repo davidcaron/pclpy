@@ -1,7 +1,7 @@
 from collections import OrderedDict
-from itertools import chain
+from itertools import chain, product
 
-from generators.utils import split_overloads
+from generators.point_types_utils import PCL_POINT_TYPES
 from generators.definitions.property import make_properties_split_overloads
 
 from generators.definitions.constructor import Constructor
@@ -12,8 +12,7 @@ from typing import List
 from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
-    TEMPLATED_METHOD_TYPES
-from generators.point_types_utils import PCL_POINT_TYPES
+    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
 
 
 class Method:
@@ -37,42 +36,48 @@ class Method:
                     param["type"] += " &"
                     param["reference"] = 1
 
+                type_ = param["type"] if not param["unresolved"] else param["raw_type"]
+
+                if template_types:
+                    for name, template_type in template_types:
+                        type_ = type_.replace(name, template_type)
+
                 if param["unresolved"]:
                     const = "const " if param["constant"] or "const" in param["type"] else ""
-                    raw_type = param["raw_type"]
-                    if "const" in raw_type:  # fix for parsing error 'std::vector<double>const' (no space)
+                    type_ = type_.replace("typename ", "")
+                    if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
                         const = ""
                     ref = " &" if param["reference"] else ""
-                    custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], raw_type))
-                    if any(raw_type.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
+                    custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
+                    type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
+                    if any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
                         pass
-                    elif raw_type in self.cppmethod["parent"].get("template", ""):  # templated argument
+                    elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
                         pass
-                    elif raw_type in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
+                    elif type_no_template in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
                         pass
                     elif custom:
-                        raw_type = custom
+                        type_ = custom
+                    elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
+                        pass
                     else:
-                        raw_type = "%s::%s" % (class_name, raw_type)
-                    type_ = const + raw_type + ref
+                        type_ = "%s::%s" % (class_name, type_)
+                    type_ = const + type_ + ref
                     if param.get("pointer"):
-                        type_ += "*"
+                        type_ = type_.strip() + "*"
+                    type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
                 else:
                     type_ = param["type"]
 
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")
 
-                if template_types:
-                    for name, template_type in template_types.items():
-                        type_ = type_.replace(name, template_type)
-
                 types.append(type_)
             type_ = ", ".join(types)
         else:
             type_ = ""
 
-        template = ("<%s>" % ", ".join(template_types.values())) if template_types else ""
+        template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
         disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})".format(type_=type_,
                                                                                        cls=class_name,
@@ -103,15 +108,15 @@ class Method:
         #                                                  )
         #                                                  """
         elif self.templated_types:
-            if len(self.templated_types) > 1:
-                raise NotImplementedError("More than one templated type")
             return_values = []
-            for name, types in self.templated_types.items():
-                for type_ in types:
-                    disamb = self.make_disambiguation(class_name, template_types={name: type_})
-                    return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
-                                                                                    name=self.name,
-                                                                                    disamb=disamb))
+            names = list(self.templated_types.keys())
+            types = list(self.templated_types.values())
+            for types_combination in product(*types):
+                template_types = tuple(zip(names, types_combination))
+                disamb = self.make_disambiguation(class_name, template_types=template_types)
+                return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
+                                                                                name=self.name,
+                                                                                disamb=disamb))
             ret_val = return_values
         elif self.is_an_overload:
             disamb = self.make_disambiguation(class_name)
@@ -134,19 +139,34 @@ class Method:
 
 def flag_overload_and_templated(other_methods: List[Method], needs_overloading: List[str] = None):
     for method in other_methods:
-        if "operator" in method.cppmethod["name"]:
+        method_name = method.cppmethod["name"]
+        if "operator" in method_name:
             continue
         template = method.cppmethod["template"]
         if template:
             pos = template.find("<")
             type_names = filter_template_types(template[pos + 1:-1], keep=["typename"])
-            for name in type_names:
-                pcl_point_types = TEMPLATED_METHOD_TYPES.get(name)
-                if not pcl_point_types:
-                    attrs = (name, method.cppmethod["name"], method.cppmethod["parent"]["name"])
+
+            class_name = method.cppmethod["parent"]["name"]
+            method_key = (class_name, method_name, type_names)
+            all_methods_key = (class_name, "", type_names)
+            specific = SPECIFIC_TEMPLATED_METHOD_TYPES
+            pcl_point_types = specific.get(all_methods_key, specific.get(method_key))
+            if not pcl_point_types:
+                pcl_point_types = [TEMPLATED_METHOD_TYPES.get(type_name) for type_name in type_names]
+
+            for type_name, pcl_types in zip(type_names, pcl_point_types):
+                if not pcl_types:
+                    attrs = (type_name, method_name, class_name)
                     message = "Templated method name not implemented (name=%s method=%s class=%s)"
                     raise NotImplementedError(message % attrs)
-                method.templated_types[name] = [t[1:-1] for t in PCL_POINT_TYPES[pcl_point_types]]  # remove parentheses
+                if isinstance(pcl_types, list):
+                    types = pcl_types
+                elif pcl_types in PCL_POINT_TYPES:
+                    types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_types]]  # remove parentheses
+                else:
+                    raise ValueError
+                method.templated_types[type_name] = types
 
     templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)
@@ -203,7 +223,7 @@ def filter_template_types(template_string, keep=None):
         return []
     types = template_string.split(", ")
     types = [s.strip().split(" ")[1] for s in types if any(k in s for k in keep)]  # and "=" not in s]
-    return types
+    return tuple(types)
 
 
 def is_copy_constructor(method):

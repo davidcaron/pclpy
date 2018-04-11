@@ -43,7 +43,7 @@ def parse_point_list(point_list: str) -> List[str]:
     for group, types in PCL_POINT_TYPES.items():
         if group in point_list:
             point_list = point_list.replace(group, ",".join(types))
-    point_list = point_list.replace("pcl::", "").replace(")(", ",").replace(")", "").replace("(", "")
+    point_list = point_list.replace(")(", ",").replace(")", "").replace("(", "")
     return point_list.split(",")
 
 
