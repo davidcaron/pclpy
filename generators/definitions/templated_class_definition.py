@@ -60,8 +60,8 @@ class ClassDefinition:
             inherited_class = i["class"]
             if inherited_class.startswith("boost::"):  # skip boost inheritance todo: fixme?
                 continue
-            # if inherited_class.startswith("vtk"):  # skip vtk inheritance todo: fixme?
-            #     continue
+            if inherited_class.startswith("vtk"):  # skip vtk inheritance todo: fixme?
+                continue
             if any([inherited_class.startswith(v) for v in EXTERNAL_INHERITANCE]):
                 full_name = inherited_class
             else:

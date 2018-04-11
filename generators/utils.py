@@ -29,12 +29,6 @@ def explicit_includes(module, header_name):
         return "#include <pcl/Vertices.h>"
     elif (module, header_name) == ("common", "synchronizer.h"):
         return '#include <boost/thread/mutex.hpp>'
-    elif (module, header_name) == ("visualization", "point_picking_event.h"):
-        return '#include <vtkCommand.h>'
-    elif (module, header_name) == ("visualization", "image_viewer.h"):
-        return '#include <vtkVersion.h>\n#include <vtkInteractorStyleImage.h>'
-    elif (module, header_name) == ("visualization", "pcl_image_canvas_source_2d.h"):
-        return '#include <vtkImageCanvasSource2D.h>'
     return ""
 
 
