@@ -235,7 +235,8 @@ def generate(headers_to_generate) -> OrderedDict:
     """
     :return: OrderedDict
     """
-    classes_point_types = yaml.load(open("point_types.yml"))
+    classes_point_types = yaml.load(open("point_types_generated.yml"))
+    classes_point_types.update(yaml.load(open("point_types_extra.yml")))
     other_types = yaml.load(open("other_types.yml"))
 
     import time

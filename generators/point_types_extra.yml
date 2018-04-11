@@ -1,0 +1,32 @@
+PointCloudColorHandler:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerCustom:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerGenericField:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerHSVField:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerLabelField:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerRGBAField:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerRGBField:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
+PointCloudColorHandlerRandom:
+  - [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB,
+    PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
+    PointWithRange]
