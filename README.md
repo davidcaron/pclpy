@@ -68,7 +68,7 @@ mls.process(output)
 - PCL Exceptions
 - Default arguments
 - Functions taking a function pointer or a boost::function as argument
-- Others: see section "what to skip" in constants.py
+- Others: see section "what to skip" in constants.py and todo.md
 
 ## To build
 - Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:
@@ -86,8 +86,7 @@ Note: missing file from windows build : 2d/impl/kernel.hpp
 
 ## Roadmap
 - Wrap as much of PCL as reasonably possible
-- Write tests at the python level (there are no tests for the pybind11
-  code generation and I think this would be too tedious. I plan to test at a higher level.)
+- More tests
 - CI on Appveyor
 - Make it pip installable as a wheel
 - Make it installable on Linux and Mac
