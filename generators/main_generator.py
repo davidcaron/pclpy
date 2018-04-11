@@ -363,13 +363,13 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 
 def main():
-    # modules = ["visualization"]
-    # all_headers = get_headers(modules)
-    headers = [
-        ("visualization", "pcl_visualizer.h", ""),
-    ]
-    generated_headers = generate(headers)
-    # generated_headers = generate(all_headers)
+    modules = ["visualization"]
+    all_headers = get_headers(modules)
+    # headers = [
+    #     ("visualization", "pcl_visualizer.h", ""),
+    # ]
+    # generated_headers = generate(headers)
+    generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
 
