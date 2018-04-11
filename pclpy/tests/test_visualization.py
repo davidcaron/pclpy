@@ -21,11 +21,11 @@ def test_cloud_viewer():
 def test_pcl_visualizer_simple():
     pc = pclpy.io.read_las(test_data("street.las"), read_colors=False)
     viewer = pcl.visualization.PCLVisualizer("viewer")
-    viewer.set_background_color(0, 0, 0, 0)
+    viewer.set_background_color(0, 0, 0)
     print(dir(pcl.visualization))
-    viewer.add_point_cloud(pc, "sample cloud", 0)
-    viewer.set_point_cloud_rendering_properties(0, 3, "sample cloud", 0)
-    viewer.add_coordinate_system(1.0, 0)
+    viewer.add_point_cloud(pc, "sample cloud")
+    viewer.set_point_cloud_rendering_properties(0, 3, "sample cloud")
+    viewer.add_coordinate_system(1.0)
     viewer.init_camera_parameters()
 
     while not viewer.was_stopped():

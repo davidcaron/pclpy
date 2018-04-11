@@ -155,7 +155,7 @@ def clean():
         shutil.rmtree(PATH_MODULES)
 
 
-def needs_overloading(main_classes):
+def check_if_needs_overloading(main_classes):
     needs_overloading = {}
     classes_by_module = defaultdict(list)
     for (module, _), class_ in main_classes.items():
@@ -271,7 +271,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
 
-    methods_needs_overloading = needs_overloading(main_classes)
+    methods_needs_overloading = check_if_needs_overloading(main_classes)
 
     flag_instantiatable_methods(dependency_tree, main_classes)
 

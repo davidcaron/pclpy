@@ -4,7 +4,7 @@ from inflection import underscore
 
 # from generators.definitions.method import Method
 from CppHeaderParser import CppMethod
-from generators.utils import split_overloads
+from generators.utils import split_overloads, make_pybind_argument_list
 
 
 class Property:
@@ -23,15 +23,17 @@ class Property:
         return self.name == other.name
 
     def to_str(self, class_name, class_var_name, ind=""):
+        args = make_pybind_argument_list(self.cppsetter["parameters"])
         if self.getter:
             s = '{cls_var}.def_property("{name}", &{cls}::{get}, &{cls}::{set})'
         else:
-            s = '{cls_var}.def("set_{name}", &{cls}::{set})'
+            s = '{cls_var}.def("set_{name}", &{cls}::{set}{args})'
         data = {"name": self.name,
                 "cls": class_name,
                 "cls_var": class_var_name,
                 "get": self.getter["name"] if self.getter else None,
                 "set": self.cppsetter["name"],
+                "args": args,
                 }
         return s.format(**data)
 

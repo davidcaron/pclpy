@@ -13,6 +13,7 @@ from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
     EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
+from generators.utils import make_pybind_argument_list
 
 
 class Method:
@@ -79,15 +80,23 @@ class Method:
 
         template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})".format(type_=type_,
-                                                                                       cls=class_name,
-                                                                                       name=self.cppmethod["name"],
-                                                                                       template=template,
-                                                                                       const=constant_method)
+        disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})"
+        disamb = disamb.format(type_=type_,
+                               cls=class_name,
+                               name=self.cppmethod["name"],
+                               template=template,
+                               const=constant_method)
         return disamb
+
+    def disambiguated_function_call(self, cls_var, disamb, args):
+        return '{cls_var}.def("{name}", {disamb}{args})'.format(cls_var=cls_var,
+                                                                name=self.name,
+                                                                disamb=disamb,
+                                                                args=args)
 
     def to_str(self, class_name, class_var_name):
         params = self.cppmethod["parameters"]
+        args = make_pybind_argument_list(params)
         if "operator" in self.cppmethod["name"]:
             message = "Operators not implemented (%s)" % (self.cppmethod["name"],)
             print("Warning: " + message)
@@ -114,21 +123,18 @@ class Method:
             for types_combination in product(*types):
                 template_types = tuple(zip(names, types_combination))
                 disamb = self.make_disambiguation(class_name, template_types=template_types)
-                return_values.append('{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
-                                                                                name=self.name,
-                                                                                disamb=disamb))
+                return_values.append(self.disambiguated_function_call(class_var_name, disamb, args))
             ret_val = return_values
         elif self.is_an_overload:
             disamb = self.make_disambiguation(class_name)
-            ret_val = '{cls_var}.def("{name}", {disamb})'.format(cls_var=class_var_name,
-                                                                 name=self.name,
-                                                                 disamb=disamb)
+            ret_val = self.disambiguated_function_call(class_var_name, disamb, args)
         else:
-            s = '{cls_var}.def("{name}", &{cls}::{cppname})'
+            s = '{cls_var}.def("{name}", &{cls}::{cppname}{args})'
             data = {"name": self.name,
                     "cls": class_name,
                     "cls_var": class_var_name,
                     "cppname": self.cppmethod["name"],
+                    "args": args,
                     }
             ret_val = s.format(**data)
         return ret_val

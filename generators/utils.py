@@ -59,6 +59,7 @@ def sort_headers_by_dependencies(headers):
                 # fix for relative_imports
                 headers.append(make_header_include_name(module, include_string, path_only=True))
         return headers
+
     make_header_path = lambda module, header, path: join(PCL_BASE, path) if path else join(PCL_BASE, module, header)
     headers_dependencies = {header: get_include_lines(make_header_path(*header), header[0]) for header in headers}
 
@@ -86,6 +87,24 @@ def sort_headers_by_dependencies(headers):
                     print(h)
                 sys.exit(1)
     return sorted_headers
+
+
+def parameter_default_value(param):
+    val = param.get("defaultValue", "")
+    if val:
+        # if val in class_enums_names:
+        #     val = "Class::" + val
+        val = "=" + val.replace(" ", "")  # fix for exponent and float values parsed with added spaces
+    return val
+
+
+def make_pybind_argument_list(cpp_parameters):
+    if len(cpp_parameters) == 0:
+        return ""
+    # types = ", ".join([init_param_type(p) for p in self.params])
+
+    names = ", ".join(['"%s"_a%s' % (p["name"], parameter_default_value(p)) for p in cpp_parameters])
+    return ", " + names
 
 
 def generate_main_loader(modules):

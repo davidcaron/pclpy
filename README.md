@@ -66,7 +66,6 @@ mls.process(output)
 - Specialized templated classes
 - Class operators
 - PCL Exceptions
-- Default arguments
 - Functions taking a function pointer or a boost::function as argument
 - Others: see section "what to skip" in constants.py and todo.md
 
