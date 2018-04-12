@@ -235,6 +235,8 @@ HEADERS_TO_SKIP = [
 
     ("surface", "multi_grid_octree_data.h"),  # compile error in PCL "OctNode is not a member of pcl::poisson"
 
+    ("recognition", "hv_go.h"),  # depends on metslib
+
     ("", "exceptions.h"),  # todo: implement exceptions
     ("registration", "exceptions.h"),  # todo: implement exceptions
     ("segmentation", "conditional_euclidean_clustering.h"),  # setConditionFunction hard to implement...
