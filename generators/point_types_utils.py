@@ -132,48 +132,13 @@ class DependencyTree:
         for c in classes:
             self.namespace_by_class_name[c["name"]].append(c["namespace"])
 
-        self.tree = {make_namespace_class(c["namespace"], c["name"]): dict(self.clean_inheritance(c))
-                     for c in classes}
+        self.tree = {}
+        for c in classes:
+            class_name = make_namespace_class(c["namespace"], c["name"])
+            inheritance = dict(clean_inheritance(c, self.namespace_by_class_name))
+            self.tree[class_name] = inheritance
+
         self.n_template_point_types = {k: len(v) for inheritance in self.tree.values() for k, v in inheritance.items()}
-
-    def fix_templated_inheritance(self, inherits):
-        while True:
-            for n, i in enumerate(inherits[:]):
-                if not parentheses_are_balanced(i, "<>"):
-                    inherits = inherits[:n] + ["%s, %s" % (i, inherits[n + 1])] + inherits[n + 2:]
-                    break
-            else:
-                break
-        return inherits
-
-    def clean_inheritance(self, class_):
-        inheritance = [i["class"] for i in class_["inherits"]]
-        inheritance = self.fix_templated_inheritance(inheritance)
-
-        template = class_.get("template", "").replace("\n", "")
-        template_typenames = {}
-        if template:
-            splitted = template[template.find("<") + 1: template.rfind(">") - 1].split("typename")
-            for s in splitted:
-                if "=" in s:
-                    val = s[s.find("=") + 1:].strip()
-                    template_typenames[s[:s.find("=")].strip()] = val
-
-        for inherits in inheritance:
-            inherits = template_typenames.get(inherits, inherits)
-
-            # deal with templates
-            template_types = tuple()
-            if "<" in inherits:
-                template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
-                inherits = inherits[:inherits.find("<")]
-
-            if not any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE):
-                namespaces = self.namespace_by_class_name.get(inherits)
-                namespace = namespaces[0] if namespaces else class_["namespace"]
-                inherits = make_namespace_class(namespace, inherits)
-
-            yield (inherits, template_types)
 
     def get_class_namespace(self, class_name):
         assert "::" in class_name
@@ -252,3 +217,53 @@ class DependencyTree:
                     else:
                         types[base_class_name] += point_types
         return {class_name: list(sorted(set(v))) for class_name, v in types.items()}
+
+
+def fix_templated_inheritance(inherits):
+    while True:
+        for n, i in enumerate(inherits[:]):
+            if not parentheses_are_balanced(i, "<>"):
+                inherits = inherits[:n] + ["%s, %s" % (i, inherits[n + 1])] + inherits[n + 2:]
+                break
+        else:
+            break
+    return inherits
+
+
+def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templated_typename=True):
+    inheritance = [i["class"] for i in class_["inherits"]]
+    inheritance = fix_templated_inheritance(inheritance)
+
+    template = class_.get("template", "").replace("\n", "")
+    template_typenames = {}
+    if template:
+        splitted = template[template.find("<") + 1: template.rfind(">") - 1].split("typename")
+        for s in splitted:
+            if "=" in s:
+                val = s[s.find("=") + 1:].strip()
+                template_typenames[s[:s.find("=")].strip()] = val
+
+    for inherits in inheritance:
+        if replace_with_templated_typename:
+            inherits = template_typenames.get(inherits, inherits)
+        elif template_typenames.get(inherits):
+            yield (inherits, [])
+            continue
+
+        # deal with templates
+        template_types = tuple()
+        if "<" in inherits:
+            template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
+            inherits = inherits[:inherits.find("<")]
+
+        namespace = class_["namespace"]
+        if any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE):
+            pass
+        elif namespace_by_class_name:
+            namespaces = namespace_by_class_name.get(inherits)
+            if namespaces:
+                namespace = namespaces[0]
+
+        inherits = make_namespace_class(namespace, inherits)
+
+        yield (inherits, template_types)

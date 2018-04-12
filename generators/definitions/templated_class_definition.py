@@ -11,6 +11,7 @@ from generators.definitions.variable import Variable
 from generators.definitions.property import Property
 from generators.constants import INDENT, EXTERNAL_INHERITANCE
 from generators.definitions.method import filter_template_types
+from generators.point_types_utils import clean_inheritance
 from generators.utils import make_namespace_class
 
 
@@ -41,7 +42,8 @@ class ClassDefinition:
         self.class_ = class_
         self.inherits = None
         if class_["inherits"]:
-            self.inherits = self.clean_inherits()
+            self.inherits = ", ".join(
+                (e[0] for e in clean_inheritance(self.class_, replace_with_templated_typename=False)))
         self.class_name = class_["name"]
         self.constructors = constructors
         self.variables = variables
@@ -50,23 +52,6 @@ class ClassDefinition:
         self.other_methods = other_methods
         self.template = class_.get("template")
         self.is_templated = False
-
-    def clean_inherits(self):
-        if not self.class_["inherits"]:
-            return ""
-        inherits = []
-        for i in self.class_["inherits"]:
-            inherited_class = i["class"]
-            if inherited_class.startswith("boost::"):  # skip boost inheritance todo: fixme?
-                continue
-            if inherited_class.startswith("vtk"):  # skip vtk inheritance todo: fixme?
-                continue
-            if any([inherited_class.startswith(v) for v in EXTERNAL_INHERITANCE]):
-                full_name = inherited_class
-            else:
-                full_name = make_namespace_class(self.class_["namespace"], inherited_class)
-            inherits.append(full_name)
-        return ", ".join(inherits)
 
     def to_str(self):
         if self.is_templated:
@@ -103,7 +88,7 @@ class ClassDefinition:
             template_info = re.findall(r"<(.+)>", str(self.template.replace("\n", "")))
             if not template_info or "<" in self.class_name:
                 print("Warning: Templated class specializations (%s) not implemented (%s)" % (
-                self.template, self.class_name))
+                    self.template, self.class_name))
                 return ""
 
             types = ", ".join(filter_template_types(template_info[0]))
@@ -152,7 +137,8 @@ class ClassDefinition:
         templated_methods = [m for m in self.other_methods if m.templated_types]
         s += ["{ind}%s;" % m.to_str("Class", class_var_name=self.CLS_VAR) for m in self.other_methods
               if not m in templated_methods]
-        s += ["{ind}%s;" % m for method in templated_methods for m in method.to_str("Class", class_var_name=self.CLS_VAR)]
+        s += ["{ind}%s;" % m for method in templated_methods for m in
+              method.to_str("Class", class_var_name=self.CLS_VAR)]
         data = {
             "ind": ind,
             "i": i
