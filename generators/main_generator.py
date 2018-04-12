@@ -172,6 +172,8 @@ def get_headers(modules=None):
     def listmod(module):
         found_modules = []
         for base, folders, files in os.walk(join(PCL_BASE, module)):
+            if base.endswith("opennurbs"):
+                continue
             relative_base = os.path.abspath(base).replace(PCL_BASE, "")[1:]
             for f in files:
                 if f.endswith(".h"):
@@ -350,11 +352,11 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 
 def main():
-    modules = ["visualization"]
-    all_headers = get_headers(modules)
-    headers = [
-        ("visualization", "pcl_visualizer.h", ""),
-    ]
+    # modules = ["tracking"]
+    all_headers = get_headers()
+    # headers = [
+    #     ("visualization", "pcl_visualizer.h", ""),
+    # ]
     # generated_headers = generate(headers)
     generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)

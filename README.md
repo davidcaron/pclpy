@@ -69,12 +69,8 @@ mls.process(output)
     - people
     - outofcore registration
 
-## Not Implemented (WIP)
-- Specialized templated classes
-- Class operators
-- PCL Exceptions
-- Functions taking a function pointer or a boost::function as argument
-- Others: see section "what to skip" in constants.py and todo.md
+## Not Implemented
+(see todo.md)
 
 ## To build
 - Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:

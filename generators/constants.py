@@ -157,6 +157,7 @@ EXTERNAL_INHERITANCE = [
 
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
+    "PointOutT": "PCL_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
     "T": "PCL_POINT_TYPES",
     "PointNT": "PCL_NORMAL_POINT_TYPES",
@@ -256,6 +257,8 @@ HEADERS_TO_SKIP = [
     ("filters", "conditional_removal.h"),
     # todo: parser error for ConditionalRemoval (int extract_removed_indices = false) :
     ("filters", "model_outlier_removal.h"),  # todo: boost::function as parameter
+
+    # opennurbs is skipped: see get_headers function in main_generator.py
 ]
 
 ATTRIBUTES_TO_SKIP = {
