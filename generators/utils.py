@@ -28,6 +28,8 @@ def explicit_includes(module, header_name):
         return "#include <pcl/Vertices.h>"
     elif (module, header_name) == ("common", "synchronizer.h"):
         return '#include <boost/thread/mutex.hpp>'
+    elif (module, header_name) == ("visualization", "pcl_visualizer.h"):
+        return "#pragma warning(disable : 4996)"
     return ""
 
 
