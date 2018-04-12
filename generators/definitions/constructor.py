@@ -12,6 +12,15 @@ class Constructor:
         """
         self.cppconst = const
         self.params = self.cppconst["parameters"]
+        self.filter_parameters()
+
+    def filter_parameters(self):
+        filtered = []
+        for param in self.params:
+            if param["type"] == "void":
+                continue
+            filtered.append(param)
+        self.params = filtered
 
     def to_str(self, class_var_name, class_enums_names):
 
@@ -45,8 +54,6 @@ class Constructor:
         if len(self.params):
             s = '{cls_var}.def(py::init<{params_types}>(), {params_names})'
             types = ", ".join([init_param_type(p) for p in self.params])
-            if types == "void":
-                types = ""
             names = ", ".join(['"%s"_a%s' % (p["name"], default(p)) for p in self.params])
             data = {"params_types": types,
                     "params_names": names,
