@@ -13,6 +13,7 @@ from CppHeaderParser import CppMethod, CppVariable
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
     EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
 from generators.definitions.method_parameters import make_pybind_argument_list
+from generators.utils import make_namespace_class
 
 
 class Method:
@@ -50,7 +51,9 @@ class Method:
                     ref = " &" if param["reference"] else ""
                     custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
                     type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
-                    if any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
+                    if type_.startswith("pcl::"):
+                        type_ = make_namespace_class("pcl", type_)
+                    elif any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
                         pass
                     elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
                         pass
