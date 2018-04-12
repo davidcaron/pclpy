@@ -71,7 +71,6 @@ KEEP_DISAMIGUATION_TYPES_STARTSWITH = [
     "boost::shared_ptr",
     "boost::filesystem",
     "boost::uint64_t",
-    # standard types
     "uint8_t",
     "uint16_t",
     "uint32_t",
@@ -209,8 +208,6 @@ HEADERS_TO_SKIP = [
     ("ml", "multi_channel_2d_comparison_feature_handler.h"),  # can't find class FeatureHandlerCodeGenerator ??
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
-    # ("io", "vtk_lib_io.h"),
-    # ("io", "vtk_io.h"),
 
     # todo: everything in pcl/ml/dt/ is actually at pcl/ml/
     ("ml", "decision_tree_evaluator.h"),
@@ -237,10 +234,6 @@ HEADERS_TO_SKIP = [
     ("io", "openni2_video_mode.h"),
 
     ("surface", "multi_grid_octree_data.h"),  # compile error in PCL "OctNode is not a member of pcl::poisson"
-
-    # ("io", "image_ir.h"),
-    # ("io", "image_depth.h"),
-    # ("io", "obj_io.h"),
 
     ("", "exceptions.h"),  # todo: implement exceptions
     ("registration", "exceptions.h"),  # todo: implement exceptions
