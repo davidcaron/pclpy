@@ -38,6 +38,8 @@ LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
 REQUIRED = [
     'pybind11>=2.2',
     'laspy',
+    'PyYAML',
+    'CppHeaderParser==2.7.3.1',
 ]
 
 HERE = os.path.abspath(os.path.dirname(__file__))
