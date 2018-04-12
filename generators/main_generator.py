@@ -351,13 +351,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 
 def main():
-    # modules = ["stereo"]
     all_headers = get_headers()
-    # headers = [
-    #     ("stereo", "stereo_matching.h", ""),
-    #     ("io", "file_io.h", ""),
-    # ]
-    # generated_headers = generate(headers)
     generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
