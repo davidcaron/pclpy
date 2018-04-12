@@ -12,6 +12,7 @@ from generators import point_types_utils
 from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP
 from generators.definitions.method import split_methods_by_type
+from generators.definitions import method_parameters
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
 from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
@@ -335,6 +336,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         files_to_write[output_path] = text
 
     # loaders
+    default_types_by_namespace = method_parameters.all_default_types_by_namespace
     loader_modules = defaultdict(list)
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
