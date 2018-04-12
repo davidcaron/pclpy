@@ -128,7 +128,12 @@ def unpack_point_types(types_info: List):
 
 class DependencyTree:
     def __init__(self, classes: List[CppClass]):
-        self.tree = {make_namespace_class(c["namespace"], c["name"]): dict(self.clean_inheritance(c)) for c in classes}
+        self.namespace_by_class_name = defaultdict(list)
+        for c in classes:
+            self.namespace_by_class_name[c["name"]].append(c["namespace"])
+
+        self.tree = {make_namespace_class(c["namespace"], c["name"]): dict(self.clean_inheritance(c))
+                     for c in classes}
         self.n_template_point_types = {k: len(v) for inheritance in self.tree.values() for k, v in inheritance.items()}
 
     def fix_templated_inheritance(self, inherits):
@@ -154,16 +159,21 @@ class DependencyTree:
                     val = s[s.find("=") + 1:].strip()
                     template_typenames[s[:s.find("=")].strip()] = val
 
-        for c in inheritance:
-            c = template_typenames.get(c, c)
-            if not any(c.startswith(i) for i in EXTERNAL_INHERITANCE):
-                c = make_namespace_class(class_["namespace"], c)
+        for inherits in inheritance:
+            inherits = template_typenames.get(inherits, inherits)
 
+            # deal with templates
             template_types = tuple()
-            if "<" in c:
-                template_types = tuple([s.strip() for s in c[c.find("<") + 1:-1].split(",")])
-                c = c[:c.find("<")]
-            yield (c, template_types)
+            if "<" in inherits:
+                template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
+                inherits = inherits[:inherits.find("<")]
+
+            if not any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE):
+                namespaces = self.namespace_by_class_name.get(inherits)
+                namespace = namespaces[0] if namespaces else class_["namespace"]
+                inherits = make_namespace_class(namespace, inherits)
+
+            yield (inherits, template_types)
 
     def get_class_namespace(self, class_name):
         assert "::" in class_name
@@ -192,7 +202,7 @@ class DependencyTree:
                 inheritance = set(self.tree.get(class_name).keys())
                 # inheritance_base_namespace = set((i[0], "pcl") for i in inheritance)
                 # inheritance_other_namespace = set(
-                    # (i[0][i[0].find("::") + 2:], "pcl::" + i[0][:i[0].find("::")]) for i in inheritance)
+                # (i[0][i[0].find("::") + 2:], "pcl::" + i[0][:i[0].find("::")]) for i in inheritance)
                 is_base_class = not inheritance
                 inheritance_is_seen = not inheritance - seen
                 # inheritance_base_namespace_is_seen = not inheritance_base_namespace - seen
@@ -233,8 +243,9 @@ class DependencyTree:
                             types_filter = INHERITED_TEMPLATED_TYPES_FILTER.get(base_class_name)
                         if types_filter:
                             filtered = types_filter
-                            types[base_class_name] += [tuple(t for i, t in enumerate(types_) if i in filtered) for types_ in
-                                                  point_types]
+                            types[base_class_name] += [tuple(t for i, t in enumerate(types_) if i in filtered) for
+                                                       types_ in
+                                                       point_types]
                         # BaseClass<PointInT> CurrentClass<PointInT, PointOutT>
                         # todo: Here I am hoping this inheritance is always ordered from the first point type
                         types[base_class_name] += [types_[:n_point_types_base] for types_ in point_types]
