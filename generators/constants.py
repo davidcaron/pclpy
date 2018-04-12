@@ -176,6 +176,7 @@ TEMPLATED_METHOD_TYPES = {
     "PointLT": ["pcl::Label"],
     "PointOutT": "PCL_POINT_TYPES",
     "PointTDiff": "PCL_XYZ_POINT_TYPES",
+    "PointRFT": ["pcl::ReferenceFrame"],
     "OutputType": "PCL_POINT_TYPES",
     "PointSource": "PCL_XYZ_POINT_TYPES",
     "PointFeature": "PCL_FEATURE_POINT_TYPES",
