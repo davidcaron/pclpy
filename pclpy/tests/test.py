@@ -7,6 +7,13 @@ from pclpy import pcl
 import pclpy
 
 
+@pytest.fixture
+def xyz():
+    a = np.random.ranf(30).reshape(-1, 3)
+    p = pcl.PointCloudXYZ.from_array(a)
+    return p
+
+
 def test_data(*args):
     return os.path.join("test_data", *args)
 
@@ -15,10 +22,13 @@ def test_hi():
     assert pcl.__doc__
 
 
-def test_size_xyz():
-    a = np.random.ranf(30).reshape(-1, 3)
-    p = pcl.PointCloudXYZ.from_array(a)
-    assert p.size() == 10
+def test_size_xyz(xyz):
+    assert xyz.size() == 10
+
+
+def test_points(xyz):
+    print(xyz.points)
+
 
 #
 # def test_voxel_grid_rgba(xyzrgba):

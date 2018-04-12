@@ -36,7 +36,7 @@ INCLUDE = join(PYTHON_HOME, r"Library", "include")
 LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
 
 REQUIRED = [
-    'pybind11>=2.2',
+    'pybind11>=2.3dev',
     'laspy',
     'PyYAML',
     'CppHeaderParser==2.7.3.1',

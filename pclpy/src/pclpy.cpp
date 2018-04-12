@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 
 #include <boost/shared_ptr.hpp>
+#include <Eigen/StdVector>
 
 #include <iostream>
 #include <pcl/point_representation.h>
@@ -30,6 +31,7 @@ static py::class_<PointCloud<T>, boost::shared_ptr<PointCloud<T>>>
     py::class_<Class, boost::shared_ptr<Class>> cls(m, ("PointCloud" + suffix).c_str());
     cls.def(py::init<>());
     cls.def("size", &Class::size);
+    cls.def_readwrite("points", &Class::points);
     return cls;
 }
 
@@ -37,7 +39,7 @@ void defineVectorClasses(py::module &m) {
     py::module m_vector = m.def_submodule("vector", "Submodule for vectors");
     py::bind_vector<std::vector<PointIndices>>(m_vector, "PointIndices");
     py::bind_vector<std::vector<int>>(m_vector, "Int", py::buffer_protocol());
-//    defineVector<PointIndices>(m_vector, "PointIndices");
+    py::bind_vector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
 }
 
 PYBIND11_MODULE(pcl, m) {
