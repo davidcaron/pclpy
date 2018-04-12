@@ -30,6 +30,8 @@ def explicit_includes(module, header_name):
         return '#include <boost/thread/mutex.hpp>'
     elif (module, header_name) == ("visualization", "pcl_visualizer.h"):
         return "#pragma warning(disable : 4996)"
+    elif (module, header_name) == ("recognition", "orr_octree.h"):
+        return "#pragma warning(disable : 4800)"
     return ""
 
 
