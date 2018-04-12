@@ -351,14 +351,14 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 
 def main():
-    # modules = ["tracking"]
-    # all_headers = get_headers()
-    headers = [
-        ("octree", "octree2buf_base.h", ""),
-        ("octree", "octree_nodes.h", ""),
-    ]
-    generated_headers = generate(headers)
-    # generated_headers = generate(all_headers)
+    # modules = ["stereo"]
+    all_headers = get_headers()
+    # headers = [
+    #     ("io", "lzf_image_io.h", ""),
+        # ("io", ".h", ""),
+    # ]
+    # generated_headers = generate(headers)
+    generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=False)
 
 
