@@ -11,6 +11,7 @@ from generators.definitions.variable import Variable
 from generators.definitions.property import Property
 from generators.constants import INDENT, EXTERNAL_INHERITANCE
 from generators.definitions.method import filter_template_types
+from generators.utils import make_namespace_class
 
 
 class ClassDefinition:
@@ -63,7 +64,7 @@ class ClassDefinition:
             if any([inherited_class.startswith(v) for v in EXTERNAL_INHERITANCE]):
                 full_name = inherited_class
             else:
-                full_name = "%s::%s" % (self.class_["namespace"], inherited_class)
+                full_name = make_namespace_class(self.class_["namespace"], inherited_class)
             inherits.append(full_name)
         return ", ".join(inherits)
 
