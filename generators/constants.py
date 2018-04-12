@@ -172,6 +172,8 @@ TEMPLATED_METHOD_TYPES = {
     "PointOutT": "PCL_POINT_TYPES",
     "PointTDiff": "PCL_XYZ_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
+    "PointSource": "PCL_XYZ_POINT_TYPES",
+    "PointFeature": "PCL_FEATURE_POINT_TYPES",
     "T": "PCL_POINT_TYPES",
     "PointNT": "PCL_NORMAL_POINT_TYPES",
     "NormalT": "PCL_NORMAL_POINT_TYPES",
