@@ -34,6 +34,8 @@ def explicit_includes(module, header_name):
         return "#pragma warning(disable : 4800)"
     elif (module, header_name) == ("recognition", "obj_rec_ransac.h"):
         return "#pragma warning(disable : 4267)"
+    elif (module, header_name) == ("recognition", "model_library.h"):
+        return "#pragma warning(disable : 4267)"
     return ""
 
 
