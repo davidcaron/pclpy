@@ -6,5 +6,5 @@ OctreeBase:
   - [OctreeContainerEmpty, OctreeContainerEmpty]
   - [OctreeContainerPointIndices, OctreeContainerEmpty]
 MeshIO:
-  - ["geometry::PolygonMesh<DefaultMeshTraits<>>"]
-  - ["geometry::TriangleMesh<DefaultMeshTraits<>>"]
+  - ["pcl::geometry::PolygonMesh<DefaultMeshTraits<>>"]
+  - ["pcl::geometry::TriangleMesh<DefaultMeshTraits<>>"]
