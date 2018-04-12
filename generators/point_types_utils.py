@@ -224,7 +224,7 @@ def fix_templated_inheritance(inherits):
     return inherits
 
 
-def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templated_typename=True):
+def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templated_typename=True, keep_templates=False):
     inheritance = [i["class"] for i in class_["inherits"]]
     inheritance = fix_templated_inheritance(inheritance)
 
@@ -248,7 +248,8 @@ def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templat
             # deal with templates
             if "<" in inherits:
                 template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
-                inherits = inherits[:inherits.find("<")]
+                if not keep_templates:
+                    inherits = inherits[:inherits.find("<")]
 
             namespace = class_["namespace"]
             is_external_inheritance = any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE)
