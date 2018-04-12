@@ -45,7 +45,8 @@ class Constructor:
         if len(self.params):
             s = '{cls_var}.def(py::init<{params_types}>(), {params_names})'
             types = ", ".join([init_param_type(p) for p in self.params])
-
+            if types == "void":
+                types = ""
             names = ", ".join(['"%s"_a%s' % (p["name"], default(p)) for p in self.params])
             data = {"params_types": types,
                     "params_names": names,
