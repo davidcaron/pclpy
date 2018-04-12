@@ -85,11 +85,15 @@ KEEP_DISAMIGUATION_TYPES_STARTSWITH = [
     "double",
 ]
 
-# explicitely excluded classes (not implemented in pcl source code)
+# explicitely excluded classes
 CLASSES_TO_IGNORE = [
     # ("module", "header", "class")
+
+    # (not implemented in pcl source code)
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreBreadthFirstIterator"),
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreLeafIterator"),
+    # constructor seems to access private member...
+    ("io", "obj_io.h", "MTLReader"),
 ]
 
 CUSTOM_OVERLOAD_TYPES = {
@@ -111,6 +115,7 @@ CUSTOM_OVERLOAD_TYPES = {
     ("SamplingSurfaceNormal", "PointCloud"): "Filter<PointT>::PointCloud",
 
     ("DepthImage", "FrameWrapper::Ptr"): "FrameWrapper::Ptr",
+    ("IRImage", "FrameWrapper::Ptr"): "FrameWrapper::Ptr",
 
     ("PointCloudColorHandlerCustom",
      "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
