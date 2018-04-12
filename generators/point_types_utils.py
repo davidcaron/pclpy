@@ -180,7 +180,7 @@ class DependencyTree:
         return class_name[class_name.rfind("::"):]
 
     def breadth_first_iterator(self, start_class=None):
-        all_inheritances = [make_namespace_class(self.get_class_namespace(class_), class_)
+        all_inheritances = [make_namespace_class(self.get_class_namespace(class_), i)
                             for class_, inheritance in self.tree.items()
                             for i in inheritance]
         if start_class is None:
