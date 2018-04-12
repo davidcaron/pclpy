@@ -178,7 +178,7 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
     ("ImageViewer", "addRectangle", ("T",)): ("PCL_XYZ_POINT_TYPES",),
 
-    ("LZFDepth16ImageReader", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("LZFDepth16ImageReader", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
@@ -225,6 +225,8 @@ HEADERS_TO_SKIP = [
     ("io", "openni2_metadata_wrapper.h"),
     ("io", "openni2_timer_filter.h"),
     ("io", "openni2_video_mode.h"),
+
+    ("surface", "multi_grid_octree_data.h"),  # compile error in PCL "OctNode is not a member of pcl::poisson"
 
     # ("io", "image_ir.h"),
     # ("io", "image_depth.h"),
