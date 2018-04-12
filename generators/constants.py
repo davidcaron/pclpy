@@ -277,6 +277,7 @@ HEADERS_TO_SKIP = [
 SUBMODULES_TO_SKIP = [
     "opennurbs",
     "face_detection",  # depends on ml/decision_tree_data_provider
+    "metslib",  # lots of warnings, skip for now...
 ]
 
 ATTRIBUTES_TO_SKIP = {
