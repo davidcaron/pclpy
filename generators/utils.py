@@ -5,7 +5,7 @@ from typing import List
 
 from inflection import camelize
 
-from generators.constants import PCL_BASE, common_includes, INDENT
+from generators.constants import PCL_BASE, common_includes, INDENT, TEMPLATED_METHOD_TYPES
 
 
 def make_header_include_name(module, header_name, path=None, path_only=False):
@@ -44,15 +44,19 @@ def make_namespace_class(namespace, class_name):
         template_info = "<%s>" % template_info
     if not namespace.startswith("pcl"):
         namespace = "pcl::%s" % namespace
+
     if class_name.startswith("pcl"):
-        return class_name + template_info
+        pass
+    elif class_name in TEMPLATED_METHOD_TYPES:
+        pass
     else:
         merged = "%s::%s" % (namespace, class_name)
         nonrepeating = []
         for name in merged.split("::"):
             if not nonrepeating or name != nonrepeating[-1]:
                 nonrepeating.append(name)
-        return "::".join(nonrepeating) + template_info
+        class_name = "::".join(nonrepeating)
+    return class_name + template_info
 
 
 def function_definition_name(header_name):
