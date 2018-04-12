@@ -8,16 +8,13 @@ PATH_MAIN_CPP = join("..", "pclpy", "src", "pclpy.cpp")
 PATH_MODULES = join("..", "pclpy", "src", "generated_modules")
 PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
 
-loader_includes = """
+common_includes = """
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
-#include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-"""
 
-common_includes = """
 namespace py = pybind11;
 using namespace pybind11::literals;
 """

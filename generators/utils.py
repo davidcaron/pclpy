@@ -5,7 +5,7 @@ from typing import List
 
 from inflection import camelize
 
-from generators.constants import PCL_BASE, common_includes, INDENT, loader_includes
+from generators.constants import PCL_BASE, common_includes, INDENT
 
 
 def make_header_include_name(module, header_name, path=None, path_only=False):
@@ -90,9 +90,8 @@ def sort_headers_by_dependencies(headers):
 
 def generate_main_loader(modules):
     modules = list(sorted(modules))
-    s = [loader_includes]
+    s = [common_includes]
     a = s.append
-    a(common_includes)
     for module in modules:
         a("void define%sClasses(py::module &);" % camelize(module))
     a("")
