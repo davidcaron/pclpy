@@ -259,7 +259,6 @@ def generate(headers_to_generate) -> OrderedDict:
     dependency_tree = point_types_utils.DependencyTree(classes)
 
     point_types = dependency_tree.get_point_types_with_dependencies(classes_point_types)
-    point_types.update(other_types)
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
@@ -277,7 +276,7 @@ def generate(headers_to_generate) -> OrderedDict:
     def generate_header(module, header, path, main_classes) -> str:
         text = gen_class_function_definitions(main_classes, module, header, path,
                                               methods_needs_overloading.get(module))
-        module_def = TemplatedClassInstantiations(main_classes, module, header, point_types)
+        module_def = TemplatedClassInstantiations(main_classes, module, header, point_types, other_types)
         text.append(module_def.to_module_function_definition())
         return "\n".join(text)
 
@@ -353,13 +352,14 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 def main():
     # modules = ["tracking"]
-    all_headers = get_headers()
-    # headers = [
-    #     ("visualization", "pcl_visualizer.h", ""),
-    # ]
-    # generated_headers = generate(headers)
-    generated_headers = generate(all_headers)
-    write_stuff_if_needed(generated_headers, delete_others=True)
+    # all_headers = get_headers()
+    headers = [
+        ("octree", "octree2buf_base.h", ""),
+        ("octree", "octree_nodes.h", ""),
+    ]
+    generated_headers = generate(headers)
+    # generated_headers = generate(all_headers)
+    write_stuff_if_needed(generated_headers, delete_others=False)
 
 
 if __name__ == '__main__':

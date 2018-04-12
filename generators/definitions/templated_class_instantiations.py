@@ -13,7 +13,13 @@ from CppHeaderParser import CppClass
 class TemplatedClassInstantiations:
     BASE_SUB_MODULE_NAME = "sub_module"
 
-    def __init__(self, sorted_classes: List[CppClass], module: str, header_name: str, classes_point_types: Dict):
+    def __init__(self,
+                 sorted_classes: List[CppClass],
+                 module: str,
+                 header_name: str,
+                 classes_point_types: Dict,
+                 other_types: Dict,
+                 ):
         """
         Generate templated function calls that instantiate pybind11 classes
         Example:
@@ -28,6 +34,7 @@ class TemplatedClassInstantiations:
         self.module = module
         self.header_name = header_name
         self.classes_point_types = classes_point_types
+        self.other_types = other_types
 
     def repr_sub_module(self, class_name: str):
         """
@@ -78,12 +85,15 @@ class TemplatedClassInstantiations:
 
             if template_types:
                 sub_module_name = self.sub_module_name(c["name"])
-                list_types = self.classes_point_types.get(c["name"], [])
-                if list_types:
+                types_list = self.other_types.get(c["name"], self.classes_point_types.get(c["name"], []))
+                if types_list:
+                    add_pcl_prefix = c["name"] not in self.other_types
                     s.append(self.repr_sub_module(c["name"]))
-                    for types in list_types:
+                    for types in types_list:
                         define = 'define{sub}{name}<{types}>({sub_module_name}, "{types_names}")'
-                        types_str = ", ".join(["pcl::" + t for t in types])
+                        if add_pcl_prefix:
+                            types = ["pcl::" + t for t in types]
+                        types_str = ", ".join(types)
                         define = define.format(sub=camelize(self.module),
                                                name=c["name"],
                                                sub_module_name=sub_module_name,
