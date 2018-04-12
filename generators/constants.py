@@ -11,6 +11,7 @@ PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
 common_includes = """
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
+#include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -25,9 +26,9 @@ using namespace pybind11::literals;
 
 MODULES_TO_BUILD = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kdtree', 'keypoints', 'octree',
                     'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
-                    'tracking']
+                    'tracking', 'visualization']
 # almost builds:
-# , 'ml', 'people', 'outofcore' 'registration', 'visualization']
+# , 'ml', 'people', 'outofcore' 'registration']
 
 # -----------------------------
 # specific generator parameters
