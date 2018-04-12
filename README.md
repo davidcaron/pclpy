@@ -3,13 +3,20 @@
 Automatically generated python bindings for the Point Cloud Library (PCL)
 using pybind11 and CppHeaderParser.
 
-__Current focus is on Windows x64 and python 3.5+__
+__The library is in active development, do not
+use in production and the api is likely to change.__
+
+Only Windows x64 and python 3.5+ are supported at the moment.
 
 
 ## Why
 While Cython is great, binding templated code isn't one of its strenghts.
-The python-pcl bindings are hard to maintain and adding features or point types is quite tedious.
+The python-pcl bindings contain a lot of repeated code and adding
+features or point types is quite tedious.
+Also, python-pcl implement only a subset of PCL's classes and point types.
+
 With pybind11, we can use c++ templates directly.
+The goal is to bind as much of the library as possible.
 
 ## Features
 - All point types are planned to be wrapped
@@ -56,11 +63,11 @@ mls.process(output)
     - stereo
     - surface
     - tracking
+    - visualization
 - Should also work soon
     - ml
     - people
     - outofcore registration
-    - visualization
 
 ## Not Implemented (WIP)
 - Specialized templated classes
