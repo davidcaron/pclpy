@@ -48,8 +48,6 @@ class Constructor:
                 type_ = type_only_last_element
             elif class_with_param_name in INHERITED_ENUMS:
                 type_ = "Class::" + type_only_last_element
-            # else:
-            #     type_ = make_namespace_class(param["method"]["namespace"], type_)
             if param.get("pointer"):
                 type_ += "*"
             return type_

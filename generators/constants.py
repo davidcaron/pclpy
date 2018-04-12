@@ -132,13 +132,13 @@ CUSTOM_OVERLOAD_TYPES = {
     ("PointCloudColorHandlerRandom",
      "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
 
-    ("LeastMedianSquares", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("MaximumLikelihoodSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("MEstimatorSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("ProgressiveSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("RandomSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("RandomizedMEstimatorSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
-    ("RandomizedRandomSampleConsensus", "SampleConsensusModelPtr"): "SampleConsensusModel<PointT>::Ptr",
+    ("LeastMedianSquares", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("MaximumLikelihoodSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("MEstimatorSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("ProgressiveSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("RandomSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("RandomizedMEstimatorSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
+    ("RandomizedRandomSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
 
     ("DisparityMapConverter", "PointCloud"): "pcl::PointCloud<PointT>",
 }
