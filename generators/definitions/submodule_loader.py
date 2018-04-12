@@ -4,13 +4,14 @@ import os
 
 from inflection import camelize
 
-from generators.constants import PATH_MODULES, common_includes, INDENT
+from generators.constants import PATH_MODULES, common_includes, INDENT, loader_includes
 from generators.utils import function_definition_name
 
 
 def generate_loader(module, headers):
-    lines = [common_includes]
+    lines = [loader_includes]
     a = lines.append
+    a(common_includes)
     a("PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);")
     a('#include "../make_opaque_vectors.hpp"')
 
