@@ -1,28 +1,22 @@
 import os
 import shutil
+from collections import Counter
 from collections import defaultdict, OrderedDict
 from os.path import join
-from multiprocessing.pool import ThreadPool
-
-from collections import Counter
-from typing import List, Dict
-
-from CppHeaderParser import CppHeaderParser
+from typing import List
 
 import yaml
-
-from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
-    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP
-
-from generators.definitions.templated_class_definition import ClassDefinition
-from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
-from generators.definitions.submodule_loader import generate_loader
-
-from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, explicit_includes, make_namespace_class
-from generators.definitions.method import split_methods_by_type
+from CppHeaderParser import CppHeaderParser
 
 from generators import point_types_utils
+from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
+    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP
+from generators.definitions.method import split_methods_by_type
+from generators.definitions.submodule_loader import generate_loader
+from generators.definitions.templated_class_definition import ClassDefinition
+from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
+from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
+    generate_main_loader, explicit_includes, make_namespace_class
 
 
 def filter_methods_for_parser_errors(methods):
@@ -351,16 +345,6 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     files_to_write[PATH_LOADER] = generate_main_loader(loader_modules)
 
     write_if_different(files_to_write, delete_others)
-
-    # os.utime(PATH_MAIN_CPP, None)  # force rebuild
-
-
-# todo:
-# (skipped) io: templated parameters AND non templated with same name
-# registration correspondence_rejection_distance (implement templated methods)
-# (skipped) cloud_viewer (implement function callbacks)
-# (skipped) pcl_plotter (implement function callbacks)
-# (skipped) pcl_plotter (implement boost::function callbacks)
 
 
 def main():

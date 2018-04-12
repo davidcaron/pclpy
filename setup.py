@@ -355,7 +355,8 @@ if ON_WINDOWS:
     #         ext_args['libraries'].append(lib[:-4])
 
     for lib in os.listdir(join(PCL_ROOT, "3rdParty", "VTK", "lib")):
-        if lib.endswith("8.0.lib"):
+        endswith = "8.0-gd.lib" if DEBUG else "8.0.lib"
+        if lib.endswith(endswith):
             ext_args['libraries'].append(lib[:-4])
 
     win_opengl_libdirs = ['C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v8.1A\\Lib\\x64']
