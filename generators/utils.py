@@ -1,4 +1,3 @@
-import os
 import sys
 from collections import OrderedDict
 from os.path import join
@@ -87,27 +86,6 @@ def sort_headers_by_dependencies(headers):
                     print(h)
                 sys.exit(1)
     return sorted_headers
-
-
-def parameter_default_value(param):
-    val = param.get("defaultValue", "")
-    if val:
-        # if val in class_enums_names:
-        #     val = "Class::" + val
-
-        # fix for exponent and float values parsed with added spaces
-        val = "=" + val.replace(" ", "")
-        # fix for std::numeric_limits<unsignedshort>::max()
-        val = val.replace("unsignedshort", "unsigned short")
-    return val
-
-
-def make_pybind_argument_list(cpp_parameters):
-    if len(cpp_parameters) == 0:
-        return ""
-
-    names = ", ".join(['"%s"_a%s' % (p["name"], parameter_default_value(p)) for p in cpp_parameters])
-    return ", " + names
 
 
 def generate_main_loader(modules):

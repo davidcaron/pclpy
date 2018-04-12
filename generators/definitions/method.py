@@ -12,7 +12,7 @@ from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
     EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
-from generators.utils import make_pybind_argument_list
+from generators.definitions.method_parameters import make_pybind_argument_list
 
 
 class Method:

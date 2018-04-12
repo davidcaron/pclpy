@@ -2,7 +2,8 @@ from typing import List
 
 # from generators.definitions.method import Method
 from CppHeaderParser import CppMethod
-from generators.utils import split_overloads, make_pybind_argument_list
+from generators.utils import split_overloads
+from generators.definitions.method_parameters import make_pybind_argument_list
 
 
 class Property:
