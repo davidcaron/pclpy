@@ -67,7 +67,8 @@ mls.process(output)
 - Should also work soon
     - ml
     - people
-    - outofcore registration
+    - outofcore
+    - registration
 
 ## Not Implemented
 (see todo.md)
