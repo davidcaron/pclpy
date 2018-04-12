@@ -110,6 +110,8 @@ CUSTOM_OVERLOAD_TYPES = {
     ("VoxelGrid", "PointCloud"): "Filter<PointT>::PointCloud",
     ("SamplingSurfaceNormal", "PointCloud"): "Filter<PointT>::PointCloud",
 
+    ("DepthImage", "FrameWrapper::Ptr"): "FrameWrapper::Ptr",
+
     ("PointCloudColorHandlerCustom",
      "PointCloudConstPtr"): "PointCloudColorHandler<PointT>::PointCloud::ConstPtr",
     ("PointCloudColorHandlerGenericField",

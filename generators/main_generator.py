@@ -352,13 +352,13 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 def main():
     # modules = ["stereo"]
-    all_headers = get_headers()
-    # headers = [
-    #     ("io", "lzf_image_io.h", ""),
+    # all_headers = get_headers()
+    headers = [
+        ("io", "image_depth.h", ""),
         # ("io", ".h", ""),
-    # ]
-    # generated_headers = generate(headers)
-    generated_headers = generate(all_headers)
+    ]
+    generated_headers = generate(headers)
+    # generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=False)
 
 
