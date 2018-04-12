@@ -11,7 +11,7 @@ from typing import List
 from CppHeaderParser import CppMethod, CppVariable
 
 from generators.constants import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
-    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES
+    EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES, GLOBAL_PCL_IMPORTS
 from generators.definitions.method_parameters import make_pybind_argument_list
 from generators.utils import make_namespace_class
 
@@ -57,8 +57,10 @@ class Method:
                         pass
                     elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
                         pass
-                    elif type_no_template in EXPLICIT_IMPORTED_TYPES:  # todo: be more general...
+                    elif type_no_template in EXPLICIT_IMPORTED_TYPES:
                         pass
+                    elif type_no_template in GLOBAL_PCL_IMPORTS:
+                        type_ = "pcl::" + type_
                     elif custom:
                         type_ = custom
                     elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):

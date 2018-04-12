@@ -143,12 +143,15 @@ CUSTOM_OVERLOAD_TYPES = {
     ("DisparityMapConverter", "PointCloud"): "pcl::PointCloud<PointT>",
 }
 
-EXPLICIT_IMPORTED_TYPES = [
+GLOBAL_PCL_IMPORTS = [
     "IndicesPtr",
     "IndicesConstPtr",
     "PointIndices",
     "ModelCoefficients",
     "PointWithRange",
+]
+
+EXPLICIT_IMPORTED_TYPES = [
     "Camera",
     "PointCloudGeometryHandler",
     "PointCloudColorHandler",
@@ -164,6 +167,7 @@ EXTERNAL_INHERITANCE = [
 
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
+    "PointLT": ["pcl::Label"],
     "PointOutT": "PCL_POINT_TYPES",
     "PointTDiff": "PCL_XYZ_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
