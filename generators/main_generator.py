@@ -232,7 +232,7 @@ def generate(headers_to_generate) -> OrderedDict:
     """
     classes_point_types = yaml.load(open("point_types_generated.yml"))
     classes_point_types.update(yaml.load(open("point_types_extra.yml")))
-    other_types = yaml.load(open("other_types.yml"))
+    other_types = yaml.load(open("point_types_other.yml"))
 
     import time
 
@@ -352,9 +352,9 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 def main():
     modules = ["visualization"]
     all_headers = get_headers(modules)
-    # headers = [
-    #     ("visualization", "pcl_visualizer.h", ""),
-    # ]
+    headers = [
+        ("visualization", "pcl_visualizer.h", ""),
+    ]
     # generated_headers = generate(headers)
     generated_headers = generate(all_headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
