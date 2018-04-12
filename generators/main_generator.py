@@ -10,7 +10,7 @@ from CppHeaderParser import CppHeaderParser
 
 from generators import point_types_utils
 from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
-    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP
+    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP
 from generators.definitions.method import split_methods_by_type
 from generators.definitions import method_parameters
 from generators.definitions.submodule_loader import generate_loader
@@ -172,7 +172,7 @@ def get_headers(modules=None):
     def listmod(module):
         found_modules = []
         for base, folders, files in os.walk(join(PCL_BASE, module)):
-            if base.endswith("opennurbs"):
+            if any(base.endswith(m) for m in SUBMODULES_TO_SKIP):
                 continue
             relative_base = os.path.abspath(base).replace(PCL_BASE, "")[1:]
             for f in files:
@@ -352,14 +352,14 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
 def main():
     # modules = ["stereo"]
-    # all_headers = get_headers()
-    headers = [
-        ("io", "image_depth.h", ""),
-        # ("io", ".h", ""),
-    ]
-    generated_headers = generate(headers)
-    # generated_headers = generate(all_headers)
-    write_stuff_if_needed(generated_headers, delete_others=False)
+    all_headers = get_headers()
+    # headers = [
+    #     ("stereo", "stereo_matching.h", ""),
+    #     ("io", "file_io.h", ""),
+    # ]
+    # generated_headers = generate(headers)
+    generated_headers = generate(all_headers)
+    write_stuff_if_needed(generated_headers, delete_others=True)
 
 
 if __name__ == '__main__':

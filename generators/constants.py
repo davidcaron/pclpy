@@ -225,8 +225,6 @@ HEADERS_TO_SKIP = [
     ("ml", "fern_evaluator.h"),
     ("ml", "fern_trainer.h"),
 
-    ("recognition", "face_detector_data_provider.h"),  # depends on ml/decision_tree_data_provider.h
-
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
@@ -274,8 +272,11 @@ HEADERS_TO_SKIP = [
     ("filters", "conditional_removal.h"),
     # todo: parser error for ConditionalRemoval (int extract_removed_indices = false) :
     ("filters", "model_outlier_removal.h"),  # todo: boost::function as parameter
+]
 
-    # opennurbs is skipped: see get_headers function in main_generator.py
+SUBMODULES_TO_SKIP = [
+    "opennurbs",
+    "face_detection",  # depends on ml/decision_tree_data_provider
 ]
 
 ATTRIBUTES_TO_SKIP = {
