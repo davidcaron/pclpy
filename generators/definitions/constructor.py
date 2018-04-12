@@ -35,7 +35,7 @@ class Constructor:
             elif param.get("enum"):
                 type_ = "Class::%s" % param.get("enum").split("::")[-1]
             elif type_only_last_element in class_typedefs:
-                type_ = "Class::" + type_only_last_element
+                type_ = type_only_last_element
             elif class_with_param_name in INHERITED_ENUMS:
                 type_ = "Class::" + type_only_last_element
             if param.get("pointer"):
