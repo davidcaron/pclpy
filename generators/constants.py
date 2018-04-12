@@ -225,6 +225,8 @@ HEADERS_TO_SKIP = [
     ("ml", "fern_evaluator.h"),
     ("ml", "fern_trainer.h"),
 
+    ("recognition", "face_detector_data_provider.h"),  # depends on ml/decision_tree_data_provider.h
+
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
