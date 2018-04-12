@@ -32,17 +32,25 @@ def explicit_includes(module, header_name):
 
 
 def make_namespace_class(namespace, class_name):
+    class_name = class_name.strip()
+    template_info = ""
+    if "<" in class_name:
+        p1, p2 = class_name.find("<"), class_name.rfind(">")
+        template_string = class_name[p1 + 1:p2]
+        class_name = class_name[:p1]
+        template_info = ", ".join([make_namespace_class(namespace, t.strip()) for t in template_string.split(",")])
+        template_info = "<%s>" % template_info
     if not namespace.startswith("pcl"):
         namespace = "pcl::%s" % namespace
     if class_name.startswith("pcl"):
-        return class_name
+        return class_name + template_info
     else:
         merged = "%s::%s" % (namespace, class_name)
         nonrepeating = []
         for name in merged.split("::"):
             if not nonrepeating or name != nonrepeating[-1]:
                 nonrepeating.append(name)
-        return "::".join(nonrepeating)
+        return "::".join(nonrepeating) + template_info
 
 
 def function_definition_name(header_name):
