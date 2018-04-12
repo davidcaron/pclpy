@@ -178,6 +178,8 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
     ("ImageViewer", "addRectangle", ("T",)): ("PCL_XYZ_POINT_TYPES",),
 
+    ("LZFDepth16ImageReader", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT", "GradientT")): (pcl_visualizer_xyz, ["pcl::IntensityGradient"]),
