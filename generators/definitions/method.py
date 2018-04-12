@@ -60,13 +60,19 @@ class Method:
                     elif type_no_template in EXPLICIT_IMPORTED_TYPES:
                         pass
                     elif type_no_template in GLOBAL_PCL_IMPORTS:
-                        type_ = "pcl::" + type_
+                        pass
                     elif custom:
                         type_ = custom
                     elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
                         pass
                     else:
                         type_ = "%s::%s" % (class_name, type_)
+
+                    for global_pcl in GLOBAL_PCL_IMPORTS:
+                        pos = type_.find(global_pcl)
+                        if not type_[pos - 5:pos] == "pcl::":
+                            type_ = type_.replace(global_pcl, "pcl::" + global_pcl)
+
                     type_ = const + type_ + ref
                     if param.get("pointer"):
                         type_ = type_.strip() + "*"

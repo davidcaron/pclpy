@@ -149,6 +149,7 @@ GLOBAL_PCL_IMPORTS = [
     "PointIndices",
     "ModelCoefficients",
     "PointWithRange",
+    "PCLBase",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [

@@ -3,7 +3,7 @@ from itertools import product
 from typing import Dict, List
 
 from generators.constants import IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER, \
-    EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE
+    EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
 from generators.utils import parentheses_are_balanced, make_namespace_class
 
 from CppHeaderParser import CppClass
@@ -246,12 +246,15 @@ def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templat
             inherits = template_typenames.get(inherits, inherits)
         elif not typename:
             # deal with templates
+            inherits_no_templates = inherits[:inherits.find("<")] if "<" in inherits else inherits
             if "<" in inherits:
                 template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
                 if not keep_templates:
-                    inherits = inherits[:inherits.find("<")]
+                    inherits = inherits_no_templates
 
             namespace = class_["namespace"]
+            if inherits_no_templates in GLOBAL_PCL_IMPORTS:
+                namespace = "pcl"
             is_external_inheritance = any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE)
             if not is_external_inheritance:
                 if namespace_by_class_name:
