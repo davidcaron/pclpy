@@ -39,9 +39,10 @@ def make_namespace_class(namespace, class_name):
     if "<" in class_name:
         p1, p2 = class_name.find("<"), class_name.rfind(">")
         template_string = class_name[p1 + 1:p2]
+        other_stuff = class_name[p2 + 1:]
         class_name = class_name[:p1]
         template_info = ", ".join([make_namespace_class(namespace, t.strip()) for t in template_string.split(",")])
-        template_info = "<%s>" % template_info
+        template_info = "<%s>%s" % (template_info, other_stuff)
     if not namespace.startswith("pcl"):
         namespace = "pcl::%s" % namespace
 
