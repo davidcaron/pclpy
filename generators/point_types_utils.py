@@ -2,7 +2,8 @@ from collections import defaultdict, deque, namedtuple
 from itertools import product
 from typing import Dict, List
 
-from generators.constants import IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER, EXTERNAL_INHERITANCE
+from generators.constants import IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER, \
+    EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE
 from generators.utils import parentheses_are_balanced, make_namespace_class
 
 from CppHeaderParser import CppClass
@@ -161,23 +162,16 @@ class DependencyTree:
     def leaf_iterator(self):
         stack = list(sorted(self.tree.keys()))  # sort to output same result everytime
         seen = set()
-        other_inheritance = ["svm_parameter", "svm_model"]
         while stack:
             for class_name in stack:
                 inheritance = set(self.tree.get(class_name).keys())
-                # inheritance_base_namespace = set((i[0], "pcl") for i in inheritance)
-                # inheritance_other_namespace = set(
-                # (i[0][i[0].find("::") + 2:], "pcl::" + i[0][:i[0].find("::")]) for i in inheritance)
+                inheritance = set((i[:i.find("<")] if "<" in i else i for i in inheritance))
+                inheritance_current_namespace = set([make_namespace_class(class_name[:class_name.rfind("::")], i)
+                                                 for i in inheritance])
                 is_base_class = not inheritance
-                inheritance_is_seen = not inheritance - seen
-                # inheritance_base_namespace_is_seen = not inheritance_base_namespace - seen
-                # inheritance_other_namespace_is_seen = not inheritance_other_namespace - seen
-                std_inheritance = all(i.startswith("std::") for i in inheritance)
-                boost_inheritance = all(i.startswith("boost::") for i in inheritance)
-                vtk_inheritance = all(i.startswith("vtk") for i in inheritance)
-                is_other_inheritance = all(i in other_inheritance for i in inheritance)
-                if any([is_base_class, inheritance_is_seen,
-                        std_inheritance, boost_inheritance, vtk_inheritance, is_other_inheritance]):
+                inheritance_is_seen = not inheritance - seen or not (inheritance_current_namespace - seen)
+                all_external = all(any(i.startswith(e) for e in EXTERNAL_INHERITANCE) for i in inheritance)
+                if any([is_base_class, inheritance_is_seen, all_external]):
                     yield class_name
                     seen.add(class_name)
                     stack.remove(class_name)
@@ -244,26 +238,26 @@ def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templat
                 template_typenames[s[:s.find("=")].strip()] = val
 
     for inherits in inheritance:
-        if replace_with_templated_typename:
-            inherits = template_typenames.get(inherits, inherits)
-        elif template_typenames.get(inherits):
-            yield (inherits, [])
-            continue
-
-        # deal with templates
         template_types = tuple()
-        if "<" in inherits:
-            template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
-            inherits = inherits[:inherits.find("<")]
+        if any(inherits.startswith(i) for i in SKIPPED_INHERITANCE):
+            continue
+        typename = template_typenames.get(inherits)
+        if typename and replace_with_templated_typename:
+            inherits = template_typenames.get(inherits, inherits)
+        elif not typename:
+            # deal with templates
+            if "<" in inherits:
+                template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
+                inherits = inherits[:inherits.find("<")]
 
-        namespace = class_["namespace"]
-        if any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE):
-            pass
-        elif namespace_by_class_name:
-            namespaces = namespace_by_class_name.get(inherits)
-            if namespaces:
-                namespace = namespaces[0]
+            namespace = class_["namespace"]
+            is_external_inheritance = any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE)
+            if not is_external_inheritance:
+                if namespace_by_class_name:
+                    namespaces = namespace_by_class_name.get(inherits)
+                    if namespaces:
+                        namespace = namespaces[0]
 
-        inherits = make_namespace_class(namespace, inherits)
+                inherits = make_namespace_class(namespace, inherits)
 
         yield (inherits, template_types)

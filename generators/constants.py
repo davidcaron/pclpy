@@ -165,6 +165,11 @@ EXTERNAL_INHERITANCE = [
     "vtk",
 ]
 
+SKIPPED_INHERITANCE = [
+    "boost::",
+    "vtk",
+]
+
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
     "PointInT": "PCL_POINT_TYPES",
