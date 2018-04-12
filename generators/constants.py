@@ -94,6 +94,7 @@ CLASSES_TO_IGNORE = [
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreLeafIterator"),
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
+    ("io", "io_exception.h", "IOException"),  # linking error
 ]
 
 CUSTOM_OVERLOAD_TYPES = {
@@ -210,7 +211,6 @@ HEADERS_TO_SKIP = [
     ("", "for_each_type.h"),
     # ("io", "vtk_lib_io.h"),
     # ("io", "vtk_io.h"),
-    # ("io", "io_exception.h"),
 
     # todo: everything in pcl/ml/dt/ is actually at pcl/ml/
     ("ml", "decision_tree_evaluator.h"),
