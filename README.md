@@ -1,4 +1,4 @@
-# pclpy
+# pclpy: Point Cloud Library for python
 
 Automatically generated python bindings for the Point Cloud Library (PCL)
 using pybind11 and CppHeaderParser.
@@ -10,22 +10,21 @@ Only Windows x64 and python 3.5+ are supported at the moment.
 
 
 ## Why ?
-While Cython is great, binding templated code isn't one of its strenghts.
-The python-pcl bindings contain a lot of repeated code and adding
+The _python-pcl_ bindings contain a lot of repeated code. Maintaining, adding
 features or point types is quite tedious.
+While Cython is great, binding templated code isn't one of its strenghts.
 Also, python-pcl implement only a subset of PCL's classes and point types.
 
-With pybind11, we can use c++ templates directly.
+Using pybind11, we can use c++ templates directly.
 The goal is to wrap as much of the library as possible.
 
 ## Features
-- All point types (compiled with default msvc flags)
-- You can access point cloud attributes as numpy arrays using `cloud.x` or `cloud.xyz`
+- All point types are precompiled (those specified by the default msvc compile flags)
+- You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
 
 ## Example
 
 Here is how you would use the library to process Moving Least Squares.
-
 (see PCL documentation: http://pointclouds.org/documentation/tutorials/resampling.php)
 
 ```python
