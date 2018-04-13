@@ -207,7 +207,6 @@ def flag_overload_and_templated(other_methods: List[Method], needs_overloading: 
 def split_methods_by_type(methods: List[CppMethod],
                           class_variables: List[CppVariable],
                           needs_overloading: List[str]):
-    # methods_with_name = [m for m in methods if m["name"]]  # CppHeaderParser bug
     constructors_methods = [m for m in methods if m["constructor"] and not is_copy_constructor(m)]
     copy_const = [m for m in methods if m["constructor"] and is_copy_constructor(m)]
     destructors = [m for m in methods if m["destructor"]]
@@ -217,10 +216,6 @@ def split_methods_by_type(methods: List[CppMethod],
     identified_methods = chain(constructors_methods, copy_const, destructors, setters, getters)
     identified_methods_line_numbers = set([m["line_number"] for m in identified_methods])
     other_methods = [m for m in methods if m["line_number"] not in identified_methods_line_numbers]
-
-    # others_overloads, others_unique = split_overloads(others_methods, needs_overloading)
-    # others_overloads = [Method(m, is_an_overload=True) for m in others_overloads]
-    # others_unique = [Method(m) for m in others_unique]
 
     others = [Method(m) for m in chain(other_methods, setters, getters)]
 
