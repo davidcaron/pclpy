@@ -8,6 +8,7 @@ from typing import List
 import yaml
 from CppHeaderParser import CppHeaderParser
 
+import generators.dependency_tree
 from generators import point_types_utils
 from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP
@@ -256,7 +257,7 @@ def generate(headers_to_generate) -> OrderedDict:
     classes = [c for module, header, path in headers_to_generate
                for c in main_classes[(module, header)]]
 
-    dependency_tree = point_types_utils.DependencyTree(classes)
+    dependency_tree = generators.dependency_tree.DependencyTree(classes)
 
     point_types = dependency_tree.get_point_types_with_dependencies(classes_point_types)
 

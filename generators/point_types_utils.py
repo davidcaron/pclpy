@@ -1,12 +1,9 @@
-from collections import defaultdict, deque, namedtuple
 from itertools import product
-from typing import Dict, List
+from functools import partial
+from typing import List
 
-from generators.constants import IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER, \
-    EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
+from generators.constants import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
 from generators.utils import parentheses_are_balanced, make_namespace_class
-
-from CppHeaderParser import CppClass
 
 PCL_POINT_TYPES = {
     "PCL_POINT_TYPES": [
@@ -127,92 +124,6 @@ def unpack_point_types(types_info: List):
     return point_types
 
 
-class DependencyTree:
-    def __init__(self, classes: List[CppClass]):
-        self.namespace_by_class_name = defaultdict(list)
-        for c in classes:
-            self.namespace_by_class_name[c["name"]].append(c["namespace"])
-
-        self.tree = {}
-        for c in classes:
-            class_name = make_namespace_class(c["namespace"], c["name"])
-            inheritance = dict(clean_inheritance(c, self.namespace_by_class_name))
-            self.tree[class_name] = inheritance
-
-        self.n_template_point_types = {k: len(v) for inheritance in self.tree.values() for k, v in inheritance.items()}
-
-    def get_class_namespace(self, class_name):
-        assert "::" in class_name
-        return class_name[class_name.rfind("::"):]
-
-    def breadth_first_iterator(self, start_class=None):
-        all_inheritances = [make_namespace_class(self.get_class_namespace(class_), i)
-                            for class_, inheritance in self.tree.items()
-                            for i in inheritance]
-        if start_class is None:
-            queue = deque(elem for elem in self.tree if elem not in all_inheritances)
-        else:
-            queue = deque([start_class])
-        while queue:
-            class_ = queue.popleft()
-            yield class_
-            for inherits in self.tree.get(class_, []):
-                queue.append(inherits)
-
-    def leaf_iterator(self):
-        stack = list(sorted(self.tree.keys()))  # sort to output same result everytime
-        seen = set()
-        while stack:
-            for class_name in stack:
-                inheritance = set(self.tree.get(class_name).keys())
-                inheritance = set((i[:i.find("<")] if "<" in i else i for i in inheritance))
-                inheritance_current_namespace = set([make_namespace_class(class_name[:class_name.rfind("::")], i)
-                                                     for i in inheritance])
-                is_base_class = not inheritance
-                inheritance_is_seen = not inheritance - seen or not (inheritance_current_namespace - seen)
-                all_external = all(any(i.startswith(e) for e in EXTERNAL_INHERITANCE) for i in inheritance)
-                if any([is_base_class, inheritance_is_seen, all_external]):
-                    yield class_name
-                    seen.add(class_name)
-                    stack.remove(class_name)
-                    break
-            else:
-                raise ValueError("Couldn't find base classes for: %s" % stack)
-
-    def split_namespace_class(self, class_):
-        return class_[:class_.rfind("::")], class_[class_.rfind("::") + 2:]
-
-    def get_point_types_with_dependencies(self, classes_point_types):
-        types = defaultdict(list)
-        for class_ in self.breadth_first_iterator():
-            namespace, class_name = self.split_namespace_class(class_)
-            point_types_from_yml = classes_point_types.get(class_name)
-            if point_types_from_yml:
-                point_types = unpack_point_types(point_types_from_yml)
-                n_point_types = len(point_types[0])
-                types[class_name] += point_types
-                for base_class_ in self.breadth_first_iterator(class_):
-                    _, base_class_name = self.split_namespace_class(base_class_)
-                    if base_class_name == class_name or base_class_name in IGNORE_INHERITED_INSTANTIATIONS:
-                        continue
-                    n_point_types_base = self.n_template_point_types[base_class_]
-                    if n_point_types_base != n_point_types:
-                        types_filter = INHERITED_TEMPLATED_TYPES_FILTER.get(base_class_)
-                        if not types_filter:  # todo: clean this
-                            types_filter = INHERITED_TEMPLATED_TYPES_FILTER.get(base_class_name)
-                        if types_filter:
-                            filtered = types_filter
-                            types[base_class_name] += [tuple(t for i, t in enumerate(types_) if i in filtered) for
-                                                       types_ in
-                                                       point_types]
-                        # BaseClass<PointInT> CurrentClass<PointInT, PointOutT>
-                        # todo: Here I am hoping this inheritance is always ordered from the first point type
-                        types[base_class_name] += [types_[:n_point_types_base] for types_ in point_types]
-                    else:
-                        types[base_class_name] += point_types
-        return {class_name: list(sorted(set(v))) for class_name, v in types.items()}
-
-
 def fix_templated_inheritance(inherits):
     while True:
         for n, i in enumerate(inherits[:]):
@@ -233,42 +144,80 @@ def get_template_typenames_with_defaults(class_):
         for s in splitted:
             if "=" in s:
                 pos = s.find("=")
-                val = s[pos + 1:].strip()
-                template_typenames[s[:pos].strip()] = val
+                val = s[pos + 1:].strip(", ")
+                template_typenames[s[:pos].strip(", ")] = val
     return template_typenames
 
 
-def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templated_typename=True, keep_templates=False):
+def get_class_namespace(class_name):
+    assert "::" in class_name
+    return class_name[class_name.rfind("::"):]
+
+
+def split_templated_class_name(class_name):
+    template_types = tuple()
+    pos = class_name.find("<", 1)
+    pos_end = class_name.rfind(">")
+    is_templated = pos > 0
+    end_pos_basename = pos if is_templated else None
+    class_base_name = class_name[:end_pos_basename]
+    after_template = class_name[pos_end + 1:] if is_templated else ""
+    if is_templated:
+        template_types = tuple([s.strip() for s in class_name[pos + 1:pos_end].split(",")])
+    return class_base_name, template_types, after_template
+
+
+def format_type_with_namespace(type_,
+                               base_namespace,
+                               namespace_by_class_name,
+                               template_typenames_defaults,
+                               replace_with_templated_typename):
+    typename_default = template_typenames_defaults.get(type_)
+    has_default_and_replace = typename_default and replace_with_templated_typename
+
+    if has_default_and_replace:
+        type_ = typename_default
+
+    if not typename_default or has_default_and_replace:
+        if type_ in GLOBAL_PCL_IMPORTS:
+            base_namespace = "pcl"
+        is_external_inheritance = any(type_.startswith(i) for i in EXTERNAL_INHERITANCE)
+        if not is_external_inheritance:
+            namespaces = namespace_by_class_name and namespace_by_class_name.get(type_)
+            if namespaces:
+                base_namespace = namespaces[0]
+            type_ = make_namespace_class(base_namespace, type_)
+
+    return type_
+
+
+def clean_inheritance(class_,
+                      namespace_by_class_name=None,
+                      replace_with_templated_typename=True,
+                      formatted=False):
     inheritance = [i["class"] for i in class_["inherits"]]
     inheritance = fix_templated_inheritance(inheritance)
 
     template_typenames_defaults = get_template_typenames_with_defaults(class_)
 
+    args = {
+        "base_namespace": class_["namespace"],
+        "namespace_by_class_name": namespace_by_class_name,
+        "template_typenames_defaults": template_typenames_defaults,
+        "replace_with_templated_typename": replace_with_templated_typename,
+    }
+    format_namespace = partial(format_type_with_namespace, **args)
+
     for inherits in inheritance:
         if any(inherits.startswith(i) for i in SKIPPED_INHERITANCE):
             continue
-        template_types = tuple()
-        typename_default = template_typenames_defaults.get(inherits)
-        if not typename_default:
-            # deal with templates
-            pos = inherits.find("<", 1)
-            end_pos_basename = pos if pos > 0 else None
-            inherits_no_templates = inherits[:end_pos_basename]
-            if end_pos_basename:
-                template_types = tuple([s.strip() for s in inherits[pos + 1:-1].split(",")])
-                if not keep_templates:
-                    inherits = inherits_no_templates
 
-            namespace = class_["namespace"]
-            if inherits_no_templates in GLOBAL_PCL_IMPORTS:
-                namespace = "pcl"
-            is_external_inheritance = any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE)
-            if not is_external_inheritance:
-                namespaces = namespace_by_class_name and namespace_by_class_name.get(inherits)
-                if namespaces:
-                    namespace = namespaces[0]
-                inherits = make_namespace_class(namespace, inherits)
-        elif replace_with_templated_typename:
-            inherits = template_typenames_defaults.get(inherits, inherits)
+        class_base_name, template_types, after_template = split_templated_class_name(inherits)
 
-        yield (inherits, template_types)
+        class_base_name = format_namespace(class_base_name)
+        template_types = tuple(map(format_namespace, template_types))
+        if formatted:
+            template = ("<%s>" % ", ".join(template_types)) if template_types else ""
+            yield "%s%s%s" % (class_base_name, template, after_template)
+        else:
+            yield (class_base_name, template_types)
