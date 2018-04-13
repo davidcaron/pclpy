@@ -63,9 +63,8 @@ class DependencyTree:
         types = defaultdict(list)
         for class_ in self.breadth_first_iterator():
             namespace, class_name = self.split_namespace_class(class_)
-            point_types_from_yml = classes_point_types.get(class_name)
-            if point_types_from_yml:
-                point_types = unpack_point_types(point_types_from_yml)
+            point_types = classes_point_types.get(class_name)
+            if point_types:
                 n_point_types = len(point_types[0])
                 types[class_name] += point_types
                 for base_class_ in self.breadth_first_iterator(class_):

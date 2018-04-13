@@ -2,6 +2,8 @@ from itertools import product
 from functools import partial
 from typing import List, Tuple
 
+import yaml
+
 from generators.constants import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
 from generators.utils import parentheses_are_balanced, make_namespace_class
 
@@ -112,6 +114,13 @@ PCL_POINT_TYPES = {
         "(pcl::tracking::ParticleXYRPY)",
         "(pcl::tracking::ParticleXYRP)"],
 }
+
+
+def unpack_yaml_point_types(path):
+    data = yaml.load(open(path))
+    for k, v in data.items():
+        data[k] = unpack_point_types(v)
+    return data
 
 
 def unpack_point_types(types_info: List):

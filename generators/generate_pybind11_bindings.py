@@ -9,14 +9,14 @@ import yaml
 from CppHeaderParser import CppHeaderParser
 
 import generators.dependency_tree
-from generators import point_types_utils
 from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP
-from generators.definitions.method import split_methods_by_type
 from generators.definitions import method_parameters
+from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
 from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
+from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
     generate_main_loader, explicit_includes, make_namespace_class
 
@@ -234,8 +234,13 @@ def generate(headers_to_generate) -> OrderedDict:
     """
     :return: OrderedDict
     """
-    classes_point_types = yaml.load(open("point_types_generated.yml"))
-    classes_point_types.update(yaml.load(open("point_types_extra.yml")))
+    classes_point_types = unpack_yaml_point_types("point_types_generated.yml")
+    extra_point_types = unpack_yaml_point_types("point_types_extra.yml")
+    for k, v in extra_point_types.items():
+        if k in classes_point_types:
+            classes_point_types[k].append(v)
+        else:
+            classes_point_types[k] = v
     other_types = yaml.load(open("point_types_other.yml"))
 
     import time
