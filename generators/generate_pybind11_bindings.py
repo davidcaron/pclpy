@@ -207,8 +207,8 @@ def get_pure_virtual_methods(class_: CppHeaderParser.CppClass):
     return pure_virtual
 
 
-def flag_instantiatable_methods(dependency_tree, main_classes):
-    # determine if the class can be instanciated
+def flag_instantiatable_class(dependency_tree, main_classes):
+    # determine if the class can be instantiated
     main_classes_by_name_namespace = {make_namespace_class(c["namespace"], c["name"]): c
                                       for classes in main_classes.values() for c in classes}
 
@@ -217,7 +217,7 @@ def flag_instantiatable_methods(dependency_tree, main_classes):
             can_be_instantiated = True
             if class_["abstract"]:
                 can_be_instantiated = False
-            else:  # check for abstract base classes
+            else:  # check for inherited abstract base classes
                 methods = set([m["name"] for access in "private protected public".split()
                                for m in class_["methods"][access]])
                 namespace_class = make_namespace_class(class_["namespace"], class_["name"])
@@ -272,7 +272,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     methods_needs_overloading = check_if_needs_overloading(main_classes)
 
-    flag_instantiatable_methods(dependency_tree, main_classes)
+    flag_instantiatable_class(dependency_tree, main_classes)
 
     # for module, header in headers_to_generate:
     def generate_header(module, header, path, main_classes) -> str:
