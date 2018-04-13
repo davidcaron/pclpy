@@ -20,7 +20,7 @@ class TemplatedClassInstantiations:
                  classes_point_types: Dict,
                  other_types: Dict,
                  ):
-        """
+        """♠
         Generate templated function calls that instantiate pybind11 classes
         Example:
             void defineSuperFunctionClasses(py::module &sub_module) {
@@ -92,8 +92,9 @@ class TemplatedClassInstantiations:
                     for types in types_list:
                         define = 'define{sub}{name}<{types}>({sub_module_name}, "{types_names}")'
                         if add_pcl_prefix:
-                            types = ["pcl::" + t for t in types]
-                        types_str = ", ".join(types)
+                            types_str = ", ".join(["pcl::" + t for t in types])
+                        else:
+                            types_str = ", ".join(types)
                         define = define.format(sub=camelize(self.module),
                                                name=c["name"],
                                                sub_module_name=sub_module_name,
