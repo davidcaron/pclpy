@@ -35,11 +35,16 @@ static py::class_<PointCloud<T>, boost::shared_ptr<PointCloud<T>>>
     return cls;
 }
 
+template <typename T>
+void bindVector(py::module &m, char* suffix) {
+    py::bind_vector<T, boost::shared_ptr<T>>(m, suffix);
+}
+
 void defineVectorClasses(py::module &m) {
     py::module m_vector = m.def_submodule("vector", "Submodule for vectors");
-    py::bind_vector<std::vector<PointIndices>>(m_vector, "PointIndices");
-    py::bind_vector<std::vector<int>>(m_vector, "Int", py::buffer_protocol());
-    py::bind_vector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
+    bindVector<std::vector<PointIndices>>(m_vector, "PointIndices");
+    bindVector<std::vector<int>>(m_vector, "Int");
+    bindVector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
 }
 
 PYBIND11_MODULE(pcl, m) {
@@ -47,9 +52,10 @@ PYBIND11_MODULE(pcl, m) {
 
     defineEigenClasses(m);
 
+    defineVectorClasses(m);
+
     defineClasses(m);
 
-    defineVectorClasses(m);
 
     // PointXYZ
     auto xyz = definePointCloud<PointXYZ>(m, "XYZ");
