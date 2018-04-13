@@ -26,8 +26,8 @@ def test_size_xyz(xyz):
     assert xyz.size() == 10
 
 
-def test_points(xyz):
-    print(xyz.points)
+# def test_points(xyz):
+#     print(xyz.points)
 
 
 #

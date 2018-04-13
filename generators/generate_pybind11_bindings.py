@@ -343,8 +343,12 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         output_path = join(PATH_MODULES, module, header_name + "pp")
         files_to_write[output_path] = text
 
+    # debug: print all default types
+    # default_types_by_namespace = method_parameters.all_default_types_by_namespace
+    # for k, v in default_types_by_namespace.items():
+    #     print(k, v)
+
     # loaders
-    default_types_by_namespace = method_parameters.all_default_types_by_namespace
     loader_modules = defaultdict(list)
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
