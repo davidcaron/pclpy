@@ -38,6 +38,8 @@ def explicit_includes(module, header_name):
         return "#pragma warning(disable : 4267)"
     elif (module, header_name) == ("surface", "concave_hull.h"):
         return "#pragma warning(disable : 4996)"
+    elif (module, header_name) == ("features", "grsd.h"):
+        return "#pragma warning(disable : 4506)"
     return ""
 
 
