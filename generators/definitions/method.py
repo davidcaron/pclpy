@@ -158,8 +158,8 @@ class Method:
         return "<Method %s>" % (self.name,)
 
 
-def flag_templated_methods(other_methods: List[Method]):
-    for method in other_methods:
+def flag_templated_methods(methods: List[Method]):
+    for method in methods:
         method_name = method.cppmethod["name"]
         if "operator" in method_name:
             continue
@@ -190,10 +190,10 @@ def flag_templated_methods(other_methods: List[Method]):
                 method.templated_types[type_name] = types
 
 
-def flag_overloaded_methods(other_methods: List[Method], needs_overloading: List[str] = None):
-    templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
+def flag_overloaded_methods(methods: List[Method], needs_overloading: List[str] = None):
+    templated_method_names = [m.cppmethod["name"] for m in methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)
-    for method in other_methods:
+    for method in methods:
         name_ = method.cppmethod["name"]
         method.is_an_overload = True
         if method.templated_types:
@@ -204,6 +204,19 @@ def flag_overloaded_methods(other_methods: List[Method], needs_overloading: List
             pass
         else:
             method.is_an_overload = False
+
+
+def filter_static_and_non_static_methods(methods: List[Method]):
+    static_methods = {m.cppmethod["name"]: m.cppmethod["static"] for m in methods}
+    filtered = []
+    for method in methods:
+        name_ = method.cppmethod["name"]
+        if static_methods[name_]:
+            print("Warning: Overloading a method with both static "
+                  "and instance methods is not supported by pybind11 (%s)" % name_)
+            continue
+        filtered.append(method)
+    return filtered
 
 
 def split_methods_by_type(methods: List[CppMethod],
@@ -223,6 +236,7 @@ def split_methods_by_type(methods: List[CppMethod],
 
     flag_templated_methods(others)
     flag_overloaded_methods(others, needs_overloading)
+    others = filter_static_and_non_static_methods(others)
 
     variables = list(map(Variable, class_variables))
     constructors = list(map(Constructor, constructors_methods))
