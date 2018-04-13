@@ -150,6 +150,7 @@ GLOBAL_PCL_IMPORTS = [
     "ModelCoefficients",
     "PointWithRange",
     "PCLBase",
+    "PlanarRegion",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
