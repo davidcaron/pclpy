@@ -4,7 +4,7 @@ Automatically generated python bindings for the Point Cloud Library (PCL)
 using pybind11 and CppHeaderParser.
 
 __The library is in active development, do not
-use in production and the api is likely to change.__
+use in production. The api is likely to change.__
 
 Only Windows x64 and python 3.5+ are supported at the moment.
 
