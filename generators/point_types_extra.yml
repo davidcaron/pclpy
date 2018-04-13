@@ -23,5 +23,5 @@ PointCloudColorHandlerRandom:
     PointXYZRGBA, PointNormal, PointXYZRGBNormal, PointXYZRGBL,
     PointWithRange]
 FeatureWithLocalReferenceFrames:
-  - - [PointXYZ, PointXYZI, PointXYZRGBA]
+  - - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
     - [ReferenceFrame]
