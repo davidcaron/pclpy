@@ -167,7 +167,7 @@ class DependencyTree:
                 inheritance = set(self.tree.get(class_name).keys())
                 inheritance = set((i[:i.find("<")] if "<" in i else i for i in inheritance))
                 inheritance_current_namespace = set([make_namespace_class(class_name[:class_name.rfind("::")], i)
-                                                 for i in inheritance])
+                                                     for i in inheritance])
                 is_base_class = not inheritance
                 inheritance_is_seen = not inheritance - seen or not (inheritance_current_namespace - seen)
                 all_external = all(any(i.startswith(e) for e in EXTERNAL_INHERITANCE) for i in inheritance)
@@ -224,31 +224,38 @@ def fix_templated_inheritance(inherits):
     return inherits
 
 
+def get_template_typenames_with_defaults(class_):
+    template = class_.get("template", "").replace("\n", "")
+    template_typenames = {}
+    if template:
+        template_string = template[template.find("<") + 1: template.rfind(">") - 1]
+        splitted = template_string.split("typename")
+        for s in splitted:
+            if "=" in s:
+                pos = s.find("=")
+                val = s[pos + 1:].strip()
+                template_typenames[s[:pos].strip()] = val
+    return template_typenames
+
+
 def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templated_typename=True, keep_templates=False):
     inheritance = [i["class"] for i in class_["inherits"]]
     inheritance = fix_templated_inheritance(inheritance)
 
-    template = class_.get("template", "").replace("\n", "")
-    template_typenames = {}
-    if template:
-        splitted = template[template.find("<") + 1: template.rfind(">") - 1].split("typename")
-        for s in splitted:
-            if "=" in s:
-                val = s[s.find("=") + 1:].strip()
-                template_typenames[s[:s.find("=")].strip()] = val
+    template_typenames_defaults = get_template_typenames_with_defaults(class_)
 
     for inherits in inheritance:
-        template_types = tuple()
         if any(inherits.startswith(i) for i in SKIPPED_INHERITANCE):
             continue
-        typename = template_typenames.get(inherits)
-        if typename and replace_with_templated_typename:
-            inherits = template_typenames.get(inherits, inherits)
-        elif not typename:
+        template_types = tuple()
+        typename_default = template_typenames_defaults.get(inherits)
+        if not typename_default:
             # deal with templates
-            inherits_no_templates = inherits[:inherits.find("<")] if "<" in inherits else inherits
-            if "<" in inherits:
-                template_types = tuple([s.strip() for s in inherits[inherits.find("<") + 1:-1].split(",")])
+            pos = inherits.find("<", 1)
+            end_pos_basename = pos if pos > 0 else None
+            inherits_no_templates = inherits[:end_pos_basename]
+            if end_pos_basename:
+                template_types = tuple([s.strip() for s in inherits[pos + 1:-1].split(",")])
                 if not keep_templates:
                     inherits = inherits_no_templates
 
@@ -257,11 +264,11 @@ def clean_inheritance(class_, namespace_by_class_name=None, replace_with_templat
                 namespace = "pcl"
             is_external_inheritance = any(inherits.startswith(i) for i in EXTERNAL_INHERITANCE)
             if not is_external_inheritance:
-                if namespace_by_class_name:
-                    namespaces = namespace_by_class_name.get(inherits)
-                    if namespaces:
-                        namespace = namespaces[0]
-
+                namespaces = namespace_by_class_name and namespace_by_class_name.get(inherits)
+                if namespaces:
+                    namespace = namespaces[0]
                 inherits = make_namespace_class(namespace, inherits)
+        elif replace_with_templated_typename:
+            inherits = template_typenames_defaults.get(inherits, inherits)
 
         yield (inherits, template_types)

@@ -42,10 +42,10 @@ class ClassDefinition:
         self.class_ = class_
         self.inherits = None
         if class_["inherits"]:
-            self.inherits = ", ".join(
-                (e[0] for e in clean_inheritance(self.class_,
-                                                 replace_with_templated_typename=False,
-                                                 keep_templates=True)))
+            inherits_list = clean_inheritance(self.class_,
+                                              replace_with_templated_typename=False,
+                                              keep_templates=True)
+            self.inherits = ", ".join((e[0] for e in inherits_list))
         self.class_name = class_["name"]
         self.constructors = constructors
         self.variables = variables
