@@ -7,7 +7,6 @@
 #include <pybind11/stl.h>
 
 #include <boost/shared_ptr.hpp>
-#include <Eigen/StdVector>
 
 #include <iostream>
 #include <pcl/point_representation.h>
@@ -15,6 +14,7 @@
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
 #include "make_opaque_vectors.hpp"  // must be first for PYBIND11_MAKE_OPAQUE to work
+#include "eigen_bind.hpp"
 #include "generated_modules/__main_loader.hpp"
 #include "point_cloud_buffers.hpp"
 #include "point_cloud_from_array.hpp"
@@ -44,6 +44,8 @@ void defineVectorClasses(py::module &m) {
 
 PYBIND11_MODULE(pcl, m) {
     m.doc() = "PCL python bindings";
+
+    defineEigenClasses(m);
 
     defineClasses(m);
 
