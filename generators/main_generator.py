@@ -209,7 +209,7 @@ def get_pure_virtual_methods(class_: CppHeaderParser.CppClass):
 
 def flag_instantiatable_methods(dependency_tree, main_classes):
     # determine if the class can be instanciated
-    main_classes_by_name_namespace = {(c["name"], c["namespace"]): c
+    main_classes_by_name_namespace = {make_namespace_class(c["namespace"], c["name"]): c
                                       for classes in main_classes.values() for c in classes}
 
     for module, header_name in main_classes:
@@ -220,7 +220,8 @@ def flag_instantiatable_methods(dependency_tree, main_classes):
             else:  # check for abstract base classes
                 methods = set([m["name"] for access in "private protected public".split()
                                for m in class_["methods"][access]])
-                for base_name_nsp in dependency_tree.breadth_first_iterator((class_["name"], class_["namespace"])):
+                namespace_class = make_namespace_class(class_["namespace"], class_["name"])
+                for base_name_nsp in dependency_tree.breadth_first_iterator(namespace_class):
                     base_class = main_classes_by_name_namespace.get(base_name_nsp)
                     if base_class and base_class["abstract"]:
                         base_pure_virtual_methods = set(get_pure_virtual_methods(base_class))
