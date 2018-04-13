@@ -25,7 +25,7 @@ The goal is to wrap as much of the library as possible.
 ## Example
 
 Here is how you would use the library to process Moving Least Squares.
-(see PCL documentation: http://pointclouds.org/documentation/tutorials/resampling.php)
+See the PCL documentation: http://pointclouds.org/documentation/tutorials/resampling.php
 
 ```python
 import pclpy
