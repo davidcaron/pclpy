@@ -120,15 +120,15 @@ class UploadCommand(Command):
         except OSError:
             pass
 
-        self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        self.status('Building Source and Wheel distribution…')
+        os.system('{0} setup.py bdist_wheel'.format(sys.executable))
 
         self.status('Uploading the package to PyPi via Twine…')
-        os.system('twine upload dist/*')
+        os.system('twine upload --repository-url https://test.pypi.org/legacy/ dist/*')
 
         self.status('Pushing git tags…')
         os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
+        os.system('git push --follow-tags')
 
         sys.exit()
 
