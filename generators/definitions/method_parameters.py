@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import Dict, Set
 
+from generators.constants import GLOBAL_PCL_IMPORTS
+
 all_default_types_by_namespace = defaultdict(set)
 all_return_values = defaultdict(set)
 
@@ -9,6 +11,8 @@ def parameter_default_value(param):
     val = param.get("defaultValue", "")
     if val:
         namespace = param["method"]["namespace"]
+        if any(val.startswith(g) for g in GLOBAL_PCL_IMPORTS):
+            val = "pcl::" + val
         all_default_types_by_namespace[namespace].add(param["raw_type"])
         # fix for exponent and float values parsed with added spaces
         val = "=" + val.replace(" ", "")

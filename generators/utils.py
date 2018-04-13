@@ -42,6 +42,8 @@ def explicit_includes(module, header_name):
 
 
 def make_namespace_class(namespace, class_name):
+    while namespace.endswith(":"):
+        namespace = namespace[:-1]
     class_name = class_name.strip()
     template_info = ""
     if "<" in class_name:

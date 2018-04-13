@@ -72,16 +72,20 @@ KEEP_DISAMIGUATION_TYPES_STARTSWITH = [
     "boost::filesystem",
     "boost::uint64_t",
     "uint8_t",
+    "unsigned",
     "uint16_t",
     "uint32_t",
     "uint64_t",
+    "int",
     "int8_t",
     "int16_t",
     "int32_t",
     "int64_t",
     "bool",
+    "char",
     "float",
     "double",
+    "size_t",
 ]
 
 # explicitely excluded classes
@@ -143,6 +147,7 @@ CUSTOM_OVERLOAD_TYPES = {
     ("DisparityMapConverter", "PointCloud"): "pcl::PointCloud<PointT>",
 }
 
+# types that are explicitely considered as part of the "pcl" namespace
 GLOBAL_PCL_IMPORTS = [
     "IndicesPtr",
     "IndicesConstPtr",
@@ -151,6 +156,7 @@ GLOBAL_PCL_IMPORTS = [
     "PointWithRange",
     "PCLBase",
     "PlanarRegion",
+    "PointXYZ",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
