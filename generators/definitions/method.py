@@ -158,7 +158,7 @@ class Method:
         return "<Method %s>" % (self.name,)
 
 
-def flag_overload_and_templated(other_methods: List[Method], needs_overloading: List[str] = None):
+def flag_templated_methods(other_methods: List[Method]):
     for method in other_methods:
         method_name = method.cppmethod["name"]
         if "operator" in method_name:
@@ -189,6 +189,8 @@ def flag_overload_and_templated(other_methods: List[Method], needs_overloading: 
                     raise ValueError
                 method.templated_types[type_name] = types
 
+
+def flag_overload_methods(other_methods: List[Method], needs_overloading: List[str] = None):
     templated_method_names = [m.cppmethod["name"] for m in other_methods if m.templated_types]
     # flag methods that need to be called with a lambda (same name and same parameters as a templated method)
     for method in other_methods:
@@ -219,7 +221,8 @@ def split_methods_by_type(methods: List[CppMethod],
 
     others = [Method(m) for m in chain(other_methods, setters, getters)]
 
-    flag_overload_and_templated(others, needs_overloading)
+    flag_templated_methods(others)
+    flag_overload_methods(others, needs_overloading)
 
     variables = list(map(Variable, class_variables))
     constructors = list(map(Constructor, constructors_methods))
