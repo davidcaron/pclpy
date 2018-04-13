@@ -271,6 +271,8 @@ HEADERS_TO_SKIP = [
     ("common", "gaussian.h"),  # templated method?
 
     ("recognition", "trimmed_icp.h"),  # depends on registration
+    ("recognition", "obj_rec_ransac.h"),  # depends on trimmed_icp, which depends on registration
+
     ("keypoints", "smoothed_surfaces_keypoint.h"),
     # Inherits from Keypoint <PointT, PointT> (which seems weird to me...)
 
