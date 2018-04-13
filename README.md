@@ -45,7 +45,7 @@ output = pcl.PointCloudPointNormal()
 mls.process(output)
 ```
 
-It's quite similar to the C++ version:
+You can see it's quite similar to the C++ version:
 
 ``` c++
 // C++ version
@@ -100,13 +100,14 @@ mls.process (output);
     - Install pybind11 from github (2.3dev version) it includes a necessary bug fix
     - Install CppHeaderParser from https://github.com/davidcaron/CppHeaderParser (specific bug fixes)
 - Generate modules using `generate_pybind11_bindings.py`
-- Must be built with x64 version of cl.exe (see workaround in setup.py)
+- There is a missing file from the PCL release that you should get from the github repo: 2d/impl/kernel.hpp
+- Must be built with x64 version of cl.exe because of the large memory usage (see workaround in setup.py)
+- python setup.py install
 - Useful setup.py arguments:
     - --msvc-mp-build should enable a multiprocessed build
     - --msvc-no-code-link makes linking much faster (do not use for releases, see setup.py description)
     - --use-clcache to cache msvc builds using clcache (must be installed)
     - --debug to build in debug mode
-- There is a missing file from the PCL release that you should get from the github repo: 2d/impl/kernel.hpp
 
 ## Roadmap
 - Wrap as much of PCL as reasonably possible
