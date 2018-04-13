@@ -1,6 +1,6 @@
 from itertools import product
 from functools import partial
-from typing import List
+from typing import List, Tuple
 
 from generators.constants import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
 from generators.utils import parentheses_are_balanced, make_namespace_class
@@ -154,7 +154,12 @@ def get_class_namespace(class_name):
     return class_name[class_name.rfind("::"):]
 
 
-def split_templated_class_name(class_name):
+def split_templated_class_name(class_name: str) -> Tuple:
+    """
+    Example:
+        "OctreePointCloud<PointT, LeafContainerT, BranchContainerT>::Ptr"
+        ("OctreePointCloud", (PointT, LeafContainerT, BranchContainerT), "::Ptr")
+    """
     template_types = tuple()
     pos = class_name.find("<", 1)
     pos_end = class_name.rfind(">")
