@@ -34,13 +34,13 @@ from pclpy import pcl
 
 point_cloud = pclpy.io.read_las(test_data("street.las"))
 mls = pcl.surface.MovingLeastSquaresOMP.PointXYZRGBA_PointNormal()
-mls.search_radius = 0.05
-mls.polynomial_fit = False
-mls.set_number_of_threads(12)
-mls.input_cloud = input
+mls.setSearchRadius(0.05)
+mls.setPolynomialFit(False)
+mls.setNumberOfThreads(12)
+mls.setInputCloud(point_cloud)
 tree = pcl.search.KdTree.PointXYZRGBA()
-mls.search_method = tree
-mls.set_compute_normals(True)
+mls.setSearchMethod(tree)
+mls.setComputeNormals(True)
 output = pcl.PointCloudPointNormal()
 mls.process(output)
 ```
