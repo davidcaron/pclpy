@@ -207,11 +207,14 @@ def flag_overloaded_methods(methods: List[Method], needs_overloading: List[str] 
 
 
 def filter_static_and_non_static_methods(methods: List[Method]):
-    static_methods = {m.cppmethod["name"]: m.cppmethod["static"] for m in methods}
+    static = set(m.cppmethod["name"] for m in methods if m.cppmethod["static"])
+    not_static = set(m.cppmethod["name"] for m in methods if not m.cppmethod["static"])
+    both = static & not_static
     filtered = []
     for method in methods:
         name_ = method.cppmethod["name"]
-        if static_methods[name_]:
+        is_static = method.cppmethod["static"]
+        if name_ in both and is_static:
             print("Warning: Overloading a method with both static "
                   "and instance methods is not supported by pybind11 (%s)" % name_)
             continue
