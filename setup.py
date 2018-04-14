@@ -115,18 +115,18 @@ class UploadCommand(Command):
 
     def run(self):
         try:
-            self.status('Removing previous builds…')
+            self.status('Removing previous builds')
             rmtree(join(HERE, 'dist'))
         except OSError:
             pass
 
-        self.status('Building Source and Wheel distribution…')
+        self.status('Building Source and Wheel distribution')
         os.system('{0} setup.py bdist_wheel'.format(sys.executable))
 
-        self.status('Uploading the package to PyPi via Twine…')
+        self.status('Uploading the package to PyPi via Twine')
         os.system('twine upload --repository-url https://test.pypi.org/legacy/ dist/*')
 
-        self.status('Pushing git tags…')
+        self.status('Pushing git tags')
         os.system('git tag v{0}'.format(about['__version__']))
         os.system('git push --follow-tags')
 
