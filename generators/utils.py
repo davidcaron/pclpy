@@ -5,7 +5,7 @@ from typing import List
 
 from inflection import camelize
 
-from generators.constants import PCL_BASE, common_includes, INDENT, TEMPLATED_METHOD_TYPES
+from generators.config import PCL_BASE, common_includes, INDENT, TEMPLATED_METHOD_TYPES
 
 
 def make_header_include_name(module, header_name, path=None, path_only=False):

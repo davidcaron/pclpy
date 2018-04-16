@@ -9,7 +9,7 @@ import yaml
 from CppHeaderParser import CppHeaderParser
 
 import generators.dependency_tree
-from generators.constants import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
+from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP
 from generators.definitions import method_parameters
 from generators.definitions.method import split_methods_by_type

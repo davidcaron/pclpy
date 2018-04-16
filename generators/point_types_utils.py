@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import yaml
 
-from generators.constants import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
+from generators.config import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
 from generators.utils import parentheses_are_balanced, make_namespace_class
 
 PCL_POINT_TYPES = {

@@ -4,7 +4,7 @@ import os
 
 from inflection import camelize
 
-from generators.constants import PATH_MODULES, common_includes, INDENT
+from generators.config import PATH_MODULES, common_includes, INDENT
 from generators.utils import function_definition_name
 
 

@@ -9,7 +9,7 @@ from generators.definitions.enum import Enum
 from generators.definitions.method import Method, filter_template_types
 from generators.definitions.variable import Variable
 from generators.definitions.property import Property
-from generators.constants import INDENT, EXTERNAL_INHERITANCE
+from generators.config import INDENT, EXTERNAL_INHERITANCE
 from generators.definitions.method import filter_template_types
 from generators.point_types_utils import clean_inheritance
 from generators.utils import make_namespace_class

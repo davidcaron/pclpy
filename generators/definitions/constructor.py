@@ -1,6 +1,6 @@
 from CppHeaderParser import CppMethod
 
-from generators.constants import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
+from generators.config import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
 from generators.utils import make_namespace_class
 
 

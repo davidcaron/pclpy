@@ -3,7 +3,7 @@ from typing import List
 
 from CppHeaderParser import CppClass
 
-from generators.constants import EXTERNAL_INHERITANCE, IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER
+from generators.config import EXTERNAL_INHERITANCE, IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER
 from generators.point_types_utils import clean_inheritance, unpack_point_types, get_class_namespace
 from generators.utils import make_namespace_class
 

@@ -12,4 +12,4 @@
 - PCL Exceptions
 - Functions taking a function pointer or a boost::function as argument
 - opennurbs
-- Others: see section "what to skip" in constants.py
+- Others: see section "what to skip" in config.py

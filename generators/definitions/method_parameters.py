@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Dict, Set
 
-from generators.constants import GLOBAL_PCL_IMPORTS
+from generators.config import GLOBAL_PCL_IMPORTS
 
 all_default_types_by_namespace = defaultdict(set)
 all_return_values = defaultdict(set)

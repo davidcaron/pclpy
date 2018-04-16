@@ -1,4 +1,4 @@
-from generators.constants import INDENT
+from generators.config import INDENT
 
 from CppHeaderParser import CppVariable
 
