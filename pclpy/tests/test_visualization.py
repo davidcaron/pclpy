@@ -34,6 +34,5 @@ def test_pcl_visualizer_simple():
 
 
 def test_view_multiple():
-    c1 = pclpy.io.read_las(test_data("street.las"))
-    c2 = pclpy.io.read_las(test_data("street_height_ramp.las"))
-    pclpy.view.vtk.view_multiple((c1, c2))
+    clouds = [pclpy.io.read_las(test_data("street_min_cut%s.las" % n)) for n in range(4)]
+    pclpy.view.vtk.view_multiple(clouds)

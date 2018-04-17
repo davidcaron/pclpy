@@ -14,8 +14,8 @@ def main():
     headers = [
         ("", "point_types.h", ""),
     ]
-    modules = ["io"]
-    # headers = get_headers(modules)
+    modules = ["geometry", "segmentation", "visualization", "features"]
+    headers = get_headers(modules)
 
     ensure_required(headers)
     generated_headers = generate(headers)
