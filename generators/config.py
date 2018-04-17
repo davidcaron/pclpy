@@ -196,6 +196,7 @@ TEMPLATED_METHOD_TYPES = {
     "GradientT": ["pcl::IntensityGradient"],
     "P1": "PCL_XYZ_POINT_TYPES",
     "P2": "PCL_XYZ_POINT_TYPES",
+    "FeatureT": "PCL_FEATURE_POINT_TYPES",
 }
 
 pcl_visualizer_xyz = ["pcl::PointSurfel", "pcl::PointXYZ", "pcl::PointXYZL", "pcl::PointXYZI", "pcl::PointXYZRGB",
