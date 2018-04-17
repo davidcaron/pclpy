@@ -28,7 +28,7 @@ template <typename T>
 static py::class_<PointCloud<T>, boost::shared_ptr<PointCloud<T>>>
                     definePointCloud(py::module & m, std::string const & suffix) {
     using Class = PointCloud<T>;
-    py::class_<Class, boost::shared_ptr<Class>> cls(m, ("PointCloud" + suffix).c_str());
+    py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
     cls.def(py::init<>());
     cls.def("size", &Class::size);
     cls.def_readwrite("points", &Class::points);
@@ -56,34 +56,35 @@ PYBIND11_MODULE(pcl, m) {
 
     defineClasses(m);
 
+    py::module m_point_cloud = m.def_submodule("PointCloud", "Point Cloud submodule");
 
     // PointXYZ
-    auto xyz = definePointCloud<PointXYZ>(m, "XYZ");
+    auto xyz = definePointCloud<PointXYZ>(m_point_cloud, "PointXYZ");
     xyz.def_static("from_array", &fromArray<PointXYZ>);
     defineBuffers<PointXYZ>(xyz);
 
     // PointXYZL
-    auto xyzl = definePointCloud<PointXYZL>(m, "XYZL");
+    auto xyzl = definePointCloud<PointXYZL>(m_point_cloud, "PointXYZL");
     xyzl.def_static("from_array", &fromArray<PointXYZL>);
     defineBuffers<PointXYZL>(xyzl);
 
     // PointXYZI
-    auto xyzi = definePointCloud<PointXYZI>(m, "XYZI");
+    auto xyzi = definePointCloud<PointXYZI>(m_point_cloud, "PointXYZI");
     xyzi.def_static("from_array", &fromArray<PointXYZI>);
     defineBuffers<PointXYZI>(xyzi);
 
     // PointXYZRGBA
-    auto xyzrgba = definePointCloud<PointXYZRGBA>(m, "XYZRGBA");
+    auto xyzrgba = definePointCloud<PointXYZRGBA>(m_point_cloud, "PointXYZRGBA");
     xyzrgba.def_static("from_array", &fromArrayRGB<PointXYZRGBA>);
     defineBuffers<PointXYZRGBA>(xyzrgba);
 
     // PointNormal
-    auto pointNormal = definePointCloud<PointNormal>(m, "PointNormal");
+    auto pointNormal = definePointCloud<PointNormal>(m_point_cloud, "PointNormal");
     pointNormal.def_static("from_array", &fromArray<PointNormal>);
     defineBuffers<PointNormal>(pointNormal);
 
     // Normal
-    auto normal = definePointCloud<Normal>(m, "Normal");
+    auto normal = definePointCloud<Normal>(m_point_cloud, "Normal");
     normal.def_static("from_array", &fromArray<Normal>);
     defineBuffers<Normal>(normal);
 
