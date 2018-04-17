@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import yaml
 
-from generators.config import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS
+from generators.config import EXTERNAL_INHERITANCE, SKIPPED_INHERITANCE, GLOBAL_PCL_IMPORTS, KEEP_ASIS_TYPES_STARTSWITH
 from generators.utils import parentheses_are_balanced, make_namespace_class
 
 PCL_POINT_TYPES = {
@@ -192,9 +192,12 @@ def format_type_with_namespace(type_,
     if has_default_and_replace:
         type_ = typename_default
 
-    if not typename_default or has_default_and_replace:
+    keep_asis = any(type_.startswith(i) for i in KEEP_ASIS_TYPES_STARTSWITH)
+
+    if not keep_asis and not typename_default or has_default_and_replace:
         if type_ in GLOBAL_PCL_IMPORTS:
             base_namespace = "pcl"
+
         is_external_inheritance = any(type_.startswith(i) for i in EXTERNAL_INHERITANCE)
         if not is_external_inheritance:
             namespaces = namespace_by_class_name and namespace_by_class_name.get(type_)
