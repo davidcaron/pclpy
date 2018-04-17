@@ -2,7 +2,7 @@ from generators.generate_pybind11_bindings import generate, write_stuff_if_neede
 
 
 def main():
-    modules = ["ml"]
+    modules = ["registration"]
     headers = get_headers(modules)
     # headers = [
     #     ("", "pcl_base.h", ""),

@@ -74,7 +74,10 @@ class Method:
         ref = " &" if param["reference"] else ""
         custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
         type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
-        if type_.startswith("pcl::"):
+
+        if type_ == "pcl::PCLPointCloud2::" and param["name"].startswith("Const"):
+            type_ = type_ + param["name"]  # fix for CppHeaderParser bug
+        elif type_.startswith("pcl::"):
             type_ = make_namespace_class("pcl", type_)
         elif any(type_.startswith(base) for base in KEEP_ASIS_TYPES_STARTSWITH):
             pass
