@@ -160,7 +160,6 @@ GLOBAL_PCL_IMPORTS = [
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
-    "PointCloud",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
