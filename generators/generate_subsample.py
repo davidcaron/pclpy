@@ -1,13 +1,22 @@
 from generators.generate_pybind11_bindings import generate, write_stuff_if_needed, get_headers
 
 
+def ensure_required(headers):
+    required = [
+        ("", "point_cloud.h", "point_cloud.h"),
+    ]
+    for r in required:
+        if r not in headers:
+            headers.append(r)
+
+
 def main():
-    modules = ["registration"]
-    headers = get_headers(modules)
-    # headers = [
-    #     ("", "pcl_base.h", ""),
-    #     ("features", "feature.h", ""),
-    # ]
+    modules = []
+    # headers = get_headers(modules)
+    headers = [
+        ("", "point_types.h", ""),
+    ]
+    ensure_required(headers)
     generated_headers = generate(headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
