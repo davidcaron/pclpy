@@ -20,14 +20,14 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 """
 
-# -------------
-# what to build
-# -------------
+# ----------------------
+# which modules to build
+# ----------------------
 
 MODULES_TO_BUILD = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kdtree', 'keypoints', 'octree',
                     'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
                     'tracking', 'visualization']
-# almost builds:
+# skipped for now:
 # , 'ml', 'people', 'outofcore' 'registration']
 
 # -----------------------------
