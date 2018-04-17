@@ -87,7 +87,7 @@ mls.process (output);
     - people
     - outofcore
     - registration
-    - every other module not build in the precompiled windows binaries
+    - every other module not built in the precompiled windows binaries
 
 ## Not Implemented
 (see todo.md)
