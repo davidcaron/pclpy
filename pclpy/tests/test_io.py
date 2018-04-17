@@ -14,5 +14,6 @@ def test_data(*args):
 def test_simple_io_pcd():
     pc = pcl.PointCloud.PointXYZ()
     reader = pcl.io.PCDReader()
-    reader.read(test_data("bunny.pcd"), pc, 0)
+    reader.read(test_data("bunny.pcd"), pc)
     assert pc.size() == 397
+

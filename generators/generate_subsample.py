@@ -11,11 +11,12 @@ def ensure_required(headers):
 
 
 def main():
-    modules = []
-    # headers = get_headers(modules)
     headers = [
         ("", "point_types.h", ""),
     ]
+    modules = ["io"]
+    # headers = get_headers(modules)
+
     ensure_required(headers)
     generated_headers = generate(headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
