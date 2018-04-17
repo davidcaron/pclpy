@@ -19,7 +19,7 @@ Using pybind11, we can use c++ templates directly.
 The goal is to wrap as much of the library as possible.
 
 ## Features
-- All point types are precompiled (those specified by the default msvc compile flags)
+- ~~All~~ About half of the point types are implemented (those specified by the default msvc compile flags)
 - You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
 
 ## Example

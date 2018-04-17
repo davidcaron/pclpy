@@ -73,31 +73,19 @@ PYBIND11_MODULE(pcl, m) {
     definePointCloudBuffersRGB<PointXYZRGB>(pc, "PointXYZRGB");
     definePointCloudBuffersRGB<PointXYZRGBL>(pc, "PointXYZRGBL");
     definePointCloudBuffers<PointXYZHSV>(pc, "PointXYZHSV");
-    definePointCloudBuffers<PointNormal>(pc, "PointNormal");
+    definePointCloudBuffers<PointXY>(pc, "PointXY");
+    definePointCloudBuffers<InterestPoint>(pc, "InterestPoint");
+    definePointCloudBuffers<Axis>(pc, "Axis");
     definePointCloudBuffers<Normal>(pc, "Normal");
-
-//    auto xyz = static_cast<py::class_<pcl::PointCloud<pcl::PointXYZ>,boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ>>>>(pc.attr("PointXYZ"));
-//    xyz.def_static("from_array", &fromArray<PointXYZ>);
-//    defineBuffers<PointXYZ>(xyz);
-
-//    auto xyzl = definePointCloud<PointXYZL>(m_point_cloud, "PointXYZL");
-//    xyzl.def_static("from_array", &fromArray<PointXYZL>);
-//    defineBuffers<PointXYZL>(xyzl);
-
-//    auto xyzi = definePointCloud<PointXYZI>(m_point_cloud, "PointXYZI");
-//    xyzi.def_static("from_array", &fromArray<PointXYZI>);
-//    defineBuffers<PointXYZI>(xyzi);
-
-//    auto xyzrgba = definePointCloud<PointXYZRGBA>(m_point_cloud, "PointXYZRGBA");
-//    xyzrgba.def_static("from_array", &fromArrayRGB<PointXYZRGBA>);
-//    defineBuffers<PointXYZRGBA>(xyzrgba);
-
-//    auto pointNormal = definePointCloud<PointNormal>(m_point_cloud, "PointNormal");
-//    pointNormal.def_static("from_array", &fromArray<PointNormal>);
-//    defineBuffers<PointNormal>(pointNormal);
-
-//    auto normal = definePointCloud<Normal>(m_point_cloud, "Normal");
-//    normal.def_static("from_array", &fromArray<Normal>);
-//    defineBuffers<Normal>(normal);
+    definePointCloudBuffers<PointNormal>(pc, "PointNormal");
+    definePointCloudBuffersRGB<PointXYZRGBNormal>(pc, "PointXYZRGBNormal");
+    definePointCloudBuffers<PointXYZINormal>(pc, "PointXYZINormal");
+    definePointCloudBuffers<PointXYZLNormal>(pc, "PointXYZLNormal");
+    definePointCloudBuffers<PointWithRange>(pc, "PointWithRange");
+    definePointCloudBuffers<PointWithViewpoint>(pc, "PointWithViewpoint");
+    definePointCloudBuffers<MomentInvariants>(pc, "MomentInvariants");
+    definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
+    definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
+    definePointCloudBuffers<Boundary>(pc, "Boundary");
 
 }

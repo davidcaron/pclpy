@@ -121,6 +121,39 @@ void defineBuffers<PointXYZHSV>(py::class_<PointCloud<PointXYZHSV>, boost::share
     cls.def_property_readonly("v", &buffer<float, PointXYZHSV, 6, 1>);
 }
 
+
+template<>
+void defineBuffers<PointXY>(py::class_<PointCloud<PointXY>, boost::shared_ptr<PointCloud<PointXY>>> &cls) {
+    cls.def_property_readonly("x", &buffer<float, PointXY, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXY, 1, 1>);
+}
+
+template<>
+void defineBuffers<InterestPoint>(py::class_<PointCloud<InterestPoint>, boost::shared_ptr<PointCloud<InterestPoint>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, InterestPoint, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, InterestPoint, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, InterestPoint, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, InterestPoint, 2, 1>);
+    cls.def_property_readonly("strength", &buffer<float, InterestPoint, 4, 1>);
+}
+
+template<>
+void defineBuffers<Axis>(py::class_<PointCloud<Axis>, boost::shared_ptr<PointCloud<Axis>>> &cls) {
+    cls.def_property_readonly("normals", &buffer<float, Axis, 0, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, Axis, 0, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, Axis, 1, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, Axis, 2, 1>);
+}
+
+template<>
+void defineBuffers<Normal>(py::class_<PointCloud<Normal>, boost::shared_ptr<PointCloud<Normal>>> &cls) {
+    cls.def_property_readonly("normals", &buffer<float, Normal, 0, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, Normal, 0, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, Normal, 1, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, Normal, 2, 1>);
+    cls.def_property_readonly("curvature", &buffer<float, Normal, 4, 1>);
+}
+
 template<>
 void defineBuffers<PointNormal>(py::class_<PointCloud<PointNormal>, boost::shared_ptr<PointCloud<PointNormal>>> &cls) {
     cls.def_property_readonly("xyz", &buffer<float, PointNormal, 0, 3>);
@@ -135,10 +168,86 @@ void defineBuffers<PointNormal>(py::class_<PointCloud<PointNormal>, boost::share
 }
 
 template<>
-void defineBuffers<Normal>(py::class_<PointCloud<Normal>, boost::shared_ptr<PointCloud<Normal>>> &cls) {
-    cls.def_property_readonly("normals", &buffer<float, Normal, 0, 3>);
-    cls.def_property_readonly("normal_x", &buffer<float, Normal, 0, 1>);
-    cls.def_property_readonly("normal_y", &buffer<float, Normal, 1, 1>);
-    cls.def_property_readonly("normal_z", &buffer<float, Normal, 2, 1>);
-    cls.def_property_readonly("curvature", &buffer<float, Normal, 4, 1>);
+void defineBuffers<PointXYZRGBNormal>(py::class_<PointCloud<PointXYZRGBNormal>, boost::shared_ptr<PointCloud<PointXYZRGBNormal>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZRGBNormal, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZRGBNormal, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZRGBNormal, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZRGBNormal, 2, 1>);
+    cls.def_property_readonly("normals", &buffer<float, PointXYZRGBNormal, 4, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, PointXYZRGBNormal, 4, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, PointXYZRGBNormal, 5, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, PointXYZRGBNormal, 6, 1>);
+    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGBNormal, 32, 3>);
+    cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGBNormal, 32, 1>);
+    cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGBNormal, 33, 1>);
+    cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBNormal, 34, 1>);
+    cls.def_property_readonly("a", &buffer<uint8_t, PointXYZRGBNormal, 35, 1>);
+    cls.def_property_readonly("curvature", &buffer<float, PointXYZRGBNormal, 9, 1>);
+}
+
+template<>
+void defineBuffers<PointXYZINormal>(py::class_<PointCloud<PointXYZINormal>, boost::shared_ptr<PointCloud<PointXYZINormal>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZINormal, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZINormal, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZINormal, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZINormal, 2, 1>);
+    cls.def_property_readonly("normals", &buffer<float, PointXYZINormal, 4, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, PointXYZINormal, 4, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, PointXYZINormal, 5, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, PointXYZINormal, 6, 1>);
+    cls.def_property_readonly("intensity", &buffer<float, PointXYZINormal, 8, 1>);
+    cls.def_property_readonly("curvature", &buffer<float, PointXYZINormal, 9, 1>);
+}
+
+template<>
+void defineBuffers<PointXYZLNormal>(py::class_<PointCloud<PointXYZLNormal>, boost::shared_ptr<PointCloud<PointXYZLNormal>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZLNormal, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZLNormal, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZLNormal, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZLNormal, 2, 1>);
+    cls.def_property_readonly("normals", &buffer<float, PointXYZLNormal, 4, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, PointXYZLNormal, 4, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, PointXYZLNormal, 5, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, PointXYZLNormal, 6, 1>);
+    cls.def_property_readonly("label", &buffer<uint32_t, PointXYZLNormal, 8, 1>);
+    cls.def_property_readonly("curvature", &buffer<float, PointXYZLNormal, 9, 1>);
+}
+
+template<>
+void defineBuffers<PointWithRange>(py::class_<PointCloud<PointWithRange>, boost::shared_ptr<PointCloud<PointWithRange>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointWithRange, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointWithRange, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointWithRange, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointWithRange, 2, 1>);
+    cls.def_property_readonly("range", &buffer<float, PointWithRange, 4, 1>);
+}
+
+template<>
+void defineBuffers<PointWithViewpoint>(py::class_<PointCloud<PointWithViewpoint>, boost::shared_ptr<PointCloud<PointWithViewpoint>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointWithViewpoint, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointWithViewpoint, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointWithViewpoint, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointWithViewpoint, 2, 1>);
+    cls.def_property_readonly("vp", &buffer<float, PointWithViewpoint, 4, 3>);
+    cls.def_property_readonly("vp_x", &buffer<float, PointWithViewpoint, 4, 1>);
+    cls.def_property_readonly("vp_y", &buffer<float, PointWithViewpoint, 5, 1>);
+    cls.def_property_readonly("vp_z", &buffer<float, PointWithViewpoint, 6, 1>);
+}
+
+template<>
+void defineBuffers<MomentInvariants>(py::class_<PointCloud<MomentInvariants>, boost::shared_ptr<PointCloud<MomentInvariants>>> &cls) {
+    cls.def_property_readonly("j1", &buffer<float, MomentInvariants, 0, 1>);
+    cls.def_property_readonly("j2", &buffer<float, MomentInvariants, 1, 1>);
+    cls.def_property_readonly("j3", &buffer<float, MomentInvariants, 2, 1>);
+}
+
+template<>
+void defineBuffers<PrincipalRadiiRSD>(py::class_<PointCloud<PrincipalRadiiRSD>, boost::shared_ptr<PointCloud<PrincipalRadiiRSD>>> &cls) {
+    cls.def_property_readonly("r_min", &buffer<float, PrincipalRadiiRSD, 0, 1>);
+    cls.def_property_readonly("r_max", &buffer<float, PrincipalRadiiRSD, 1, 1>);
+}
+
+template<>
+void defineBuffers<Boundary>(py::class_<PointCloud<Boundary>, boost::shared_ptr<PointCloud<Boundary>>> &cls) {
+    cls.def_property_readonly("boundary_point", &buffer<uint8_t, Boundary, 0, 1>);
 }
