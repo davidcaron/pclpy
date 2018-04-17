@@ -64,7 +64,7 @@ INHERITED_TEMPLATED_TYPES_FILTER = {
     ("SHOTColorEstimationOMP", "FeatureWithLocalReferenceFrames"): [0, 3],
 }
 
-KEEP_DISAMIGUATION_TYPES_STARTSWITH = [
+KEEP_ASIS_TYPES_STARTSWITH = [
     "Eigen::",
     "pcl::",
     "std::",

@@ -10,7 +10,7 @@ from typing import List
 
 from CppHeaderParser import CppMethod, CppVariable
 
-from generators.config import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_DISAMIGUATION_TYPES_STARTSWITH, \
+from generators.config import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_ASIS_TYPES_STARTSWITH, \
     EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES, GLOBAL_PCL_IMPORTS
 from generators.definitions.method_parameters import make_pybind_argument_list
 from generators.utils import make_namespace_class
@@ -76,7 +76,7 @@ class Method:
         type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
         if type_.startswith("pcl::"):
             type_ = make_namespace_class("pcl", type_)
-        elif any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
+        elif any(type_.startswith(base) for base in KEEP_ASIS_TYPES_STARTSWITH):
             pass
         elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
             pass

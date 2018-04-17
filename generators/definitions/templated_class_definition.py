@@ -57,7 +57,6 @@ class ClassDefinition:
 
     def to_str(self):
         if self.is_templated:
-            # s = 'py::class_<{name}{inherits}, {ptr}>(m, ("{original_name}_" + suffix).c_str())'
             s = 'py::class_<Class{inherits}, {ptr}> {cls_var}(m, suffix.c_str())'
         else:
             s = 'py::class_<Class{inherits}, {ptr}> {cls_var}(m, "{name}")'
