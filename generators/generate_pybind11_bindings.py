@@ -232,7 +232,8 @@ def flag_instantiatable_class(dependency_tree, main_classes):
 
 
 def get_point_types():
-    classes_point_types = unpack_yaml_point_types("point_types_generated.yml")
+    not_every_point_type = "--not-every-point-type" in sys.argv
+    classes_point_types = unpack_yaml_point_types("point_types_generated.yml", not_every_point_type)
     extra_point_types = unpack_yaml_point_types("point_types_extra.yml")
     for k, v in extra_point_types.items():
         if k in classes_point_types:

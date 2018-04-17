@@ -116,19 +116,28 @@ PCL_POINT_TYPES = {
 }
 
 
-def unpack_yaml_point_types(path):
+def unpack_yaml_point_types(path, not_every_point_type=False):
     data = yaml.load(open(path))
     for k, v in data.items():
-        data[k] = unpack_point_types(v)
+        data[k] = unpack_point_types(v, not_every_point_type)
     return data
 
 
-def unpack_point_types(types_info: List):
+def filter_types(types):
+    rgba = ["PointXYZRGBA"] if "PointXYZRGBA" in types else []
+    return types[:1] + rgba
+
+
+def unpack_point_types(types_info: List, not_every_point_type: bool):
     point_types = []
     for info in types_info:
         if isinstance(info[0], str):
+            if not_every_point_type:
+                info = filter_types(info)
             point_types += [(t,) for t in info]
         else:
+            if not_every_point_type:
+                info = list(map(filter_types, info))
             point_types += list(map(tuple, product(*info)))
     return point_types
 
