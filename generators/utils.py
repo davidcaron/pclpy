@@ -16,33 +16,6 @@ def make_header_include_name(module, header_name, path=None, path_only=False):
         return "#include <pcl/%s>" % name
 
 
-def explicit_includes(module, header_name):
-    if (module, header_name) == ("geometry", "mesh_io.h"):
-        return "#include <pcl/geometry/polygon_mesh.h>\n" \
-               "#include <pcl/geometry/triangle_mesh.h>"
-    elif (module, header_name) == ("segmentation", "plane_refinement_comparator.h"):
-        return "#include <pcl/ModelCoefficients.h>"
-    elif (module, header_name) == ("features", "narf_descriptor.h"):
-        return "#include <pcl/range_image/range_image.h>"
-    elif (module, header_name) == ("features", "from_meshes.h"):
-        return "#include <pcl/Vertices.h>"
-    elif (module, header_name) == ("common", "synchronizer.h"):
-        return '#include <boost/thread/mutex.hpp>'
-    elif (module, header_name) == ("visualization", "pcl_visualizer.h"):
-        return "#pragma warning(disable : 4996)"
-    elif (module, header_name) == ("recognition", "orr_octree.h"):
-        return "#pragma warning(disable : 4800)"
-    elif (module, header_name) == ("recognition", "obj_rec_ransac.h"):
-        return "#pragma warning(disable : 4267)"
-    elif (module, header_name) == ("recognition", "model_library.h"):
-        return "#pragma warning(disable : 4267)"
-    elif (module, header_name) == ("surface", "concave_hull.h"):
-        return "#pragma warning(disable : 4996)"
-    elif (module, header_name) == ("features", "grsd.h"):
-        return "#pragma warning(disable : 4506)"
-    return ""
-
-
 def make_namespace_class(namespace, class_name):
     while namespace.endswith(":"):
         namespace = namespace[:-1]

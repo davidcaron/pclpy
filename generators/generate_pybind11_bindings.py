@@ -10,7 +10,7 @@ from CppHeaderParser import CppHeaderParser
 
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
-    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP
+    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES
 from generators.definitions import method_parameters
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -18,7 +18,7 @@ from generators.definitions.templated_class_definition import ClassDefinition
 from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, explicit_includes, make_namespace_class
+    generate_main_loader, make_namespace_class
 
 
 def filter_methods_for_parser_errors(methods):
@@ -42,7 +42,7 @@ def filter_methods_to_skip(methods):
 
 def gen_class_function_definitions(main_classes, module, header_name, path, needs_overloading: List[str]) -> List[str]:
     text = [common_includes]
-    text.append(explicit_includes(module, header_name))
+    text.append(EXPLICIT_INCLUDES.get((module, header_name), ""))
     text.append(make_header_include_name(module, header_name, path))
     text.append("")
 

@@ -221,6 +221,23 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("PCLVisualizer", "", ("PointT", "PointNT")): (pcl_visualizer_xyz, "PCL_NORMAL_POINT_TYPES"),
 }
 
+EXPLICIT_INCLUDES = {
+    # (module, header_name): "#include...",
+    ("geometry", "mesh_io.h"): ("#include <pcl/geometry/polygon_mesh.h>\n"
+                                "#include <pcl/geometry/triangle_mesh.h>"),
+    ("segmentation", "plane_refinement_comparator.h"): "#include <pcl/ModelCoefficients.h>",
+    ("features", "narf_descriptor.h"): "#include <pcl/range_image/range_image.h>",
+    ("features", "from_meshes.h"): "#include <pcl/Vertices.h>",
+    ("common", "synchronizer.h"): '#include <boost/thread/mutex.hpp>',
+    ("visualization", "pcl_visualizer.h"): "#pragma warning(disable : 4996)",
+    ("recognition", "orr_octree.h"): "#pragma warning(disable : 4800)",
+    ("recognition", "obj_rec_ransac.h"): "#pragma warning(disable : 4267)",
+    ("recognition", "model_library.h"): "#pragma warning(disable : 4267)",
+    ("surface", "concave_hull.h"): "#pragma warning(disable : 4996)",
+    ("features", "grsd.h"): "#pragma warning(disable : 4506)",
+    ("outofcore", "axes.h"): "#include <vtkPointData.h>",
+}
+
 # ------------
 # what to skip
 # ------------
