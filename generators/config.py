@@ -157,6 +157,7 @@ GLOBAL_PCL_IMPORTS = [
     "PCLBase",
     "PlanarRegion",
     "PointXYZ",
+    "SVMData",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [

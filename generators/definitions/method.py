@@ -44,41 +44,9 @@ class Method:
                         type_ = type_.replace(name, template_type)
 
                 if param["unresolved"]:
-                    const = "const " if param["constant"] or "const" in param["type"] else ""
-                    type_ = type_.replace("typename ", "")
-                    if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
-                        const = ""
-                    ref = " &" if param["reference"] else ""
-                    custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
-                    type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
-                    if type_.startswith("pcl::"):
-                        type_ = make_namespace_class("pcl", type_)
-                    elif any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
-                        pass
-                    elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
-                        pass
-                    elif type_no_template in EXPLICIT_IMPORTED_TYPES:
-                        pass
-                    elif type_no_template in GLOBAL_PCL_IMPORTS:
-                        pass
-                    elif custom:
-                        type_ = custom
-                    elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
-                        pass
-                    else:
-                        type_ = "%s::%s" % (class_name, type_)
-
-                    for global_pcl in GLOBAL_PCL_IMPORTS:
-                        pos = type_.find(global_pcl)
-                        if not type_[pos - 5:pos] == "pcl::":
-                            type_ = type_.replace(global_pcl, "pcl::" + global_pcl)
-
-                    type_ = const + type_ + ref
-                    if param.get("pointer"):
-                        type_ = type_.strip() + "*"
-                    type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
-                else:
-                    type_ = param["type"]
+                    type_ = self.clean_unresolved_type(param, type_, class_name)
+                elif type_ in GLOBAL_PCL_IMPORTS:
+                    type_ = make_namespace_class("pcl", type_)
 
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")
@@ -97,6 +65,40 @@ class Method:
                                template=template,
                                const=constant_method)
         return disamb
+
+    def clean_unresolved_type(self, param, type_, class_name):
+        const = "const " if param["constant"] or "const" in param["type"] else ""
+        type_ = type_.replace("typename ", "")
+        if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
+            const = ""
+        ref = " &" if param["reference"] else ""
+        custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
+        type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
+        if type_.startswith("pcl::"):
+            type_ = make_namespace_class("pcl", type_)
+        elif any(type_.startswith(base) for base in KEEP_DISAMIGUATION_TYPES_STARTSWITH):
+            pass
+        elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
+            pass
+        elif type_no_template in EXPLICIT_IMPORTED_TYPES:
+            pass
+        elif type_no_template in GLOBAL_PCL_IMPORTS:
+            pass
+        elif custom:
+            type_ = custom
+        elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
+            pass
+        else:
+            type_ = "%s::%s" % (class_name, type_)
+        for global_pcl in GLOBAL_PCL_IMPORTS:
+            pos = type_.find(global_pcl)
+            if not type_[pos - 5:pos] == "pcl::":
+                type_ = type_.replace(global_pcl, "pcl::" + global_pcl)
+        type_ = const + type_ + ref
+        if param.get("pointer"):
+            type_ = type_.strip() + "*"
+        type_ = type_.replace("constpcl::", "const pcl::")  # parser error for this expression
+        return type_
 
     def static_value(self):
         return "_static" if self.cppmethod["static"] else ""

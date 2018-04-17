@@ -4,10 +4,10 @@ from generators.generate_pybind11_bindings import generate, write_stuff_if_neede
 def main():
     modules = ["ml"]
     headers = get_headers(modules)
-    headers = [
-        ("", "pcl_base.h", ""),
+    # headers = [
+    #     ("", "pcl_base.h", ""),
     #     ("features", "feature.h", ""),
-    ]
+    # ]
     generated_headers = generate(headers)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
