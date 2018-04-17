@@ -11,7 +11,7 @@ import pclpy
 @pytest.fixture
 def xyz():
     a = np.random.ranf(30).reshape(-1, 3)
-    p = pcl.PointCloudXYZ.from_array(a)
+    p = pcl.PointCloud.PointXYZ.from_array(a)
     return p
 
 
@@ -21,6 +21,10 @@ def test_data(*args):
 
 def test_hi():
     assert pcl.__doc__
+
+
+def test_points(xyz):
+    print(xyz.points)
 
 
 def test_size_xyz(xyz):
@@ -97,13 +101,13 @@ def test_initialize_everything():
 #
 #
 # def test_estimate_normals_xyz(xyz):
-#     out = pcl.PointCloudPointNormal()
+#     out = pcl.PointCloud.PointNormal()
 #     pn = xyz.estimate_normals(out, 0.6)
 #     assert pn.size()
 #
 #
 # def test_estimate_normals_xyzrgba(xyzrgba):
-#     out = pcl.PointCloudPointNormal()
+#     out = pcl.PointCloud.PointNormal()
 #     pn = xyzrgba.estimate_normals(out, 0.6)
 #     assert pn.size()
 #
@@ -149,7 +153,7 @@ def test_initialize_everything():
 def test_io_las():
     pc = pclpy.io.read_las(test_data("street.las"))
     assert pc.size() == 1091656
-    assert isinstance(pc, pcl.PointCloudXYZRGBA)
+    assert isinstance(pc, pcl.PointCloud.PointXYZRGBA)
 
 
 def test_make_kdtree():

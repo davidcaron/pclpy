@@ -6,7 +6,7 @@ from pclpy import pcl
 
 def test_buffers_xyz():
     a = np.random.ranf(30).reshape(-1, 3)
-    p = pcl.PointCloudXYZ.from_array(a)
+    p = pcl.PointCloud.PointXYZ.from_array(a)
     assert np.allclose(p.x, a[:, 0])
     assert np.allclose(p.y, a[:, 1])
     assert np.allclose(p.z, a[:, 2])
@@ -15,7 +15,7 @@ def test_buffers_xyz():
 
 def test_buffers_xyzi():
     a = np.random.ranf(40).reshape(-1, 4)
-    p = pcl.PointCloudXYZI.from_array(a)
+    p = pcl.PointCloud.PointXYZI.from_array(a)
     assert np.allclose(p.x, a[:, 0])
     assert np.allclose(p.y, a[:, 1])
     assert np.allclose(p.z, a[:, 2])
@@ -26,7 +26,7 @@ def test_buffers_xyzi():
 def test_buffers_xyzl():
     a = (np.random.ranf(40) * 100).reshape(-1, 4)
     labels = a[:, 3].astype("u4")
-    p = pcl.PointCloudXYZL.from_array(a)
+    p = pcl.PointCloud.PointXYZL.from_array(a)
     assert np.allclose(p.x, a[:, 0])
     assert np.allclose(p.y, a[:, 1])
     assert np.allclose(p.z, a[:, 2])
@@ -36,7 +36,7 @@ def test_buffers_xyzl():
 
 def test_buffers_pointnormal():
     a = np.random.ranf(70).reshape(-1, 7)
-    p = pcl.PointCloudPointNormal.from_array(a)
+    p = pcl.PointCloud.PointNormal.from_array(a)
     assert np.allclose(p.x, a[:, 0])
     assert np.allclose(p.y, a[:, 1])
     assert np.allclose(p.z, a[:, 2])
@@ -50,7 +50,7 @@ def test_buffers_pointnormal():
 
 def test_buffers_normal():
     a = np.random.ranf(40).reshape(-1, 4)
-    p = pcl.PointCloudNormal.from_array(a)
+    p = pcl.PointCloud.Normal.from_array(a)
     assert np.allclose(p.normal_x, a[:, 0])
     assert np.allclose(p.normal_y, a[:, 1])
     assert np.allclose(p.normal_z, a[:, 2])
@@ -61,7 +61,7 @@ def test_buffers_normal():
 def test_buffers_xyzrgba():
     xyz = np.random.ranf(30).reshape(-1, 3)
     rgb = (np.random.ranf(30) * 100).astype("u1").reshape(-1, 3)
-    p = pcl.PointCloudXYZRGBA.from_array(xyz, rgb)
+    p = pcl.PointCloud.PointXYZRGBA.from_array(xyz, rgb)
     assert np.allclose(p.x, xyz[:, 0])
     assert np.allclose(p.y, xyz[:, 1])
     assert np.allclose(p.z, xyz[:, 2])

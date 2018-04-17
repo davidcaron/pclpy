@@ -12,9 +12,9 @@ def read_las(path, read_colors=True):
             rgb = np.array([f.red, f.green, f.blue])
     if read_colors:
         rgb = (rgb / 2 ** 8).astype("u1").T
-        p = pcl.PointCloudXYZRGBA.from_array(xyz, rgb)
+        p = pcl.PointCloud.PointXYZRGBA.from_array(xyz, rgb)
     else:
-        p = pcl.PointCloudXYZ.from_array(xyz)
+        p = pcl.PointCloud.PointXYZ.from_array(xyz)
     return p
 
 

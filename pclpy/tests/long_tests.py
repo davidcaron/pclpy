@@ -25,7 +25,7 @@ def test_mls():
     tree = pcl.search.KdTree.PointXYZRGBA()
     mls.setSearchMethod(tree)
     mls.setComputeNormals(True)
-    output = pcl.PointCloudPointNormal()
+    output = pcl.PointCloud.PointNormal()
     mls.process(output)
     print(dir(mls))
     print(time.time() - t)
@@ -56,7 +56,7 @@ def test_compute_normals():
     norm = pcl.features.NormalEstimationOMP.PointXYZ_Normal()
     norm.input_cloud = input
     norm.radius_search = 0.1
-    output = pcl.PointCloudNormal()
+    output = pcl.PointCloud.Normal()
     norm.compute(output)
     assert np.any(output.normals)
     assert np.any(output.curvature)
@@ -68,18 +68,18 @@ def test_voxel_grid():
     vg = pcl.filters.VoxelGrid.PointXYZRGBA()
     vg.input_cloud = input
     vg.set_leaf_size(0.1, 0.1, 0.1)
-    output = pcl.PointCloudXYZRGBA()
+    output = pcl.PointCloud.PointXYZRGBA()
     vg.filter(output)
     assert output.size() == 33693
 
 # def test_diff_of_normals():
 #     pc = pclpy.io.read_las(test_data("street2.las"), read_colors=True)
-#     n = pcl.PointCloudPointNormal()
+#     n = pcl.PointCloud.PointNormal()
 #     pc.estimate_normals_omp(n, search_radius=0.25)
 #     data = np.array([pc.x, pc.y, pc.z, n.normal_x, n.normal_y, n.normal_z, n.curvature]).T
-#     normals_large2 = pcl.PointCloudPointNormal.from_array(data)
+#     normals_large2 = pcl.PointCloud.PointNormal.from_array(data)
 #     pclpy.view.cloudcompare(normals_large2)
-#     # normals_small = pcl.PointCloudPointNormal()
+#     # normals_small = pcl.PointCloud.PointNormal()
 #     # pc.estimate_normals_omp(normals_small, search_radius=0.15)
 #     # pclpy.view.cloudcompare(normals_small)
 #
@@ -95,7 +95,7 @@ def test_voxel_grid():
 #
 # def test_supervoxel_clustering():
 #     pc = pclpy.io.read_las(test_data("street2.las"), read_colors=True)
-#     normals = pcl.PointCloudNormal()
+#     normals = pcl.PointCloud.Normal()
 #     pc.estimate_normals_omp(normals, search_radius=0.10)
 #     voxel_resolution = 0.03
 #     seed_resolution = 0.1
@@ -135,8 +135,8 @@ def test_voxel_grid():
 #     xyz = np.array([f.x, f.y, f.z], "f").T
 #     rgb = np.array([f.red, f.green, f.blue])
 #     rgb = (rgb / 2 ** 8).astype("u1").T
-#     p = pcl.PointCloudXYZRGBA.from_array(xyz, rgb)
-#     normals = pcl.PointCloudNormal()
+#     p = pcl.PointCloud.PointXYZRGBA.from_array(xyz, rgb)
+#     normals = pcl.PointCloud.Normal()
 #     p.estimate_normals_omp(normals, search_radius=0.25)
 #     clouds = p.region_growing(normals,
 #                               k_neighbours=20,

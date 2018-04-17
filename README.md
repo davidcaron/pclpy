@@ -40,7 +40,7 @@ mls.setNumberOfThreads(12)
 mls.setInputCloud(point_cloud)
 mls.setSearchMethod(tree)
 mls.setComputeNormals(True)
-output = pcl.PointCloudPointNormal()
+output = pcl.PointCloud.PointNormal()
 mls.process(output)
 ```
 
