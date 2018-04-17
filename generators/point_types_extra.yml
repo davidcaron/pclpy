@@ -25,3 +25,12 @@ PointCloudColorHandlerRandom:
 FeatureWithLocalReferenceFrames:
   - - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
     - [ReferenceFrame]
+PointCloud:
+- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
+  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
+  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
+  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
+  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
+  VFHSignature308, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
+  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
+  SHOT1344, PointUV, ReferenceFrame, PointDEM]

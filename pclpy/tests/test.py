@@ -24,7 +24,7 @@ def test_hi():
 
 
 def test_points(xyz):
-    print(xyz.points)
+    print(xyz.points[0].x)
 
 
 def test_size_xyz(xyz):

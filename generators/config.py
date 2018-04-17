@@ -145,6 +145,7 @@ CUSTOM_OVERLOAD_TYPES = {
     ("RandomizedRandomSampleConsensus", "SampleConsensusModelPtr"): "pcl::SampleConsensusModel<PointT>::Ptr",
 
     ("DisparityMapConverter", "PointCloud"): "pcl::PointCloud<PointT>",
+    ("PointCloud", "PointCloud<PointT>"): "pcl::PointCloud<PointT>",
 }
 
 # types that are explicitely considered as part of the "pcl" namespace
@@ -158,6 +159,7 @@ GLOBAL_PCL_IMPORTS = [
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
+    "PointCloud",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
