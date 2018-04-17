@@ -64,7 +64,7 @@ mls.process (output);
 ```
 
 ## Modules
-- These modules build (but are mostly untested)
+- These modules should work, but are untested
     - 2d
     - common
     - geometry
@@ -82,11 +82,12 @@ mls.process (output);
     - surface
     - tracking
     - visualization
-- These should also work soon
+- These modules are skipped for now
     - ml
     - people
     - outofcore
     - registration
+    - every other module not build in the precompiled windows binaries
 
 ## Not Implemented
 (see todo.md)
