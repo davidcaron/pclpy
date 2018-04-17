@@ -2,14 +2,14 @@ from generators.generate_pybind11_bindings import generate, write_stuff_if_neede
 
 
 def main():
-    # modules = ["filters"]
-    # headers = get_headers(modules)
+    modules = ["ml"]
+    headers = get_headers(modules)
     headers = [
         ("", "pcl_base.h", ""),
-        ("features", "feature.h", ""),
+    #     ("features", "feature.h", ""),
     ]
     generated_headers = generate(headers)
-    write_stuff_if_needed(generated_headers, delete_others=False)
+    write_stuff_if_needed(generated_headers, delete_others=True)
 
 
 if __name__ == '__main__':

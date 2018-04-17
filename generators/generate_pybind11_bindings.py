@@ -332,6 +332,13 @@ def write_if_different(files_to_write, delete_others):
             open(path, "w").write(files_to_write[path])
 
 
+def delete_other_dirs(modules):
+    for f in os.listdir(PATH_MODULES):
+        folder = join(PATH_MODULES, f)
+        if f not in modules and os.path.isdir(folder):
+            shutil.rmtree(folder, ignore_errors=True)
+
+
 def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     modules = set(module for module, _ in generated_headers.keys())
 
@@ -359,6 +366,9 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     files_to_write[PATH_LOADER] = generate_main_loader(loader_modules)
 
     write_if_different(files_to_write, delete_others)
+
+    if delete_others:
+        delete_other_dirs(modules)
 
 
 def main():
