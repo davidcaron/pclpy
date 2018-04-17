@@ -7,10 +7,10 @@ from generators.config import INDENT
 from generators.utils import function_definition_name
 from generators.definitions.method import filter_template_types
 
-from CppHeaderParser import CppClass
+from CppHeaderParser import CppClass, CppMethod
 
 
-class TemplatedClassInstantiations:
+class TemplatedInstantiations:
     BASE_SUB_MODULE_NAME = "sub_module"
 
     def __init__(self,
@@ -19,8 +19,9 @@ class TemplatedClassInstantiations:
                  header_name: str,
                  classes_point_types: Dict,
                  other_types: Dict,
+                 functions: List[CppMethod]
                  ):
-        """♠
+        """
         Generate templated function calls that instantiate pybind11 classes
         Example:
             void defineSuperFunctionClasses(py::module &sub_module) {
@@ -35,6 +36,7 @@ class TemplatedClassInstantiations:
         self.header_name = header_name
         self.classes_point_types = classes_point_types
         self.other_types = other_types
+        self.functions = functions
 
     def repr_sub_module(self, class_name: str):
         """
@@ -56,7 +58,9 @@ class TemplatedClassInstantiations:
         a = s.append
         i = INDENT
         a("{ind}void define{sub}{name}Classes(py::module &{base}) {ob}")
-        for line in self.generate_templated_function_calls():
+        for line in self.generate_templated_class_calls():
+            a("{ind}{i}%s;" % line)
+        for line in self.generate_function_calls():
             a("{ind}{i}%s;" % line)
         a("{ind}{cb}")
 
@@ -74,7 +78,13 @@ class TemplatedClassInstantiations:
     def sub_module_name(self, class_name):
         return "%s_%s" % (self.BASE_SUB_MODULE_NAME, class_name)
 
-    def generate_templated_function_calls(self):
+    def generate_function_calls(self):
+        s = []
+        for func in self.functions:
+            pass
+        return s
+
+    def generate_templated_class_calls(self):
         s = []
         for c in self.sorted_classes:
             template_types = []

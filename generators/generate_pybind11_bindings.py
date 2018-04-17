@@ -16,7 +16,7 @@ from generators.definitions import method_parameters
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
-from generators.definitions.templated_class_instantiations import TemplatedClassInstantiations
+from generators.definitions.templated_instantiations import TemplatedInstantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
     generate_main_loader, make_namespace_class
@@ -106,6 +106,12 @@ def get_main_classes(header, module, header_name):
             filtered_main_classes.append(class_)
     filtered_main_classes = sorted(filtered_main_classes, key=lambda c: c["name"])
     return filtered_main_classes
+
+
+def get_functions(header, module, header_name):
+    functions = [f for f in header.functions if f["namespace"] in ("pcl", "pcl::" + module)]
+    functions = sorted(functions, key=lambda f: f["name"])
+    return functions
 
 
 def replace_some_terms(raw_lines):
@@ -254,13 +260,14 @@ def generate(headers_to_generate) -> OrderedDict:
 
     t = time.time()
 
-    main_classes = {}
+    main_classes, functions = {}, {}
 
     for module, header_name, path in headers_to_generate[:]:
         try:
             header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
             header = read_header(header_full_path)
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
+            functions[(module, header_name)] = get_functions(header, module, header_name)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
             headers_to_generate.remove((module, header_name, path))
@@ -290,7 +297,7 @@ def generate(headers_to_generate) -> OrderedDict:
     def generate_header(module, header, path, main_classes) -> str:
         text = gen_class_function_definitions(main_classes, module, header, path,
                                               methods_needs_overloading.get(module))
-        module_def = TemplatedClassInstantiations(main_classes, module, header, point_types, other_types)
+        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types, functions)
         text.append(module_def.to_module_function_definition())
         return "\n".join(text)
 
