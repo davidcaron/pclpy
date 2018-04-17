@@ -4,6 +4,7 @@ import pytest
 
 import pclpy
 from pclpy import pcl
+import pclpy.view.vtk
 
 
 def test_data(*args):
@@ -30,3 +31,9 @@ def test_pcl_visualizer_simple():
 
     # while not viewer.wasStopped():
     #     viewer.spinOnce(10, False)
+
+
+def test_view_multiple():
+    c1 = pclpy.io.read_las(test_data("street.las"))
+    c2 = pclpy.io.read_las(test_data("street_height_ramp.las"))
+    pclpy.view.vtk.view_multiple((c1, c2))
