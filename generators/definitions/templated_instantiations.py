@@ -19,7 +19,7 @@ class TemplatedInstantiations:
                  header_name: str,
                  classes_point_types: Dict,
                  other_types: Dict,
-                 functions: List[CppMethod]
+                 functions: Dict
                  ):
         """
         Generate templated function calls that instantiate pybind11 classes
