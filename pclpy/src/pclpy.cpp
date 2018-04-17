@@ -68,7 +68,11 @@ PYBIND11_MODULE(pcl, m) {
     definePointCloudBuffers<PointXYZ>(pc, "PointXYZ");
     definePointCloudBuffers<PointXYZI>(pc, "PointXYZI");
     definePointCloudBuffers<PointXYZL>(pc, "PointXYZL");
+    definePointCloudBuffers<Label>(pc, "Label");
     definePointCloudBuffersRGB<PointXYZRGBA>(pc, "PointXYZRGBA");
+    definePointCloudBuffersRGB<PointXYZRGB>(pc, "PointXYZRGB");
+    definePointCloudBuffersRGB<PointXYZRGBL>(pc, "PointXYZRGBL");
+    definePointCloudBuffers<PointXYZHSV>(pc, "PointXYZHSV");
     definePointCloudBuffers<PointNormal>(pc, "PointNormal");
     definePointCloudBuffers<Normal>(pc, "Normal");
 

@@ -61,7 +61,12 @@ void defineBuffers<PointXYZL>(py::class_<PointCloud<PointXYZL>, boost::shared_pt
     cls.def_property_readonly("x", &buffer<float, PointXYZL, 0, 1>);
     cls.def_property_readonly("y", &buffer<float, PointXYZL, 1, 1>);
     cls.def_property_readonly("z", &buffer<float, PointXYZL, 2, 1>);
-    cls.def_property_readonly("labels", &buffer<uint32_t, PointXYZL, 4, 1>);
+    cls.def_property_readonly("label", &buffer<uint32_t, PointXYZL, 4, 1>);
+}
+
+template<>
+void defineBuffers<Label>(py::class_<PointCloud<Label>, boost::shared_ptr<PointCloud<Label>>> &cls) {
+    cls.def_property_readonly("label", &buffer<uint32_t, Label, 0, 1>);
 }
 
 template<>
@@ -76,6 +81,46 @@ void defineBuffers<PointXYZRGBA>(py::class_<PointCloud<PointXYZRGBA>, boost::sha
     cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBA, 18, 1>);
     cls.def_property_readonly("a", &buffer<uint8_t, PointXYZRGBA, 19, 1>);
 }
+
+template<>
+void defineBuffers<PointXYZRGB>(py::class_<PointCloud<PointXYZRGB>, boost::shared_ptr<PointCloud<PointXYZRGB>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZRGB, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZRGB, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZRGB, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZRGB, 2, 1>);
+    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGB, 16, 3>);
+    cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGB, 16, 1>);
+    cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGB, 17, 1>);
+    cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGB, 18, 1>);
+    cls.def_property_readonly("a", &buffer<uint8_t, PointXYZRGB, 19, 1>);
+}
+
+template<>
+void defineBuffers<PointXYZRGBL>(py::class_<PointCloud<PointXYZRGBL>, boost::shared_ptr<PointCloud<PointXYZRGBL>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZRGBL, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZRGBL, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZRGBL, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZRGBL, 2, 1>);
+    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGBL, 16, 3>);
+    cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGBL, 16, 1>);
+    cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGBL, 17, 1>);
+    cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBL, 18, 1>);
+    cls.def_property_readonly("a", &buffer<uint8_t, PointXYZRGBL, 19, 1>);
+    cls.def_property_readonly("label", &buffer<uint32_t, PointXYZRGBL, 5, 1>);
+}
+
+template<>
+void defineBuffers<PointXYZHSV>(py::class_<PointCloud<PointXYZHSV>, boost::shared_ptr<PointCloud<PointXYZHSV>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointXYZHSV, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointXYZHSV, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointXYZHSV, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointXYZHSV, 2, 1>);
+    cls.def_property_readonly("hsv", &buffer<float, PointXYZHSV, 4, 3>);
+    cls.def_property_readonly("h", &buffer<float, PointXYZHSV, 4, 1>);
+    cls.def_property_readonly("s", &buffer<float, PointXYZHSV, 5, 1>);
+    cls.def_property_readonly("v", &buffer<float, PointXYZHSV, 6, 1>);
+}
+
 template<>
 void defineBuffers<PointNormal>(py::class_<PointCloud<PointNormal>, boost::shared_ptr<PointCloud<PointNormal>>> &cls) {
     cls.def_property_readonly("xyz", &buffer<float, PointNormal, 0, 3>);
