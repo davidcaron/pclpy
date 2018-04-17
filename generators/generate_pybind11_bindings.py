@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 from collections import Counter
 from collections import defaultdict, OrderedDict
@@ -230,10 +231,7 @@ def flag_instantiatable_class(dependency_tree, main_classes):
             class_["can_be_instantiated"] = can_be_instantiated
 
 
-def generate(headers_to_generate) -> OrderedDict:
-    """
-    :return: OrderedDict
-    """
+def get_point_types():
     classes_point_types = unpack_yaml_point_types("point_types_generated.yml")
     extra_point_types = unpack_yaml_point_types("point_types_extra.yml")
     for k, v in extra_point_types.items():
@@ -242,6 +240,14 @@ def generate(headers_to_generate) -> OrderedDict:
         else:
             classes_point_types[k] = v
     other_types = yaml.load(open("point_types_other.yml"))
+    return classes_point_types, other_types
+
+
+def generate(headers_to_generate) -> OrderedDict:
+    """
+    :return: OrderedDict
+    """
+    classes_point_types, other_types = get_point_types()
 
     import time
 
