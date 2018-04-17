@@ -24,7 +24,9 @@ def test_hi():
 
 
 def test_points(xyz):
-    print(xyz.points[0].x)
+    pt = xyz.points[0]
+    pt.x = 2
+    assert abs(pt.x - 2) < 0.000001
 
 
 def test_size_xyz(xyz):
