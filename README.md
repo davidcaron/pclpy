@@ -21,6 +21,7 @@ The goal is to wrap as much of the library as possible.
 ## Features
 - ~~All~~ About half of the point types are implemented (those specified by the default msvc compile flags)
 - You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
+- boost::shared_ptr is handled by pybind11 so it's completely abstracted at the python level
 
 ## Example
 
