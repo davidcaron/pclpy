@@ -124,11 +124,11 @@ class UploadCommand(Command):
         os.system('{0} setup.py bdist_wheel'.format(sys.executable))
 
         self.status('Uploading the package to PyPi via Twine')
-        os.system('twine upload --repository-url https://test.pypi.org/legacy/ dist/*')
+        os.system('twine upload dist/*')
 
         self.status('Pushing git tags')
         os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --follow-tags')
+        os.system('git push origin v{0}'.format(about['__version__']))
 
         sys.exit()
 
@@ -398,7 +398,7 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=('generators', )),
+    packages=find_packages(exclude=('generators*', )),
     ext_modules=ext_modules,
     install_requires=REQUIRED,
     include_package_data=True,
