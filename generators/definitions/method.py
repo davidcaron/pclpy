@@ -183,7 +183,7 @@ def flag_templated_methods(methods: List[Method]):
         if template:
             class_name = method.cppmethod["parent"]["name"]
             pos = template.find("<")
-            type_names = filter_template_types(template[pos + 1:-1], keep=["typename"])
+            type_names = filter_template_types(template[pos + 1:-1], keep=["typename", "class"])
             for type_name, types in template_types_generator(type_names, class_name, method_name):
                 method.templated_types[type_name] = types
 
@@ -267,13 +267,13 @@ def split_methods_by_type(methods: List[CppMethod],
     return constructors, variables, others
 
 
-def filter_template_types(template_string, keep=None):
+def filter_template_types(template_string, keep=None, keep_all=False):
     if keep is None:
         keep = ["typename", "class", "unsigned"]
     if not template_string:
         return tuple()
     types = template_string.split(", ")
-    types = [s.strip().split(" ")[1] for s in types if any(k in s for k in keep)]  # and "=" not in s]
+    types = [s.strip().split(" ")[1] for s in types if keep_all or any(k in s for k in keep)]
     return tuple(types)
 
 

@@ -49,7 +49,9 @@ def define_functions(cppfunctions: List[CppMethod], module_name, header_name, in
         if template:
             template = template.replace("\n", "")
             pos = template.find("<")
-            template_types = filter_template_types(template[pos + 1:-1], keep=["typename"])
+            template_types = filter_template_types(template[pos + 1:-1], keep=["typename", "class"])
+            all_templated_types = filter_template_types(template[pos + 1:-1], keep_all=True)
+            f.templated_types = OrderedDict(((t, [t]) for t in all_templated_types))
             templated_functions_grouped[template_types].append(f)
         else:
             templated_functions_grouped[tuple()].append(f)
@@ -63,7 +65,10 @@ def define_functions(cppfunctions: List[CppMethod], module_name, header_name, in
         for f in group:
             function_prefix = f.cppmethod["namespace"]
             function_prefix = function_prefix[:-2] if function_prefix.endswith("::") else function_prefix
-            a("{ind}{i}%s;" % f.to_str(function_prefix, "m"))
+            value = f.to_str(function_prefix, "m")
+            if f.templated_types:
+                value = value[0]
+            a("{ind}{i}%s;" % value)
         a("{cb}")
         a("")
 
