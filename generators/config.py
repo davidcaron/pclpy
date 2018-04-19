@@ -273,6 +273,7 @@ HEADERS_TO_SKIP = [
     # ("module", "header")
     ("io", "pxc_grabber.h"),  # deprecated
     ("", "sse.h"),  # don't need that
+    ("", "conversions.h"),  # can't find overloaded functions
     ("ml", "multi_channel_2d_comparison_feature_handler.h"),  # can't find class FeatureHandlerCodeGenerator ??
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
