@@ -161,6 +161,8 @@ GLOBAL_PCL_IMPORTS = [
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
+    "InterpolationType",  # local emun
+    "NormType",  # local emun
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
@@ -239,6 +241,7 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("centroid.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("centroid.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
     ("centroid.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
+    ("common.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
@@ -349,6 +352,31 @@ FUNCTIONS_TO_SKIP = [
     ("correspondence.h", "getRejectedQueryIndices"),
     ("point_traits.h", "getFieldValue"),
     ("point_traits.h", "setFieldValue"),
+    ("rsd.h", "getFeaturePointCloud"),  # template <int N>
+    ("io.h", "concatenateFields"),  # way too many template combinations... skip for now
+    ("io.h", "isSamePointType"),  # way too many template combinations... skip for now
+
+    # todo: I think most of these could be removed. They were added before I realized there was a bug.
+    ("io.h", "copyPointCloud"),  # no matching overload found...
+    ("io.h", "getFieldIndex"),  # no matching overload found...
+    ("io.h", "getApproximateIndices"),  # kdtree/io.h no matching overload found...
+    ("voxel_grid.h", "getMinMax3D"),  # no matching overload found...
+    ("sac_model_plane.h", "pointToPlaneDistance"),  # no matching overload found...
+    ("sac_model_plane.h", "pointToPlaneDistanceSigned"),  # no matching overload found...
+    ("sac_model_plane.h", "projectPoint"),  # no matching overload found...
+    ("region_xy.h", "read"),  # is this function useful? "Type" template could be anything?
+    ("region_xy.h", "write"),  # is this function useful? "Type" template could be anything?
+    ("extract_clusters.h", "extractEuclideanClusters"),  # skip for now, use EuclideanClusterExtraction instead
+    ("extract_labeled_clusters.h", "extractLabeledEuclideanClusters"),
+    # skip for now, use EuclideanClusterExtraction instead
+    ("extract_polygonal_prism_data.h", "isXYPointIn2DXYPolygon"),  # unknown type error...
+    ("extract_polygonal_prism_data.h", "isPointIn2DPolygon"),  # unknown type error...
+    ("polygon_operations.h", "approximatePolygon"),  # cound not deduce return type
+    ("polygon_operations.h", "approximatePolygon2D"),  # no matching overload found...
+    ("filter.h", "removeNaNFromPointCloud"),  # no matching overload found...
+    ("filter.h", "removeNaNNormalsFromPointCloud"),  # no matching overload found...
+    ("normal_3d.h", "computePointNormal"),  # no matching overload found...
+    ("normal_3d.h", "flipNormalTowardsViewpoint"),  # no matching overload found...
 ]
 
 SUBMODULES_TO_SKIP = [
