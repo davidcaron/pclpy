@@ -290,14 +290,15 @@ def generate(headers_to_generate) -> OrderedDict:
 
     headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
 
-    methods_needs_overloading = check_if_needs_overloading(main_classes)
+    methods_need_overloading = check_if_needs_overloading(main_classes)
 
     flag_instantiatable_class(dependency_tree, main_classes)
 
     # for module, header in headers_to_generate:
     def generate_header(module, header, path, main_classes) -> str:
         text = gen_class_function_definitions(main_classes, module, header, path,
-                                              methods_needs_overloading.get(module))
+                                              methods_need_overloading.get(module))
+
         text.append(define_functions(functions[(module, header)], module, header))
         module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types)
         text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
