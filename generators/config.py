@@ -153,6 +153,7 @@ CUSTOM_OVERLOAD_TYPES = {
 GLOBAL_PCL_IMPORTS = [
     "IndicesPtr",
     "IndicesConstPtr",
+    "Correspondence",
     "PointIndices",
     "ModelCoefficients",
     "PointWithRange",
@@ -183,6 +184,7 @@ SKIPPED_INHERITANCE = [
 
 TEMPLATED_METHOD_TYPES = {
     "PointT": "PCL_POINT_TYPES",
+    "Point": "PCL_POINT_TYPES",
     "PointInT": "PCL_POINT_TYPES",
     "PointLT": ["pcl::Label"],
     "PointOutT": "PCL_POINT_TYPES",
@@ -195,10 +197,26 @@ TEMPLATED_METHOD_TYPES = {
     "T": "PCL_POINT_TYPES",
     "PointNT": "PCL_NORMAL_POINT_TYPES",
     "NormalT": "PCL_NORMAL_POINT_TYPES",
+    "Normal": "PCL_NORMAL_POINT_TYPES",
     "GradientT": ["pcl::IntensityGradient"],
     "P1": "PCL_XYZ_POINT_TYPES",
+    "PointType1": "PCL_POINT_TYPES",
+    "Point1T": "PCL_POINT_TYPES",
+    "PointIn1T": "PCL_POINT_TYPES",
+    "PointIn2T": "PCL_POINT_TYPES",
     "P2": "PCL_XYZ_POINT_TYPES",
+    "PointType2": "PCL_POINT_TYPES",
+    "Point2T": "PCL_POINT_TYPES",
     "FeatureT": "PCL_FEATURE_POINT_TYPES",
+    "Scalar": ["float"],
+    "CloudT": "PCL_POINT_CLOUD_TYPES",
+    "real": ["float", "double"],
+    "FloatVectorT": ["std::vector<float>"],
+    "ValT": ["float", "uint8_t", "uint32_t"],
+
+    # Eigen::MatrixBase<Derived>
+    "Derived": ["float", "double"],
+    "OtherDerived": ["float", "double"],
 }
 
 pcl_visualizer_xyz = ["pcl::PointSurfel", "pcl::PointXYZ", "pcl::PointXYZL", "pcl::PointXYZI", "pcl::PointXYZRGB",
@@ -207,6 +225,7 @@ pcl_visualizer_xyz = ["pcl::PointSurfel", "pcl::PointXYZ", "pcl::PointXYZL", "pc
 
 SPECIFIC_TEMPLATED_METHOD_TYPES = {
     # ("class_name", "method_name", ("templated_parameter_names", ))
+    # ("header_name", "", ("templated_parameter_names", ))
     # if method_name is empty, it's considered as the default template type for this class
     ("ImageViewer", "", ("T",)): ("PCL_RGB_POINT_TYPES",),
     ("ImageViewer", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
@@ -216,6 +235,10 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("LZFDepth16ImageReader", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("LZFRGB24ImageReader", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
     ("LZFYUV422ImageReader", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
+
+    ("centroid.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("centroid.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
+    ("centroid.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
@@ -249,6 +272,7 @@ EXPLICIT_INCLUDES = {
 HEADERS_TO_SKIP = [
     # ("module", "header")
     ("io", "pxc_grabber.h"),  # deprecated
+    ("", "sse.h"),  # don't need that
     ("ml", "multi_channel_2d_comparison_feature_handler.h"),  # can't find class FeatureHandlerCodeGenerator ??
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
@@ -296,6 +320,7 @@ HEADERS_TO_SKIP = [
     ("visualization", "ren_win_interact_map.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
 
     ("common", "gaussian.h"),  # templated method?
+    ("common", "eigen.h"),  # too many templated functions, skip for now
 
     ("recognition", "trimmed_icp.h"),  # depends on registration
     ("recognition", "obj_rec_ransac.h"),  # depends on trimmed_icp, which depends on registration
@@ -313,6 +338,14 @@ HEADERS_TO_SKIP = [
     ("filters", "conditional_removal.h"),
     # todo: parser error for ConditionalRemoval (int extract_removed_indices = false) :
     ("filters", "model_outlier_removal.h"),  # todo: boost::function as parameter
+]
+
+FUNCTIONS_TO_SKIP = [
+    # ("header_name", "function_name")
+    ("file_io.h", "isValueFinite"),
+    ("file_io.h", "copyValueString"),
+    ("file_io.h", "copyStringValue"),
+    ("correspondence.h", "getRejectedQueryIndices"),
 ]
 
 SUBMODULES_TO_SKIP = [

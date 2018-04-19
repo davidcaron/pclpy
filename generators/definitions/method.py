@@ -29,7 +29,7 @@ class Method:
         self.templated_types = OrderedDict()
         self.needs_lambda_call = False
 
-    def make_disambiguation(self, class_name, template_types=None):
+    def make_disambiguation(self, prefix, template_types=None):
         if len(self.cppmethod["parameters"]):
             types = []
             for param in self.cppmethod["parameters"]:
@@ -43,10 +43,16 @@ class Method:
                     for name, template_type in template_types:
                         type_ = type_.replace(name, template_type)
 
+                raw_type_no_pcl = param["raw_type"].replace("pcl::", "")
                 if param["unresolved"]:
-                    type_ = self.clean_unresolved_type(param, type_, class_name)
+                    type_ = self.clean_unresolved_type(param, type_, prefix)
                 elif type_ in GLOBAL_PCL_IMPORTS:
                     type_ = make_namespace_class("pcl", type_)
+                elif raw_type_no_pcl in GLOBAL_PCL_IMPORTS:
+                    # ensure pcl namespace in type
+                    pos = type_.find(raw_type_no_pcl)
+                    if not type_[pos - 5:pos] == "pcl::":
+                        type_ = type_.replace(raw_type_no_pcl, "pcl::" + raw_type_no_pcl)
 
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")
@@ -58,30 +64,33 @@ class Method:
 
         template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}::{name}{template}{const})"
+        disamb = "py::overload_cast<{type_}> (&{cls}{name}{template}{const})"
         disamb = disamb.format(type_=type_,
-                               cls=class_name,
+                               cls=(prefix + "::") if prefix else "",
                                name=self.cppmethod["name"],
                                template=template,
                                const=constant_method)
         return disamb
 
-    def clean_unresolved_type(self, param, type_, class_name):
+    def clean_unresolved_type(self, param, type_, prefix):
         const = "const " if param["constant"] or "const" in param["type"] else ""
         type_ = type_.replace("typename ", "")
         if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
             const = ""
         ref = " &" if param["reference"] else ""
-        custom = CUSTOM_OVERLOAD_TYPES.get((param["method"]["parent"]["name"], type_))
+        parent_name = param["method"].get("parent", {}).get("name")
+        custom = None
+        if parent_name:
+            custom = CUSTOM_OVERLOAD_TYPES.get((parent_name, type_))
         type_no_template = type_[:type_.find("<")] if "<" in type_ else type_
-
+        template_string = self.cppmethod.get("parent", {}).get("template", "")
         if type_ == "pcl::PCLPointCloud2::" and param["name"].startswith("Const"):
             type_ = type_ + param["name"]  # fix for CppHeaderParser bug
         elif type_.startswith("pcl::"):
             type_ = make_namespace_class("pcl", type_)
         elif any(type_.startswith(base) for base in KEEP_ASIS_TYPES_STARTSWITH):
             pass
-        elif type_ in self.cppmethod["parent"].get("template", ""):  # templated argument
+        elif type_ in template_string:  # templated argument
             pass
         elif type_no_template in EXPLICIT_IMPORTED_TYPES:
             pass
@@ -91,8 +100,10 @@ class Method:
             type_ = custom
         elif any(type_.startswith(t) for t in EXTERNAL_INHERITANCE):
             pass
+        elif prefix == "pcl":
+            type_ = make_namespace_class("pcl", type_)
         else:
-            type_ = "%s::%s" % (class_name, type_)
+            type_ = "%s::%s" % (prefix, type_)
         for global_pcl in GLOBAL_PCL_IMPORTS:
             pos = type_.find(global_pcl)
             if not type_[pos - 5:pos] == "pcl::":
@@ -113,7 +124,7 @@ class Method:
                                                                         static=self.static_value(),
                                                                         args=args)
 
-    def to_str(self, class_name, class_var_name):
+    def to_str(self, prefix, class_var_name):
         params = self.cppmethod["parameters"]
         args = make_pybind_argument_list(params)
         if "operator" in self.cppmethod["name"]:
@@ -141,17 +152,17 @@ class Method:
             types = list(self.templated_types.values())
             for types_combination in product(*types):
                 template_types = tuple(zip(names, types_combination))
-                disamb = self.make_disambiguation(class_name, template_types=template_types)
+                disamb = self.make_disambiguation(prefix, template_types=template_types)
                 return_values.append(self.disambiguated_function_call(class_var_name, disamb, args))
             ret_val = return_values
         elif self.is_an_overload:
-            disamb = self.make_disambiguation(class_name)
+            disamb = self.make_disambiguation(prefix)
             ret_val = self.disambiguated_function_call(class_var_name, disamb, args)
         else:
-            s = '{cls_var}.def{static}("{name}", &{cls}::{cppname}{args})'
+            s = '{cls_var}.def{static}("{name}", &{cls}{cppname}{args})'
             data = {"name": self.name,
                     "static": self.static_value(),
-                    "cls": class_name,
+                    "cls": (prefix + "::") if prefix else "",
                     "cls_var": class_var_name,
                     "cppname": self.cppmethod["name"],
                     "args": args,
@@ -170,29 +181,33 @@ def flag_templated_methods(methods: List[Method]):
             continue
         template = method.cppmethod["template"]
         if template:
+            class_name = method.cppmethod["parent"]["name"]
             pos = template.find("<")
             type_names = filter_template_types(template[pos + 1:-1], keep=["typename"])
-
-            class_name = method.cppmethod["parent"]["name"]
-            method_key = (class_name, method_name, type_names)
-            all_methods_key = (class_name, "", type_names)
-            specific = SPECIFIC_TEMPLATED_METHOD_TYPES
-            pcl_point_types = specific.get(all_methods_key, specific.get(method_key))
-            if not pcl_point_types:
-                pcl_point_types = [TEMPLATED_METHOD_TYPES.get(type_name) for type_name in type_names]
-
-            for type_name, pcl_types in zip(type_names, pcl_point_types):
-                if not pcl_types:
-                    attrs = (type_name, method_name, class_name)
-                    message = "Templated method name not implemented (name=%s method=%s class=%s)"
-                    raise NotImplementedError(message % attrs)
-                if isinstance(pcl_types, list):
-                    types = pcl_types
-                elif pcl_types in PCL_POINT_TYPES:
-                    types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_types]]  # remove parentheses
-                else:
-                    raise ValueError
+            for type_name, types in template_types_generator(type_names, class_name, method_name):
                 method.templated_types[type_name] = types
+
+
+def template_types_generator(type_names, class_name, method_name):
+    method_key = (class_name, method_name, type_names)
+    all_methods_key = (class_name, "", type_names)
+    specific = SPECIFIC_TEMPLATED_METHOD_TYPES
+    pcl_point_types = specific.get(all_methods_key, specific.get(method_key))
+    if not pcl_point_types:
+        pcl_point_types = [TEMPLATED_METHOD_TYPES.get(type_name) for type_name in type_names]
+
+    for type_name, pcl_types in zip(type_names, pcl_point_types):
+        if not pcl_types:
+            attrs = (type_name, method_name, class_name)
+            message = "Templated method name not implemented (name=%s method=%s class=%s)"
+            raise NotImplementedError(message % attrs)
+        if isinstance(pcl_types, list):
+            types = pcl_types
+        elif pcl_types in PCL_POINT_TYPES:
+            types = [t[1:-1] for t in PCL_POINT_TYPES[pcl_types]]  # remove parentheses
+        else:
+            raise ValueError
+        yield type_name, types
 
 
 def flag_overloaded_methods(methods: List[Method], needs_overloading: List[str] = None):
@@ -256,7 +271,7 @@ def filter_template_types(template_string, keep=None):
     if keep is None:
         keep = ["typename", "class", "unsigned"]
     if not template_string:
-        return []
+        return tuple()
     types = template_string.split(", ")
     types = [s.strip().split(" ")[1] for s in types if any(k in s for k in keep)]  # and "=" not in s]
     return tuple(types)

@@ -18,8 +18,7 @@ class TemplatedInstantiations:
                  module: str,
                  header_name: str,
                  classes_point_types: Dict,
-                 other_types: Dict,
-                 functions: Dict
+                 other_types: Dict
                  ):
         """
         Generate templated function calls that instantiate pybind11 classes
@@ -36,7 +35,6 @@ class TemplatedInstantiations:
         self.header_name = header_name
         self.classes_point_types = classes_point_types
         self.other_types = other_types
-        self.functions = functions
 
     def repr_sub_module(self, class_name: str):
         """
@@ -50,7 +48,7 @@ class TemplatedInstantiations:
         }
         return s.format(**data)
 
-    def to_module_function_definition(self, global_indent=""):
+    def to_module_function_definition(self, global_indent="", has_functions=False):
         """
         void define...Classes(py::module &m) { ... }
         """
@@ -60,8 +58,8 @@ class TemplatedInstantiations:
         a("{ind}void define{sub}{name}Classes(py::module &{base}) {ob}")
         for line in self.generate_templated_class_calls():
             a("{ind}{i}%s;" % line)
-        for line in self.generate_function_calls():
-            a("{ind}{i}%s;" % line)
+        if has_functions:
+            a("{ind}{i}define{sub}{name}Functions({base});")
         a("{ind}{cb}")
 
         data = {
@@ -77,12 +75,6 @@ class TemplatedInstantiations:
 
     def sub_module_name(self, class_name):
         return "%s_%s" % (self.BASE_SUB_MODULE_NAME, class_name)
-
-    def generate_function_calls(self):
-        s = []
-        for func in self.functions:
-            pass
-        return s
 
     def generate_templated_class_calls(self):
         s = []

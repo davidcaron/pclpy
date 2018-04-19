@@ -13,6 +13,7 @@ import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES
 from generators.definitions import method_parameters
+from generators.definitions.function_definition import define_functions
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
@@ -109,7 +110,7 @@ def get_main_classes(header, module, header_name):
 
 
 def get_functions(header, module, header_name):
-    functions = [f for f in header.functions if f["namespace"] in ("pcl", "pcl::" + module)]
+    functions = [f for f in header.functions if f["namespace"] in ("pcl", "pcl::", "pcl::" + module)]
     functions = sorted(functions, key=lambda f: f["name"])
     return functions
 
@@ -297,8 +298,9 @@ def generate(headers_to_generate) -> OrderedDict:
     def generate_header(module, header, path, main_classes) -> str:
         text = gen_class_function_definitions(main_classes, module, header, path,
                                               methods_needs_overloading.get(module))
-        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types, functions)
-        text.append(module_def.to_module_function_definition())
+        text.append(define_functions(functions[(module, header)], module, header))
+        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types)
+        text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
         return "\n".join(text)
 
     generated_headers = OrderedDict()
