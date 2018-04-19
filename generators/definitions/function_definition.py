@@ -18,6 +18,8 @@ def filter_functions(cppfunctions, header_name):
             continue
         if (header_name, f["name"]) in FUNCTIONS_TO_SKIP:
             continue
+        if "::" in f["rtnType"].replace(" ", ""):  # do not keep functions declared like: ImageGrabber<PointT>::publish
+            continue
         filtered.append(f)
     return filtered
 
