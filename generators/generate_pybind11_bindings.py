@@ -4,16 +4,16 @@ import shutil
 from collections import Counter
 from collections import defaultdict, OrderedDict
 from os.path import join
-from typing import List
+from typing import List, Dict
 
 import yaml
 from CppHeaderParser import CppHeaderParser
+from CppHeaderParser.CppHeaderParser import CppMethod
 
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES
-from generators.definitions import method_parameters
-from generators.definitions.function_definition import define_functions
+from generators.definitions.function_definition import define_functions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
@@ -42,7 +42,49 @@ def filter_methods_to_skip(methods):
     return filtered_methods
 
 
-def gen_class_function_definitions(main_classes, module, header_name, path, needs_overloading: List[str]) -> List[str]:
+def same_parameters(p1: Dict, p2: Dict) -> bool:
+    fields = ["constant", "name", "raw_type", "reference", "static"]
+    return all(p1[f] == p2[f] for f in fields)
+
+
+def same_methods(m1: CppMethod, m2: CppMethod) -> bool:
+    if m1["name"] != m2["name"]:
+        return False
+
+    # bug in CppHeaderParser
+    # in "void ImageGrabber<PointT>::publish", "void ImageGrabber<PointT>::" is the return type
+    path = m1.get("path", m2.get("path"))
+    path = path[path.rfind(":") + 1:]
+    if not any(path in type_ for type_ in [m1["rtnType"], m2["rtnType"]]):
+        return False
+
+    # same parameters
+    for p1 in m1["parameters"]:
+        for p2 in m2["parameters"]:
+            if m1["name"] == m2["name"] and same_parameters(p1, p2):
+                break
+        else:
+            return False
+    return len(m1["parameters"]) == len(m2["parameters"])
+
+
+def private_methods_defined_outside(private_methods: List[CppMethod],
+                                    methods_declared_outside: List[CppMethod]) -> List[CppMethod]:
+    private_defined_outside = []
+    for m_private in private_methods:
+        for m_outside in methods_declared_outside:
+            if same_methods(m_private, m_outside):
+                private_defined_outside.append(m_private)
+                break
+    return private_defined_outside
+
+
+def gen_class_function_definitions(main_classes,
+                                   module,
+                                   header_name,
+                                   path,
+                                   needs_overloading: List[str],
+                                   methods_defined_outside: List[CppMethod]) -> List[str]:
     text = [common_includes]
     text.append(EXPLICIT_INCLUDES.get((module, header_name), ""))
     text.append(make_header_include_name(module, header_name, path))
@@ -59,6 +101,8 @@ def gen_class_function_definitions(main_classes, module, header_name, path, need
         methods = class_["methods"]["public"]
         methods = filter_methods_for_parser_errors(methods)
         methods = filter_methods_to_skip(methods)
+        private_and_protected = class_["methods"]["private"] + class_["methods"]["protected"]
+        methods += private_methods_defined_outside(private_and_protected, methods_defined_outside)
         class_properties = [p for p in class_["properties"]["public"]
                             if not "using" in p["type"]
                             and not "union" in p["type"]]
@@ -296,8 +340,10 @@ def generate(headers_to_generate) -> OrderedDict:
 
     # for module, header in headers_to_generate:
     def generate_header(module, header, path, main_classes) -> str:
+        methods_defined_outside = get_methods_defined_outside(functions[(module, header)])
         text = gen_class_function_definitions(main_classes, module, header, path,
-                                              methods_need_overloading.get(module))
+                                              methods_need_overloading.get(module),
+                                              methods_defined_outside)
 
         text.append(define_functions(functions[(module, header)], module, header))
         module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types)

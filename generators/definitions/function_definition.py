@@ -18,9 +18,19 @@ def filter_functions(cppfunctions, header_name):
             continue
         if (header_name, f["name"]) in FUNCTIONS_TO_SKIP:
             continue
-        if "::" in f["rtnType"].replace(" ", ""):  # do not keep functions declared like: ImageGrabber<PointT>::publish
+        if "::" in f["rtnType"].replace(" ", ""):  # bug in CppHeaderParser for methods defined outside class
+            continue
+        if f["template"] and f["template"].replace(" ", "") == "template<>":  # skip specialized templated functions
             continue
         filtered.append(f)
+    return filtered
+
+
+def get_methods_defined_outside(cppfunctions):
+    filtered = []
+    for f in cppfunctions:
+        if "::" in f["rtnType"].replace(" ", ""):  # explits a bug in CppHeaderParser...
+            filtered.append(f)
     return filtered
 
 
