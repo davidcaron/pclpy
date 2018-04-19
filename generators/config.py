@@ -355,6 +355,7 @@ FUNCTIONS_TO_SKIP = [
     ("rsd.h", "getFeaturePointCloud"),  # template <int N>
     ("io.h", "concatenateFields"),  # way too many template combinations... skip for now
     ("io.h", "isSamePointType"),  # way too many template combinations... skip for now
+    ("common.h", "getMinMax"),  # only for point histogram type
 
     # todo: I think most of these could be removed. They were added before I realized there was a bug.
     ("io.h", "copyPointCloud"),  # no matching overload found...
