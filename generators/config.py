@@ -346,6 +346,8 @@ FUNCTIONS_TO_SKIP = [
     ("file_io.h", "copyValueString"),
     ("file_io.h", "copyStringValue"),
     ("correspondence.h", "getRejectedQueryIndices"),
+    ("point_traits.h", "getFieldValue"),
+    ("point_traits.h", "setFieldValue"),
 ]
 
 SUBMODULES_TO_SKIP = [
