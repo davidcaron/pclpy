@@ -192,7 +192,7 @@ def template_types_generator(type_names, class_name, method_name):
     method_key = (class_name, method_name, type_names)
     all_methods_key = (class_name, "", type_names)
     specific = SPECIFIC_TEMPLATED_METHOD_TYPES
-    pcl_point_types = specific.get(all_methods_key, specific.get(method_key))
+    pcl_point_types = specific.get(method_key, specific.get(all_methods_key))
     if not pcl_point_types:
         pcl_point_types = [TEMPLATED_METHOD_TYPES.get(type_name) for type_name in type_names]
 

@@ -381,6 +381,8 @@ FUNCTIONS_TO_SKIP = [
     ("io.h", "concatenateFields"),  # way too many template combinations... skip for now
     ("io.h", "isSamePointType"),  # way too many template combinations... skip for now
     ("common.h", "getMinMax"),  # only for point histogram type
+    ("file_io.h", "getAllPcdFilesInDirectory"),  # linking error
+    ("io.h", "getFieldsSizes"),  # linking error
     ("filter.h", "removeNaNNormalsFromPointCloud"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointCloudWithNormals"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointWithNormal"),  # (fixable) PointT XYZ and Normal point types for 2 functions

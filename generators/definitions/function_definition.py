@@ -75,7 +75,7 @@ def define_functions(cppfunctions: List[CppMethod], module_name, header_name, in
     a("{ind}void define{sub}{name}Functions(py::module &m) {ob}")
     for n, (type_names, group) in enumerate(templated_functions_grouped.items(), 1):
         if type_names:
-            types = [t[1] for t in template_types_generator(type_names, header_name, "")]
+            types = [t[1] for t in template_types_generator(type_names, header_name, group[0].cppmethod["name"])]
             if isinstance(types[0], str):
                 all_types = types
             elif isinstance(types[0], list):
