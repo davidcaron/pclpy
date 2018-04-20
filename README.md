@@ -3,13 +3,14 @@
 Automatically generated python bindings for the Point Cloud Library (PCL)
 using pybind11 and CppHeaderParser.
 
-__The library is in active development, do not
+__The library is in early stage and in active development, do not
 use in production. The api is likely to change.__
 
 Only Windows x64 and python 3.5+ are supported at the moment.
 
+Contributions, issues, comments are welcome!
 
-## Why ?
+## Why another binding?
 The _python-pcl_ bindings contain a lot of repeated code. Maintaining, adding
 features or point types is quite tedious.
 While Cython is great, binding templated code isn't one of its strenghts.
@@ -91,7 +92,7 @@ mls.process (output);
     - every other module not built in the precompiled windows binaries
 
 ## Not Implemented
-(see todo.md)
+(see `todo.md` and the _what to skip_ section in `generators/config.py`)
 
 ## To build
 - Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:
