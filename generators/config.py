@@ -246,6 +246,9 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("filter.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("morphological_filter.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("segment_differences.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("distances.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("distances.h", "", ("PointType1", "PointType2")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
+    ("projection_matrix.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
