@@ -12,14 +12,16 @@ def ensure_required(headers):
 
 def main():
     headers = [
-        ("", "point_types.h", ""),
+        ("filters", "filter.h", ""),
+        # ("filters", "filter_indices.h", ""),
+        ("", "pcl_base.h", ""),
     ]
-    modules = ["geometry", "segmentation", "visualization", "features"]
-    headers = get_headers(modules)
+    # modules = ["io"]
+    # headers = get_headers(modules)
 
     ensure_required(headers)
     generated_headers = generate(headers)
-    write_stuff_if_needed(generated_headers, delete_others=True)
+    write_stuff_if_needed(generated_headers, delete_others=False)
 
 
 if __name__ == '__main__':
