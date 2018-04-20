@@ -118,7 +118,7 @@ class UploadCommand(Command):
             self.status('Removing previous builds')
             rmtree(join(HERE, 'dist'))
         except OSError:
-            pass
+            passlong_description_content_type
 
         self.status('Building Source and Wheel distribution')
         os.system('{0} setup.py bdist_wheel'.format(sys.executable))

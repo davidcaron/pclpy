@@ -19,6 +19,15 @@ Also, python-pcl implement only a subset of PCL's classes and point types.
 Using pybind11, we can use c++ templates directly.
 The goal is to wrap as much of the library as possible.
 
+## Installing
+
+Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:
+    https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2015-win64.exe
+
+`pip install pclpy`
+
+And tell me if that worked :smile:
+
 ## Features
 - ~~All~~ About half of the point types are implemented (those specified by the default msvc compile flags)
 - You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
