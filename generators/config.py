@@ -250,6 +250,9 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("distances.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("distances.h", "", ("PointType1", "PointType2")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
     ("projection_matrix.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("point_tests.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("transforms.h", "transformPointCloudWithNormals", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
+    ("transforms.h", "transformPointCloudWithNormals", ("PointT", "Scalar")): ("PCL_NORMAL_POINT_TYPES", ["float"]),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
@@ -365,6 +368,7 @@ FUNCTIONS_TO_SKIP = [
     ("io.h", "isSamePointType"),  # way too many template combinations... skip for now
     ("common.h", "getMinMax"),  # only for point histogram type
     ("filter.h", "removeNaNNormalsFromPointCloud"),  # (fixable) PointT XYZ and Normal point types for 2 functions
+    ("transforms.h", "transformPointCloudWithNormals"),  # (fixable) PointT XYZ and Normal point types for 2 functions
 
     # todo: I think most of these could be removed. They were added before I realized there was a bug.
     ("io.h", "copyPointCloud"),  # no matching overload found...
