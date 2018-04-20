@@ -36,3 +36,5 @@ PointCloud:
   SHOT1344, PointUV, ReferenceFrame, PointDEM]
 OctreePointCloudVoxelCentroid:
 - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+OctreePointCloudVoxelCentroidContainer:
+- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
