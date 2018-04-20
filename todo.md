@@ -1,6 +1,5 @@
 
 - add enums (example visualization/RenderingProperties)
-- add isolated functions (meaning, not methods) (ex: computeCentroid in centroid.h)
 - some modules need as much as 10 GB of ram to compile (visualization?)
     try to split them or mitigate somehow
 
