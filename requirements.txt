@@ -1,0 +1,12 @@
+# running
+numpy
+laspy
+
+# building bindings
+pybind11>=2.3dev
+PyYAML
+CppHeaderParser==2.7.3.1
+inflection
+
+# tests
+pytest
