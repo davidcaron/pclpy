@@ -26,15 +26,38 @@ FeatureWithLocalReferenceFrames:
   - - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
     - [ReferenceFrame]
 PointCloud:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+  - [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
+    PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
+    PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
+    PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
+    PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
+    VFHSignature308, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
+    PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
+    SHOT1344, PointUV, ReferenceFrame, PointDEM]
 OctreePointCloudVoxelCentroid:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+  - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
 OctreePointCloudVoxelCentroidContainer:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+  - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+OctreePointCloud:
+  - - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+    - ["octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZ>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZI>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZL>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGBA>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGB>"]
+    - ["octree::OctreeContainerEmpty"]
+OctreeBase:
+  - - ["octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZ>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZI>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZL>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGBA>",
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGB>",
+       int,
+       "octree::OctreeContainerEmpty",
+       "octree::OctreeContainerPointIndices"]
+    - ["octree::OctreeContainerEmpty"]
+Octree2BufBase:
+  - - [int, "octree::OctreeContainerPointIndices"]
+    - ["octree::OctreeContainerEmpty"]
+MeshIO:
+  - ["geometry::PolygonMesh<DefaultMeshTraits<>>", "geometry::TriangleMesh<DefaultMeshTraits<>>"]

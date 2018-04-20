@@ -291,15 +291,14 @@ def get_point_types():
             classes_point_types[k].append(v)
         else:
             classes_point_types[k] = v
-    other_explicit_types = yaml.load(open("point_types_other_explicit.yml"))
-    return classes_point_types, other_explicit_types
+    return classes_point_types
 
 
 def generate(headers_to_generate) -> OrderedDict:
     """
     :return: OrderedDict
     """
-    classes_point_types, other_explicit_types = get_point_types()
+    classes_point_types = get_point_types()
 
     import time
 
@@ -346,7 +345,7 @@ def generate(headers_to_generate) -> OrderedDict:
                                               methods_defined_outside)
 
         text.append(define_functions(functions[(module, header)], module, header))
-        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_explicit_types)
+        module_def = TemplatedInstantiations(main_classes, module, header, point_types)
         text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
         return "\n".join(text)
 

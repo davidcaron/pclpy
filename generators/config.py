@@ -65,7 +65,7 @@ INHERITED_TEMPLATED_TYPES_FILTER = {
     ("SHOTColorEstimationOMP", "FeatureWithLocalReferenceFrames"): [0, 3],
 }
 
-KEEP_ASIS_TYPES_STARTSWITH = [
+KEEP_ASIS_TYPES = {
     "Eigen::",
     "pcl::",
     "std::",
@@ -87,7 +87,7 @@ KEEP_ASIS_TYPES_STARTSWITH = [
     "float",
     "double",
     "size_t",
-]
+}
 
 # explicitely excluded classes
 CLASSES_TO_IGNORE = [
