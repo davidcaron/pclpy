@@ -27,7 +27,7 @@ DESCRIPTION = 'Python bindings for the Point Cloud Library'
 URL = ''
 EMAIL = 'dcaron05@gmail.com'
 AUTHOR = 'David Caron'
-REQUIRES_PYTHON = '>=3.5.0'
+REQUIRES_PYTHON = '==3.6.0'
 VERSION = None
 
 PCL_ROOT = os.getenv("PCL_ROOT")
