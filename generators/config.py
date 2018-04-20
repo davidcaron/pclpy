@@ -251,6 +251,9 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("distances.h", "", ("PointType1", "PointType2")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
     ("projection_matrix.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("point_tests.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+
+    ("transforms.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("transforms.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
     ("transforms.h", "transformPointWithNormal", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT", "Scalar")): ("PCL_NORMAL_POINT_TYPES", ["float"]),
