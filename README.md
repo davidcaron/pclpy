@@ -6,7 +6,7 @@ using pybind11 and CppHeaderParser.
 __The library is in early stage and in active development, do not
 use in production. The api is likely to change.__
 
-Only Windows x64 and python 3.5+ are supported at the moment.
+Only Windows x64 and python 3.6 are supported at the moment.
 
 Contributions, issues, comments are welcome!
 
