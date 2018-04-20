@@ -291,15 +291,15 @@ def get_point_types():
             classes_point_types[k].append(v)
         else:
             classes_point_types[k] = v
-    other_types = yaml.load(open("point_types_other.yml"))
-    return classes_point_types, other_types
+    other_explicit_types = yaml.load(open("point_types_other_explicit.yml"))
+    return classes_point_types, other_explicit_types
 
 
 def generate(headers_to_generate) -> OrderedDict:
     """
     :return: OrderedDict
     """
-    classes_point_types, other_types = get_point_types()
+    classes_point_types, other_explicit_types = get_point_types()
 
     import time
 
@@ -324,7 +324,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     dependency_tree = generators.dependency_tree.DependencyTree(classes)
 
-    point_types = dependency_tree.get_point_types_with_dependencies(classes_point_types)
+    point_types= dependency_tree.get_point_types_with_dependencies(classes_point_types)
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
@@ -346,7 +346,7 @@ def generate(headers_to_generate) -> OrderedDict:
                                               methods_defined_outside)
 
         text.append(define_functions(functions[(module, header)], module, header))
-        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_types)
+        module_def = TemplatedInstantiations(main_classes, module, header, point_types, other_explicit_types)
         text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
         return "\n".join(text)
 
