@@ -241,6 +241,10 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("centroid.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("centroid.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
     ("centroid.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
+    # compromise for weird compile errors... ex: PointXYZINormal and PointXYZI don't work...
+    ("centroid.h", "computeCentroid", ("PointInT", "PointOutT")): (["pcl::PointXYZ", "pcl::PointXYZRGBA"],
+                                                                   ["pcl::PointXYZ", "pcl::PointXYZRGBA"]),
+
     ("common.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("filter_indices.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("filter.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
@@ -257,6 +261,10 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("transforms.h", "transformPointWithNormal", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT", "Scalar")): ("PCL_NORMAL_POINT_TYPES", ["float"]),
+
+    # (ShapeContext1980, UniqueShapeContext1960) and (SHOT352, SHOT1344) have fields of the same name
+    # this is a workaround
+    ("copy_point.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
 
     ("Camera", "", ("PointT",)): (pcl_visualizer_xyz,),
     ("PCLVisualizer", "", ("PointT",)): (pcl_visualizer_xyz,),
@@ -281,6 +289,8 @@ EXPLICIT_INCLUDES = {
     ("surface", "concave_hull.h"): "#pragma warning(disable : 4996)",
     ("features", "grsd.h"): "#pragma warning(disable : 4506)",
     ("outofcore", "axes.h"): "#include <vtkPointData.h>",
+    ("octree", "octree_base.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
+    ("octree", "octree_pointcloud.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
 }
 
 # ------------
