@@ -286,6 +286,8 @@ EXPLICIT_INCLUDES = {
     ("recognition", "orr_octree.h"): "#pragma warning(disable : 4800)",
     ("recognition", "obj_rec_ransac.h"): "#pragma warning(disable : 4267)",
     ("recognition", "model_library.h"): "#pragma warning(disable : 4267)",
+    ("recognition", "implicit_shape_model.h"): "#pragma warning(disable : 4267)",
+    ("sample_consensus", "model_types.h"): "#pragma warning(disable : 4996)",
     ("surface", "concave_hull.h"): "#pragma warning(disable : 4996)",
     ("features", "grsd.h"): "#pragma warning(disable : 4506)",
     ("outofcore", "axes.h"): "#include <vtkPointData.h>",
