@@ -10,6 +10,9 @@ Only Windows x64 and python 3.6 are supported at the moment.
 
 Contributions, issues, comments are welcome!
 
+Github repository: https://www.github.com/davidcaron/pclpy
+Pypi: https://pypi.org/project/pclpy/
+
 ## Why another binding?
 The _python-pcl_ bindings contain a lot of repeated code. Maintaining, adding
 features or point types is quite tedious.
@@ -21,12 +24,10 @@ The goal is to wrap as much of the library as possible.
 
 ## Installing
 
-Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:
-    https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2015-win64.exe
-
 `pip install pclpy`
 
-And tell me if that worked :smile:
+When pip install the project, `pclpy_dependencies` is installed as a requirement.
+This small project contains only the PCL Windows dlls required.
 
 ## Features
 - ~~All~~ About half of the point types are implemented (those specified by the default msvc compile flags)
