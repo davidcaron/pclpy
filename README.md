@@ -26,7 +26,7 @@ The goal is to wrap as much of the library as possible.
 
 `pip install pclpy`
 
-When pip install the project, `pclpy_dependencies` is installed as a requirement.
+When pip installs the project, `pclpy_dependencies` is installed as a requirement.
 This small project contains only the PCL Windows dlls required.
 
 ## Features
