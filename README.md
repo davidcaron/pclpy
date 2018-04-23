@@ -125,5 +125,4 @@ mls.process (output);
 - Wrap as much of PCL as reasonably possible
 - More tests
 - CI on Appveyor
-- Upload wheels to Pypi
 - Make it installable on Linux and Mac
