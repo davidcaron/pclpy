@@ -38,6 +38,7 @@ LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
 REQUIRED = [
     'laspy',
     'numpy',
+    'pclpy_dependencies',
 ]
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -116,7 +117,7 @@ class UploadCommand(Command):
             self.status('Removing previous builds')
             rmtree(join(HERE, 'dist'))
         except OSError:
-            passlong_description_content_type
+            pass
 
         self.status('Building Source and Wheel distribution')
         os.system('{0} setup.py bdist_wheel'.format(sys.executable))
@@ -397,7 +398,7 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=('generators*', )),
+    packages=find_packages(exclude=('generators*',)),
     ext_modules=ext_modules,
     install_requires=REQUIRED,
     include_package_data=True,
