@@ -16,7 +16,7 @@ def generate_loader(module, headers):
 
     for header in headers:
         inc_name = '%s/%s' % (module, header) if module != "base" else header
-        include_expression = '#include "%spp"' % (inc_name, )
+        include_expression = '#include "%spp"' % (inc_name,)
         a(include_expression)
     a("\n")
     a("void define%sClasses(py::module &m) {" % camelize(module))
@@ -32,9 +32,9 @@ def generate_loader(module, headers):
     for header in headers:
         name = function_definition_name(header_name=header)
         function_call = "{i}define{sub}{name}Classes({sub_name});".format(i=INDENT,
-                                                                            name=name,
-                                                                            sub_name=submodule_object_name,
-                                                                            sub=sub)
+                                                                          name=name,
+                                                                          sub_name=submodule_object_name,
+                                                                          sub=sub)
         a(function_call)
     a("}")
 
