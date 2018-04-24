@@ -69,7 +69,7 @@ def test_region_growing():
         rg.setSmoothnessThreshold(5 / 180 * math.pi)
         rg.setCurvatureThreshold(20)
         rg.setResidualThreshold(th)
-        clusters = pcl.vector.PointIndices()
+        clusters = pcl.vectors.PointIndices()
         rg.extract(clusters)
         cloud = rg.getColoredCloud()
         clouds.append(cloud)
