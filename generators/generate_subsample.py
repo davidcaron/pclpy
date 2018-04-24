@@ -11,17 +11,17 @@ def ensure_required(headers):
 
 
 def main():
-    headers = [
-        ("filters", "filter.h", ""),
-        # ("filters", "filter_indices.h", ""),
-        ("", "pcl_base.h", ""),
-    ]
-    # modules = ["io"]
-    # headers = get_headers(modules)
+    # headers = [
+    #     ("filters", "filter.h", ""),
+    #     ("filters", "filter_indices.h", ""),
+    #     ("", "pcl_base.h", ""),
+    # ]
+    modules = ["features", "sample_consensus"]
+    headers = get_headers(modules)
 
     ensure_required(headers)
     generated_headers = generate(headers)
-    write_stuff_if_needed(generated_headers, delete_others=False)
+    write_stuff_if_needed(generated_headers, delete_others=True)
 
 
 if __name__ == '__main__':

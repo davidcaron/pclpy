@@ -8,6 +8,7 @@ from inflection import camelize
 from generators.definitions.method import filter_template_types, template_types_generator
 from generators.config import INDENT, FUNCTIONS_TO_SKIP
 from generators.definitions.method import Method
+from generators.point_types_utils import filter_types
 from generators.utils import function_definition_name
 
 
@@ -34,7 +35,11 @@ def get_methods_defined_outside(cppfunctions):
     return filtered
 
 
-def define_functions(cppfunctions: List[CppMethod], module_name, header_name, indent=""):
+def define_functions(cppfunctions: List[CppMethod],
+                     module_name,
+                     header_name,
+                     indent="",
+                     not_every_point_type=False):
     cppfunctions = filter_functions(cppfunctions, header_name)
     cppfunctions = list(sorted(cppfunctions, key=lambda x: x["name"]))
     functions = [Method(f, is_an_overload=True) for f in cppfunctions]
@@ -77,8 +82,10 @@ def define_functions(cppfunctions: List[CppMethod], module_name, header_name, in
         if type_names:
             types = [t[1] for t in template_types_generator(type_names, header_name, group[0].cppmethod["name"])]
             if isinstance(types[0], str):
-                all_types = types
+                all_types = filter_types(types) if not_every_point_type else types
             elif isinstance(types[0], list):
+                if not_every_point_type:
+                    types = list(map(filter_types, types))
                 all_types = list(product(*types))
             else:
                 raise NotImplementedError

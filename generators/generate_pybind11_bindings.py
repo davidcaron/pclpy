@@ -282,8 +282,7 @@ def flag_instantiatable_class(dependency_tree, main_classes):
             class_["can_be_instantiated"] = can_be_instantiated
 
 
-def get_point_types():
-    not_every_point_type = "--not-every-point-type" in sys.argv
+def get_point_types(not_every_point_type):
     classes_point_types = unpack_yaml_point_types("point_types_generated.yml", not_every_point_type)
     extra_point_types = unpack_yaml_point_types("point_types_extra.yml")
     for k, v in extra_point_types.items():
@@ -298,7 +297,8 @@ def generate(headers_to_generate) -> OrderedDict:
     """
     :return: OrderedDict
     """
-    classes_point_types = get_point_types()
+    not_every_point_type = "--not-every-point-type" in sys.argv
+    classes_point_types = get_point_types(not_every_point_type)
 
     import time
 
@@ -344,7 +344,10 @@ def generate(headers_to_generate) -> OrderedDict:
                                               methods_need_overloading.get(module),
                                               methods_defined_outside)
 
-        text.append(define_functions(functions[(module, header)], module, header))
+        text.append(define_functions(functions[(module, header)],
+                                     module,
+                                     header,
+                                     not_every_point_type=not_every_point_type))
         module_def = TemplatedInstantiations(main_classes, module, header, point_types)
         text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
         return "\n".join(text)
