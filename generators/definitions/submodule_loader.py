@@ -23,9 +23,10 @@ def generate_loader(module, headers):
 
     # add submodule
     submodule_object_name = ("m_%s" % module) if module != "base" else "m"
+    module_python = module if module != "2d" else "module_2d"
     if submodule_object_name != "m":
-        module_creation = '{i}py::module {obj_name} = m.def_submodule("{sub}", "Submodule {sub}");'
-        a(module_creation.format(obj_name=submodule_object_name, sub=module, i=INDENT))
+        module_creation = '{i}py::module {obj_name} = m.def_submodule("{module_python}", "Submodule {sub}");'
+        a(module_creation.format(obj_name=submodule_object_name, module_python=module_python, sub=module, i=INDENT))
 
     # add function calls
     sub = camelize(module) if module != "base" else ""
