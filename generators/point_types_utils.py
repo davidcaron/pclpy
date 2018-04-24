@@ -171,7 +171,8 @@ def unpack_yaml_point_types(path, not_every_point_type=False):
 
 def filter_types(types):
     rgba = ["PointXYZRGBA"] if "PointXYZRGBA" in types else []
-    return types[:1] + rgba
+    xyz = ["PointXYZ"] if "PointXYZ" in types else []
+    return list(set(types[:1] + rgba + xyz))
 
 
 def unpack_point_types(types_info: List, not_every_point_type: bool):
