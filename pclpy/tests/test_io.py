@@ -62,3 +62,32 @@ def test_las_read_normals():
     assert hasattr(pc, "normal_y")
     assert hasattr(pc, "normal_z")
     assert hasattr(pc, "curvature")
+
+
+def test_las_write_with_offset(temp_las_path):
+    a = np.random.ranf(3).reshape(-1, 3)
+    pc = pcl.PointCloud.PointXYZ.from_array(a)
+    pclpy.io.las.to_las(pc, temp_las_path, offset=[10, 10, 10])
+    pc = pclpy.io.las.read_las(temp_las_path)
+    assert np.all(pc.x >= 10)
+    assert np.all(pc.x <= 11)
+    assert np.all(pc.y >= 10)
+    assert np.all(pc.y <= 11)
+    assert np.all(pc.z >= 10)
+    assert np.all(pc.z <= 11)
+
+
+def test_las_read_with_offset(temp_las_path):
+    a = np.random.ranf(3).reshape(-1, 3)
+    pc = pcl.PointCloud.PointXYZ.from_array(a)
+    offset = [10, 10, 10]
+    pclpy.io.las.to_las(pc, temp_las_path, offset=offset)
+    file_offset = pclpy.io.las.get_offset(temp_las_path)
+    assert np.allclose(offset, file_offset)
+    pc = pclpy.io.las.read_las(temp_las_path, offset=offset)
+    assert np.all(pc.x >= 0)
+    assert np.all(pc.x <= 1)
+    assert np.all(pc.y >= 0)
+    assert np.all(pc.y <= 1)
+    assert np.all(pc.z >= 0)
+    assert np.all(pc.z <= 1)

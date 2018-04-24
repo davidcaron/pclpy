@@ -4,25 +4,36 @@ import laspy
 from pclpy import pcl
 
 
-def read_las(path, colors=True, normals=False):
+def get_offset(path):
+    with laspy.file.File(path) as f:
+        return f.header.offset
+
+
+def read_las(path, colors=True, normals=False, offset=None):
+    if offset is None:
+        offset = np.array([0, 0, 0])
     with laspy.file.File(path) as f:
         f_dims = get_all_las_dims(f)
         has = lambda x: x in f_dims
+        get_rgb = lambda: (np.array([f.red, f.green, f.blue]) / 2 ** 8).astype("u1").T
+        get_xyz = lambda: np.array([f.x - offset[0], f.y - offset[1], f.z - offset[2]], "f").T
+        get_xyznormals = lambda: np.array([f.x - offset[0], f.y - offset[1], f.z - offset[2],
+                                           f.normal_x, f.normal_y, f.normal_z, f.curvature], "f").T
         colors = colors and has("red") and has("green") and has("blue")
         normals = normals and has("normal_x") and has("normal_y") and has("normal_z") and has("curvature")
-        if colors:
-            rgb = (np.array([f.red, f.green, f.blue]) / 2 ** 8).astype("u1").T
-            if normals:
-                xyznormals = np.array([f.x, f.y, f.z, f.normal_x, f.normal_y, f.normal_z, f.curvature], "f").T
-                p = pcl.PointCloud.PointXYZRGBNormal.from_array(xyznormals, rgb)
-            else:
-                xyz = np.array([f.x, f.y, f.z], "f").T
-                p = pcl.PointCloud.PointXYZRGBA.from_array(xyz, rgb)
+        if colors and normals:
+            rgb = get_rgb()
+            xyznormals = get_xyznormals()
+            p = pcl.PointCloud.PointXYZRGBNormal.from_array(xyznormals, rgb)
+        elif colors:
+            rgb = get_rgb()
+            xyz = get_xyz()
+            p = pcl.PointCloud.PointXYZRGBA.from_array(xyz, rgb)
         elif normals:
-            xyznormals = np.array([f.x, f.y, f.z, f.normal_x, f.normal_y, f.normal_z, f.curvature], "f").T
+            xyznormals = get_xyznormals()
             p = pcl.PointCloud.PointNormal.from_array(xyznormals)
         else:
-            xyz = np.array([f.x, f.y, f.z], "f").T
+            xyz = get_xyz()
             p = pcl.PointCloud.PointXYZ.from_array(xyz)
     return p
 
@@ -43,7 +54,7 @@ def get_extra_dims(cloud):
     return sorted(extra_dims)
 
 
-def to_las(cloud, path, write_extra_dimensions=True, scale=0.0001):
+def to_las(cloud, path, write_extra_dimensions=True, scale=0.0001, offset=None):
     has = lambda x: hasattr(cloud, x)
 
     if not all([has("x") and has("y") and has("z")]):
@@ -62,13 +73,20 @@ def to_las(cloud, path, write_extra_dimensions=True, scale=0.0001):
             for dim in extra_dims:
                 f.define_new_dimension(dim, 5, dim)
 
-        min_ = cloud.x.min(), cloud.y.min(), cloud.z.min()
         f.header.scale = (scale, scale, scale)
-        f.header.offset = min_
 
-        f.x = cloud.x
-        f.y = cloud.y
-        f.z = cloud.z
+        if offset is not None:
+            f.header.offset = offset
+            f.x = cloud.x + offset[0]
+            f.y = cloud.y + offset[1]
+            f.z = cloud.z + offset[2]
+        else:
+            min_ = np.array([cloud.x.min(), cloud.y.min(), cloud.z.min()])
+            f.header.offset = min_
+            f.x = cloud.x
+            f.y = cloud.y
+            f.z = cloud.z
+
         if has_color:
             f.red = cloud.r * 2 ** 8
             f.green = cloud.g * 2 ** 8
