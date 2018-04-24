@@ -52,7 +52,7 @@ def test_extract_clusters():
 
 
 def test_compute_normals():
-    input = pclpy.io.read_las(test_data("street.las"), read_colors=False)
+    input = pclpy.io.read_las(test_data("street.las"), colors=False)
     norm = pcl.features.NormalEstimationOMP.PointXYZ_Normal()
     norm.input_cloud = input
     norm.radius_search = 0.1
