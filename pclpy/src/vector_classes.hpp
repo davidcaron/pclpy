@@ -16,8 +16,7 @@ void bindVector(py::module &m, char* suffix) {
     py::bind_vector<T, boost::shared_ptr<T>>(m, suffix);
 }
 
-void defineVectorClasses(py::module &m) {
-    py::module m_vector = m.def_submodule("vector", "Submodule for vectors");
+void defineVectorClasses(py::module &m_vector) {
 //    bindVector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
     bindVector<std::vector<pcl::PointIndices>>(m_vector, "PointIndices");
     bindVector<std::vector<int>>(m_vector, "Int");

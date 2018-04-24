@@ -58,9 +58,11 @@ void definePointCloudBuffersRGB(py::module &m, const char* suffix) {
 PYBIND11_MODULE(pcl, m) {
     m.doc() = "PCL python bindings";
 
-    defineEigenClasses(m);
     definePointTypes(m);
-    defineVectorClasses(m);
+
+    py::module m_vector = m.def_submodule("vectors", "Submodule for vectors");
+    defineEigenClasses(m_vector);
+    defineVectorClasses(m_vector);
 
     defineClasses(m);
 
