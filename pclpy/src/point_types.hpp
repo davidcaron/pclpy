@@ -197,11 +197,13 @@ void definePointTypes(py::module &m) {
 
     py::class_<pcl::PFHSignature125, boost::shared_ptr<pcl::PFHSignature125>> (m_pts, "PFHSignature125")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::PFHSignature125::histogram);
+        .def_readonly("histogram", &pcl::PFHSignature125::histogram)
+        .def_static("descriptorSize", &pcl::PFHSignature125::descriptorSize);
 
     py::class_<pcl::PFHRGBSignature250, boost::shared_ptr<pcl::PFHRGBSignature250>> (m_pts, "PFHRGBSignature250")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::PFHRGBSignature250::histogram);
+        .def_readonly("histogram", &pcl::PFHRGBSignature250::histogram)
+        .def_static("descriptorSize", &pcl::PFHRGBSignature250::descriptorSize);
 
     py::class_<pcl::PPFSignature, boost::shared_ptr<pcl::PPFSignature>> (m_pts, "PPFSignature")
         .def(py::init<>())
@@ -243,48 +245,58 @@ void definePointTypes(py::module &m) {
     py::class_<pcl::ShapeContext1980, boost::shared_ptr<pcl::ShapeContext1980>> (m_pts, "ShapeContext1980")
         .def(py::init<>())
         .def_readonly("descriptor", &pcl::ShapeContext1980::descriptor)
-        .def_readonly("rf", &pcl::ShapeContext1980::rf);
+        .def_readonly("rf", &pcl::ShapeContext1980::rf)
+        .def_static("descriptorSize", &pcl::ShapeContext1980::descriptorSize);
 
     py::class_<pcl::UniqueShapeContext1960, boost::shared_ptr<pcl::UniqueShapeContext1960>> (m_pts, "UniqueShapeContext1960")
         .def(py::init<>())
         .def_readonly("descriptor", &pcl::UniqueShapeContext1960::descriptor)
-        .def_readonly("rf", &pcl::UniqueShapeContext1960::rf);
+        .def_readonly("rf", &pcl::UniqueShapeContext1960::rf)
+        .def_static("descriptorSize", &pcl::UniqueShapeContext1960::descriptorSize);
 
     py::class_<pcl::SHOT352, boost::shared_ptr<pcl::SHOT352>> (m_pts, "SHOT352")
         .def(py::init<>())
         .def_readonly("descriptor", &pcl::SHOT352::descriptor)
-        .def_readonly("rf", &pcl::SHOT352::rf);
+        .def_readonly("rf", &pcl::SHOT352::rf)
+        .def_static("descriptorSize", &pcl::SHOT352::descriptorSize);
 
     py::class_<pcl::SHOT1344, boost::shared_ptr<pcl::SHOT1344>> (m_pts, "SHOT1344")
         .def(py::init<>())
         .def_readonly("descriptor", &pcl::SHOT1344::descriptor)
-        .def_readonly("rf", &pcl::SHOT1344::rf);
+        .def_readonly("rf", &pcl::SHOT1344::rf)
+        .def_static("descriptorSize", &pcl::SHOT1344::descriptorSize);
 
     py::class_<pcl::FPFHSignature33, boost::shared_ptr<pcl::FPFHSignature33>> (m_pts, "FPFHSignature33")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::FPFHSignature33::histogram);
+        .def_readonly("histogram", &pcl::FPFHSignature33::histogram)
+        .def_static("descriptorSize", &pcl::FPFHSignature33::descriptorSize);
 
     py::class_<pcl::BRISKSignature512, boost::shared_ptr<pcl::BRISKSignature512>> (m_pts, "BRISKSignature512")
         .def(py::init<>())
         .def_readwrite("scale", &pcl::BRISKSignature512::scale)
         .def_readwrite("orientation", &pcl::BRISKSignature512::orientation)
-        .def_readonly("descriptor", &pcl::BRISKSignature512::descriptor);
+        .def_readonly("descriptor", &pcl::BRISKSignature512::descriptor)
+        .def_static("descriptorSize", &pcl::BRISKSignature512::descriptorSize);
 
     py::class_<pcl::VFHSignature308, boost::shared_ptr<pcl::VFHSignature308>> (m_pts, "VFHSignature308")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::VFHSignature308::histogram);
+        .def_readonly("histogram", &pcl::VFHSignature308::histogram)
+        .def_static("descriptorSize", &pcl::VFHSignature308::descriptorSize);
 
     py::class_<pcl::GRSDSignature21, boost::shared_ptr<pcl::GRSDSignature21>> (m_pts, "GRSDSignature21")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::GRSDSignature21::histogram);
+        .def_readonly("histogram", &pcl::GRSDSignature21::histogram)
+        .def_static("descriptorSize", &pcl::GRSDSignature21::descriptorSize);
 
     py::class_<pcl::ESFSignature640, boost::shared_ptr<pcl::ESFSignature640>> (m_pts, "ESFSignature640")
         .def(py::init<>())
-        .def_readonly("histogram", &pcl::ESFSignature640::histogram);
+        .def_readonly("histogram", &pcl::ESFSignature640::histogram)
+        .def_static("descriptorSize", &pcl::ESFSignature640::descriptorSize);
 
     py::class_<pcl::Narf36, boost::shared_ptr<pcl::Narf36>> (m_pts, "Narf36")
         .def(py::init<>())
-        .def_readonly("descriptor", &pcl::Narf36::descriptor);
+        .def_readonly("descriptor", &pcl::Narf36::descriptor)
+        .def_static("descriptorSize", &pcl::Narf36::descriptorSize);
 
     py::class_<pcl::GFPFHSignature16, boost::shared_ptr<pcl::GFPFHSignature16>> (m_pts, "GFPFHSignature16")
         .def(py::init<>())

@@ -89,5 +89,27 @@ PYBIND11_MODULE(pcl, m) {
     definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
     definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
     definePointCloudBuffers<Boundary>(pc, "Boundary");
-
+    definePointCloudBuffers<PrincipalCurvatures>(pc, "PrincipalCurvatures");
+    definePointCloudBuffers<PFHSignature125>(pc, "PFHSignature125");
+    definePointCloudBuffers<PFHRGBSignature250>(pc, "PFHRGBSignature250");
+    definePointCloudBuffers<PPFSignature>(pc, "PPFSignature");
+    definePointCloudBuffers<CPPFSignature>(pc, "CPPFSignature");
+    definePointCloudBuffers<PPFRGBSignature>(pc, "PPFRGBSignature");
+    definePointCloudBuffers<NormalBasedSignature12>(pc, "NormalBasedSignature12");
+    definePointCloudBuffers<FPFHSignature33>(pc, "FPFHSignature33");
+    definePointCloudBuffers<VFHSignature308>(pc, "VFHSignature308");
+    definePointCloudBuffers<GRSDSignature21>(pc, "GRSDSignature21");
+    definePointCloudBuffers<ESFSignature640>(pc, "ESFSignature640");
+    definePointCloudBuffers<BRISKSignature512>(pc, "BRISKSignature512");
+    definePointCloudBuffers<Narf36>(pc, "Narf36");
+    definePointCloudBuffers<IntensityGradient>(pc, "IntensityGradient");
+    definePointCloudBuffers<PointWithScale>(pc, "PointWithScale");
+    definePointCloudBuffersRGB<PointSurfel>(pc, "PointSurfel");
+    definePointCloudBuffers<ShapeContext1980>(pc, "ShapeContext1980");
+    definePointCloudBuffers<UniqueShapeContext1960>(pc, "UniqueShapeContext1960");
+    definePointCloudBuffers<SHOT352>(pc, "SHOT352");
+    definePointCloudBuffers<SHOT1344>(pc, "SHOT1344");
+    definePointCloudBuffers<PointUV>(pc, "PointUV");
+    definePointCloudBuffers<ReferenceFrame>(pc, "ReferenceFrame");
+    definePointCloudBuffers<PointDEM>(pc, "PointDEM");
 }

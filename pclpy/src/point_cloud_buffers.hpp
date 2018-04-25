@@ -12,7 +12,7 @@ using namespace pybind11::literals;
 using namespace pcl;
 
 
-template<typename BufferT, typename PointT, ssize_t OFFSET, uint8_t SIZE>
+template<typename BufferT, typename PointT, ssize_t OFFSET, ssize_t SIZE>
 py::array buffer(boost::shared_ptr<PointCloud<PointT>> &cloud)
 {
     std::vector<ssize_t> shape {static_cast<ssize_t> (cloud->size())};
@@ -120,7 +120,6 @@ void defineBuffers<PointXYZHSV>(py::class_<PointCloud<PointXYZHSV>, boost::share
     cls.def_property_readonly("s", &buffer<float, PointXYZHSV, 5, 1>);
     cls.def_property_readonly("v", &buffer<float, PointXYZHSV, 6, 1>);
 }
-
 
 template<>
 void defineBuffers<PointXY>(py::class_<PointCloud<PointXY>, boost::shared_ptr<PointCloud<PointXY>>> &cls) {
@@ -250,4 +249,193 @@ void defineBuffers<PrincipalRadiiRSD>(py::class_<PointCloud<PrincipalRadiiRSD>, 
 template<>
 void defineBuffers<Boundary>(py::class_<PointCloud<Boundary>, boost::shared_ptr<PointCloud<Boundary>>> &cls) {
     cls.def_property_readonly("boundary_point", &buffer<uint8_t, Boundary, 0, 1>);
+}
+
+template<>
+void defineBuffers<PrincipalCurvatures>(py::class_<PointCloud<PrincipalCurvatures>, boost::shared_ptr<PointCloud<PrincipalCurvatures>>> &cls) {
+    cls.def_property_readonly("principal_curvature", &buffer<float, PrincipalCurvatures, 0, 3>);
+    cls.def_property_readonly("principal_curvature_x", &buffer<float, PrincipalCurvatures, 0, 1>);
+    cls.def_property_readonly("principal_curvature_y", &buffer<float, PrincipalCurvatures, 1, 1>);
+    cls.def_property_readonly("principal_curvature_z", &buffer<float, PrincipalCurvatures, 2, 1>);
+    cls.def_property_readonly("pc1", &buffer<float, PrincipalCurvatures, 3, 1>);
+    cls.def_property_readonly("pc2", &buffer<float, PrincipalCurvatures, 4, 1>);
+}
+
+template<>
+void defineBuffers<PFHSignature125>(py::class_<PointCloud<PFHSignature125>, boost::shared_ptr<PointCloud<PFHSignature125>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, PFHSignature125, 0, 125>);
+}
+
+template<>
+void defineBuffers<PFHRGBSignature250>(py::class_<PointCloud<PFHRGBSignature250>, boost::shared_ptr<PointCloud<PFHRGBSignature250>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, PFHRGBSignature250, 0, 250>);
+}
+
+template<>
+void defineBuffers<PPFSignature>(py::class_<PointCloud<PPFSignature>, boost::shared_ptr<PointCloud<PPFSignature>>> &cls) {
+    cls.def_property_readonly("f1", &buffer<float, PPFSignature, 0, 1>);
+    cls.def_property_readonly("f2", &buffer<float, PPFSignature, 1, 1>);
+    cls.def_property_readonly("f3", &buffer<float, PPFSignature, 2, 1>);
+    cls.def_property_readonly("f4", &buffer<float, PPFSignature, 3, 1>);
+    cls.def_property_readonly("alpha_m", &buffer<float, PPFSignature, 4, 1>);
+}
+
+template<>
+void defineBuffers<CPPFSignature>(py::class_<PointCloud<CPPFSignature>, boost::shared_ptr<PointCloud<CPPFSignature>>> &cls) {
+    cls.def_property_readonly("f1", &buffer<float, CPPFSignature, 0, 1>);
+    cls.def_property_readonly("f2", &buffer<float, CPPFSignature, 1, 1>);
+    cls.def_property_readonly("f3", &buffer<float, CPPFSignature, 2, 1>);
+    cls.def_property_readonly("f4", &buffer<float, CPPFSignature, 3, 1>);
+    cls.def_property_readonly("f5", &buffer<float, CPPFSignature, 4, 1>);
+    cls.def_property_readonly("f6", &buffer<float, CPPFSignature, 5, 1>);
+    cls.def_property_readonly("f7", &buffer<float, CPPFSignature, 6, 1>);
+    cls.def_property_readonly("f8", &buffer<float, CPPFSignature, 7, 1>);
+    cls.def_property_readonly("f9", &buffer<float, CPPFSignature, 8, 1>);
+    cls.def_property_readonly("f10", &buffer<float, CPPFSignature, 9, 1>);
+    cls.def_property_readonly("alpha_m", &buffer<float, CPPFSignature, 10, 1>);
+}
+
+template<>
+void defineBuffers<PPFRGBSignature>(py::class_<PointCloud<PPFRGBSignature>, boost::shared_ptr<PointCloud<PPFRGBSignature>>> &cls) {
+    cls.def_property_readonly("f1", &buffer<float, PPFRGBSignature, 0, 1>);
+    cls.def_property_readonly("f2", &buffer<float, PPFRGBSignature, 1, 1>);
+    cls.def_property_readonly("f3", &buffer<float, PPFRGBSignature, 2, 1>);
+    cls.def_property_readonly("f4", &buffer<float, PPFRGBSignature, 3, 1>);
+    cls.def_property_readonly("r_ratio", &buffer<float, PPFRGBSignature, 4, 1>);
+    cls.def_property_readonly("g_ratio", &buffer<float, PPFRGBSignature, 5, 1>);
+    cls.def_property_readonly("b_ratio", &buffer<float, PPFRGBSignature, 6, 1>);
+    cls.def_property_readonly("alpha_m", &buffer<float, PPFRGBSignature, 7, 1>);
+}
+
+template<>
+void defineBuffers<NormalBasedSignature12>(py::class_<PointCloud<NormalBasedSignature12>, boost::shared_ptr<PointCloud<NormalBasedSignature12>>> &cls) {
+    cls.def_property_readonly("values", &buffer<float, NormalBasedSignature12, 0, 12>);
+}
+
+template<>
+void defineBuffers<FPFHSignature33>(py::class_<PointCloud<FPFHSignature33>, boost::shared_ptr<PointCloud<FPFHSignature33>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, FPFHSignature33, 0, 33>);
+}
+
+template<>
+void defineBuffers<VFHSignature308>(py::class_<PointCloud<VFHSignature308>, boost::shared_ptr<PointCloud<VFHSignature308>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, VFHSignature308, 0, 308>);
+}
+
+template<>
+void defineBuffers<GRSDSignature21>(py::class_<PointCloud<GRSDSignature21>, boost::shared_ptr<PointCloud<GRSDSignature21>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, GRSDSignature21, 0, 21>);
+}
+
+template<>
+void defineBuffers<ESFSignature640>(py::class_<PointCloud<ESFSignature640>, boost::shared_ptr<PointCloud<ESFSignature640>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, ESFSignature640, 0, 640>);
+}
+
+template<>
+void defineBuffers<BRISKSignature512>(py::class_<PointCloud<BRISKSignature512>, boost::shared_ptr<PointCloud<BRISKSignature512>>> &cls) {
+    cls.def_property_readonly("scale", &buffer<float, BRISKSignature512, 0, 1>);
+    cls.def_property_readonly("orientation", &buffer<float, BRISKSignature512, 1, 1>);
+    cls.def_property_readonly("descriptor", &buffer<unsigned char, BRISKSignature512, 8, 64>);
+}
+
+template<>
+void defineBuffers<Narf36>(py::class_<PointCloud<Narf36>, boost::shared_ptr<PointCloud<Narf36>>> &cls) {
+    cls.def_property_readonly("x", &buffer<float, Narf36, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, Narf36, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, Narf36, 2, 1>);
+    cls.def_property_readonly("roll", &buffer<float, Narf36, 3, 1>);
+    cls.def_property_readonly("pitch", &buffer<float, Narf36, 4, 1>);
+    cls.def_property_readonly("yaw", &buffer<float, Narf36, 5, 1>);
+    cls.def_property_readonly("descriptor", &buffer<float, Narf36, 6, 36>);
+}
+
+template<>
+void defineBuffers<IntensityGradient>(py::class_<PointCloud<IntensityGradient>, boost::shared_ptr<PointCloud<IntensityGradient>>> &cls) {
+    cls.def_property_readonly("gradient", &buffer<float, IntensityGradient, 0, 3>);
+    cls.def_property_readonly("gradient_x", &buffer<float, IntensityGradient, 0, 1>);
+    cls.def_property_readonly("gradient_y", &buffer<float, IntensityGradient, 1, 1>);
+    cls.def_property_readonly("gradient_z", &buffer<float, IntensityGradient, 2, 1>);
+}
+
+template<>
+void defineBuffers<PointWithScale>(py::class_<PointCloud<PointWithScale>, boost::shared_ptr<PointCloud<PointWithScale>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointWithScale, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointWithScale, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointWithScale, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointWithScale, 2, 1>);
+    cls.def_property_readonly("scale", &buffer<float, PointWithScale, 4, 1>);
+    cls.def_property_readonly("size", &buffer<float, PointWithScale, 4, 1>);
+    cls.def_property_readonly("angle", &buffer<float, PointWithScale, 5, 1>);
+    cls.def_property_readonly("response", &buffer<float, PointWithScale, 6, 1>);
+    cls.def_property_readonly("octave", &buffer<int, PointWithScale, 7, 1>);
+}
+
+template<>
+void defineBuffers<PointSurfel>(py::class_<PointCloud<PointSurfel>, boost::shared_ptr<PointCloud<PointSurfel>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointSurfel, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointSurfel, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointSurfel, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointSurfel, 2, 1>);
+    cls.def_property_readonly("normals", &buffer<float, PointSurfel, 4, 3>);
+    cls.def_property_readonly("normal_x", &buffer<float, PointSurfel, 4, 1>);
+    cls.def_property_readonly("normal_y", &buffer<float, PointSurfel, 5, 1>);
+    cls.def_property_readonly("normal_z", &buffer<float, PointSurfel, 6, 1>);
+    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointSurfel, 32, 3>);
+    cls.def_property_readonly("b", &buffer<uint8_t, PointSurfel, 32, 1>);
+    cls.def_property_readonly("g", &buffer<uint8_t, PointSurfel, 33, 1>);
+    cls.def_property_readonly("r", &buffer<uint8_t, PointSurfel, 34, 1>);
+    cls.def_property_readonly("a", &buffer<uint8_t, PointSurfel, 35, 1>);
+    cls.def_property_readonly("radius", &buffer<float, PointSurfel, 9, 1>);
+    cls.def_property_readonly("confidence", &buffer<float, PointSurfel, 10, 1>);
+    cls.def_property_readonly("curvature", &buffer<float, PointSurfel, 11, 1>);
+}
+
+template<>
+void defineBuffers<ShapeContext1980>(py::class_<PointCloud<ShapeContext1980>, boost::shared_ptr<PointCloud<ShapeContext1980>>> &cls) {
+    cls.def_property_readonly("descriptor", &buffer<float, ShapeContext1980, 0, 1980>);
+    cls.def_property_readonly("rf", &buffer<float, ShapeContext1980, 1980, 9>);
+}
+
+template<>
+void defineBuffers<UniqueShapeContext1960>(py::class_<PointCloud<UniqueShapeContext1960>, boost::shared_ptr<PointCloud<UniqueShapeContext1960>>> &cls) {
+    cls.def_property_readonly("descriptor", &buffer<float, UniqueShapeContext1960, 0, 1960>);
+    cls.def_property_readonly("rf", &buffer<float, UniqueShapeContext1960, 1960, 9>);
+}
+
+template<>
+void defineBuffers<SHOT352>(py::class_<PointCloud<SHOT352>, boost::shared_ptr<PointCloud<SHOT352>>> &cls) {
+    cls.def_property_readonly("descriptor", &buffer<float, SHOT352, 0, 352>);
+    cls.def_property_readonly("rf", &buffer<float, SHOT352, 352, 9>);
+}
+
+template<>
+void defineBuffers<SHOT1344>(py::class_<PointCloud<SHOT1344>, boost::shared_ptr<PointCloud<SHOT1344>>> &cls) {
+    cls.def_property_readonly("descriptor", &buffer<float, SHOT1344, 0, 1344>);
+    cls.def_property_readonly("rf", &buffer<float, SHOT1344, 1344, 9>);
+}
+
+template<>
+void defineBuffers<PointUV>(py::class_<PointCloud<PointUV>, boost::shared_ptr<PointCloud<PointUV>>> &cls) {
+    cls.def_property_readonly("u", &buffer<float, PointUV, 0, 1>);
+    cls.def_property_readonly("v", &buffer<float, PointUV, 1, 1>);
+}
+
+template<>
+void defineBuffers<ReferenceFrame>(py::class_<PointCloud<ReferenceFrame>, boost::shared_ptr<PointCloud<ReferenceFrame>>> &cls) {
+    cls.def_property_readonly("rf", &buffer<float, ReferenceFrame, 0, 9>);
+    cls.def_property_readonly("x_axis", &buffer<float, ReferenceFrame, 0, 3>);
+    cls.def_property_readonly("y_axis", &buffer<float, ReferenceFrame, 3, 3>);
+    cls.def_property_readonly("z_axis", &buffer<float, ReferenceFrame, 6, 3>);
+}
+
+template<>
+void defineBuffers<PointDEM>(py::class_<PointCloud<PointDEM>, boost::shared_ptr<PointCloud<PointDEM>>> &cls) {
+    cls.def_property_readonly("xyz", &buffer<float, PointDEM, 0, 3>);
+    cls.def_property_readonly("x", &buffer<float, PointDEM, 0, 1>);
+    cls.def_property_readonly("y", &buffer<float, PointDEM, 1, 1>);
+    cls.def_property_readonly("z", &buffer<float, PointDEM, 2, 1>);
+    cls.def_property_readonly("intensity", &buffer<float, PointDEM, 4, 1>);
+    cls.def_property_readonly("intensity_variance", &buffer<float, PointDEM, 5, 1>);
+    cls.def_property_readonly("height_variance", &buffer<float, PointDEM, 6, 1>);
 }

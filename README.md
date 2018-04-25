@@ -30,7 +30,7 @@ When pip installs the project, `pclpy_dependencies` is installed as a requiremen
 This small project contains only the PCL Windows dlls required.
 
 ## Features
-- ~~All~~ About half of the point types are implemented (those specified by the default msvc compile flags)
+- All point types are implemented (those specified by the default msvc compile flags)
 - You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
 - boost::shared_ptr is handled by pybind11 so it's completely abstracted at the python level
 
