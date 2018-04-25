@@ -75,5 +75,5 @@ def test_region_growing():
         clouds.append(cloud)
         pclpy.io.to_las(cloud, test_data("bf_rg%s.las" % n))
 
-    pclpy.view.vtk.view_multiple(clouds)
+    # pclpy.view.vtk.view_multiple(*clouds)
 

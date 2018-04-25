@@ -32,7 +32,3 @@ def test_pcl_visualizer_simple():
     # while not viewer.wasStopped():
     #     viewer.spinOnce(10, False)
 
-
-def test_view_multiple():
-    clouds = [pclpy.io.read_las(test_data("street_min_cut%s.las" % n)) for n in range(4)]
-    pclpy.view.vtk.view_multiple(clouds)
