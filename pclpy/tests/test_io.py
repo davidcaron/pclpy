@@ -1,5 +1,7 @@
-import pytest
 import os
+import time
+
+import pytest
 import numpy as np
 import laspy
 
@@ -18,8 +20,10 @@ def temp_las_path(request):
     def fin():
         try:
             os.remove(path)
+
         except WindowsError:
-            pass
+            time.sleep(.05)
+            os.remove(path)
 
     request.addfinalizer(fin)
     return path
