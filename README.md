@@ -1,5 +1,8 @@
 # pclpy: Point Cloud Library for python
 
+[![PyPI](https://img.shields.io/pypi/v/pclpy.svg)](https://pypi.org/project/pclpy/)
+[![PyPI Python version](https://img.shields.io/pypi/pyversions/pclpy.svg)](https://pypi.org/project/pclpy/)
+
 Automatically generated python bindings for the Point Cloud Library (PCL)
 using pybind11 and CppHeaderParser.
 
@@ -11,6 +14,7 @@ Only Windows x64 and python 3.6 are supported at the moment.
 Contributions, issues, comments are welcome!
 
 Github repository: https://www.github.com/davidcaron/pclpy
+
 Pypi: https://pypi.org/project/pclpy/
 
 ## Why another binding?
@@ -27,7 +31,8 @@ The goal is to wrap as much of the library as possible.
 `pip install pclpy`
 
 When pip installs the project, `pclpy_dependencies` is installed as a requirement.
-This small project contains only the PCL Windows dlls required.
+This simple package contains only the PCL dlls required on Windows so you don't have
+to download a PCL release or build it.
 
 ## Features
 - All point types are implemented (those specified by the default msvc compile flags)
@@ -105,8 +110,8 @@ mls.process (output);
 (see `todo.md` and the _what to skip_ section in `generators/config.py`)
 
 ## To build
-- Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2015-win64.exe) at:
-    https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2015-win64.exe
+- Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2017-win64.exe) at:
+    https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2017-win64.exe
 - PCL_ROOT environment variable must be set to the installation directory of PCL
 - About requirements:
     - Install pybind11 from github (2.3dev version) it includes a necessary bug fix
