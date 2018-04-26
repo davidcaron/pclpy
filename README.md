@@ -10,7 +10,7 @@ __This library is in active development, the api is likely to change.
 The included modules do work, but tests are not complete, and corner
 cases are still common.__
 
-Only Windows x64 and python 3.6 are supported at the moment.
+Only Windows and python 3.6 x64 are supported at the moment.
 
 Contributions, issues, comments are welcome!
 
@@ -34,11 +34,16 @@ The results so far are very promising. A large percentage of PCL is covered.
 
 ## Installing
 
+#### Windows with python 3.6 x64
 `pip install pclpy`
 
 When pip installs the project, `pclpy_dependencies` is installed as a requirement.
 This simple package contains only the PCL dlls required on Windows so you don't have
 to download a PCL release or build it.
+
+#### Linux
+
+Not working for now. Contributions are welcome!
 
 ## Features
 - All point types are implemented (those specified by the default msvc compile flags)
@@ -88,35 +93,36 @@ mls.process (output);
 ```
 
 ## Modules
-- These modules are included
-    - 2d
-    - common
-    - geometry
-    - features
-    - filters
-    - io
-    - kdtree
-    - keypoints
-    - octree
-    - recognition
-    - sample_consensus
-    - search
-    - segmentation
-    - stereo
-    - surface
-    - tracking
-    - visualization
-- These modules are skipped for now
-    - ml
-    - people
-    - outofcore
-    - registration
-    - every other module not built in the precompiled windows binaries
+- 2d
+- common
+- geometry
+- features
+- filters
+- io
+- kdtree
+- keypoints
+- octree
+- recognition
+- sample_consensus
+- search
+- segmentation
+- stereo
+- surface
+- tracking
+- visualization
+#### These modules are skipped for now
+- ml
+- people
+- outofcore
+- registration
+- every module not in the PCL Windows release (gpu, cuda, etc.)
 
 ## Not Implemented
 (see `todo.md` and the _what to skip_ section in `generators/config.py`)
 
 ## To build
+#### Windows with python 3.6 x64
+
 - Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2017-win64.exe) at:
     https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2017-win64.exe
 - PCL_ROOT environment variable must be set to the installation directory of PCL
