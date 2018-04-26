@@ -85,10 +85,6 @@ class ClassDefinition:
         s = []
         if self.template:
             template_info = re.findall(r"<(.+)>", str(self.template.replace("\n", "")))
-            if not template_info or "<" in self.class_name:
-                print("Warning: Templated class specializations (%s) not implemented (%s)" % (
-                    self.template, self.class_name))
-                return ""
 
             types = ", ".join(filter_template_types(template_info[0]))
             if types:

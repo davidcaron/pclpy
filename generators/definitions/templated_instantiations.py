@@ -98,9 +98,6 @@ class TemplatedInstantiations:
                                                types=types_str,
                                                types_names="_".join(types))
                         s.append(define)
-            elif c.get("template"):
-                print("Warning: skipping definition for specialized templated class (%s %s)" %
-                      (self.module, c["name"]))
             else:
                 define = 'define{sub}{name}({sub_name})'
                 define = define.format(sub=camelize(self.module), name=c["name"], sub_name=self.BASE_SUB_MODULE_NAME)
