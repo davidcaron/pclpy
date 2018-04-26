@@ -129,11 +129,9 @@ class Method:
         args = make_pybind_argument_list(params)
         if "operator" in self.cppmethod["name"]:
             message = "Operators not implemented (%s)" % (self.cppmethod["name"],)
-            print("Warning: " + message)
             ret_val = "// " + message
         elif self.needs_lambda_call:
             message = "Non templated function disambiguation not implemented (%s)" % (self.cppmethod["name"],)
-            print("Warning: " + message)
             ret_val = "// " + message
         #     """ Example of how to implement for kdtreeFlann:
         #     .def("nearest_k_search", []
