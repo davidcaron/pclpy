@@ -7,7 +7,7 @@ from generators.config import INDENT, KEEP_ASIS_TYPES
 from generators.utils import function_definition_name
 from generators.definitions.method import filter_template_types
 
-from CppHeaderParser import CppClass, CppMethod
+from CppHeaderParser import CppClass
 
 
 class TemplatedInstantiations:
