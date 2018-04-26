@@ -13,6 +13,7 @@
 //PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>);
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
 PYBIND11_MAKE_OPAQUE(std::vector<int>);
+PYBIND11_MAKE_OPAQUE(std::vector<float>);
 PYBIND11_MAKE_OPAQUE(Eigen::VectorXf);
 PYBIND11_MAKE_OPAQUE(Eigen::Quaternionf);
 

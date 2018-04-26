@@ -20,6 +20,7 @@ void defineVectorClasses(py::module &m_vector) {
 //    bindVector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
     bindVector<std::vector<pcl::PointIndices>>(m_vector, "PointIndices");
     bindVector<std::vector<int>>(m_vector, "Int");
+    bindVector<std::vector<float>>(m_vector, "Float");
 
     //all pcl point types
     bindVector<std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ>>>(m_vector, "PointXYZ");
