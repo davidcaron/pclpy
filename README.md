@@ -1,13 +1,14 @@
-# pclpy: Point Cloud Library for python
+# pclpy: PCL for python
 
 [![PyPI](https://img.shields.io/pypi/v/pclpy.svg)](https://pypi.org/project/pclpy/)
 [![PyPI Python version](https://img.shields.io/pypi/pyversions/pclpy.svg)](https://pypi.org/project/pclpy/)
 
-Automatically generated python bindings for the Point Cloud Library (PCL)
-using pybind11 and CppHeaderParser.
+Python bindings for the Point Cloud Library (PCL).
+Generated from headers using CppHeaderParser and pybind11.
 
-__The library is in early stage and in active development, do not
-use in production. The api is likely to change.__
+__This library is in active development, the api is likely to change.
+The included modules do work, but tests are not complete, and corner
+cases are still common.__
 
 Only Windows x64 and python 3.6 are supported at the moment.
 
@@ -17,14 +18,19 @@ Github repository: https://www.github.com/davidcaron/pclpy
 
 Pypi: https://pypi.org/project/pclpy/
 
-## Why another binding?
-The _python-pcl_ bindings contain a lot of repeated code. Maintaining, adding
-features or point types is quite tedious.
-While Cython is great, binding templated code isn't one of its strenghts.
-Also, python-pcl implement only a subset of PCL's classes and point types.
+## Motivation
+Many other python libraries tried to bind PCL.
+The most popular one being python-pcl, which uses Cython.
+While Cython is really powerful, binding C++ templates isn't one of
+its strenghts (and PCL uses templates heavily).
+The result for python-pcl is a lot of code repetition, which is hard
+to maintain and to add features to, and incomplete bindings of PCL's classes
+and point types.
 
-Using pybind11, we can use c++ templates directly.
-The goal is to wrap as much of the library as possible.
+Using pybind11, we use C++ directly. Templates, boost::smart_ptr and
+the buffer protocol are examples of things that are simpler to implement.
+
+The results so far are very promising. A large percentage of PCL is covered.
 
 ## Installing
 
@@ -38,6 +44,7 @@ to download a PCL release or build it.
 - All point types are implemented (those specified by the default msvc compile flags)
 - You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
 - boost::shared_ptr is handled by pybind11 so it's completely abstracted at the python level
+- laspy integration for reading/writing las files
 
 ## Example
 
@@ -81,7 +88,7 @@ mls.process (output);
 ```
 
 ## Modules
-- These modules should work, but are untested
+- These modules are included
     - 2d
     - common
     - geometry
@@ -130,4 +137,4 @@ mls.process (output);
 - Wrap as much of PCL as reasonably possible
 - More tests
 - CI on Appveyor
-- Make it installable on Linux and Mac
+- Make it work on Linux
