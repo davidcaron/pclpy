@@ -12,7 +12,8 @@ from CppHeaderParser.CppHeaderParser import CppMethod
 
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
-    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES
+    HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
+    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP
 from generators.definitions.function_definition import define_functions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -142,9 +143,12 @@ def get_main_classes(header, module, header_name):
     main_classes = [c for c in header.classes.values() if c["namespace"] in ("pcl", "pcl::" + module)]
     filtered_main_classes = []
     for class_ in main_classes:
-        if class_.get("template") and class_["template"].startswith("template <>"):
-            message = "Warning: Template class specialization not implemented for class %s in %s"
-            print(message % (class_["name"], header_name))
+        specialized_template = class_.get("template") and "<" in class_["name"]
+        if specialized_template:
+            to_skip = any(("<%s>" % type_) in class_["name"] for type_ in SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP)
+            if not to_skip:
+                message = "Warning: Template class specialization not implemented for class %s in %s"
+                print(message % (class_["name"], header_name))
         elif (module, header_name, class_["name"]) in CLASSES_TO_IGNORE:
             pass
         else:

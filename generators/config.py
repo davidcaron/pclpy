@@ -412,6 +412,10 @@ FUNCTIONS_TO_SKIP = [
     ("normal_3d.h", "flipNormalTowardsViewpoint"),  # no matching overload found...
 ]
 
+SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP = [
+    "pcl::PCLPointCloud2",  # not necessary to implement this for now
+]
+
 SUBMODULES_TO_SKIP = [
     "opennurbs",
     "face_detection",  # depends on ml/decision_tree_data_provider
