@@ -118,7 +118,8 @@ mls.process (output);
 - every module not in the PCL Windows release (gpu, cuda, etc.)
 
 ## Not Implemented
-(see `todo.md` and the _what to skip_ section in `generators/config.py`)
+(see [github issues](https://github.com/davidcaron/pclpy/issues)
+and the _what to skip_ section in `generators/config.py`)
 
 ## To build
 #### Windows with python 3.6 x64
