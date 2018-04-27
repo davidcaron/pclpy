@@ -1,7 +1,45 @@
+import numpy as np
+
 from pclpy import pcl
 
 
-BG_COLOR = (0.05, 0.35, 0.6)
+class Viewer:
+    BG_COLOR = (0.05, 0.35, 0.6)
+
+    def __init__(self, *clouds, overlay=True):
+        self.clouds = clouds
+        self.overlay = overlay
+
+        self.viewer = pcl.visualization.PCLVisualizer("viewer")
+
+        self.viewer.initCameraParameters()
+
+        if overlay:
+            self.viewer.setBackgroundColor(*self.BG_COLOR, 0)
+            for n, pc in enumerate(clouds, 1):
+                pc = ensure_color(pc)
+                handler = make_color_handler(pc)
+                name = "cloud%s" % n
+                self.viewer.addPointCloud(pc, handler, name, viewport=0)
+                self.viewer.setPointCloudRenderingProperties(0, 3, name)
+        else:
+            n_clouds = len(clouds)
+            vp_width = 1 / n_clouds
+            for n, pc in enumerate(clouds, 1):
+                self.viewer.createViewPort((n - 1) * vp_width, 0.0, n * vp_width, 1.0, n)
+                self.viewer.setBackgroundColor(*self.BG_COLOR, n)
+                handler = make_color_handler(pc)
+                name = "cloud%s" % n
+                self.viewer.addPointCloud(pc, handler, name, viewport=n)
+                self.viewer.setPointCloudRenderingProperties(0, 3, name)
+
+        self.viewer.addCoordinateSystem(1.0)
+        self.viewer.resetCamera()
+
+    def show(self):
+        while not self.viewer.wasStopped():
+            self.viewer.spinOnce(5)
+
 
 def make_color_handler(pc):
     if isinstance(pc, pcl.PointCloud.PointXYZRGBA):
@@ -12,31 +50,8 @@ def make_color_handler(pc):
         return pcl.visualization.PointCloudColorHandlerRandom.PointXYZ()
 
 
-def view_multiple(*clouds, overlay=True):
-    viewer = pcl.visualization.PCLVisualizer("viewer")
-
-    viewer.initCameraParameters()
-
-    if overlay:
-        viewer.setBackgroundColor(*BG_COLOR, 0)
-        for n, pc in enumerate(clouds, 1):
-            handler = make_color_handler(pc)
-            name = "cloud%s" % n
-            viewer.addPointCloud(pc, handler, name, viewport=0)
-            viewer.setPointCloudRenderingProperties(0, 3, name)
-    else:
-        n_clouds = len(clouds)
-        vp_width = 1 / n_clouds
-        for n, pc in enumerate(clouds, 1):
-            viewer.createViewPort((n - 1) * vp_width, 0.0, n * vp_width, 1.0, n)
-            viewer.setBackgroundColor(*BG_COLOR, n)
-            handler = make_color_handler(pc)
-            name = "cloud%s" % n
-            viewer.addPointCloud(pc, handler, name, viewport=n)
-            viewer.setPointCloudRenderingProperties(0, 3, name)
-
-    viewer.addCoordinateSystem(1.0)
-    viewer.resetCamera()
-
-    while not viewer.wasStopped():
-        viewer.spinOnce(5)
+def ensure_color(pc):
+    if isinstance(pc, pcl.PointCloud.PointXYZ):
+        rgb = np.zeros((pc.x.shape[0], 3), "u1")
+        pc = pcl.PointCloud.PointXYZRGBA.from_array(pc.xyz, rgb)
+    return pc
