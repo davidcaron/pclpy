@@ -14,11 +14,12 @@ class Variable:
 
     def to_str(self, class_name, class_var_name):
         s = '{cls_var}.def_read{only}{static}("{name}", &{cls}::{cppname})'
+        readonly = self.cppvariable["constant"] or self.cppvariable.get("array")
         data = {"name": self.name,
                 "cls": class_name,
                 "cls_var": class_var_name,
                 "cppname": self.cppvariable["name"],
-                "only": "write" if self.cppvariable["mutable"] else "only",
+                "only": "only" if readonly else "write",
                 "static": "_static" if self.cppvariable["static"] else "",
                 }
         ret_val = s.format(**data)

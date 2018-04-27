@@ -29,6 +29,19 @@ def test_points(xyz):
     assert abs(pt.x - 2) < 0.000001
 
 
+def test_point_indices():
+    ind = pcl.PointIndices()
+    ind.indices.append(3)
+    ind.indices.append(4)
+    assert list(ind.indices) == [3, 4]
+    vectors_int = pcl.vectors.Int()
+    vectors_int.append(5)
+    vectors_int.append(6)
+    vectors_int.append(7)
+    ind.indices = vectors_int
+    assert list(ind.indices) == [5, 6, 7]
+
+
 def test_size_xyz(xyz):
     assert xyz.size() == 10
 
