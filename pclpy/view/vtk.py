@@ -17,7 +17,6 @@ class Viewer:
         if overlay:
             self.viewer.setBackgroundColor(*self.BG_COLOR, 0)
             for n, pc in enumerate(clouds, 1):
-                pc = ensure_color(pc)
                 handler = make_color_handler(pc)
                 name = "cloud%s" % n
                 self.viewer.addPointCloud(pc, handler, name, viewport=0)
@@ -47,11 +46,6 @@ def make_color_handler(pc):
     elif isinstance(pc, pcl.PointCloud.PointXYZRGB):
         return pcl.visualization.PointCloudColorHandlerRGBField.PointXYZRGB(pc)
     elif isinstance(pc, pcl.PointCloud.PointXYZ):
-        return pcl.visualization.PointCloudColorHandlerRandom.PointXYZ()
-
-
-def ensure_color(pc):
-    if isinstance(pc, pcl.PointCloud.PointXYZ):
-        rgb = np.zeros((pc.x.shape[0], 3), "u1")
-        pc = pcl.PointCloud.PointXYZRGBA.from_array(pc.xyz, rgb)
-    return pc
+        return pcl.visualization.PointCloudColorHandler.PointXYZ()
+    elif isinstance(pc, pcl.PointCloud.PointXYZI):
+        return pcl.visualization.PointCloudColorHandlerGenericField.PointXYZI(pc, "intensity")
