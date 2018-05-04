@@ -66,7 +66,7 @@ class TemplatedInstantiations:
             a("{ind}{i}%s" % define_variable(var))
         for enum in self.enums:
             enum = Enum(enum)
-            a("{ind}{i}%s" % enum.to_str(prefix=enum.cppenum["namespace"], class_var_name=BASE_SUB_MODULE_NAME))
+            a("{ind}{i}%s;" % enum.to_str(prefix=enum.cppenum["namespace"], class_var_name=BASE_SUB_MODULE_NAME))
         a("{ind}{cb}")
 
         data = {
