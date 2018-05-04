@@ -157,7 +157,7 @@ def get_main_classes(header, module, header_name):
     return filtered_main_classes
 
 
-def get_functions(header, module, header_name):
+def get_functions(header, module):
     functions = [f for f in header.functions if f["namespace"] in ("pcl", "pcl::", "pcl::" + module)]
     functions = sorted(functions, key=lambda f: f["name"])
     return functions
