@@ -58,6 +58,18 @@ def test_initialize_everything():
                 print(class_, type(class_))
 
 
+def test_enums():
+    assert pcl.sample_consensus.SAC_RANSAC == 0
+    assert pcl.sample_consensus.SAC_LMEDS == 1
+    assert pcl.sample_consensus.SAC_MSAC == 2
+    assert pcl.sample_consensus.SAC_RRANSAC == 3
+
+    assert pcl.sample_consensus.SacModel.SACMODEL_PLANE == 0
+    assert pcl.sample_consensus.SacModel.SACMODEL_LINE == 1
+    assert pcl.sample_consensus.SacModel.SACMODEL_CIRCLE2D == 2
+    assert pcl.sample_consensus.SacModel.SACMODEL_CIRCLE3D == 3
+
+
 # def test_points(xyz):
 #     print(xyz.points)
 
