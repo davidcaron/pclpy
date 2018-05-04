@@ -74,6 +74,13 @@ if "--use-clcache" in sys.argv:
     sys.argv.remove("--use-clcache")
     USE_CLCACHE = True
 
+    # ensure clcache exists
+    for path in os.environ["PATH"].split(os.pathsep):
+        if os.path.isfile(os.path.join(path, "clcache.exe")):
+            break
+    else:
+        raise FileNotFoundError("You specified --use-clcache but clcache.exe can't be found.")
+
 # For MSVC, this flag skips code generation at linking
 # Do not set for release builds because some optimizations are skipped
 MSVC_NO_CODE_LINK = False
