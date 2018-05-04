@@ -163,6 +163,12 @@ def get_functions(header, module):
     return functions
 
 
+def get_enums(header, module):
+    enums = [f for f in header.enums if f["namespace"] in ("pcl", "pcl::", "pcl::" + module)]
+    enums = sorted(enums, key=lambda f: f["name"])
+    return enums
+
+
 def replace_some_terms(raw_lines):
     lines = []
     append = lines.append
@@ -316,6 +322,7 @@ def generate(headers_to_generate) -> OrderedDict:
             header = read_header(header_full_path)
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
             functions[(module, header_name)] = get_functions(header, module)
+            enums[(module, header_name)] = get_enums(header, module, header_name)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
             headers_to_generate.remove((module, header_name, path))
@@ -327,7 +334,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     dependency_tree = generators.dependency_tree.DependencyTree(classes)
 
-    point_types= dependency_tree.get_point_types_with_dependencies(classes_point_types)
+    point_types = dependency_tree.get_point_types_with_dependencies(classes_point_types)
 
     sorted_base_classes_first = list(dependency_tree.leaf_iterator())
 
