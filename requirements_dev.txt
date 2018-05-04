@@ -1,4 +1,4 @@
-pybind11>=2.3dev
+pybind11>=2.2.3
 PyYAML
 CppHeaderParser==2.7.3.1
 inflection
