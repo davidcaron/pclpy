@@ -315,7 +315,7 @@ def generate(headers_to_generate) -> OrderedDict:
             header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
             header = read_header(header_full_path)
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
-            functions[(module, header_name)] = get_functions(header, module, header_name)
+            functions[(module, header_name)] = get_functions(header, module)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
             headers_to_generate.remove((module, header_name, path))
