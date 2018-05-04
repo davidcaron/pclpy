@@ -26,17 +26,6 @@ using namespace pybind11::literals;
 
 using namespace pcl;
 
-//template <typename T>
-//static py::class_<PointCloud<T>, boost::shared_ptr<PointCloud<T>>>
-//                    definePointCloud(py::module & m, std::string const & suffix) {
-//    using Class = PointCloud<T>;
-//    py::class_<Class, boost::shared_ptr<Class>> cls(m, suffix.c_str());
-//    cls.def(py::init<>());
-//    cls.def("size", &Class::size);
-//    cls.def_readwrite("points", &Class::points);
-//    return cls;
-//}
-
 template <typename T>
 void definePointCloudBuffers(py::module &m, const char* suffix) {
     using PointCloud = pcl::PointCloud<T>;
