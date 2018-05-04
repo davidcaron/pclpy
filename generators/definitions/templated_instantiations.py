@@ -3,21 +3,23 @@ import re
 
 from inflection import camelize
 
-from generators.config import INDENT, KEEP_ASIS_TYPES
+from generators.config import INDENT, KEEP_ASIS_TYPES, BASE_SUB_MODULE_NAME
+from generators.definitions.enum import Enum
+from generators.definitions.module_variable import define_variable
 from generators.utils import function_definition_name
 from generators.definitions.method import filter_template_types
 
-from CppHeaderParser import CppClass
+from CppHeaderParser import CppClass, CppVariable
 
 
 class TemplatedInstantiations:
-    BASE_SUB_MODULE_NAME = "sub_module"
-
     def __init__(self,
                  sorted_classes: List[CppClass],
                  module: str,
                  header_name: str,
-                 classes_point_types: Dict
+                 classes_point_types: Dict,
+                 variables: List[CppVariable],
+                 enums: List[CppVariable],
                  ):
         """
         Generate templated function calls that instantiate pybind11 classes
@@ -33,6 +35,8 @@ class TemplatedInstantiations:
         self.module = module
         self.header_name = header_name
         self.classes_point_types = classes_point_types
+        self.variables = variables
+        self.enums = enums
 
     def repr_sub_module(self, class_name: str):
         """
@@ -41,7 +45,7 @@ class TemplatedInstantiations:
         s = 'py::module {sub} = {base}.def_submodule("{name}", "Submodule {name}")'
         data = {
             "sub": self.sub_module_name(class_name),
-            "base": self.BASE_SUB_MODULE_NAME,
+            "base": BASE_SUB_MODULE_NAME,
             "name": class_name
         }
         return s.format(**data)
@@ -58,12 +62,17 @@ class TemplatedInstantiations:
             a("{ind}{i}%s;" % line)
         if has_functions:
             a("{ind}{i}define{sub}{name}Functions({base});")
+        for var in self.variables:
+            a("{ind}{i}%s" % define_variable(var))
+        for enum in self.enums:
+            enum = Enum(enum)
+            a("{ind}{i}%s" % enum.to_str(prefix=enum.cppenum["namespace"], class_var_name=BASE_SUB_MODULE_NAME))
         a("{ind}{cb}")
 
         data = {
             "ind": global_indent,
             "i": i,
-            "base": self.BASE_SUB_MODULE_NAME,
+            "base": BASE_SUB_MODULE_NAME,
             "name": function_definition_name(self.header_name),
             "sub": camelize(self.module),
             "ob": "{",
@@ -72,7 +81,7 @@ class TemplatedInstantiations:
         return "\n".join([line.format(**data) for line in s])
 
     def sub_module_name(self, class_name):
-        return "%s_%s" % (self.BASE_SUB_MODULE_NAME, class_name)
+        return "%s_%s" % (BASE_SUB_MODULE_NAME, class_name)
 
     def generate_templated_class_calls(self):
         s = []
@@ -100,6 +109,6 @@ class TemplatedInstantiations:
                         s.append(define)
             else:
                 define = 'define{sub}{name}({sub_name})'
-                define = define.format(sub=camelize(self.module), name=c["name"], sub_name=self.BASE_SUB_MODULE_NAME)
+                define = define.format(sub=camelize(self.module), name=c["name"], sub_name=BASE_SUB_MODULE_NAME)
                 s.append(define)
         return s

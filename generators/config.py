@@ -2,6 +2,7 @@ from os.path import join
 import os
 
 INDENT = " " * 4
+BASE_SUB_MODULE_NAME = "sub_module"
 
 PCL_BASE = join(os.environ["PCL_ROOT"], "include\pcl-1.8\pcl")
 PATH_SRC = join("..", "pclpy", "src")

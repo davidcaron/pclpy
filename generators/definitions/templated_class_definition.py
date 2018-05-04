@@ -124,8 +124,7 @@ class ClassDefinition:
         i = INDENT
         class_enums_names = [v["name"] for e in self.enums for v in e.cppenum["values"]]
         s = ["{ind}%s;" % self.to_str()]
-        for enum in self.enums:
-            s += ["{ind}%s;" % enum.to_str("Class", class_var_name=self.CLS_VAR)]
+        s += ["{ind}%s;" % enum.to_str("Class", class_var_name=self.CLS_VAR) for enum in self.enums]
         s += ["{ind}%s;" % c.to_str(class_var_name=self.CLS_VAR, class_enums_names=class_enums_names)
               for c in self.constructors]
         s += ["{ind}%s;" % v.to_str("Class", class_var_name=self.CLS_VAR) for v in self.variables]

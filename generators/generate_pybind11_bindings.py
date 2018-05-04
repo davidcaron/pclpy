@@ -163,9 +163,15 @@ def get_functions(header, module):
     return functions
 
 
-def get_enums(header, module):
-    enums = [f for f in header.enums if f["namespace"] in ("pcl", "pcl::", "pcl::" + module)]
-    enums = sorted(enums, key=lambda f: f["name"])
+def get_variables(header):
+    variables = [v for v in header.variables if v.get("defaultValue")]
+    variables = sorted(variables, key=lambda v: v["name"])
+    return variables
+
+
+def get_enums(header):
+    enums = [e for e in header.enums if e.get("name")]  # skip nameless enums
+    enums = sorted(enums, key=lambda v: v["name"])
     return enums
 
 
@@ -314,7 +320,7 @@ def generate(headers_to_generate) -> OrderedDict:
 
     t = time.time()
 
-    main_classes, functions = {}, {}
+    main_classes, functions, variables, enums = {}, {}, {}, {}
 
     for module, header_name, path in headers_to_generate[:]:
         try:
@@ -322,7 +328,8 @@ def generate(headers_to_generate) -> OrderedDict:
             header = read_header(header_full_path)
             main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
             functions[(module, header_name)] = get_functions(header, module)
-            enums[(module, header_name)] = get_enums(header, module, header_name)
+            variables[(module, header_name)] = get_variables(header)
+            enums[(module, header_name)] = get_enums(header)
         except CppHeaderParser.CppParseError:
             print("Warning: skipped header (%s/%s)" % (module, header_name))
             headers_to_generate.remove((module, header_name, path))
@@ -359,7 +366,13 @@ def generate(headers_to_generate) -> OrderedDict:
                                      module,
                                      header,
                                      not_every_point_type=not_every_point_type))
-        module_def = TemplatedInstantiations(main_classes, module, header, point_types)
+        module_def = TemplatedInstantiations(main_classes,
+                                             module,
+                                             header,
+                                             point_types,
+                                             variables[(module, header)],
+                                             enums[(module, header)],
+                                             )
         text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
         return "\n".join(text)
 
