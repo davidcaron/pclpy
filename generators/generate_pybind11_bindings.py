@@ -16,8 +16,8 @@ from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODUL
 from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
-from generators.definitions.templated_class_definition import ClassDefinition
-from generators.definitions.templated_instantiations import TemplatedInstantiations
+from generators.definitions.templated_class import ClassDefinition
+from generators.instantiations import Instantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
     generate_main_loader, make_namespace_class
@@ -433,13 +433,13 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
                                                              module,
                                                              header,
                                                              not_every_point_type=not_every_point_type)
-        instantiations = TemplatedInstantiations(header_classes,
-                                                 module,
-                                                 header,
-                                                 all_point_types,
-                                                 module_variables[(module, header)],
-                                                 module_enums[(module, header)],
-                                                 )
+        instantiations = Instantiations(header_classes,
+                                        module,
+                                        header,
+                                        all_point_types,
+                                        module_variables[(module, header)],
+                                        module_enums[(module, header)],
+                                        )
         instantiation_function = instantiations.generate_instantiation_function(has_functions=bool(header_functions))
         text = [class_definitions, function_definitions, instantiation_function]
 

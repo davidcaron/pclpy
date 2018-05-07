@@ -11,7 +11,7 @@ from generators.definitions.module_variable import define_variable
 from generators.utils import function_definition_name
 
 
-class TemplatedInstantiations:
+class Instantiations:
     def __init__(self,
                  sorted_classes: List[CppClass],
                  module: str,
