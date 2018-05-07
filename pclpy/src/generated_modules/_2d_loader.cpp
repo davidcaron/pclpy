@@ -1,0 +1,26 @@
+
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+#include <pybind11/eigen.h>
+#include <pybind11/stl.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
+namespace py = pybind11;
+using namespace pybind11::literals;
+
+PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
+#include "../make_opaque_vectors.hpp"
+#include "2d/kernel.hpp"
+#include "2d/morphology.hpp"
+#include "2d/convolution.hpp"
+#include "2d/edge.hpp"
+
+
+void define2dClasses(py::module &m) {
+    py::module m_2d = m.def_submodule("module_2d", "Submodule 2d");
+    define2dKernelClasses(m_2d);
+    define2dMorphologyClasses(m_2d);
+    define2dConvolutionClasses(m_2d);
+    define2dEdgeClasses(m_2d);
+}
