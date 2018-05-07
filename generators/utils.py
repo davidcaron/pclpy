@@ -16,7 +16,7 @@ def make_header_include_name(module, header_name, path=None, path_only=False):
         return "#include <pcl/%s>" % name
 
 
-def make_namespace_class(namespace, class_name):
+def make_namespace_class(namespace, class_name) -> str:
     while namespace.endswith(":"):
         namespace = namespace[:-1]
     class_name = class_name.strip()

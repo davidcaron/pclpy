@@ -75,7 +75,7 @@ class ClassDefinition:
     def typedefs(self):
         return self.class_["typedefs"]["public"]
 
-    def to_class_function_definition(self, ind=""):
+    def to_class_function_definition(self, ind="") -> str:
         """
         template <typename PointInT, typename PointOutT>
         void define...(py::module &m, std::string const & suffix) { ... }

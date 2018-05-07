@@ -84,7 +84,7 @@ def generate_class_definitions(main_classes,
                                header_name,
                                path,
                                needs_overloading: List[str],
-                               methods_defined_outside: List[CppMethod]) -> List[str]:
+                               methods_defined_outside: List[CppMethod]) -> str:
     text = []
     a = text.append
     a(common_includes)
