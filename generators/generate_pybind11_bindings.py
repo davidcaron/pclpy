@@ -1,12 +1,11 @@
 import os
-import sys
 import shutil
+import sys
 from collections import Counter
 from collections import defaultdict, OrderedDict
 from os.path import join
 from typing import List, Dict
 
-import yaml
 from CppHeaderParser import CppHeaderParser
 from CppHeaderParser.CppHeaderParser import CppMethod
 
@@ -14,7 +13,7 @@ import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
     SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP
-from generators.definitions.function_definition import define_functions, get_methods_defined_outside
+from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
 from generators.definitions.templated_class_definition import ClassDefinition
@@ -80,22 +79,24 @@ def private_methods_defined_outside(private_methods: List[CppMethod],
     return private_defined_outside
 
 
-def gen_class_function_definitions(main_classes,
-                                   module,
-                                   header_name,
-                                   path,
-                                   needs_overloading: List[str],
-                                   methods_defined_outside: List[CppMethod]) -> List[str]:
-    text = [common_includes]
-    text.append(EXPLICIT_INCLUDES.get((module, header_name), ""))
-    text.append(make_header_include_name(module, header_name, path))
-    text.append("")
+def generate_class_definitions(main_classes,
+                               module,
+                               header_name,
+                               path,
+                               needs_overloading: List[str],
+                               methods_defined_outside: List[CppMethod]) -> List[str]:
+    text = []
+    a = text.append
+    a(common_includes)
+    a(EXPLICIT_INCLUDES.get((module, header_name), ""))
+    a(make_header_include_name(module, header_name, path))
+    a("")
 
     namespaces = set([c["namespace"] for c in main_classes])
     for namespace in namespaces:
         if not namespace == "pcl":
-            text.append("using namespace %s;" % namespace)
-    text.append("\n")
+            a("using namespace %s;" % namespace)
+    a("\n")
 
     for class_ in main_classes:
         doc = class_.get("doxygen", "")
@@ -117,10 +118,10 @@ def gen_class_function_definitions(main_classes,
         if not class_["can_be_instantiated"]:
             constructors = []
         class_def = ClassDefinition(class_, constructors, variables, others, module)
-        text.append(class_def.to_class_function_definition())
-        text.append("")
+        a(class_def.to_class_function_definition())
+        a("")
 
-    return text
+    return "\n".join(text)
 
 
 def filter_class_properties(module, header, class_name, properties):
@@ -298,7 +299,7 @@ def flag_instantiatable_class(dependency_tree, main_classes):
             class_["can_be_instantiated"] = can_be_instantiated
 
 
-def get_point_types(not_every_point_type):
+def load_yaml_point_types(not_every_point_type):
     classes_point_types = unpack_yaml_point_types("point_types_generated.yml", not_every_point_type)
     extra_point_types = unpack_yaml_point_types("point_types_extra.yml")
     for k, v in extra_point_types.items():
@@ -307,82 +308,6 @@ def get_point_types(not_every_point_type):
         else:
             classes_point_types[k] = v
     return classes_point_types
-
-
-def generate(headers_to_generate) -> OrderedDict:
-    """
-    :return: OrderedDict
-    """
-    not_every_point_type = "--not-every-point-type" in sys.argv
-    classes_point_types = get_point_types(not_every_point_type)
-
-    import time
-
-    t = time.time()
-
-    main_classes, functions, variables, enums = {}, {}, {}, {}
-
-    for module, header_name, path in headers_to_generate[:]:
-        try:
-            header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
-            header = read_header(header_full_path)
-            main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
-            functions[(module, header_name)] = get_functions(header, module)
-            variables[(module, header_name)] = get_variables(header)
-            enums[(module, header_name)] = get_enums(header)
-        except CppHeaderParser.CppParseError:
-            print("Warning: skipped header (%s/%s)" % (module, header_name))
-            headers_to_generate.remove((module, header_name, path))
-
-    print("read header in %.2f s" % (time.time() - t,))
-
-    classes = [c for module, header, path in headers_to_generate
-               for c in main_classes[(module, header)]]
-
-    dependency_tree = generators.dependency_tree.DependencyTree(classes)
-
-    point_types = dependency_tree.get_point_types_with_dependencies(classes_point_types)
-
-    sorted_base_classes_first = list(dependency_tree.leaf_iterator())
-
-    key = lambda x: sorted_base_classes_first.index(make_namespace_class(x["namespace"], x["name"]))
-    for module, header in main_classes:
-        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
-
-    headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
-
-    methods_need_overloading = check_if_needs_overloading(main_classes)
-
-    flag_instantiatable_class(dependency_tree, main_classes)
-
-    # for module, header in headers_to_generate:
-    def generate_header(module, header, path, main_classes) -> str:
-        methods_defined_outside = get_methods_defined_outside(functions[(module, header)])
-        text = gen_class_function_definitions(main_classes, module, header, path,
-                                              methods_need_overloading.get(module),
-                                              methods_defined_outside)
-
-        text.append(define_functions(functions[(module, header)],
-                                     module,
-                                     header,
-                                     not_every_point_type=not_every_point_type))
-        module_def = TemplatedInstantiations(main_classes,
-                                             module,
-                                             header,
-                                             point_types,
-                                             variables[(module, header)],
-                                             enums[(module, header)],
-                                             )
-        text.append(module_def.to_module_function_definition(has_functions=bool(functions)))
-        return "\n".join(text)
-
-    generated_headers = OrderedDict()
-    for module, header, path in headers_to_generate:
-        generated_headers[(module, header)] = generate_header(module, header, path, main_classes[(module, header)])
-
-    print("generated in %.2f s" % (time.time() - t,))
-
-    return generated_headers
 
 
 def make_module_dirs(modules):
@@ -439,11 +364,6 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         output_path = join(PATH_MODULES, module, header_name + "pp")
         files_to_write[output_path] = text
 
-    # debug: print all default types
-    # default_types_by_namespace = method_parameters.all_default_types_by_namespace
-    # for k, v in default_types_by_namespace.items():
-    #     print(k, v)
-
     # loaders
     loader_modules = defaultdict(list)
     for module, header in generated_headers:
@@ -460,10 +380,88 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         delete_other_dirs(modules)
 
 
+def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
+    """
+    :return: OrderedDict
+    """
+    main_classes, module_functions, module_variables, module_enums = {}, {}, {}, {}
+
+    for module, header_name, path in headers_to_generate[:]:
+        header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
+        header = read_header(header_full_path)
+        main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
+        module_functions[(module, header_name)] = get_functions(header, module)
+        module_variables[(module, header_name)] = get_variables(header)
+        module_enums[(module, header_name)] = get_enums(header)
+
+    classes = [c for module, header, path in headers_to_generate
+               for c in main_classes[(module, header)]]
+
+    dependency_tree = generators.dependency_tree.DependencyTree(classes)
+
+    loaded_point_types = load_yaml_point_types(not_every_point_type)
+    all_point_types = dependency_tree.get_point_types_with_dependencies(loaded_point_types)
+
+    classes_sorted_base_first = list(dependency_tree.leaf_iterator())
+
+    def key(class_):
+        return classes_sorted_base_first.index(make_namespace_class(class_["namespace"], class_["name"]))
+
+    for module, header in main_classes:
+        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
+
+    headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
+
+    methods_need_overloading = check_if_needs_overloading(main_classes)
+
+    flag_instantiatable_class(dependency_tree, main_classes)
+
+    def generate_header(module, header, path) -> str:
+        header_functions = module_functions[(module, header)]
+        header_classes = main_classes[(module, header)]
+
+        methods_defined_outside = get_methods_defined_outside(header_functions)
+
+        class_definitions = generate_class_definitions(header_classes,
+                                                       module,
+                                                       header,
+                                                       path,
+                                                       methods_need_overloading.get(module),
+                                                       methods_defined_outside)
+
+        function_definitions = generate_function_definitions(header_functions,
+                                                             module,
+                                                             header,
+                                                             not_every_point_type=not_every_point_type)
+        instantiations = TemplatedInstantiations(header_classes,
+                                                 module,
+                                                 header,
+                                                 all_point_types,
+                                                 module_variables[(module, header)],
+                                                 module_enums[(module, header)],
+                                                 )
+        instantiation_function = instantiations.generate_instantiation_function(has_functions=bool(header_functions))
+        text = [class_definitions, function_definitions, instantiation_function]
+
+        return "\n".join(text)
+
+    generated_headers = OrderedDict()
+    for module, header, path in headers_to_generate:
+        generated_headers[(module, header)] = generate_header(module, header, path)
+
+    return generated_headers
+
+
 def main():
+    import time
+    t = time.time()
+
     all_headers = get_headers()
-    generated_headers = generate(all_headers)
+    not_every_point_type = "--not-every-point-type" in sys.argv
+    generated_headers = generate(all_headers, not_every_point_type)
     write_stuff_if_needed(generated_headers, delete_others=True)
+
+    print("generated in %.2f s" % (time.time() - t,))
 
 
 if __name__ == '__main__':

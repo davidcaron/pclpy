@@ -1,6 +1,6 @@
-from generators.config import INDENT
-
 from CppHeaderParser import CppVariable
+
+from generators.config import INDENT
 
 
 class Enum:

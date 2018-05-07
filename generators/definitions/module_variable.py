@@ -1,5 +1,3 @@
-from typing import List
-
 from CppHeaderParser import CppVariable
 
 from generators.config import BASE_SUB_MODULE_NAME

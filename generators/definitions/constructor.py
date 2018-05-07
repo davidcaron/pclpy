@@ -1,18 +1,17 @@
 from CppHeaderParser import CppMethod
 
 from generators.config import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
-from generators.utils import make_namespace_class
 
 
 class Constructor:
-    def __init__(self, const: CppMethod):
+    def __init__(self, constructor: CppMethod):
         """
         Generates definition for a class constructor
         Example:
-            .def(py::init<str>(), "info"_a="None")
+            cls.def(py::init<str>(), "info"_a="something");
         """
-        self.cppconst = const
-        self.params = self.cppconst["parameters"]
+        self.cppconstructor = constructor
+        self.params = self.cppconstructor["parameters"]
         self.filter_parameters()
 
     def filter_parameters(self):
@@ -30,7 +29,7 @@ class Constructor:
             if val:
                 if val in class_enums_names:
                     val = "Class::" + val
-                val = val.replace(" ", "")  # fix for exponent and float values parsed with added spaces
+                val = val.replace(" ", "")  # CppHeaderParser addsspace to float values
                 val = "=" + val
             return val
 

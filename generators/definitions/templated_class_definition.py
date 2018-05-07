@@ -4,12 +4,12 @@ from typing import List
 from CppHeaderParser import CppClass
 from inflection import camelize
 
+from generators.config import INDENT
 from generators.definitions.constructor import Constructor
 from generators.definitions.enum import Enum
 from generators.definitions.method import Method
-from generators.definitions.variable import Variable
-from generators.config import INDENT
 from generators.definitions.method import filter_template_types
+from generators.definitions.variable import Variable
 from generators.point_types_utils import clean_inheritance
 
 
@@ -29,11 +29,10 @@ class ClassDefinition:
             template <typename PointT>
             void defineSuperFunction(py::module &m, std::string const & suffix) {
                 using Class = SuperFunction<PointT>;
-                py::class_<Class, PCLBase<PointT>, boost::shared_ptr<Class>>(m, suffix.c_str())
-                    .def(py::init<>())
-                    .def_property("stuff", &Class::getStuff, &Class::setStuff)
-                    .def("go", &Class::go)
-                    ;
+                py::class_<Class, PCLBase<PointT>, boost::shared_ptr<Class>> cls(m, suffix.c_str());
+                cls.def(py::init<>());
+                cls.def_property("stuff", &Class::getStuff, &Class::setStuff);
+                cls.def("go", &Class::go);
             }
         """
         self.sub_module = sub_module

@@ -4,12 +4,16 @@ from typing import List
 from CppHeaderParser import CppClass
 
 from generators.config import EXTERNAL_INHERITANCE, IGNORE_INHERITED_INSTANTIATIONS, INHERITED_TEMPLATED_TYPES_FILTER
-from generators.point_types_utils import clean_inheritance, unpack_point_types, get_class_namespace
+from generators.point_types_utils import clean_inheritance, get_class_namespace
 from generators.utils import make_namespace_class
 
 
 class DependencyTree:
     def __init__(self, classes: List[CppClass]):
+        """
+
+        :param classes:
+        """
         self.namespace_by_class_name = defaultdict(list)
         for c in classes:
             self.namespace_by_class_name[c["name"]].append(c["namespace"])
@@ -73,16 +77,12 @@ class DependencyTree:
                         continue
                     n_point_types_base = self.n_template_point_types[base_class_]
                     if n_point_types_base != n_point_types:
-                        types_filter = INHERITED_TEMPLATED_TYPES_FILTER.get(base_class_)
-                        if not types_filter:  # todo: clean this
-                            types_filter = INHERITED_TEMPLATED_TYPES_FILTER.get(base_class_name)
+                        template_filter = INHERITED_TEMPLATED_TYPES_FILTER
+                        types_filter = template_filter.get(base_class_, template_filter.get(base_class_name))
                         if types_filter:
-                            filtered = types_filter
-                            types[base_class_name] += [tuple(t for i, t in enumerate(types_) if i in filtered) for
-                                                       types_ in
-                                                       point_types]
-                        # BaseClass<PointInT> CurrentClass<PointInT, PointOutT>
-                        # todo: Here I am hoping this inheritance is always ordered from the first point type
+                            for types_ in point_types:
+                                filtered = tuple(t for i, t in enumerate(types_) if i in types_filter)
+                                types[base_class_name].append(filtered)
                         types[base_class_name] += [types_[:n_point_types_base] for types_ in point_types]
                     else:
                         types[base_class_name] += point_types

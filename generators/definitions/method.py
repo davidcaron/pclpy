@@ -1,18 +1,15 @@
 from collections import OrderedDict
 from itertools import chain, product
-
-from generators.point_types_utils import PCL_POINT_TYPES
-from generators.definitions.property import make_properties_split_overloads
-
-from generators.definitions.constructor import Constructor
-from generators.definitions.variable import Variable
 from typing import List
 
 from CppHeaderParser import CppMethod, CppVariable
 
 from generators.config import CUSTOM_OVERLOAD_TYPES, EXPLICIT_IMPORTED_TYPES, KEEP_ASIS_TYPES, \
     EXTERNAL_INHERITANCE, TEMPLATED_METHOD_TYPES, SPECIFIC_TEMPLATED_METHOD_TYPES, GLOBAL_PCL_IMPORTS
+from generators.definitions.constructor import Constructor
 from generators.definitions.method_parameters import make_pybind_argument_list
+from generators.definitions.variable import Variable
+from generators.point_types_utils import PCL_POINT_TYPES
 from generators.utils import make_namespace_class
 
 
@@ -21,7 +18,7 @@ class Method:
         """
         Generates definition for a method
         Example:
-            .def("go", &Class::go)
+            cls.def("go", &Class::go);
         """
         self.cppmethod = method
         self.name = method["name"]
@@ -75,7 +72,7 @@ class Method:
     def clean_unresolved_type(self, param, type_, prefix):
         const = "const " if param["constant"] or "const" in param["type"] else ""
         type_ = type_.replace("typename ", "")
-        if "const" in type_:  # fix for parsing error 'std::vector<double>const' (no space)
+        if "const" in type_:  # fix for CppHeaderParser parsing error 'std::vector<double>const' (no space)
             const = ""
         ref = " &" if param["reference"] else ""
         parent_name = param["method"].get("parent", {}).get("name")

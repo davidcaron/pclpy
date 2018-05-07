@@ -1,8 +1,8 @@
 import os
-from os.path import join
 import re
-from typing import List, Tuple
 from collections import defaultdict
+from os.path import join
+from typing import List, Tuple
 
 import yaml
 

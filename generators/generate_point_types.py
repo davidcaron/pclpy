@@ -1,11 +1,10 @@
 """
-PCL point types are generated using boost macros. So it's cleaner to manually bind them in pclpy.
+PCL point types are generated using boost macros. So it's easier to manually bind them in pclpy.
 """
 
 import re
-from os.path import join
-
 from collections import OrderedDict
+from os.path import join
 
 from generators import config
 from generators.config import PCL_BASE, INDENT

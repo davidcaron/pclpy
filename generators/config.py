@@ -1,5 +1,5 @@
-from os.path import join
 import os
+from os.path import join
 
 INDENT = " " * 4
 BASE_SUB_MODULE_NAME = "sub_module"
@@ -30,7 +30,7 @@ MODULES_TO_BUILD = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kd
                     'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
                     'tracking', 'visualization']
 # skipped for now:
-# , 'ml', 'people', 'outofcore' 'registration']
+# , 'ml', 'people', 'outofcore', 'registration']
 
 # -----------------------------
 # specific generator parameters

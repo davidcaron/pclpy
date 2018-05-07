@@ -5,9 +5,9 @@ from typing import List
 from CppHeaderParser import CppMethod
 from inflection import camelize
 
-from generators.definitions.method import filter_template_types, template_types_generator
 from generators.config import INDENT, FUNCTIONS_TO_SKIP
 from generators.definitions.method import Method
+from generators.definitions.method import filter_template_types, template_types_generator
 from generators.point_types_utils import filter_types
 from generators.utils import function_definition_name
 
@@ -30,16 +30,16 @@ def filter_functions(cppfunctions, header_name):
 def get_methods_defined_outside(cppfunctions):
     filtered = []
     for f in cppfunctions:
-        if "::" in f["rtnType"].replace(" ", ""):  # explits a bug in CppHeaderParser...
+        if "::" in f["rtnType"].replace(" ", ""):  # bug in CppHeaderParser for methods defined outside class
             filtered.append(f)
     return filtered
 
 
-def define_functions(cppfunctions: List[CppMethod],
-                     module_name,
-                     header_name,
-                     indent="",
-                     not_every_point_type=False):
+def generate_function_definitions(cppfunctions: List[CppMethod],
+                                  module_name,
+                                  header_name,
+                                  indent="",
+                                  not_every_point_type=False):
     cppfunctions = filter_functions(cppfunctions, header_name)
     cppfunctions = list(sorted(cppfunctions, key=lambda x: x["name"]))
     functions = [Method(f, is_an_overload=True) for f in cppfunctions]

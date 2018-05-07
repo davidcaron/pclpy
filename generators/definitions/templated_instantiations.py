@@ -1,15 +1,14 @@
-from typing import List, Dict
 import re
+from typing import List, Dict
 
+from CppHeaderParser import CppClass, CppVariable
 from inflection import camelize
 
 from generators.config import INDENT, KEEP_ASIS_TYPES, BASE_SUB_MODULE_NAME
 from generators.definitions.enum import Enum
+from generators.definitions.method import filter_template_types
 from generators.definitions.module_variable import define_variable
 from generators.utils import function_definition_name
-from generators.definitions.method import filter_template_types
-
-from CppHeaderParser import CppClass, CppVariable
 
 
 class TemplatedInstantiations:
@@ -50,7 +49,7 @@ class TemplatedInstantiations:
         }
         return s.format(**data)
 
-    def to_module_function_definition(self, global_indent="", has_functions=False):
+    def generate_instantiation_function(self, global_indent="", has_functions=False):
         """
         void define...Classes(py::module &m) { ... }
         """

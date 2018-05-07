@@ -1,5 +1,5 @@
-from itertools import product
 from functools import partial
+from itertools import product
 from typing import List, Tuple, Dict
 
 import yaml

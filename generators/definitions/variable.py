@@ -6,7 +6,7 @@ class Variable:
         """
         Generates definition for a variable
         Example:
-            .def("indices", &Class::indices)
+            cls.def("indices", &Class::indices);
         """
         self.cppvariable = variable
         self.name = variable["name"]
