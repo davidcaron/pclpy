@@ -310,19 +310,6 @@ HEADERS_TO_SKIP = [
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
 
-    # todo: everything in pcl/ml/dt/ is actually at pcl/ml/
-    ("ml", "decision_tree_evaluator.h"),
-    ("ml", "decision_forest.h"),
-    ("ml", "decision_forest_evaluator.h"),
-    ("ml", "decision_forest_trainer.h"),
-    ("ml", "decision_tree.h"),
-    ("ml", "decision_tree_data_provider.h"),
-    ("ml", "decision_tree_evaluator.h"),
-    ("ml", "decision_tree_trainer.h"),
-    ("ml", "fern.h"),
-    ("ml", "fern_evaluator.h"),
-    ("ml", "fern_trainer.h"),
-
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
