@@ -12,7 +12,7 @@ def test_data(*args):
 
 
 def test_extract_indices_simple():
-    pc = pclpy.io.las.read_las(test_data("street_thinned.las"), colors=False)
+    pc = pclpy.io.las.read(test_data("street_thinned.las"), "PointXYZ")
     extract = pcl.filters.ExtractIndices.PointXYZ()
     extract.setInputCloud(pc)
     pi = pcl.PointIndices()

@@ -51,7 +51,7 @@ def make_pt(x, y, z):
 #     pclpy.view.vtk.view_multiple(clouds)
 
 def test_region_growing():
-    pc = pclpy.io.read_las(test_data("bf.las"))
+    pc = pclpy.io.read(test_data("bf.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()
     rg.setInputCloud(pc)
     normals_estimation = pcl.features.NormalEstimationOMP.PointXYZRGBA_Normal()
@@ -73,7 +73,7 @@ def test_region_growing():
         rg.extract(clusters)
         cloud = rg.getColoredCloud()
         clouds.append(cloud)
-        pclpy.io.to_las(cloud, test_data("bf_rg%s.las" % n))
+        pclpy.io.write(cloud, test_data("bf_rg%s.las" % n))
 
     # pclpy.view.vtk.view_multiple(*clouds)
 

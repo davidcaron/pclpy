@@ -12,15 +12,13 @@ def test_data(*args):
 
 
 def test_cloud_viewer():
-    pc = pclpy.io.read(test_data("street.las"))
+    pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.CloudViewer("viewer")
-    viewer.showCloud(pc, "hi")
-    # while not viewer.was_stopped(1):
-    #     pass
+    # viewer.showCloud(pc, "hi")
 
 
 def test_pcl_visualizer_simple():
-    pc = pclpy.io.read(test_data("street.las"))
+    pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.PCLVisualizer("viewer")
     viewer.setBackgroundColor(0, 0, 0)
     rgb = pcl.visualization.PointCloudColorHandlerRGBAField.PointXYZRGBA(pc)
