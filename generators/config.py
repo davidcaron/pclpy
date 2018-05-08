@@ -193,7 +193,9 @@ TEMPLATED_METHOD_TYPES = {
     "PointInT": "PCL_POINT_TYPES",
     "PointLT": ["pcl::Label"],
     "PointOutT": "PCL_POINT_TYPES",
-    "PointTDiff": "PCL_XYZ_POINT_TYPES",
+    # PointTDiff is used in kdtree and search to query using different point type
+    # we try to limit the number of points to reduce ram issues during build
+    "PointTDiff": ["pcl::PointXYZ"],
     "PointRFT": ["pcl::ReferenceFrame"],
     "StateT": "PCL_STATE_POINT_TYPES",
     "OutputType": "PCL_POINT_TYPES",
