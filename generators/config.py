@@ -310,6 +310,9 @@ HEADERS_TO_SKIP = [
     ("", "pcl_tests.h"),
     ("", "for_each_type.h"),
 
+    ("2d", "kernel.h"),  # missing impl/kernel.hpp in Windows release
+    ("2d", "edge.h"),  # missing impl/kernel.hpp in Windows release
+
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
