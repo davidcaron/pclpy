@@ -22,6 +22,11 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 """
 
+cpp_header = """
+PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
+#include "../make_opaque_vectors.hpp"
+"""
+
 # ----------------------
 # which modules to build
 # ----------------------

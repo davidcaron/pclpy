@@ -1,14 +1,13 @@
 from inflection import camelize
 
-from generators.config import common_includes, INDENT
+from generators.config import common_includes, INDENT, cpp_header
 from generators.utils import function_definition_name
 
 
 def generate_loader(module, headers):
     lines = [common_includes]
     a = lines.append
-    a("PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);")
-    a('#include "../make_opaque_vectors.hpp"')
+    a(cpp_header)
 
     for header in headers:
         inc_name = '%s/%s' % (module, header) if module != "base" else header
