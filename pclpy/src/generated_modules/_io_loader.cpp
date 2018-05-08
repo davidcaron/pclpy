@@ -32,7 +32,6 @@ void defineIoImageRgb24Classes(py::module &);
 void defineIoImageYuv422Classes(py::module &);
 void defineIoIoClasses(py::module &);
 void defineIoIoExceptionClasses(py::module &);
-void defineIoIoOperatorsClasses(py::module &);
 void defineIoLzfClasses(py::module &);
 void defineIoLzfImageIoClasses(py::module &);
 void defineIoObjIoClasses(py::module &);
@@ -72,7 +71,6 @@ void defineIoClasses(py::module &m) {
     defineIoImageYuv422Classes(m_io);
     defineIoIoClasses(m_io);
     defineIoIoExceptionClasses(m_io);
-    defineIoIoOperatorsClasses(m_io);
     defineIoLzfClasses(m_io);
     defineIoLzfImageIoClasses(m_io);
     defineIoObjIoClasses(m_io);

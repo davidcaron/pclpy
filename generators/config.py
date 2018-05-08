@@ -315,6 +315,7 @@ HEADERS_TO_SKIP = [
     ("2d", "kernel.h"),  # missing impl/kernel.hpp in Windows release
     ("2d", "edge.h"),  # missing impl/kernel.hpp in Windows release
 
+    ("io", "io_operators.h"),  # Appveyor compile error (error C2061: syntax error: identifier 'int8')
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
