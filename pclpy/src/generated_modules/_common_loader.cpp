@@ -11,41 +11,42 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "common/_kiss_fft_guts.hpp"
-#include "common/angles.hpp"
-#include "common/bivariate_polynomial.hpp"
-#include "common/boost.hpp"
-#include "common/centroid.hpp"
-#include "common/colors.hpp"
-#include "common/common.hpp"
-#include "common/concatenate.hpp"
-#include "common/copy_point.hpp"
-#include "common/distances.hpp"
-#include "common/feature_histogram.hpp"
-#include "common/file_io.hpp"
-#include "common/geometry.hpp"
-#include "common/intensity.hpp"
-#include "common/intersections.hpp"
-#include "common/io.hpp"
-#include "common/kiss_fft.hpp"
-#include "common/kiss_fftr.hpp"
-#include "common/norms.hpp"
-#include "common/pca.hpp"
-#include "common/piecewise_linear_function.hpp"
-#include "common/point_operators.hpp"
-#include "common/point_tests.hpp"
-#include "common/polynomial_calculations.hpp"
-#include "common/poses_from_matches.hpp"
-#include "common/projection_matrix.hpp"
-#include "common/random.hpp"
-#include "common/generate.hpp"
-#include "common/spring.hpp"
-#include "common/time.hpp"
-#include "common/common_headers.hpp"
-#include "common/transformation_from_correspondences.hpp"
-#include "common/transforms.hpp"
-#include "common/utils.hpp"
-#include "common/vector_average.hpp"
+
+void defineCommon_kissFftGutsClasses(py::module &);
+void defineCommonAnglesClasses(py::module &);
+void defineCommonBivariatePolynomialClasses(py::module &);
+void defineCommonBoostClasses(py::module &);
+void defineCommonCentroidClasses(py::module &);
+void defineCommonColorsClasses(py::module &);
+void defineCommonCommonClasses(py::module &);
+void defineCommonConcatenateClasses(py::module &);
+void defineCommonCopyPointClasses(py::module &);
+void defineCommonDistancesClasses(py::module &);
+void defineCommonFeatureHistogramClasses(py::module &);
+void defineCommonFileIoClasses(py::module &);
+void defineCommonGeometryClasses(py::module &);
+void defineCommonIntensityClasses(py::module &);
+void defineCommonIntersectionsClasses(py::module &);
+void defineCommonIoClasses(py::module &);
+void defineCommonKissFftClasses(py::module &);
+void defineCommonKissFftrClasses(py::module &);
+void defineCommonNormsClasses(py::module &);
+void defineCommonPcaClasses(py::module &);
+void defineCommonPiecewiseLinearFunctionClasses(py::module &);
+void defineCommonPointOperatorsClasses(py::module &);
+void defineCommonPointTestsClasses(py::module &);
+void defineCommonPolynomialCalculationsClasses(py::module &);
+void defineCommonPosesFromMatchesClasses(py::module &);
+void defineCommonProjectionMatrixClasses(py::module &);
+void defineCommonRandomClasses(py::module &);
+void defineCommonGenerateClasses(py::module &);
+void defineCommonSpringClasses(py::module &);
+void defineCommonTimeClasses(py::module &);
+void defineCommonCommonHeadersClasses(py::module &);
+void defineCommonTransformationFromCorrespondencesClasses(py::module &);
+void defineCommonTransformsClasses(py::module &);
+void defineCommonUtilsClasses(py::module &);
+void defineCommonVectorAverageClasses(py::module &);
 
 
 void defineCommonClasses(py::module &m) {

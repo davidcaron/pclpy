@@ -11,10 +11,11 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "kdtree/flann.hpp"
-#include "kdtree/io.hpp"
-#include "kdtree/kdtree.hpp"
-#include "kdtree/kdtree_flann.hpp"
+
+void defineKdtreeFlannClasses(py::module &);
+void defineKdtreeIoClasses(py::module &);
+void defineKdtreeKdtreeClasses(py::module &);
+void defineKdtreeKdtreeFlannClasses(py::module &);
 
 
 void defineKdtreeClasses(py::module &m) {

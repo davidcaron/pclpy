@@ -11,42 +11,43 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "recognition/auxiliary.hpp"
-#include "recognition/boost.hpp"
-#include "recognition/bvh.hpp"
-#include "recognition/correspondence_grouping.hpp"
-#include "recognition/distance_map.hpp"
-#include "recognition/geometric_consistency.hpp"
-#include "recognition/hough_3d.hpp"
-#include "recognition/mask_map.hpp"
-#include "recognition/occlusion_reasoning.hpp"
-#include "recognition/orr_graph.hpp"
-#include "recognition/orr_octree.hpp"
-#include "recognition/orr_octree_zprojection.hpp"
-#include "recognition/point_types.hpp"
-#include "recognition/quantized_map.hpp"
-#include "recognition/region_xy.hpp"
-#include "recognition/dense_quantized_multi_mod_template.hpp"
-#include "recognition/dot_modality.hpp"
-#include "recognition/color_gradient_dot_modality.hpp"
-#include "recognition/dotmod.hpp"
-#include "recognition/simple_octree.hpp"
-#include "recognition/sparse_quantized_multi_mod_template.hpp"
-#include "recognition/quantizable_modality.hpp"
-#include "recognition/color_gradient_modality.hpp"
-#include "recognition/color_modality.hpp"
-#include "recognition/linemod.hpp"
-#include "recognition/voxel_structure.hpp"
-#include "recognition/model_library.hpp"
-#include "recognition/hypothesis.hpp"
-#include "recognition/rigid_transform_space.hpp"
-#include "recognition/crh_alignment.hpp"
-#include "recognition/implicit_shape_model.hpp"
-#include "recognition/surface_normal_modality.hpp"
-#include "recognition/line_rgbd.hpp"
-#include "recognition/hypotheses_verification.hpp"
-#include "recognition/greedy_verification.hpp"
-#include "recognition/hv_papazov.hpp"
+
+void defineRecognitionAuxiliaryClasses(py::module &);
+void defineRecognitionBoostClasses(py::module &);
+void defineRecognitionBvhClasses(py::module &);
+void defineRecognitionCorrespondenceGroupingClasses(py::module &);
+void defineRecognitionDistanceMapClasses(py::module &);
+void defineRecognitionGeometricConsistencyClasses(py::module &);
+void defineRecognitionHough3dClasses(py::module &);
+void defineRecognitionMaskMapClasses(py::module &);
+void defineRecognitionOcclusionReasoningClasses(py::module &);
+void defineRecognitionOrrGraphClasses(py::module &);
+void defineRecognitionOrrOctreeClasses(py::module &);
+void defineRecognitionOrrOctreeZprojectionClasses(py::module &);
+void defineRecognitionPointTypesClasses(py::module &);
+void defineRecognitionQuantizedMapClasses(py::module &);
+void defineRecognitionRegionXyClasses(py::module &);
+void defineRecognitionDenseQuantizedMultiModTemplateClasses(py::module &);
+void defineRecognitionDotModalityClasses(py::module &);
+void defineRecognitionColorGradientDotModalityClasses(py::module &);
+void defineRecognitionDotmodClasses(py::module &);
+void defineRecognitionSimpleOctreeClasses(py::module &);
+void defineRecognitionSparseQuantizedMultiModTemplateClasses(py::module &);
+void defineRecognitionQuantizableModalityClasses(py::module &);
+void defineRecognitionColorGradientModalityClasses(py::module &);
+void defineRecognitionColorModalityClasses(py::module &);
+void defineRecognitionLinemodClasses(py::module &);
+void defineRecognitionVoxelStructureClasses(py::module &);
+void defineRecognitionModelLibraryClasses(py::module &);
+void defineRecognitionHypothesisClasses(py::module &);
+void defineRecognitionRigidTransformSpaceClasses(py::module &);
+void defineRecognitionCrhAlignmentClasses(py::module &);
+void defineRecognitionImplicitShapeModelClasses(py::module &);
+void defineRecognitionSurfaceNormalModalityClasses(py::module &);
+void defineRecognitionLineRgbdClasses(py::module &);
+void defineRecognitionHypothesesVerificationClasses(py::module &);
+void defineRecognitionGreedyVerificationClasses(py::module &);
+void defineRecognitionHvPapazovClasses(py::module &);
 
 
 void defineRecognitionClasses(py::module &m) {

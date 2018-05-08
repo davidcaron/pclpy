@@ -11,23 +11,24 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "geometry/boost.hpp"
-#include "geometry/eigen.hpp"
-#include "geometry/get_boundary.hpp"
-#include "geometry/mesh_conversion.hpp"
-#include "geometry/mesh_indices.hpp"
-#include "geometry/mesh_circulators.hpp"
-#include "geometry/mesh_elements.hpp"
-#include "geometry/mesh_io.hpp"
-#include "geometry/mesh_traits.hpp"
-#include "geometry/mesh_base.hpp"
-#include "geometry/organized_index_iterator.hpp"
-#include "geometry/line_iterator.hpp"
-#include "geometry/planar_polygon.hpp"
-#include "geometry/polygon_mesh.hpp"
-#include "geometry/polygon_operations.hpp"
-#include "geometry/quad_mesh.hpp"
-#include "geometry/triangle_mesh.hpp"
+
+void defineGeometryBoostClasses(py::module &);
+void defineGeometryEigenClasses(py::module &);
+void defineGeometryGetBoundaryClasses(py::module &);
+void defineGeometryMeshConversionClasses(py::module &);
+void defineGeometryMeshIndicesClasses(py::module &);
+void defineGeometryMeshCirculatorsClasses(py::module &);
+void defineGeometryMeshElementsClasses(py::module &);
+void defineGeometryMeshIoClasses(py::module &);
+void defineGeometryMeshTraitsClasses(py::module &);
+void defineGeometryMeshBaseClasses(py::module &);
+void defineGeometryOrganizedIndexIteratorClasses(py::module &);
+void defineGeometryLineIteratorClasses(py::module &);
+void defineGeometryPlanarPolygonClasses(py::module &);
+void defineGeometryPolygonMeshClasses(py::module &);
+void defineGeometryPolygonOperationsClasses(py::module &);
+void defineGeometryQuadMeshClasses(py::module &);
+void defineGeometryTriangleMeshClasses(py::module &);
 
 
 void defineGeometryClasses(py::module &m) {

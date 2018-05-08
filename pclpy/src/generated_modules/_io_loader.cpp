@@ -11,42 +11,43 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "io/boost.hpp"
-#include "io/auto_io.hpp"
-#include "io/byte_order.hpp"
-#include "io/debayer.hpp"
-#include "io/eigen.hpp"
-#include "io/file_grabber.hpp"
-#include "io/file_io.hpp"
-#include "io/ascii_io.hpp"
-#include "io/grabber.hpp"
-#include "io/hdl_grabber.hpp"
-#include "io/ifs_io.hpp"
-#include "io/image_depth.hpp"
-#include "io/image_grabber.hpp"
-#include "io/image_metadata_wrapper.hpp"
-#include "io/image.hpp"
-#include "io/image_ir.hpp"
-#include "io/image_rgb24.hpp"
-#include "io/image_yuv422.hpp"
-#include "io/io.hpp"
-#include "io/io_exception.hpp"
-#include "io/io_operators.hpp"
-#include "io/lzf.hpp"
-#include "io/lzf_image_io.hpp"
-#include "io/obj_io.hpp"
-#include "io/pcd_grabber.hpp"
-#include "io/pcd_io.hpp"
-#include "io/ply.hpp"
-#include "io/ply_parser.hpp"
-#include "io/ply_io.hpp"
-#include "io/point_cloud_image_extractors.hpp"
-#include "io/png_io.hpp"
-#include "io/robot_eye_grabber.hpp"
-#include "io/tar.hpp"
-#include "io/vlp_grabber.hpp"
-#include "io/vtk_io.hpp"
-#include "io/vtk_lib_io.hpp"
+
+void defineIoBoostClasses(py::module &);
+void defineIoAutoIoClasses(py::module &);
+void defineIoByteOrderClasses(py::module &);
+void defineIoDebayerClasses(py::module &);
+void defineIoEigenClasses(py::module &);
+void defineIoFileGrabberClasses(py::module &);
+void defineIoFileIoClasses(py::module &);
+void defineIoAsciiIoClasses(py::module &);
+void defineIoGrabberClasses(py::module &);
+void defineIoHdlGrabberClasses(py::module &);
+void defineIoIfsIoClasses(py::module &);
+void defineIoImageDepthClasses(py::module &);
+void defineIoImageGrabberClasses(py::module &);
+void defineIoImageMetadataWrapperClasses(py::module &);
+void defineIoImageClasses(py::module &);
+void defineIoImageIrClasses(py::module &);
+void defineIoImageRgb24Classes(py::module &);
+void defineIoImageYuv422Classes(py::module &);
+void defineIoIoClasses(py::module &);
+void defineIoIoExceptionClasses(py::module &);
+void defineIoIoOperatorsClasses(py::module &);
+void defineIoLzfClasses(py::module &);
+void defineIoLzfImageIoClasses(py::module &);
+void defineIoObjIoClasses(py::module &);
+void defineIoPcdGrabberClasses(py::module &);
+void defineIoPcdIoClasses(py::module &);
+void defineIoPlyClasses(py::module &);
+void defineIoPlyParserClasses(py::module &);
+void defineIoPlyIoClasses(py::module &);
+void defineIoPointCloudImageExtractorsClasses(py::module &);
+void defineIoPngIoClasses(py::module &);
+void defineIoRobotEyeGrabberClasses(py::module &);
+void defineIoTarClasses(py::module &);
+void defineIoVlpGrabberClasses(py::module &);
+void defineIoVtkIoClasses(py::module &);
+void defineIoVtkLibIoClasses(py::module &);
 
 
 void defineIoClasses(py::module &m) {

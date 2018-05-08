@@ -11,25 +11,26 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "octree/boost.hpp"
-#include "octree/octree_container.hpp"
-#include "octree/octree_key.hpp"
-#include "octree/octree_nodes.hpp"
-#include "octree/octree_iterator.hpp"
-#include "octree/octree2buf_base.hpp"
-#include "octree/octree_base.hpp"
-#include "octree/octree_pointcloud.hpp"
-#include "octree/octree_pointcloud_adjacency_container.hpp"
-#include "octree/octree_pointcloud_adjacency.hpp"
-#include "octree/octree_pointcloud_changedetector.hpp"
-#include "octree/octree_pointcloud_density.hpp"
-#include "octree/octree_pointcloud_occupancy.hpp"
-#include "octree/octree_pointcloud_pointvector.hpp"
-#include "octree/octree_pointcloud_singlepoint.hpp"
-#include "octree/octree_pointcloud_voxelcentroid.hpp"
-#include "octree/octree_search.hpp"
-#include "octree/octree.hpp"
-#include "octree/octree_impl.hpp"
+
+void defineOctreeBoostClasses(py::module &);
+void defineOctreeOctreeContainerClasses(py::module &);
+void defineOctreeOctreeKeyClasses(py::module &);
+void defineOctreeOctreeNodesClasses(py::module &);
+void defineOctreeOctreeIteratorClasses(py::module &);
+void defineOctreeOctree2bufBaseClasses(py::module &);
+void defineOctreeOctreeBaseClasses(py::module &);
+void defineOctreeOctreePointcloudClasses(py::module &);
+void defineOctreeOctreePointcloudAdjacencyContainerClasses(py::module &);
+void defineOctreeOctreePointcloudAdjacencyClasses(py::module &);
+void defineOctreeOctreePointcloudChangedetectorClasses(py::module &);
+void defineOctreeOctreePointcloudDensityClasses(py::module &);
+void defineOctreeOctreePointcloudOccupancyClasses(py::module &);
+void defineOctreeOctreePointcloudPointvectorClasses(py::module &);
+void defineOctreeOctreePointcloudSinglepointClasses(py::module &);
+void defineOctreeOctreePointcloudVoxelcentroidClasses(py::module &);
+void defineOctreeOctreeSearchClasses(py::module &);
+void defineOctreeOctreeClasses(py::module &);
+void defineOctreeOctreeImplClasses(py::module &);
 
 
 void defineOctreeClasses(py::module &m) {

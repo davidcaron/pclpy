@@ -11,8 +11,9 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "2d/morphology.hpp"
-#include "2d/convolution.hpp"
+
+void define2dMorphologyClasses(py::module &);
+void define2dConvolutionClasses(py::module &);
 
 
 void define2dClasses(py::module &m) {

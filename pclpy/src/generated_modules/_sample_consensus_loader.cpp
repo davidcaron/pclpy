@@ -11,35 +11,36 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "sample_consensus/boost.hpp"
-#include "sample_consensus/eigen.hpp"
-#include "sample_consensus/method_types.hpp"
-#include "sample_consensus/model_types.hpp"
-#include "sample_consensus/sac_model.hpp"
-#include "sample_consensus/sac.hpp"
-#include "sample_consensus/lmeds.hpp"
-#include "sample_consensus/mlesac.hpp"
-#include "sample_consensus/msac.hpp"
-#include "sample_consensus/prosac.hpp"
-#include "sample_consensus/ransac.hpp"
-#include "sample_consensus/rmsac.hpp"
-#include "sample_consensus/rransac.hpp"
-#include "sample_consensus/sac_model_circle.hpp"
-#include "sample_consensus/sac_model_circle3d.hpp"
-#include "sample_consensus/sac_model_cone.hpp"
-#include "sample_consensus/sac_model_cylinder.hpp"
-#include "sample_consensus/sac_model_line.hpp"
-#include "sample_consensus/sac_model_parallel_line.hpp"
-#include "sample_consensus/sac_model_plane.hpp"
-#include "sample_consensus/sac_model_parallel_plane.hpp"
-#include "sample_consensus/sac_model_perpendicular_plane.hpp"
-#include "sample_consensus/sac_model_normal_plane.hpp"
-#include "sample_consensus/sac_model_normal_parallel_plane.hpp"
-#include "sample_consensus/sac_model_registration.hpp"
-#include "sample_consensus/sac_model_registration_2d.hpp"
-#include "sample_consensus/sac_model_sphere.hpp"
-#include "sample_consensus/sac_model_normal_sphere.hpp"
-#include "sample_consensus/sac_model_stick.hpp"
+
+void defineSampleConsensusBoostClasses(py::module &);
+void defineSampleConsensusEigenClasses(py::module &);
+void defineSampleConsensusMethodTypesClasses(py::module &);
+void defineSampleConsensusModelTypesClasses(py::module &);
+void defineSampleConsensusSacModelClasses(py::module &);
+void defineSampleConsensusSacClasses(py::module &);
+void defineSampleConsensusLmedsClasses(py::module &);
+void defineSampleConsensusMlesacClasses(py::module &);
+void defineSampleConsensusMsacClasses(py::module &);
+void defineSampleConsensusProsacClasses(py::module &);
+void defineSampleConsensusRansacClasses(py::module &);
+void defineSampleConsensusRmsacClasses(py::module &);
+void defineSampleConsensusRransacClasses(py::module &);
+void defineSampleConsensusSacModelCircleClasses(py::module &);
+void defineSampleConsensusSacModelCircle3dClasses(py::module &);
+void defineSampleConsensusSacModelConeClasses(py::module &);
+void defineSampleConsensusSacModelCylinderClasses(py::module &);
+void defineSampleConsensusSacModelLineClasses(py::module &);
+void defineSampleConsensusSacModelParallelLineClasses(py::module &);
+void defineSampleConsensusSacModelPlaneClasses(py::module &);
+void defineSampleConsensusSacModelParallelPlaneClasses(py::module &);
+void defineSampleConsensusSacModelPerpendicularPlaneClasses(py::module &);
+void defineSampleConsensusSacModelNormalPlaneClasses(py::module &);
+void defineSampleConsensusSacModelNormalParallelPlaneClasses(py::module &);
+void defineSampleConsensusSacModelRegistrationClasses(py::module &);
+void defineSampleConsensusSacModelRegistration2dClasses(py::module &);
+void defineSampleConsensusSacModelSphereClasses(py::module &);
+void defineSampleConsensusSacModelNormalSphereClasses(py::module &);
+void defineSampleConsensusSacModelStickClasses(py::module &);
 
 
 void defineSampleConsensusClasses(py::module &m) {

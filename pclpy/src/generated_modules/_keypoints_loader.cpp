@@ -11,16 +11,17 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "keypoints/uniform_sampling.hpp"
-#include "keypoints/keypoint.hpp"
-#include "keypoints/agast_2d.hpp"
-#include "keypoints/brisk_2d.hpp"
-#include "keypoints/harris_2d.hpp"
-#include "keypoints/harris_3d.hpp"
-#include "keypoints/harris_6d.hpp"
-#include "keypoints/iss_3d.hpp"
-#include "keypoints/sift_keypoint.hpp"
-#include "keypoints/susan.hpp"
+
+void defineKeypointsUniformSamplingClasses(py::module &);
+void defineKeypointsKeypointClasses(py::module &);
+void defineKeypointsAgast2dClasses(py::module &);
+void defineKeypointsBrisk2dClasses(py::module &);
+void defineKeypointsHarris2dClasses(py::module &);
+void defineKeypointsHarris3dClasses(py::module &);
+void defineKeypointsHarris6dClasses(py::module &);
+void defineKeypointsIss3dClasses(py::module &);
+void defineKeypointsSiftKeypointClasses(py::module &);
+void defineKeypointsSusanClasses(py::module &);
 
 
 void defineKeypointsClasses(py::module &m) {

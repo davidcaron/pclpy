@@ -11,53 +11,54 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "features/boost.hpp"
-#include "features/eigen.hpp"
-#include "features/integral_image2D.hpp"
-#include "features/organized_edge_detection.hpp"
-#include "features/pfh_tools.hpp"
-#include "features/statistical_multiscale_interest_region_extraction.hpp"
-#include "features/feature.hpp"
-#include "features/3dsc.hpp"
-#include "features/board.hpp"
-#include "features/boundary.hpp"
-#include "features/brisk_2d.hpp"
-#include "features/cppf.hpp"
-#include "features/crh.hpp"
-#include "features/don.hpp"
-#include "features/esf.hpp"
-#include "features/fpfh.hpp"
-#include "features/fpfh_omp.hpp"
-#include "features/gfpfh.hpp"
-#include "features/integral_image_normal.hpp"
-#include "features/intensity_gradient.hpp"
-#include "features/intensity_spin.hpp"
-#include "features/linear_least_squares_normal.hpp"
-#include "features/moment_invariants.hpp"
-#include "features/moment_of_inertia_estimation.hpp"
-#include "features/multiscale_feature_persistence.hpp"
-#include "features/normal_3d.hpp"
-#include "features/from_meshes.hpp"
-#include "features/normal_3d_omp.hpp"
-#include "features/normal_based_signature.hpp"
-#include "features/pfh.hpp"
-#include "features/pfhrgb.hpp"
-#include "features/ppf.hpp"
-#include "features/ppfrgb.hpp"
-#include "features/principal_curvatures.hpp"
-#include "features/rift.hpp"
-#include "features/rops_estimation.hpp"
-#include "features/rsd.hpp"
-#include "features/grsd.hpp"
-#include "features/shot.hpp"
-#include "features/shot_lrf.hpp"
-#include "features/shot_lrf_omp.hpp"
-#include "features/shot_omp.hpp"
-#include "features/spin_image.hpp"
-#include "features/usc.hpp"
-#include "features/vfh.hpp"
-#include "features/cvfh.hpp"
-#include "features/our_cvfh.hpp"
+
+void defineFeaturesBoostClasses(py::module &);
+void defineFeaturesEigenClasses(py::module &);
+void defineFeaturesIntegralImage2DClasses(py::module &);
+void defineFeaturesOrganizedEdgeDetectionClasses(py::module &);
+void defineFeaturesPfhToolsClasses(py::module &);
+void defineFeaturesStatisticalMultiscaleInterestRegionExtractionClasses(py::module &);
+void defineFeaturesFeatureClasses(py::module &);
+void defineFeatures3dscClasses(py::module &);
+void defineFeaturesBoardClasses(py::module &);
+void defineFeaturesBoundaryClasses(py::module &);
+void defineFeaturesBrisk2dClasses(py::module &);
+void defineFeaturesCppfClasses(py::module &);
+void defineFeaturesCrhClasses(py::module &);
+void defineFeaturesDonClasses(py::module &);
+void defineFeaturesEsfClasses(py::module &);
+void defineFeaturesFpfhClasses(py::module &);
+void defineFeaturesFpfhOmpClasses(py::module &);
+void defineFeaturesGfpfhClasses(py::module &);
+void defineFeaturesIntegralImageNormalClasses(py::module &);
+void defineFeaturesIntensityGradientClasses(py::module &);
+void defineFeaturesIntensitySpinClasses(py::module &);
+void defineFeaturesLinearLeastSquaresNormalClasses(py::module &);
+void defineFeaturesMomentInvariantsClasses(py::module &);
+void defineFeaturesMomentOfInertiaEstimationClasses(py::module &);
+void defineFeaturesMultiscaleFeaturePersistenceClasses(py::module &);
+void defineFeaturesNormal3dClasses(py::module &);
+void defineFeaturesFromMeshesClasses(py::module &);
+void defineFeaturesNormal3dOmpClasses(py::module &);
+void defineFeaturesNormalBasedSignatureClasses(py::module &);
+void defineFeaturesPfhClasses(py::module &);
+void defineFeaturesPfhrgbClasses(py::module &);
+void defineFeaturesPpfClasses(py::module &);
+void defineFeaturesPpfrgbClasses(py::module &);
+void defineFeaturesPrincipalCurvaturesClasses(py::module &);
+void defineFeaturesRiftClasses(py::module &);
+void defineFeaturesRopsEstimationClasses(py::module &);
+void defineFeaturesRsdClasses(py::module &);
+void defineFeaturesGrsdClasses(py::module &);
+void defineFeaturesShotClasses(py::module &);
+void defineFeaturesShotLrfClasses(py::module &);
+void defineFeaturesShotLrfOmpClasses(py::module &);
+void defineFeaturesShotOmpClasses(py::module &);
+void defineFeaturesSpinImageClasses(py::module &);
+void defineFeaturesUscClasses(py::module &);
+void defineFeaturesVfhClasses(py::module &);
+void defineFeaturesCvfhClasses(py::module &);
+void defineFeaturesOurCvfhClasses(py::module &);
 
 
 void defineFeaturesClasses(py::module &m) {

@@ -11,68 +11,69 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "surface/allocator.hpp"
-#include "surface/binary_node.hpp"
-#include "surface/boost.hpp"
-#include "surface/bspline_data.hpp"
-#include "surface/eigen.hpp"
-#include "surface/factor.hpp"
-#include "surface/function_data.hpp"
-#include "surface/geometry.hpp"
-#include "surface/hash.hpp"
-#include "surface/marching_cubes_poisson.hpp"
-#include "surface/mat.hpp"
-#include "surface/nurbs_data.hpp"
-#include "surface/nurbs_tools.hpp"
-#include "surface/octree_poisson.hpp"
-#include "surface/polynomial.hpp"
-#include "surface/ppolynomial.hpp"
-#include "surface/processing.hpp"
-#include "surface/bilateral_upsampling.hpp"
-#include "surface/ear_clipping.hpp"
-#include "surface/mls.hpp"
-#include "surface/qhull.hpp"
-#include "surface/reconstruction.hpp"
-#include "surface/convex_hull.hpp"
-#include "surface/concave_hull.hpp"
-#include "surface/gp3.hpp"
-#include "surface/grid_projection.hpp"
-#include "surface/marching_cubes.hpp"
-#include "surface/marching_cubes_hoppe.hpp"
-#include "surface/marching_cubes_rbf.hpp"
-#include "surface/organized_fast_mesh.hpp"
-#include "surface/poisson.hpp"
-#include "surface/simplification_remove_unused_vertices.hpp"
-#include "surface/sparse_mat.hpp"
-#include "surface/nurbs_solve.hpp"
-#include "surface/fitting_curve_2d.hpp"
-#include "surface/fitting_curve_2d_apdm.hpp"
-#include "surface/fitting_curve_2d_asdm.hpp"
-#include "surface/fitting_curve_2d_atdm.hpp"
-#include "surface/fitting_curve_2d_pdm.hpp"
-#include "surface/fitting_curve_2d_sdm.hpp"
-#include "surface/fitting_curve_2d_tdm.hpp"
-#include "surface/fitting_curve_pdm.hpp"
-#include "surface/fitting_cylinder_pdm.hpp"
-#include "surface/fitting_sphere_pdm.hpp"
-#include "surface/fitting_surface_im.hpp"
-#include "surface/fitting_surface_pdm.hpp"
-#include "surface/closing_boundary.hpp"
-#include "surface/fitting_surface_tdm.hpp"
-#include "surface/global_optimization_pdm.hpp"
-#include "surface/global_optimization_tdm.hpp"
-#include "surface/sequential_fitter.hpp"
-#include "surface/sparse_matrix.hpp"
-#include "surface/surfel_smoothing.hpp"
-#include "surface/texture_mapping.hpp"
-#include "surface/triangulation.hpp"
-#include "surface/vector.hpp"
-#include "surface/vtk.hpp"
-#include "surface/vtk_mesh_quadric_decimation.hpp"
-#include "surface/vtk_mesh_smoothing_laplacian.hpp"
-#include "surface/vtk_mesh_smoothing_windowed_sinc.hpp"
-#include "surface/vtk_mesh_subdivision.hpp"
-#include "surface/vtk_utils.hpp"
+
+void defineSurfaceAllocatorClasses(py::module &);
+void defineSurfaceBinaryNodeClasses(py::module &);
+void defineSurfaceBoostClasses(py::module &);
+void defineSurfaceBsplineDataClasses(py::module &);
+void defineSurfaceEigenClasses(py::module &);
+void defineSurfaceFactorClasses(py::module &);
+void defineSurfaceFunctionDataClasses(py::module &);
+void defineSurfaceGeometryClasses(py::module &);
+void defineSurfaceHashClasses(py::module &);
+void defineSurfaceMarchingCubesPoissonClasses(py::module &);
+void defineSurfaceMatClasses(py::module &);
+void defineSurfaceNurbsDataClasses(py::module &);
+void defineSurfaceNurbsToolsClasses(py::module &);
+void defineSurfaceOctreePoissonClasses(py::module &);
+void defineSurfacePolynomialClasses(py::module &);
+void defineSurfacePpolynomialClasses(py::module &);
+void defineSurfaceProcessingClasses(py::module &);
+void defineSurfaceBilateralUpsamplingClasses(py::module &);
+void defineSurfaceEarClippingClasses(py::module &);
+void defineSurfaceMlsClasses(py::module &);
+void defineSurfaceQhullClasses(py::module &);
+void defineSurfaceReconstructionClasses(py::module &);
+void defineSurfaceConvexHullClasses(py::module &);
+void defineSurfaceConcaveHullClasses(py::module &);
+void defineSurfaceGp3Classes(py::module &);
+void defineSurfaceGridProjectionClasses(py::module &);
+void defineSurfaceMarchingCubesClasses(py::module &);
+void defineSurfaceMarchingCubesHoppeClasses(py::module &);
+void defineSurfaceMarchingCubesRbfClasses(py::module &);
+void defineSurfaceOrganizedFastMeshClasses(py::module &);
+void defineSurfacePoissonClasses(py::module &);
+void defineSurfaceSimplificationRemoveUnusedVerticesClasses(py::module &);
+void defineSurfaceSparseMatClasses(py::module &);
+void defineSurfaceNurbsSolveClasses(py::module &);
+void defineSurfaceFittingCurve2dClasses(py::module &);
+void defineSurfaceFittingCurve2dApdmClasses(py::module &);
+void defineSurfaceFittingCurve2dAsdmClasses(py::module &);
+void defineSurfaceFittingCurve2dAtdmClasses(py::module &);
+void defineSurfaceFittingCurve2dPdmClasses(py::module &);
+void defineSurfaceFittingCurve2dSdmClasses(py::module &);
+void defineSurfaceFittingCurve2dTdmClasses(py::module &);
+void defineSurfaceFittingCurvePdmClasses(py::module &);
+void defineSurfaceFittingCylinderPdmClasses(py::module &);
+void defineSurfaceFittingSpherePdmClasses(py::module &);
+void defineSurfaceFittingSurfaceImClasses(py::module &);
+void defineSurfaceFittingSurfacePdmClasses(py::module &);
+void defineSurfaceClosingBoundaryClasses(py::module &);
+void defineSurfaceFittingSurfaceTdmClasses(py::module &);
+void defineSurfaceGlobalOptimizationPdmClasses(py::module &);
+void defineSurfaceGlobalOptimizationTdmClasses(py::module &);
+void defineSurfaceSequentialFitterClasses(py::module &);
+void defineSurfaceSparseMatrixClasses(py::module &);
+void defineSurfaceSurfelSmoothingClasses(py::module &);
+void defineSurfaceTextureMappingClasses(py::module &);
+void defineSurfaceTriangulationClasses(py::module &);
+void defineSurfaceVectorClasses(py::module &);
+void defineSurfaceVtkClasses(py::module &);
+void defineSurfaceVtkMeshQuadricDecimationClasses(py::module &);
+void defineSurfaceVtkMeshSmoothingLaplacianClasses(py::module &);
+void defineSurfaceVtkMeshSmoothingWindowedSincClasses(py::module &);
+void defineSurfaceVtkMeshSubdivisionClasses(py::module &);
+void defineSurfaceVtkUtilsClasses(py::module &);
 
 
 void defineSurfaceClasses(py::module &m) {

@@ -11,38 +11,39 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "segmentation/approximate_progressive_morphological_filter.hpp"
-#include "segmentation/boost.hpp"
-#include "segmentation/comparator.hpp"
-#include "segmentation/crf_normal_segmentation.hpp"
-#include "segmentation/crf_segmentation.hpp"
-#include "segmentation/euclidean_cluster_comparator.hpp"
-#include "segmentation/extract_clusters.hpp"
-#include "segmentation/extract_labeled_clusters.hpp"
-#include "segmentation/extract_polygonal_prism_data.hpp"
-#include "segmentation/grabcut_segmentation.hpp"
-#include "segmentation/ground_plane_comparator.hpp"
-#include "segmentation/min_cut_segmentation.hpp"
-#include "segmentation/organized_connected_component_segmentation.hpp"
-#include "segmentation/plane_coefficient_comparator.hpp"
-#include "segmentation/edge_aware_plane_comparator.hpp"
-#include "segmentation/euclidean_plane_coefficient_comparator.hpp"
-#include "segmentation/plane_refinement_comparator.hpp"
-#include "segmentation/progressive_morphological_filter.hpp"
-#include "segmentation/random_walker.hpp"
-#include "segmentation/region_3d.hpp"
-#include "segmentation/planar_region.hpp"
-#include "segmentation/organized_multi_plane_segmentation.hpp"
-#include "segmentation/planar_polygon_fusion.hpp"
-#include "segmentation/region_growing.hpp"
-#include "segmentation/region_growing_rgb.hpp"
-#include "segmentation/rgb_plane_coefficient_comparator.hpp"
-#include "segmentation/sac_segmentation.hpp"
-#include "segmentation/segment_differences.hpp"
-#include "segmentation/supervoxel_clustering.hpp"
-#include "segmentation/lccp_segmentation.hpp"
-#include "segmentation/cpc_segmentation.hpp"
-#include "segmentation/unary_classifier.hpp"
+
+void defineSegmentationApproximateProgressiveMorphologicalFilterClasses(py::module &);
+void defineSegmentationBoostClasses(py::module &);
+void defineSegmentationComparatorClasses(py::module &);
+void defineSegmentationCrfNormalSegmentationClasses(py::module &);
+void defineSegmentationCrfSegmentationClasses(py::module &);
+void defineSegmentationEuclideanClusterComparatorClasses(py::module &);
+void defineSegmentationExtractClustersClasses(py::module &);
+void defineSegmentationExtractLabeledClustersClasses(py::module &);
+void defineSegmentationExtractPolygonalPrismDataClasses(py::module &);
+void defineSegmentationGrabcutSegmentationClasses(py::module &);
+void defineSegmentationGroundPlaneComparatorClasses(py::module &);
+void defineSegmentationMinCutSegmentationClasses(py::module &);
+void defineSegmentationOrganizedConnectedComponentSegmentationClasses(py::module &);
+void defineSegmentationPlaneCoefficientComparatorClasses(py::module &);
+void defineSegmentationEdgeAwarePlaneComparatorClasses(py::module &);
+void defineSegmentationEuclideanPlaneCoefficientComparatorClasses(py::module &);
+void defineSegmentationPlaneRefinementComparatorClasses(py::module &);
+void defineSegmentationProgressiveMorphologicalFilterClasses(py::module &);
+void defineSegmentationRandomWalkerClasses(py::module &);
+void defineSegmentationRegion3dClasses(py::module &);
+void defineSegmentationPlanarRegionClasses(py::module &);
+void defineSegmentationOrganizedMultiPlaneSegmentationClasses(py::module &);
+void defineSegmentationPlanarPolygonFusionClasses(py::module &);
+void defineSegmentationRegionGrowingClasses(py::module &);
+void defineSegmentationRegionGrowingRgbClasses(py::module &);
+void defineSegmentationRgbPlaneCoefficientComparatorClasses(py::module &);
+void defineSegmentationSacSegmentationClasses(py::module &);
+void defineSegmentationSegmentDifferencesClasses(py::module &);
+void defineSegmentationSupervoxelClusteringClasses(py::module &);
+void defineSegmentationLccpSegmentationClasses(py::module &);
+void defineSegmentationCpcSegmentationClasses(py::module &);
+void defineSegmentationUnaryClassifierClasses(py::module &);
 
 
 void defineSegmentationClasses(py::module &m) {

@@ -11,33 +11,34 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "visualization/area_picking_event.hpp"
-#include "visualization/boost.hpp"
-#include "visualization/cloud_viewer.hpp"
-#include "visualization/eigen.hpp"
-#include "visualization/common.hpp"
-#include "visualization/float_image_utils.hpp"
-#include "visualization/interactor.hpp"
-#include "visualization/keyboard_event.hpp"
-#include "visualization/mouse_event.hpp"
-#include "visualization/pcl_image_canvas_source_2d.hpp"
-#include "visualization/image_viewer.hpp"
-#include "visualization/pcl_plotter.hpp"
-#include "visualization/point_cloud_color_handlers.hpp"
-#include "visualization/point_cloud_geometry_handlers.hpp"
-#include "visualization/point_cloud_handlers.hpp"
-#include "visualization/actor_map.hpp"
-#include "visualization/io.hpp"
-#include "visualization/point_picking_event.hpp"
-#include "visualization/pcl_visualizer.hpp"
-#include "visualization/range_image_visualizer.hpp"
-#include "visualization/registration_visualizer.hpp"
-#include "visualization/shapes.hpp"
-#include "visualization/vtk.hpp"
-#include "visualization/vtkRenderWindowInteractorFix.hpp"
-#include "visualization/vtkVertexBufferObject.hpp"
-#include "visualization/vtkVertexBufferObjectMapper.hpp"
-#include "visualization/window.hpp"
+
+void defineVisualizationAreaPickingEventClasses(py::module &);
+void defineVisualizationBoostClasses(py::module &);
+void defineVisualizationCloudViewerClasses(py::module &);
+void defineVisualizationEigenClasses(py::module &);
+void defineVisualizationCommonClasses(py::module &);
+void defineVisualizationFloatImageUtilsClasses(py::module &);
+void defineVisualizationInteractorClasses(py::module &);
+void defineVisualizationKeyboardEventClasses(py::module &);
+void defineVisualizationMouseEventClasses(py::module &);
+void defineVisualizationPclImageCanvasSource2dClasses(py::module &);
+void defineVisualizationImageViewerClasses(py::module &);
+void defineVisualizationPclPlotterClasses(py::module &);
+void defineVisualizationPointCloudColorHandlersClasses(py::module &);
+void defineVisualizationPointCloudGeometryHandlersClasses(py::module &);
+void defineVisualizationPointCloudHandlersClasses(py::module &);
+void defineVisualizationActorMapClasses(py::module &);
+void defineVisualizationIoClasses(py::module &);
+void defineVisualizationPointPickingEventClasses(py::module &);
+void defineVisualizationPclVisualizerClasses(py::module &);
+void defineVisualizationRangeImageVisualizerClasses(py::module &);
+void defineVisualizationRegistrationVisualizerClasses(py::module &);
+void defineVisualizationShapesClasses(py::module &);
+void defineVisualizationVtkClasses(py::module &);
+void defineVisualizationVtkRenderWindowInteractorFixClasses(py::module &);
+void defineVisualizationVtkVertexBufferObjectClasses(py::module &);
+void defineVisualizationVtkVertexBufferObjectMapperClasses(py::module &);
+void defineVisualizationWindowClasses(py::module &);
 
 
 void defineVisualizationClasses(py::module &m) {

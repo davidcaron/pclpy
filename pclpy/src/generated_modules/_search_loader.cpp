@@ -11,13 +11,14 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "search/search.hpp"
-#include "search/brute_force.hpp"
-#include "search/flann_search.hpp"
-#include "search/kdtree.hpp"
-#include "search/octree.hpp"
-#include "search/organized.hpp"
-#include "search/pcl_search.hpp"
+
+void defineSearchSearchClasses(py::module &);
+void defineSearchBruteForceClasses(py::module &);
+void defineSearchFlannSearchClasses(py::module &);
+void defineSearchKdtreeClasses(py::module &);
+void defineSearchOctreeClasses(py::module &);
+void defineSearchOrganizedClasses(py::module &);
+void defineSearchPclSearchClasses(py::module &);
 
 
 void defineSearchClasses(py::module &m) {

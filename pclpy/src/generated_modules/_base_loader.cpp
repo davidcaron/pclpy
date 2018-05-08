@@ -11,26 +11,27 @@ using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
-#include "pcl_config.hpp"
-#include "pcl_exports.hpp"
-#include "correspondence.hpp"
-#include "pcl_macros.hpp"
-#include "PCLHeader.hpp"
-#include "ModelCoefficients.hpp"
-#include "PCLImage.hpp"
-#include "PCLPointField.hpp"
-#include "PCLPointCloud2.hpp"
-#include "PointIndices.hpp"
-#include "Vertices.hpp"
-#include "PolygonMesh.hpp"
-#include "TextureMesh.hpp"
-#include "point_traits.hpp"
-#include "point_cloud.hpp"
-#include "cloud_iterator.hpp"
-#include "pcl_base.hpp"
-#include "point_types_conversion.hpp"
-#include "register_point_struct.hpp"
-#include "point_types.hpp"
+
+void definePclConfigClasses(py::module &);
+void definePclExportsClasses(py::module &);
+void defineCorrespondenceClasses(py::module &);
+void definePclMacrosClasses(py::module &);
+void definePCLHeaderClasses(py::module &);
+void defineModelCoefficientsClasses(py::module &);
+void definePCLImageClasses(py::module &);
+void definePCLPointFieldClasses(py::module &);
+void definePCLPointCloud2Classes(py::module &);
+void definePointIndicesClasses(py::module &);
+void defineVerticesClasses(py::module &);
+void definePolygonMeshClasses(py::module &);
+void defineTextureMeshClasses(py::module &);
+void definePointTraitsClasses(py::module &);
+void definePointCloudClasses(py::module &);
+void defineCloudIteratorClasses(py::module &);
+void definePclBaseClasses(py::module &);
+void definePointTypesConversionClasses(py::module &);
+void defineRegisterPointStructClasses(py::module &);
+void definePointTypesClasses(py::module &);
 
 
 void defineBaseClasses(py::module &m) {
