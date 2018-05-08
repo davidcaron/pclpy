@@ -389,14 +389,14 @@ function main ()
     # http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
     InstallPCL $env:PCL_VERSION $env:PYTHON_ARCH $env:PCL_ROOT $env:APPVEYOR_BUILD_WORKER_IMAGE
     $major, $minor, $micro = ParsePCLVersion $env:PCL_VERSION
-    if ($major -le 1 -and $minor -eq 6)
-    {
-        InstallOpenNI $env:OPENNI_VERSION $env:PYTHON_ARCH $env:PCL_ROOT $env:OPENNI_ROOT
-    }
-    else
-    {
-        InstallOpenNI2 $env:OPENNI_VERSION $env:PYTHON_ARCH $env:PCL_ROOT $env:OPENNI_ROOT
-    }
+    # if ($major -le 1 -and $minor -eq 6)
+    # {
+    #     InstallOpenNI $env:OPENNI_VERSION $env:PYTHON_ARCH $env:PCL_ROOT $env:OPENNI_ROOT
+    # }
+    # else
+    # {
+    #     InstallOpenNI2 $env:OPENNI_VERSION $env:PYTHON_ARCH $env:PCL_ROOT $env:OPENNI_ROOT
+    # }
 }
 
 main
