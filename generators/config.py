@@ -22,6 +22,8 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 """
 
+declare_holder_type = "PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);"
+
 # ----------------------
 # which modules to build
 # ----------------------

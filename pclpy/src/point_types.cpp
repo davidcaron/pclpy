@@ -6,6 +6,9 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
+PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
+#include "make_opaque_vectors.hpp"
+
 namespace py = pybind11;
 using namespace pybind11::literals;
 
