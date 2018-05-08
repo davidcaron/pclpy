@@ -3,7 +3,7 @@
 
 # Note: To use the 'upload' functionality of this file, you must:
 #   $ pip install twine
-
+import glob
 import io
 import os
 from os.path import join
@@ -380,15 +380,14 @@ if ON_WINDOWS:
     ext_args['include_dirs'].append(get_pybind_include())
     ext_args['include_dirs'].append(get_pybind_include(user=True))
 
-modules_path = "pclpy/src/generated_modules/"
+src_path = join("pclpy", "src")
 
-loaders = [join(modules_path, f) for f in os.listdir(modules_path)
-           if f.endswith("_loader.cpp") and not f == "__main_loader.cpp"]
+cpp_files = glob.glob(join(src_path, "**", "*.cpp"), recursive=True)
 
 ext_modules = [
     Extension(
         'pclpy.pcl',
-        ['pclpy/src/pclpy.cpp'] + loaders,
+        cpp_files,
         language='c++',
         **ext_args
     ),

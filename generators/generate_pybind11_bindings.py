@@ -12,7 +12,7 @@ from CppHeaderParser.CppHeaderParser import CppMethod
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
-    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP, cpp_header
+    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP, declare_holder_type
 from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -20,7 +20,7 @@ from generators.definitions.templated_class import ClassDefinition
 from generators.instantiations import Instantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, make_namespace_class
+    generate_main_loader, make_namespace_class, include_make_opaque_vectors
 
 
 def filter_methods_for_parser_errors(methods):
@@ -440,7 +440,12 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
                                         module_enums[(module, header)],
                                         )
         instantiation_function = instantiations.generate_instantiation_function(has_functions=bool(header_functions))
-        text = [common_includes, cpp_header, class_definitions, function_definitions, instantiation_function]
+        text = [common_includes,
+                declare_holder_type,
+                include_make_opaque_vectors(depth=2 if module else 1),
+                class_definitions,
+                function_definitions,
+                instantiation_function]
 
         return "\n".join(text)
 
