@@ -357,8 +357,9 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     # hpp
     files_to_write = {}
     for (module, header_name), text in generated_headers.items():
-        output_path = join(PATH_MODULES, module, header_name + "pp")
-        files_to_write[output_path] = text
+        if text:
+            output_path = join(PATH_MODULES, module, header_name + "pp")
+            files_to_write[output_path] = text
 
     # loaders
     loader_modules = defaultdict(list)
@@ -412,7 +413,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
 
     flag_instantiatable_class(dependency_tree, main_classes)
 
-    def generate_header(module, header, path) -> str:
+    def generate_header(module, header, path, keep_if_no_instantiation) -> str:
         header_functions = module_functions[(module, header)]
         header_classes = main_classes[(module, header)]
 
@@ -437,13 +438,16 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
                                         module_enums[(module, header)],
                                         )
         instantiation_function = instantiations.generate_instantiation_function(has_functions=bool(header_functions))
-        text = [class_definitions, function_definitions, instantiation_function]
+        something_instantiated = len(instantiation_function.split("\n")) > 2
+        text = []
+        if something_instantiated or keep_if_no_instantiation:
+            text = [class_definitions, function_definitions, instantiation_function]
 
         return "\n".join(text)
 
     generated_headers = OrderedDict()
     for module, header, path in headers_to_generate:
-        generated_headers[(module, header)] = generate_header(module, header, path)
+        generated_headers[(module, header)] = generate_header(module, header, path, keep_if_no_instantiation=False)
 
     return generated_headers
 
