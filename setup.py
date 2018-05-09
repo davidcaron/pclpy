@@ -59,7 +59,7 @@ if ON_WINDOWS:
 
 # For MSVC, this flag enables multiprocess compilation
 MSVC_MP_BUILD = False
-N_WORKERS = 2
+N_WORKERS = 4
 if "--msvc-mp-build" in sys.argv:
     sys.argv.remove("--msvc-mp-build")
     MSVC_MP_BUILD = True
@@ -394,34 +394,36 @@ ext_modules = [
 ]
 
 t = time()
-setup(
-    name=NAME,
-    version=about['__version__'],
-    description=DESCRIPTION,
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    author=AUTHOR,
-    author_email=EMAIL,
-    python_requires=REQUIRES_PYTHON,
-    url=URL,
-    packages=find_packages(exclude=('generators*',)),
-    ext_modules=ext_modules,
-    install_requires=REQUIRED,
-    include_package_data=True,
-    license='MIT',
-    classifiers=[
-        # Trove classifiers
-        # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation :: CPython',
-    ],
-    cmdclass={
-        'build_ext': BuildExt,
-        'upload': UploadCommand,
-    },
-)
 
-print("build time: %.2f s" % (time() - t,))
+try:
+    setup(
+        name=NAME,
+        version=about['__version__'],
+        description=DESCRIPTION,
+        long_description=long_description,
+        long_description_content_type='text/markdown',
+        author=AUTHOR,
+        author_email=EMAIL,
+        python_requires=REQUIRES_PYTHON,
+        url=URL,
+        packages=find_packages(exclude=('generators*',)),
+        ext_modules=ext_modules,
+        install_requires=REQUIRED,
+        include_package_data=True,
+        license='MIT',
+        classifiers=[
+            # Trove classifiers
+            # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+            'License :: OSI Approved :: MIT License',
+            'Operating System :: Microsoft :: Windows',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: Implementation :: CPython',
+        ],
+        cmdclass={
+            'build_ext': BuildExt,
+            'upload': UploadCommand,
+        },
+    )
+finally:
+    print("build time: %.2f s" % (time() - t,))
