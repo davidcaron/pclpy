@@ -9,18 +9,24 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "features/multiscale_feature_persistence.hpp"
-#include "features/normal_3d.hpp"
-#include "features/normal_3d_omp.hpp"
-#include "features/normal_based_signature.hpp"
-#include "features/pfh.hpp"
+#include "features/grsd.hpp"
+#include "features/shot.hpp"
+#include "features/shot_lrf.hpp"
+#include "features/shot_lrf_omp.hpp"
+#include "features/shot_omp.hpp"
+#include "features/spin_image.hpp"
+#include "features/usc.hpp"
+#include "features/vfh.hpp"
 
 
 void defineFeaturesClasses4(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
-    defineFeaturesMultiscaleFeaturePersistenceClasses(m_features);
-    defineFeaturesNormal3dClasses(m_features);
-    defineFeaturesNormal3dOmpClasses(m_features);
-    defineFeaturesNormalBasedSignatureClasses(m_features);
-    defineFeaturesPfhClasses(m_features);
+    defineFeaturesGrsdClasses(m_features);
+    defineFeaturesShotClasses(m_features);
+    defineFeaturesShotLrfClasses(m_features);
+    defineFeaturesShotLrfOmpClasses(m_features);
+    defineFeaturesShotOmpClasses(m_features);
+    defineFeaturesSpinImageClasses(m_features);
+    defineFeaturesUscClasses(m_features);
+    defineFeaturesVfhClasses(m_features);
 }

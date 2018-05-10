@@ -9,18 +9,24 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "sample_consensus/rransac.hpp"
-#include "sample_consensus/sac_model_circle.hpp"
-#include "sample_consensus/sac_model_circle3d.hpp"
-#include "sample_consensus/sac_model_cone.hpp"
-#include "sample_consensus/sac_model_cylinder.hpp"
+#include "sample_consensus/sac_model_parallel_line.hpp"
+#include "sample_consensus/sac_model_plane.hpp"
+#include "sample_consensus/sac_model_parallel_plane.hpp"
+#include "sample_consensus/sac_model_perpendicular_plane.hpp"
+#include "sample_consensus/sac_model_normal_plane.hpp"
+#include "sample_consensus/sac_model_normal_parallel_plane.hpp"
+#include "sample_consensus/sac_model_registration.hpp"
+#include "sample_consensus/sac_model_sphere.hpp"
 
 
 void defineSampleConsensusClasses2(py::module &m) {
     py::module m_sample_consensus = m.def_submodule("sample_consensus", "Submodule sample_consensus");
-    defineSampleConsensusRransacClasses(m_sample_consensus);
-    defineSampleConsensusSacModelCircleClasses(m_sample_consensus);
-    defineSampleConsensusSacModelCircle3dClasses(m_sample_consensus);
-    defineSampleConsensusSacModelConeClasses(m_sample_consensus);
-    defineSampleConsensusSacModelCylinderClasses(m_sample_consensus);
+    defineSampleConsensusSacModelParallelLineClasses(m_sample_consensus);
+    defineSampleConsensusSacModelPlaneClasses(m_sample_consensus);
+    defineSampleConsensusSacModelParallelPlaneClasses(m_sample_consensus);
+    defineSampleConsensusSacModelPerpendicularPlaneClasses(m_sample_consensus);
+    defineSampleConsensusSacModelNormalPlaneClasses(m_sample_consensus);
+    defineSampleConsensusSacModelNormalParallelPlaneClasses(m_sample_consensus);
+    defineSampleConsensusSacModelRegistrationClasses(m_sample_consensus);
+    defineSampleConsensusSacModelSphereClasses(m_sample_consensus);
 }

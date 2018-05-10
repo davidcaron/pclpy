@@ -9,18 +9,22 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "io/image_ir.hpp"
-#include "io/image_rgb24.hpp"
-#include "io/image_yuv422.hpp"
-#include "io/lzf.hpp"
-#include "io/lzf_image_io.hpp"
+#include "io/pcd_grabber.hpp"
+#include "io/pcd_io.hpp"
+#include "io/ply.hpp"
+#include "io/ply_io.hpp"
+#include "io/robot_eye_grabber.hpp"
+#include "io/tar.hpp"
+#include "io/vlp_grabber.hpp"
 
 
 void defineIoClasses2(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
-    defineIoImageIrClasses(m_io);
-    defineIoImageRgb24Classes(m_io);
-    defineIoImageYuv422Classes(m_io);
-    defineIoLzfClasses(m_io);
-    defineIoLzfImageIoClasses(m_io);
+    defineIoPcdGrabberClasses(m_io);
+    defineIoPcdIoClasses(m_io);
+    defineIoPlyClasses(m_io);
+    defineIoPlyIoClasses(m_io);
+    defineIoRobotEyeGrabberClasses(m_io);
+    defineIoTarClasses(m_io);
+    defineIoVlpGrabberClasses(m_io);
 }

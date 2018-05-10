@@ -13,6 +13,9 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/pfh_tools.hpp"
 #include "features/statistical_multiscale_interest_region_extraction.hpp"
 #include "features/3dsc.hpp"
+#include "features/board.hpp"
+#include "features/boundary.hpp"
+#include "features/cppf.hpp"
 
 
 void defineFeaturesClasses0(py::module &m) {
@@ -21,4 +24,7 @@ void defineFeaturesClasses0(py::module &m) {
     defineFeaturesPfhToolsClasses(m_features);
     defineFeaturesStatisticalMultiscaleInterestRegionExtractionClasses(m_features);
     defineFeatures3dscClasses(m_features);
+    defineFeaturesBoardClasses(m_features);
+    defineFeaturesBoundaryClasses(m_features);
+    defineFeaturesCppfClasses(m_features);
 }

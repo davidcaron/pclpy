@@ -14,6 +14,9 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "tracking/hsv_color_coherence.hpp"
 #include "tracking/nearest_pair_point_cloud_coherence.hpp"
 #include "tracking/approx_nearest_pair_point_cloud_coherence.hpp"
+#include "tracking/normal_coherence.hpp"
+#include "tracking/tracker.hpp"
+#include "tracking/particle_filter.hpp"
 
 
 void defineTrackingClasses0(py::module &m) {
@@ -23,4 +26,7 @@ void defineTrackingClasses0(py::module &m) {
     defineTrackingHsvColorCoherenceClasses(m_tracking);
     defineTrackingNearestPairPointCloudCoherenceClasses(m_tracking);
     defineTrackingApproxNearestPairPointCloudCoherenceClasses(m_tracking);
+    defineTrackingNormalCoherenceClasses(m_tracking);
+    defineTrackingTrackerClasses(m_tracking);
+    defineTrackingParticleFilterClasses(m_tracking);
 }
