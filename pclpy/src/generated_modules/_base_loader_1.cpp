@@ -9,15 +9,17 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "PCLPointField.hpp"
 #include "PCLPointCloud2.hpp"
 #include "PointIndices.hpp"
 #include "Vertices.hpp"
+#include "PolygonMesh.hpp"
+#include "TextureMesh.hpp"
 
 
 void defineBaseClasses1(py::module &m) {
-    definePCLPointFieldClasses(m);
     definePCLPointCloud2Classes(m);
     definePointIndicesClasses(m);
     defineVerticesClasses(m);
+    definePolygonMeshClasses(m);
+    defineTextureMeshClasses(m);
 }

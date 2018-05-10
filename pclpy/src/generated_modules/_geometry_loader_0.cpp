@@ -13,6 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/mesh_elements.hpp"
 #include "geometry/mesh_io.hpp"
 #include "geometry/mesh_traits.hpp"
+#include "geometry/organized_index_iterator.hpp"
 
 
 void defineGeometryClasses0(py::module &m) {
@@ -21,4 +22,5 @@ void defineGeometryClasses0(py::module &m) {
     defineGeometryMeshElementsClasses(m_geometry);
     defineGeometryMeshIoClasses(m_geometry);
     defineGeometryMeshTraitsClasses(m_geometry);
+    defineGeometryOrganizedIndexIteratorClasses(m_geometry);
 }

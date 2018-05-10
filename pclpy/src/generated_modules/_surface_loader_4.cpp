@@ -9,16 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "surface/vtk_mesh_quadric_decimation.hpp"
-#include "surface/vtk_mesh_smoothing_laplacian.hpp"
-#include "surface/vtk_mesh_smoothing_windowed_sinc.hpp"
-#include "surface/vtk_mesh_subdivision.hpp"
+#include "surface/vtk_utils.hpp"
 
 
 void defineSurfaceClasses4(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
-    defineSurfaceVtkMeshQuadricDecimationClasses(m_surface);
-    defineSurfaceVtkMeshSmoothingLaplacianClasses(m_surface);
-    defineSurfaceVtkMeshSmoothingWindowedSincClasses(m_surface);
-    defineSurfaceVtkMeshSubdivisionClasses(m_surface);
+    defineSurfaceVtkUtilsClasses(m_surface);
 }

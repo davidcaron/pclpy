@@ -13,6 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/bivariate_polynomial.hpp"
 #include "common/centroid.hpp"
 #include "common/colors.hpp"
+#include "common/common.hpp"
 
 
 void defineCommonClasses0(py::module &m) {
@@ -21,4 +22,5 @@ void defineCommonClasses0(py::module &m) {
     defineCommonBivariatePolynomialClasses(m_common);
     defineCommonCentroidClasses(m_common);
     defineCommonColorsClasses(m_common);
+    defineCommonCommonClasses(m_common);
 }

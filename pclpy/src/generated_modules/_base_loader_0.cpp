@@ -13,6 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "PCLHeader.hpp"
 #include "ModelCoefficients.hpp"
 #include "PCLImage.hpp"
+#include "PCLPointField.hpp"
 
 
 void defineBaseClasses0(py::module &m) {
@@ -20,4 +21,5 @@ void defineBaseClasses0(py::module &m) {
     definePCLHeaderClasses(m);
     defineModelCoefficientsClasses(m);
     definePCLImageClasses(m);
+    definePCLPointFieldClasses(m);
 }

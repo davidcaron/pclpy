@@ -13,6 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "octree/octree_key.hpp"
 #include "octree/octree_nodes.hpp"
 #include "octree/octree_iterator.hpp"
+#include "octree/octree2buf_base.hpp"
 
 
 void defineOctreeClasses0(py::module &m) {
@@ -21,4 +22,5 @@ void defineOctreeClasses0(py::module &m) {
     defineOctreeOctreeKeyClasses(m_octree);
     defineOctreeOctreeNodesClasses(m_octree);
     defineOctreeOctreeIteratorClasses(m_octree);
+    defineOctreeOctree2bufBaseClasses(m_octree);
 }

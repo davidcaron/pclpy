@@ -13,6 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/hough_3d.hpp"
 #include "recognition/mask_map.hpp"
 #include "recognition/orr_octree.hpp"
+#include "recognition/orr_octree_zprojection.hpp"
 
 
 void defineRecognitionClasses0(py::module &m) {
@@ -21,4 +22,5 @@ void defineRecognitionClasses0(py::module &m) {
     defineRecognitionHough3dClasses(m_recognition);
     defineRecognitionMaskMapClasses(m_recognition);
     defineRecognitionOrrOctreeClasses(m_recognition);
+    defineRecognitionOrrOctreeZprojectionClasses(m_recognition);
 }

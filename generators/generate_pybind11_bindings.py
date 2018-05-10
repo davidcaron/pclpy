@@ -378,14 +378,14 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
     for module, headers in loader_modules.items():
-        chunk_size = 4
+        chunk_size = 5
         for i in range(0, len(headers), chunk_size):
             number = i // chunk_size
             headers_to_append = headers[i:i + chunk_size]
             for h in headers_to_append[:]:
                 if h in HEADERS_TO_BUILD_ALONE:
                     headers_to_append.remove(h)
-                    append_loader(module, [h], h)
+                    append_loader(module, [h], h[:-2])
             append_loader(module, headers_to_append, number)
 
     files_to_write[PATH_LOADER] = generate_main_loader(loader_functions)

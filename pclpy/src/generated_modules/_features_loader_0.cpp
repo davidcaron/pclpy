@@ -12,6 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/organized_edge_detection.hpp"
 #include "features/pfh_tools.hpp"
 #include "features/statistical_multiscale_interest_region_extraction.hpp"
+#include "features/3dsc.hpp"
 
 
 void defineFeaturesClasses0(py::module &m) {
@@ -19,4 +20,5 @@ void defineFeaturesClasses0(py::module &m) {
     defineFeaturesOrganizedEdgeDetectionClasses(m_features);
     defineFeaturesPfhToolsClasses(m_features);
     defineFeaturesStatisticalMultiscaleInterestRegionExtractionClasses(m_features);
+    defineFeatures3dscClasses(m_features);
 }
