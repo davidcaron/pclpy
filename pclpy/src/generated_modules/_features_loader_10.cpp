@@ -9,12 +9,14 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "features/cvfh.hpp"
-#include "features/our_cvfh.hpp"
+#include "features/rops_estimation.hpp"
+#include "features/rsd.hpp"
+#include "features/grsd.hpp"
 
 
 void defineFeaturesClasses10(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
-    defineFeaturesCvfhClasses(m_features);
-    defineFeaturesOurCvfhClasses(m_features);
+    defineFeaturesRopsEstimationClasses(m_features);
+    defineFeaturesRsdClasses(m_features);
+    defineFeaturesGrsdClasses(m_features);
 }

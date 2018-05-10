@@ -12,7 +12,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "stereo/disparity_map_converter.hpp"
 #include "stereo/digital_elevation_map.hpp"
 #include "stereo/stereo_matching.hpp"
-#include "stereo/stereo_grabber.hpp"
 
 
 void defineStereoClasses0(py::module &m) {
@@ -20,5 +19,4 @@ void defineStereoClasses0(py::module &m) {
     defineStereoDisparityMapConverterClasses(m_stereo);
     defineStereoDigitalElevationMapClasses(m_stereo);
     defineStereoStereoMatchingClasses(m_stereo);
-    defineStereoStereoGrabberClasses(m_stereo);
 }

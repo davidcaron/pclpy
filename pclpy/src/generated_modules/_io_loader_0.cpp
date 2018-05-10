@@ -12,7 +12,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/debayer.hpp"
 #include "io/file_io.hpp"
 #include "io/ascii_io.hpp"
-#include "io/grabber.hpp"
 
 
 void defineIoClasses0(py::module &m) {
@@ -20,5 +19,4 @@ void defineIoClasses0(py::module &m) {
     defineIoDebayerClasses(m_io);
     defineIoFileIoClasses(m_io);
     defineIoAsciiIoClasses(m_io);
-    defineIoGrabberClasses(m_io);
 }
