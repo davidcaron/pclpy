@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/extract_polygonal_prism_data.hpp"
 #include "segmentation/grabcut_segmentation.hpp"
 #include "segmentation/min_cut_segmentation.hpp"
-#include "segmentation/organized_connected_component_segmentation.hpp"
-#include "segmentation/progressive_morphological_filter.hpp"
-#include "segmentation/organized_multi_plane_segmentation.hpp"
-#include "segmentation/planar_polygon_fusion.hpp"
 
 
 void defineSegmentationClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineSegmentationClasses(py::module &m) {
     defineSegmentationExtractPolygonalPrismDataClasses(m_segmentation);
     defineSegmentationGrabcutSegmentationClasses(m_segmentation);
     defineSegmentationMinCutSegmentationClasses(m_segmentation);
-    defineSegmentationOrganizedConnectedComponentSegmentationClasses(m_segmentation);
-    defineSegmentationProgressiveMorphologicalFilterClasses(m_segmentation);
-    defineSegmentationOrganizedMultiPlaneSegmentationClasses(m_segmentation);
-    defineSegmentationPlanarPolygonFusionClasses(m_segmentation);
 }

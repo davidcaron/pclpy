@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/float_image_utils.hpp"
 #include "visualization/keyboard_event.hpp"
 #include "visualization/mouse_event.hpp"
-#include "visualization/pcl_image_canvas_source_2d.hpp"
-#include "visualization/image_viewer.hpp"
-#include "visualization/pcl_plotter.hpp"
-#include "visualization/point_cloud_color_handlers.hpp"
 
 
 void defineVisualizationClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineVisualizationClasses(py::module &m) {
     defineVisualizationFloatImageUtilsClasses(m_visualization);
     defineVisualizationKeyboardEventClasses(m_visualization);
     defineVisualizationMouseEventClasses(m_visualization);
-    defineVisualizationPclImageCanvasSource2dClasses(m_visualization);
-    defineVisualizationImageViewerClasses(m_visualization);
-    defineVisualizationPclPlotterClasses(m_visualization);
-    defineVisualizationPointCloudColorHandlersClasses(m_visualization);
 }

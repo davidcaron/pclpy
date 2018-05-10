@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/fast_bilateral_omp.hpp"
 #include "filters/filter_indices.hpp"
 #include "filters/covariance_sampling.hpp"
-#include "filters/crop_box.hpp"
-#include "filters/crop_hull.hpp"
-#include "filters/extract_indices.hpp"
-#include "filters/frustum_culling.hpp"
 
 
 void defineFiltersClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineFiltersClasses(py::module &m) {
     defineFiltersFastBilateralOmpClasses(m_filters);
     defineFiltersFilterIndicesClasses(m_filters);
     defineFiltersCovarianceSamplingClasses(m_filters);
-    defineFiltersCropBoxClasses(m_filters);
-    defineFiltersCropHullClasses(m_filters);
-    defineFiltersExtractIndicesClasses(m_filters);
-    defineFiltersFrustumCullingClasses(m_filters);
 }

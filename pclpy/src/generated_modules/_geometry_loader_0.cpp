@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/mesh_traits.hpp"
 #include "geometry/organized_index_iterator.hpp"
 #include "geometry/line_iterator.hpp"
-#include "geometry/polygon_mesh.hpp"
-#include "geometry/polygon_operations.hpp"
-#include "geometry/quad_mesh.hpp"
-#include "geometry/triangle_mesh.hpp"
 
 
 void defineGeometryClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineGeometryClasses(py::module &m) {
     defineGeometryMeshTraitsClasses(m_geometry);
     defineGeometryOrganizedIndexIteratorClasses(m_geometry);
     defineGeometryLineIteratorClasses(m_geometry);
-    defineGeometryPolygonMeshClasses(m_geometry);
-    defineGeometryPolygonOperationsClasses(m_geometry);
-    defineGeometryQuadMeshClasses(m_geometry);
-    defineGeometryTriangleMeshClasses(m_geometry);
 }

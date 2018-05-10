@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/feature.hpp"
 #include "features/3dsc.hpp"
 #include "features/board.hpp"
-#include "features/boundary.hpp"
-#include "features/cppf.hpp"
-#include "features/crh.hpp"
-#include "features/don.hpp"
 
 
 void defineFeaturesClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineFeaturesClasses(py::module &m) {
     defineFeaturesFeatureClasses(m_features);
     defineFeatures3dscClasses(m_features);
     defineFeaturesBoardClasses(m_features);
-    defineFeaturesBoundaryClasses(m_features);
-    defineFeaturesCppfClasses(m_features);
-    defineFeaturesCrhClasses(m_features);
-    defineFeaturesDonClasses(m_features);
 }

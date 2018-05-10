@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/grabber.hpp"
 #include "io/hdl_grabber.hpp"
 #include "io/ifs_io.hpp"
-#include "io/image_depth.hpp"
-#include "io/image_grabber.hpp"
-#include "io/image_metadata_wrapper.hpp"
-#include "io/image.hpp"
 
 
 void defineIoClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineIoClasses(py::module &m) {
     defineIoGrabberClasses(m_io);
     defineIoHdlGrabberClasses(m_io);
     defineIoIfsIoClasses(m_io);
-    defineIoImageDepthClasses(m_io);
-    defineIoImageGrabberClasses(m_io);
-    defineIoImageMetadataWrapperClasses(m_io);
-    defineIoImageClasses(m_io);
 }

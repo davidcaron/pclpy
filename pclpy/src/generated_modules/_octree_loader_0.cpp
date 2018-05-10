@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "octree/octree_iterator.hpp"
 #include "octree/octree2buf_base.hpp"
 #include "octree/octree_base.hpp"
-#include "octree/octree_pointcloud.hpp"
-#include "octree/octree_pointcloud_density.hpp"
-#include "octree/octree_pointcloud_voxelcentroid.hpp"
-#include "octree/octree_search.hpp"
 
 
 void defineOctreeClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineOctreeClasses(py::module &m) {
     defineOctreeOctreeIteratorClasses(m_octree);
     defineOctreeOctree2bufBaseClasses(m_octree);
     defineOctreeOctreeBaseClasses(m_octree);
-    defineOctreeOctreePointcloudClasses(m_octree);
-    defineOctreeOctreePointcloudDensityClasses(m_octree);
-    defineOctreeOctreePointcloudVoxelcentroidClasses(m_octree);
-    defineOctreeOctreeSearchClasses(m_octree);
 }

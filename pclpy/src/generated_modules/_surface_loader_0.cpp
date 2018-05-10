@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/mls.hpp"
 #include "surface/reconstruction.hpp"
 #include "surface/convex_hull.hpp"
-#include "surface/concave_hull.hpp"
-#include "surface/gp3.hpp"
-#include "surface/marching_cubes.hpp"
-#include "surface/marching_cubes_hoppe.hpp"
 
 
 void defineSurfaceClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineSurfaceClasses(py::module &m) {
     defineSurfaceMlsClasses(m_surface);
     defineSurfaceReconstructionClasses(m_surface);
     defineSurfaceConvexHullClasses(m_surface);
-    defineSurfaceConcaveHullClasses(m_surface);
-    defineSurfaceGp3Classes(m_surface);
-    defineSurfaceMarchingCubesClasses(m_surface);
-    defineSurfaceMarchingCubesHoppeClasses(m_surface);
 }

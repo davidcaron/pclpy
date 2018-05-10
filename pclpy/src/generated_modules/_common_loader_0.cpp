@@ -16,10 +16,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/colors.hpp"
 #include "common/common.hpp"
 #include "common/copy_point.hpp"
-#include "common/distances.hpp"
-#include "common/feature_histogram.hpp"
-#include "common/file_io.hpp"
-#include "common/intersections.hpp"
 
 
 void defineCommonClasses(py::module &m) {
@@ -30,8 +26,4 @@ void defineCommonClasses(py::module &m) {
     defineCommonColorsClasses(m_common);
     defineCommonCommonClasses(m_common);
     defineCommonCopyPointClasses(m_common);
-    defineCommonDistancesClasses(m_common);
-    defineCommonFeatureHistogramClasses(m_common);
-    defineCommonFileIoClasses(m_common);
-    defineCommonIntersectionsClasses(m_common);
 }
