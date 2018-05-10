@@ -381,6 +381,7 @@ if ON_WINDOWS:
     ext_args['include_dirs'].append(get_pybind_include(user=True))
 
 src_path = join("pclpy", "src")
+# src_path = join("pclpy", "src", "generated_modules", "features")
 
 cpp_files = glob.glob(join(src_path, "**", "*.cpp"), recursive=True)
 

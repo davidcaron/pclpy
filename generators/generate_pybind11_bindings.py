@@ -353,6 +353,9 @@ def delete_other_dirs(modules):
 
 
 def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
+    # filter when no text to write
+    generated_headers = OrderedDict([(k, v) for k, v in generated_headers.items() if v])
+
     modules = set(module for module, _ in generated_headers.keys())
 
     make_module_dirs(modules)
@@ -360,9 +363,8 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     # hpp
     files_to_write = {}
     for (module, header_name), text in generated_headers.items():
-        if text:
-            output_path = join(PATH_MODULES, module, header_name[:-1] + "cpp")
-            files_to_write[output_path] = text
+        output_path = join(PATH_MODULES, module, header_name[:-1] + "hpp")
+        files_to_write[output_path] = text
 
     # loaders
     loader_modules = defaultdict(list)

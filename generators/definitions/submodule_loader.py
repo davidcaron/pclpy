@@ -14,10 +14,11 @@ def generate_loader(module, headers):
 
     sub = camelize(module) if module != "base" else ""
 
-    # add forward declarations
+    # add includes
     for header in headers:
-        name = function_definition_name(header_name=header)
-        a("void define{sub}{name}Classes(py::module &);".format(sub=sub, name=name))
+        inc_name = '%s/%s' % (module, header) if module != "base" else header
+        include_expression = '#include "%spp"' % (inc_name,)
+        a(include_expression)
 
     a("\n")
     a("void define%sClasses(py::module &m) {" % camelize(module))

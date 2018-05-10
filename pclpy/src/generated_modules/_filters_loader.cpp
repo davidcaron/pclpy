@@ -10,49 +10,39 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-void defineFiltersBoostClasses(py::module &);
-void defineFiltersClipper3DClasses(py::module &);
-void defineFiltersBoxClipper3DClasses(py::module &);
-void defineFiltersConvolutionClasses(py::module &);
-void defineFiltersFilterClasses(py::module &);
-void defineFiltersApproximateVoxelGridClasses(py::module &);
-void defineFiltersFastBilateralClasses(py::module &);
-void defineFiltersFastBilateralOmpClasses(py::module &);
-void defineFiltersFilterIndicesClasses(py::module &);
-void defineFiltersCovarianceSamplingClasses(py::module &);
-void defineFiltersCropBoxClasses(py::module &);
-void defineFiltersCropHullClasses(py::module &);
-void defineFiltersExtractIndicesClasses(py::module &);
-void defineFiltersFrustumCullingClasses(py::module &);
-void defineFiltersGridMinimumClasses(py::module &);
-void defineFiltersMedianFilterClasses(py::module &);
-void defineFiltersMorphologicalFilterClasses(py::module &);
-void defineFiltersNormalRefinementClasses(py::module &);
-void defineFiltersNormalSpaceClasses(py::module &);
-void defineFiltersPassthroughClasses(py::module &);
-void defineFiltersPlaneClipper3DClasses(py::module &);
-void defineFiltersRandomSampleClasses(py::module &);
-void defineFiltersSamplingSurfaceNormalClasses(py::module &);
-void defineFiltersShadowpointsClasses(py::module &);
-void defineFiltersUniformSamplingClasses(py::module &);
-void defineFiltersVoxelGridClasses(py::module &);
-void defineFiltersVoxelGridLabelClasses(py::module &);
-void defineFiltersVoxelGridOcclusionEstimationClasses(py::module &);
-void defineFiltersVoxelGridCovarianceClasses(py::module &);
-void defineFiltersProjectInliersClasses(py::module &);
-void defineFiltersBilateralClasses(py::module &);
-void defineFiltersConvolution3dClasses(py::module &);
-void defineFiltersLocalMaximumClasses(py::module &);
-void defineFiltersRadiusOutlierRemovalClasses(py::module &);
-void defineFiltersStatisticalOutlierRemovalClasses(py::module &);
+#include "filters/filter.hpp"
+#include "filters/approximate_voxel_grid.hpp"
+#include "filters/fast_bilateral.hpp"
+#include "filters/fast_bilateral_omp.hpp"
+#include "filters/filter_indices.hpp"
+#include "filters/covariance_sampling.hpp"
+#include "filters/crop_box.hpp"
+#include "filters/crop_hull.hpp"
+#include "filters/extract_indices.hpp"
+#include "filters/frustum_culling.hpp"
+#include "filters/grid_minimum.hpp"
+#include "filters/median_filter.hpp"
+#include "filters/morphological_filter.hpp"
+#include "filters/normal_refinement.hpp"
+#include "filters/normal_space.hpp"
+#include "filters/passthrough.hpp"
+#include "filters/random_sample.hpp"
+#include "filters/sampling_surface_normal.hpp"
+#include "filters/shadowpoints.hpp"
+#include "filters/uniform_sampling.hpp"
+#include "filters/voxel_grid.hpp"
+#include "filters/voxel_grid_label.hpp"
+#include "filters/voxel_grid_occlusion_estimation.hpp"
+#include "filters/voxel_grid_covariance.hpp"
+#include "filters/project_inliers.hpp"
+#include "filters/bilateral.hpp"
+#include "filters/local_maximum.hpp"
+#include "filters/radius_outlier_removal.hpp"
+#include "filters/statistical_outlier_removal.hpp"
 
 
 void defineFiltersClasses(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersBoostClasses(m_filters);
-    defineFiltersClipper3DClasses(m_filters);
-    defineFiltersBoxClipper3DClasses(m_filters);
-    defineFiltersConvolutionClasses(m_filters);
     defineFiltersFilterClasses(m_filters);
     defineFiltersApproximateVoxelGridClasses(m_filters);
     defineFiltersFastBilateralClasses(m_filters);
@@ -69,7 +59,6 @@ void defineFiltersClasses(py::module &m) {
     defineFiltersNormalRefinementClasses(m_filters);
     defineFiltersNormalSpaceClasses(m_filters);
     defineFiltersPassthroughClasses(m_filters);
-    defineFiltersPlaneClipper3DClasses(m_filters);
     defineFiltersRandomSampleClasses(m_filters);
     defineFiltersSamplingSurfaceNormalClasses(m_filters);
     defineFiltersShadowpointsClasses(m_filters);
@@ -80,7 +69,6 @@ void defineFiltersClasses(py::module &m) {
     defineFiltersVoxelGridCovarianceClasses(m_filters);
     defineFiltersProjectInliersClasses(m_filters);
     defineFiltersBilateralClasses(m_filters);
-    defineFiltersConvolution3dClasses(m_filters);
     defineFiltersLocalMaximumClasses(m_filters);
     defineFiltersRadiusOutlierRemovalClasses(m_filters);
     defineFiltersStatisticalOutlierRemovalClasses(m_filters);

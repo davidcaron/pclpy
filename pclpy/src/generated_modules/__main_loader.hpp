@@ -15,7 +15,6 @@ void defineFiltersClasses(py::module &);
 void defineGeometryClasses(py::module &);
 void defineIoClasses(py::module &);
 void defineKdtreeClasses(py::module &);
-void defineKeypointsClasses(py::module &);
 void defineOctreeClasses(py::module &);
 void defineRecognitionClasses(py::module &);
 void defineSampleConsensusClasses(py::module &);
@@ -35,7 +34,6 @@ void defineClasses(py::module &m) {
     defineGeometryClasses(m);
     defineIoClasses(m);
     defineKdtreeClasses(m);
-    defineKeypointsClasses(m);
     defineOctreeClasses(m);
     defineRecognitionClasses(m);
     defineSampleConsensusClasses(m);

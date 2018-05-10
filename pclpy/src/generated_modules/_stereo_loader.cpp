@@ -10,10 +10,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-void defineStereoDisparityMapConverterClasses(py::module &);
-void defineStereoDigitalElevationMapClasses(py::module &);
-void defineStereoStereoMatchingClasses(py::module &);
-void defineStereoStereoGrabberClasses(py::module &);
+#include "stereo/disparity_map_converter.hpp"
+#include "stereo/digital_elevation_map.hpp"
+#include "stereo/stereo_matching.hpp"
+#include "stereo/stereo_grabber.hpp"
 
 
 void defineStereoClasses(py::module &m) {
