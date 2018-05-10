@@ -9,16 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "features/grsd.hpp"
-#include "features/shot.hpp"
-#include "features/shot_lrf.hpp"
-#include "features/shot_lrf_omp.hpp"
+#include "features/intensity_spin.hpp"
+#include "features/linear_least_squares_normal.hpp"
 
 
 void defineFeaturesClasses(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
-    defineFeaturesGrsdClasses(m_features);
-    defineFeaturesShotClasses(m_features);
-    defineFeaturesShotLrfClasses(m_features);
-    defineFeaturesShotLrfOmpClasses(m_features);
+    defineFeaturesIntensitySpinClasses(m_features);
+    defineFeaturesLinearLeastSquaresNormalClasses(m_features);
 }

@@ -59,7 +59,7 @@ if ON_WINDOWS:
 
 # For MSVC, this flag enables multiprocess compilation
 MSVC_MP_BUILD = False
-N_WORKERS = 2
+N_WORKERS = 1
 if "--msvc-mp-build" in sys.argv:
     sys.argv.remove("--msvc-mp-build")
     MSVC_MP_BUILD = True

@@ -9,16 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "recognition/orr_octree_zprojection.hpp"
-#include "recognition/point_types.hpp"
-#include "recognition/quantized_map.hpp"
-#include "recognition/region_xy.hpp"
+#include "recognition/mask_map.hpp"
+#include "recognition/orr_octree.hpp"
 
 
 void defineRecognitionClasses(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
-    defineRecognitionOrrOctreeZprojectionClasses(m_recognition);
-    defineRecognitionPointTypesClasses(m_recognition);
-    defineRecognitionQuantizedMapClasses(m_recognition);
-    defineRecognitionRegionXyClasses(m_recognition);
+    defineRecognitionMaskMapClasses(m_recognition);
+    defineRecognitionOrrOctreeClasses(m_recognition);
 }

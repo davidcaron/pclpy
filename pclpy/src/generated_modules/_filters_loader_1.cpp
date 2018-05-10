@@ -9,16 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/filter_indices.hpp"
-#include "filters/covariance_sampling.hpp"
-#include "filters/crop_box.hpp"
-#include "filters/crop_hull.hpp"
+#include "filters/fast_bilateral.hpp"
+#include "filters/fast_bilateral_omp.hpp"
 
 
 void defineFiltersClasses(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersFilterIndicesClasses(m_filters);
-    defineFiltersCovarianceSamplingClasses(m_filters);
-    defineFiltersCropBoxClasses(m_filters);
-    defineFiltersCropHullClasses(m_filters);
+    defineFiltersFastBilateralClasses(m_filters);
+    defineFiltersFastBilateralOmpClasses(m_filters);
 }

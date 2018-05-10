@@ -9,16 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "segmentation/segment_differences.hpp"
-#include "segmentation/lccp_segmentation.hpp"
-#include "segmentation/cpc_segmentation.hpp"
-#include "segmentation/unary_classifier.hpp"
+#include "segmentation/organized_connected_component_segmentation.hpp"
+#include "segmentation/progressive_morphological_filter.hpp"
 
 
 void defineSegmentationClasses(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
-    defineSegmentationSegmentDifferencesClasses(m_segmentation);
-    defineSegmentationLccpSegmentationClasses(m_segmentation);
-    defineSegmentationCpcSegmentationClasses(m_segmentation);
-    defineSegmentationUnaryClassifierClasses(m_segmentation);
+    defineSegmentationOrganizedConnectedComponentSegmentationClasses(m_segmentation);
+    defineSegmentationProgressiveMorphologicalFilterClasses(m_segmentation);
 }

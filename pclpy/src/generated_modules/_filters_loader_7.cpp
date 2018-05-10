@@ -9,10 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/statistical_outlier_removal.hpp"
+#include "filters/normal_space.hpp"
+#include "filters/passthrough.hpp"
 
 
 void defineFiltersClasses(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersStatisticalOutlierRemovalClasses(m_filters);
+    defineFiltersNormalSpaceClasses(m_filters);
+    defineFiltersPassthroughClasses(m_filters);
 }

@@ -9,13 +9,11 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "pcl_base.hpp"
-#include "point_types_conversion.hpp"
-#include "point_types.hpp"
+#include "PointIndices.hpp"
+#include "Vertices.hpp"
 
 
 void defineBaseClasses(py::module &m) {
-    definePclBaseClasses(m);
-    definePointTypesConversionClasses(m);
-    definePointTypesClasses(m);
+    definePointIndicesClasses(m);
+    defineVerticesClasses(m);
 }
