@@ -381,9 +381,12 @@ if ON_WINDOWS:
     ext_args['include_dirs'].append(get_pybind_include(user=True))
 
 src_path = join("pclpy", "src")
-# src_path = join("pclpy", "src", "generated_modules", "features")
 
 cpp_files = glob.glob(join(src_path, "**", "*.cpp"), recursive=True)
+
+if os.environ["APPVEYOR"]:
+    skip_modules = ["visualization"]
+    cpp_files = [c for c in cpp_files if not any(skip in c for skip in skip_modules)]
 
 ext_modules = [
     Extension(
