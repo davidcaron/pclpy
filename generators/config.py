@@ -12,7 +12,6 @@ PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
 
 common_includes = """
 #include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
 #include <pybind11/eigen.h>
 #include <pcl/point_types.h>
 
