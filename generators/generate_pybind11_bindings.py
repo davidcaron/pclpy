@@ -371,8 +371,9 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
     for module, headers in loader_modules.items():
-        path_loader = join(PATH_MODULES, "_%s_loader.cpp" % module)
-        files_to_write[path_loader] = generate_loader(module, headers)
+        for i in range(0, len(headers), 10):
+            path_loader = join(PATH_MODULES, "_%s_loader_%s.cpp" % (module, i // 10))
+            files_to_write[path_loader] = generate_loader(module, headers[i:i+10])
 
     files_to_write[PATH_LOADER] = generate_main_loader(loader_modules)
 
