@@ -13,8 +13,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/approximate_voxel_grid.hpp"
 #include "filters/fast_bilateral.hpp"
 #include "filters/fast_bilateral_omp.hpp"
-#include "filters/filter_indices.hpp"
-#include "filters/covariance_sampling.hpp"
 
 
 void defineFiltersClasses(py::module &m) {
@@ -23,6 +21,4 @@ void defineFiltersClasses(py::module &m) {
     defineFiltersApproximateVoxelGridClasses(m_filters);
     defineFiltersFastBilateralClasses(m_filters);
     defineFiltersFastBilateralOmpClasses(m_filters);
-    defineFiltersFilterIndicesClasses(m_filters);
-    defineFiltersCovarianceSamplingClasses(m_filters);
 }

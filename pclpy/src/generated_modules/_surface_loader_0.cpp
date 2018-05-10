@@ -13,8 +13,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/bilateral_upsampling.hpp"
 #include "surface/ear_clipping.hpp"
 #include "surface/mls.hpp"
-#include "surface/reconstruction.hpp"
-#include "surface/convex_hull.hpp"
 
 
 void defineSurfaceClasses(py::module &m) {
@@ -23,6 +21,4 @@ void defineSurfaceClasses(py::module &m) {
     defineSurfaceBilateralUpsamplingClasses(m_surface);
     defineSurfaceEarClippingClasses(m_surface);
     defineSurfaceMlsClasses(m_surface);
-    defineSurfaceReconstructionClasses(m_surface);
-    defineSurfaceConvexHullClasses(m_surface);
 }

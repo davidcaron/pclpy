@@ -13,8 +13,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/extract_clusters.hpp"
 #include "segmentation/extract_labeled_clusters.hpp"
 #include "segmentation/extract_polygonal_prism_data.hpp"
-#include "segmentation/grabcut_segmentation.hpp"
-#include "segmentation/min_cut_segmentation.hpp"
 
 
 void defineSegmentationClasses(py::module &m) {
@@ -23,6 +21,4 @@ void defineSegmentationClasses(py::module &m) {
     defineSegmentationExtractClustersClasses(m_segmentation);
     defineSegmentationExtractLabeledClustersClasses(m_segmentation);
     defineSegmentationExtractPolygonalPrismDataClasses(m_segmentation);
-    defineSegmentationGrabcutSegmentationClasses(m_segmentation);
-    defineSegmentationMinCutSegmentationClasses(m_segmentation);
 }
