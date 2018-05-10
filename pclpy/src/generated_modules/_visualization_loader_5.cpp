@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/actor_map.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses5(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationPointCloudGeometryHandlersClasses(m_visualization);
     defineVisualizationActorMapClasses(m_visualization);

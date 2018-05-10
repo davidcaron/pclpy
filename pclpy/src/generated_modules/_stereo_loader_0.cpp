@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "stereo/digital_elevation_map.hpp"
 
 
-void defineStereoClasses(py::module &m) {
+void defineStereoClasses0(py::module &m) {
     py::module m_stereo = m.def_submodule("stereo", "Submodule stereo");
     defineStereoDisparityMapConverterClasses(m_stereo);
     defineStereoDigitalElevationMapClasses(m_stereo);

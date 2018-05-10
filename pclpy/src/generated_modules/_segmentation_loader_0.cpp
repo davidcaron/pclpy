@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/extract_clusters.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses0(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationApproximateProgressiveMorphologicalFilterClasses(m_segmentation);
     defineSegmentationExtractClustersClasses(m_segmentation);

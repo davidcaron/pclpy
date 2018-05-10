@@ -12,6 +12,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "point_types.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses7(py::module &m) {
     definePointTypesClasses(m);
 }

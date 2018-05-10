@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/rsd.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses15(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesRopsEstimationClasses(m_features);
     defineFeaturesRsdClasses(m_features);

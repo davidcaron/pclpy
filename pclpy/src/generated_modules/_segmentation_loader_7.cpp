@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/unary_classifier.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses7(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationCpcSegmentationClasses(m_segmentation);
     defineSegmentationUnaryClassifierClasses(m_segmentation);

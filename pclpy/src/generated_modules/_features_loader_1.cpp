@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/feature.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses1(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesStatisticalMultiscaleInterestRegionExtractionClasses(m_features);
     defineFeaturesFeatureClasses(m_features);

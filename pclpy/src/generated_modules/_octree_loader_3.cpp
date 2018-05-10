@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "octree/octree_pointcloud_density.hpp"
 
 
-void defineOctreeClasses(py::module &m) {
+void defineOctreeClasses3(py::module &m) {
     py::module m_octree = m.def_submodule("octree", "Submodule octree");
     defineOctreeOctreePointcloudClasses(m_octree);
     defineOctreeOctreePointcloudDensityClasses(m_octree);

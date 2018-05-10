@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "PCLHeader.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses0(py::module &m) {
     defineCorrespondenceClasses(m);
     definePCLHeaderClasses(m);
 }

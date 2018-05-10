@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/lzf.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses6(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoImageYuv422Classes(m_io);
     defineIoLzfClasses(m_io);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/polygon_operations.hpp"
 
 
-void defineGeometryClasses(py::module &m) {
+void defineGeometryClasses3(py::module &m) {
     py::module m_geometry = m.def_submodule("geometry", "Submodule geometry");
     defineGeometryPolygonMeshClasses(m_geometry);
     defineGeometryPolygonOperationsClasses(m_geometry);

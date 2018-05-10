@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "tracking/normal_coherence.hpp"
 
 
-void defineTrackingClasses(py::module &m) {
+void defineTrackingClasses2(py::module &m) {
     py::module m_tracking = m.def_submodule("tracking", "Submodule tracking");
     defineTrackingApproxNearestPairPointCloudCoherenceClasses(m_tracking);
     defineTrackingNormalCoherenceClasses(m_tracking);

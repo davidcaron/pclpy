@@ -12,7 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/vlp_grabber.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses11(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoVlpGrabberClasses(m_io);
 }

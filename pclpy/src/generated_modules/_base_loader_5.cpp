@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "point_cloud.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses5(py::module &m) {
     definePointTraitsClasses(m);
     definePointCloudClasses(m);
 }

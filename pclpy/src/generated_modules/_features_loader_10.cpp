@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/normal_3d.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses10(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesMultiscaleFeaturePersistenceClasses(m_features);
     defineFeaturesNormal3dClasses(m_features);

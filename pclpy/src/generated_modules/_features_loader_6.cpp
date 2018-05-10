@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/gfpfh.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses6(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesFpfhOmpClasses(m_features);
     defineFeaturesGfpfhClasses(m_features);

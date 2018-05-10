@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/line_iterator.hpp"
 
 
-void defineGeometryClasses(py::module &m) {
+void defineGeometryClasses2(py::module &m) {
     py::module m_geometry = m.def_submodule("geometry", "Submodule geometry");
     defineGeometryOrganizedIndexIteratorClasses(m_geometry);
     defineGeometryLineIteratorClasses(m_geometry);

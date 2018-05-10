@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/organized_fast_mesh.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses5(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfaceMarchingCubesRbfClasses(m_surface);
     defineSurfaceOrganizedFastMeshClasses(m_surface);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "tracking/particle_filter.hpp"
 
 
-void defineTrackingClasses(py::module &m) {
+void defineTrackingClasses3(py::module &m) {
     py::module m_tracking = m.def_submodule("tracking", "Submodule tracking");
     defineTrackingTrackerClasses(m_tracking);
     defineTrackingParticleFilterClasses(m_tracking);

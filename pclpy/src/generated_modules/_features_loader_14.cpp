@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/rift.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses14(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesPrincipalCurvaturesClasses(m_features);
     defineFeaturesRiftClasses(m_features);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/linemod.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses6(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionQuantizableModalityClasses(m_recognition);
     defineRecognitionLinemodClasses(m_recognition);

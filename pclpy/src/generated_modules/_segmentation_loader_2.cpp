@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/min_cut_segmentation.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses2(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationGrabcutSegmentationClasses(m_segmentation);
     defineSegmentationMinCutSegmentationClasses(m_segmentation);

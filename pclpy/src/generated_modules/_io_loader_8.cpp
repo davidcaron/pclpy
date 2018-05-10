@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/pcd_io.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses8(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoPcdGrabberClasses(m_io);
     defineIoPcdIoClasses(m_io);

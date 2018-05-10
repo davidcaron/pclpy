@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/bilateral_upsampling.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses0(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfaceProcessingClasses(m_surface);
     defineSurfaceBilateralUpsamplingClasses(m_surface);

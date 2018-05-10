@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/moment_of_inertia_estimation.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses9(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesMomentInvariantsClasses(m_features);
     defineFeaturesMomentOfInertiaEstimationClasses(m_features);

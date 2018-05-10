@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "point_types_conversion.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses6(py::module &m) {
     definePclBaseClasses(m);
     definePointTypesConversionClasses(m);
 }

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/voxel_grid_covariance.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses11(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersVoxelGridOcclusionEstimationClasses(m_filters);
     defineFiltersVoxelGridCovarianceClasses(m_filters);

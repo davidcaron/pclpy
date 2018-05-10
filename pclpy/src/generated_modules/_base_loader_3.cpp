@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "Vertices.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses3(py::module &m) {
     definePointIndicesClasses(m);
     defineVerticesClasses(m);
 }

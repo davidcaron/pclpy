@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/tar.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses10(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoRobotEyeGrabberClasses(m_io);
     defineIoTarClasses(m_io);

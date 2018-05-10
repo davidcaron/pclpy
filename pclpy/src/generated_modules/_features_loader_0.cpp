@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/pfh_tools.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses0(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesOrganizedEdgeDetectionClasses(m_features);
     defineFeaturesPfhToolsClasses(m_features);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/triangle_mesh.hpp"
 
 
-void defineGeometryClasses(py::module &m) {
+void defineGeometryClasses4(py::module &m) {
     py::module m_geometry = m.def_submodule("geometry", "Submodule geometry");
     defineGeometryQuadMeshClasses(m_geometry);
     defineGeometryTriangleMeshClasses(m_geometry);

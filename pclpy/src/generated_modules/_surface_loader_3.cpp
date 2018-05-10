@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/gp3.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses3(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfaceConcaveHullClasses(m_surface);
     defineSurfaceGp3Classes(m_surface);

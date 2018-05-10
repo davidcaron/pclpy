@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/passthrough.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses7(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersNormalSpaceClasses(m_filters);
     defineFiltersPassthroughClasses(m_filters);

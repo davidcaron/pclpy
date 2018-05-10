@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "octree/octree_search.hpp"
 
 
-void defineOctreeClasses(py::module &m) {
+void defineOctreeClasses4(py::module &m) {
     py::module m_octree = m.def_submodule("octree", "Submodule octree");
     defineOctreeOctreePointcloudVoxelcentroidClasses(m_octree);
     defineOctreeOctreeSearchClasses(m_octree);

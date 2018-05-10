@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/point_tests.hpp"
 
 
-void defineCommonClasses(py::module &m) {
+void defineCommonClasses6(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonPiecewiseLinearFunctionClasses(m_common);
     defineCommonPointTestsClasses(m_common);

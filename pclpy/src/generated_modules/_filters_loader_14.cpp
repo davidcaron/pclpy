@@ -12,7 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/statistical_outlier_removal.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses14(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersStatisticalOutlierRemovalClasses(m_filters);
 }

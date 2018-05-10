@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/radius_outlier_removal.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses13(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersLocalMaximumClasses(m_filters);
     defineFiltersRadiusOutlierRemovalClasses(m_filters);

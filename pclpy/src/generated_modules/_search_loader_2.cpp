@@ -12,7 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "search/organized.hpp"
 
 
-void defineSearchClasses(py::module &m) {
+void defineSearchClasses2(py::module &m) {
     py::module m_search = m.def_submodule("search", "Submodule search");
     defineSearchOrganizedClasses(m_search);
 }

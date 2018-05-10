@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/sparse_quantized_multi_mod_template.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses5(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionDotmodClasses(m_recognition);
     defineRecognitionSparseQuantizedMultiModTemplateClasses(m_recognition);

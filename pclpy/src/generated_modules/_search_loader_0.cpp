@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "search/brute_force.hpp"
 
 
-void defineSearchClasses(py::module &m) {
+void defineSearchClasses0(py::module &m) {
     py::module m_search = m.def_submodule("search", "Submodule search");
     defineSearchSearchClasses(m_search);
     defineSearchBruteForceClasses(m_search);

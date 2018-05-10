@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/shot_lrf_omp.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses17(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesShotLrfClasses(m_features);
     defineFeaturesShotLrfOmpClasses(m_features);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/float_image_utils.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses1(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationCommonClasses(m_visualization);
     defineVisualizationFloatImageUtilsClasses(m_visualization);

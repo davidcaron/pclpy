@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/spin_image.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses18(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesShotOmpClasses(m_features);
     defineFeaturesSpinImageClasses(m_features);

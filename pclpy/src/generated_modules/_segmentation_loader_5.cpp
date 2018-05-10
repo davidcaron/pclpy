@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/sac_segmentation.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses5(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationRegionGrowingClasses(m_segmentation);
     defineSegmentationSacSegmentationClasses(m_segmentation);

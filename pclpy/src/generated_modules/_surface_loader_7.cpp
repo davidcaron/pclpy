@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/texture_mapping.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses7(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfaceSurfelSmoothingClasses(m_surface);
     defineSurfaceTextureMappingClasses(m_surface);

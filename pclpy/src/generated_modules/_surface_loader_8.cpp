@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/vtk_mesh_smoothing_laplacian.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses8(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfaceVtkMeshQuadricDecimationClasses(m_surface);
     defineSurfaceVtkMeshSmoothingLaplacianClasses(m_surface);

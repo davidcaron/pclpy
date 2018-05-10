@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/line_rgbd.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses9(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionSurfaceNormalModalityClasses(m_recognition);
     defineRecognitionLineRgbdClasses(m_recognition);

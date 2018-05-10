@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/hypothesis.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses7(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionModelLibraryClasses(m_recognition);
     defineRecognitionHypothesisClasses(m_recognition);

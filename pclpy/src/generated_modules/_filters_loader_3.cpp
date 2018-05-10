@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/crop_hull.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses3(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersCropBoxClasses(m_filters);
     defineFiltersCropHullClasses(m_filters);

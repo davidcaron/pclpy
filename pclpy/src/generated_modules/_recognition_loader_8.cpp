@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/implicit_shape_model.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses8(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionRigidTransformSpaceClasses(m_recognition);
     defineRecognitionImplicitShapeModelClasses(m_recognition);

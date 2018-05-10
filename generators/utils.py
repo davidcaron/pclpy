@@ -101,16 +101,16 @@ def sort_headers_by_dependencies(headers):
     return sorted_headers
 
 
-def generate_main_loader(modules):
-    modules = list(sorted(modules))
+def generate_main_loader(loader_functions):
+    loader_functions = list(sorted(loader_functions))
     s = [common_includes]
     a = s.append
-    for module in modules:
-        a("void define%sClasses(py::module &);" % camelize(module))
+    for func in loader_functions:
+        a("void %s(py::module &);" % func)
     a("")
     a("void defineClasses(py::module &m) {")
-    for module in modules:
-        a("%sdefine%sClasses(m);" % (INDENT, camelize(module)))
+    for func in loader_functions:
+        a("%s%s(m);" % (INDENT, func))
     a("}")
     return "\n".join(s)
 

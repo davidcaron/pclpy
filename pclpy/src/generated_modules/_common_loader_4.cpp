@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/intersections.hpp"
 
 
-void defineCommonClasses(py::module &m) {
+void defineCommonClasses4(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonFileIoClasses(m_common);
     defineCommonIntersectionsClasses(m_common);

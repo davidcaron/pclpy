@@ -12,7 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "2d/convolution.hpp"
 
 
-void define2dClasses(py::module &m) {
+void define2dClasses0(py::module &m) {
     py::module m_2d = m.def_submodule("module_2d", "Submodule 2d");
     define2dConvolutionClasses(m_2d);
 }

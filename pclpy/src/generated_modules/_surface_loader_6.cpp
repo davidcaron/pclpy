@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/simplification_remove_unused_vertices.hpp"
 
 
-void defineSurfaceClasses(py::module &m) {
+void defineSurfaceClasses6(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
     defineSurfacePoissonClasses(m_surface);
     defineSurfaceSimplificationRemoveUnusedVerticesClasses(m_surface);

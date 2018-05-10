@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "PCLImage.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses1(py::module &m) {
     defineModelCoefficientsClasses(m);
     definePCLImageClasses(m);
 }

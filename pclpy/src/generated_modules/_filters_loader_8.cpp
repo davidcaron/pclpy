@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/sampling_surface_normal.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses8(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersRandomSampleClasses(m_filters);
     defineFiltersSamplingSurfaceNormalClasses(m_filters);

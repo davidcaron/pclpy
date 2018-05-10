@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "geometry/mesh_elements.hpp"
 
 
-void defineGeometryClasses(py::module &m) {
+void defineGeometryClasses0(py::module &m) {
     py::module m_geometry = m.def_submodule("geometry", "Submodule geometry");
     defineGeometryMeshIndicesClasses(m_geometry);
     defineGeometryMeshElementsClasses(m_geometry);

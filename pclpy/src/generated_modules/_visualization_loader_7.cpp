@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/window.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses7(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationRangeImageVisualizerClasses(m_visualization);
     defineVisualizationWindowClasses(m_visualization);

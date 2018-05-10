@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/intensity_gradient.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses7(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesIntegralImageNormalClasses(m_features);
     defineFeaturesIntensityGradientClasses(m_features);

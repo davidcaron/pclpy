@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/median_filter.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses5(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersGridMinimumClasses(m_filters);
     defineFiltersMedianFilterClasses(m_filters);

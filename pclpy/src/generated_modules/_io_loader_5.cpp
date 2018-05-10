@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/image_rgb24.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses5(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoImageIrClasses(m_io);
     defineIoImageRgb24Classes(m_io);

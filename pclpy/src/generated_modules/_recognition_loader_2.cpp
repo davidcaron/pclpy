@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/point_types.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses2(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionOrrOctreeZprojectionClasses(m_recognition);
     defineRecognitionPointTypesClasses(m_recognition);

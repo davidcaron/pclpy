@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/pcl_visualizer.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses6(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationPointPickingEventClasses(m_visualization);
     defineVisualizationPclVisualizerClasses(m_visualization);

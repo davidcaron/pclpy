@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/extract_polygonal_prism_data.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses1(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationExtractLabeledClustersClasses(m_segmentation);
     defineSegmentationExtractPolygonalPrismDataClasses(m_segmentation);

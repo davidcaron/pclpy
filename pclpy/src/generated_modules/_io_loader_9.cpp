@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/ply_io.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses9(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoPlyClasses(m_io);
     defineIoPlyIoClasses(m_io);

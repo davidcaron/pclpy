@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/cloud_viewer.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses0(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationAreaPickingEventClasses(m_visualization);
     defineVisualizationCloudViewerClasses(m_visualization);

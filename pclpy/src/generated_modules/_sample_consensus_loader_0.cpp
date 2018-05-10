@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "sample_consensus/model_types.hpp"
 
 
-void defineSampleConsensusClasses(py::module &m) {
+void defineSampleConsensusClasses0(py::module &m) {
     py::module m_sample_consensus = m.def_submodule("sample_consensus", "Submodule sample_consensus");
     defineSampleConsensusMethodTypesClasses(m_sample_consensus);
     defineSampleConsensusModelTypesClasses(m_sample_consensus);

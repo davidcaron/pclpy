@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/transformation_from_correspondences.hpp"
 
 
-void defineCommonClasses(py::module &m) {
+void defineCommonClasses8(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonTimeClasses(m_common);
     defineCommonTransformationFromCorrespondencesClasses(m_common);

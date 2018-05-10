@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "sample_consensus/mlesac.hpp"
 
 
-void defineSampleConsensusClasses(py::module &m) {
+void defineSampleConsensusClasses2(py::module &m) {
     py::module m_sample_consensus = m.def_submodule("sample_consensus", "Submodule sample_consensus");
     defineSampleConsensusLmedsClasses(m_sample_consensus);
     defineSampleConsensusMlesacClasses(m_sample_consensus);

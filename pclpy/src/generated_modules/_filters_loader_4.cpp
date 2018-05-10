@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/frustum_culling.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses4(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersExtractIndicesClasses(m_filters);
     defineFiltersFrustumCullingClasses(m_filters);

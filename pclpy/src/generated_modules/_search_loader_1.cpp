@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "search/octree.hpp"
 
 
-void defineSearchClasses(py::module &m) {
+void defineSearchClasses1(py::module &m) {
     py::module m_search = m.def_submodule("search", "Submodule search");
     defineSearchKdtreeClasses(m_search);
     defineSearchOctreeClasses(m_search);

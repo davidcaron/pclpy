@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "sample_consensus/sac.hpp"
 
 
-void defineSampleConsensusClasses(py::module &m) {
+void defineSampleConsensusClasses1(py::module &m) {
     py::module m_sample_consensus = m.def_submodule("sample_consensus", "Submodule sample_consensus");
     defineSampleConsensusSacModelClasses(m_sample_consensus);
     defineSampleConsensusSacClasses(m_sample_consensus);

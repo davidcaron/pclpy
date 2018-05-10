@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "tracking/distance_coherence.hpp"
 
 
-void defineTrackingClasses(py::module &m) {
+void defineTrackingClasses0(py::module &m) {
     py::module m_tracking = m.def_submodule("tracking", "Submodule tracking");
     defineTrackingCoherenceClasses(m_tracking);
     defineTrackingDistanceCoherenceClasses(m_tracking);

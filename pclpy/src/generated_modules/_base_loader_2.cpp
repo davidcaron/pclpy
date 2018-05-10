@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "PCLPointCloud2.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses2(py::module &m) {
     definePCLPointFieldClasses(m);
     definePCLPointCloud2Classes(m);
 }

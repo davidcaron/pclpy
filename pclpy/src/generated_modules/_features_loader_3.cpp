@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/cppf.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses3(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesBoundaryClasses(m_features);
     defineFeaturesCppfClasses(m_features);

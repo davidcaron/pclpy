@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/obj_io.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses7(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoLzfImageIoClasses(m_io);
     defineIoObjIoClasses(m_io);

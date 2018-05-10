@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/lccp_segmentation.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses6(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationSegmentDifferencesClasses(m_segmentation);
     defineSegmentationLccpSegmentationClasses(m_segmentation);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/covariance_sampling.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses2(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersFilterIndicesClasses(m_filters);
     defineFiltersCovarianceSamplingClasses(m_filters);

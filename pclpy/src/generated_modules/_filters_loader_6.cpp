@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/normal_refinement.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses6(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersMorphologicalFilterClasses(m_filters);
     defineFiltersNormalRefinementClasses(m_filters);

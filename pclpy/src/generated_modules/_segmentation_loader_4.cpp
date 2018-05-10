@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "segmentation/planar_polygon_fusion.hpp"
 
 
-void defineSegmentationClasses(py::module &m) {
+void defineSegmentationClasses4(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
     defineSegmentationOrganizedMultiPlaneSegmentationClasses(m_segmentation);
     defineSegmentationPlanarPolygonFusionClasses(m_segmentation);

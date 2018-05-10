@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "stereo/stereo_grabber.hpp"
 
 
-void defineStereoClasses(py::module &m) {
+void defineStereoClasses1(py::module &m) {
     py::module m_stereo = m.def_submodule("stereo", "Submodule stereo");
     defineStereoStereoMatchingClasses(m_stereo);
     defineStereoStereoGrabberClasses(m_stereo);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/ifs_io.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses2(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoHdlGrabberClasses(m_io);
     defineIoIfsIoClasses(m_io);

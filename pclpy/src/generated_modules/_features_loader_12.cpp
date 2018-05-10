@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/pfhrgb.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses12(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesPfhClasses(m_features);
     defineFeaturesPfhrgbClasses(m_features);

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/image_viewer.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses3(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationPclImageCanvasSource2dClasses(m_visualization);
     defineVisualizationImageViewerClasses(m_visualization);

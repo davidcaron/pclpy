@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "features/linear_least_squares_normal.hpp"
 
 
-void defineFeaturesClasses(py::module &m) {
+void defineFeaturesClasses8(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
     defineFeaturesIntensitySpinClasses(m_features);
     defineFeaturesLinearLeastSquaresNormalClasses(m_features);

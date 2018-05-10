@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/approximate_voxel_grid.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses0(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersFilterClasses(m_filters);
     defineFiltersApproximateVoxelGridClasses(m_filters);

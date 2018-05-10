@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "TextureMesh.hpp"
 
 
-void defineBaseClasses(py::module &m) {
+void defineBaseClasses4(py::module &m) {
     definePolygonMeshClasses(m);
     defineTextureMeshClasses(m);
 }

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/dot_modality.hpp"
 
 
-void defineRecognitionClasses(py::module &m) {
+void defineRecognitionClasses4(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionDenseQuantizedMultiModTemplateClasses(m_recognition);
     defineRecognitionDotModalityClasses(m_recognition);

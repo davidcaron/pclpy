@@ -59,9 +59,10 @@ if ON_WINDOWS:
 
 # For MSVC, this flag enables multiprocess compilation
 MSVC_MP_BUILD = False
-N_WORKERS = 1
+N_WORKERS = 2
 if "--msvc-mp-build" in sys.argv:
     sys.argv.remove("--msvc-mp-build")
+    print("Compiling with %s workers." % N_WORKERS)
     MSVC_MP_BUILD = True
 
 DEBUG = False

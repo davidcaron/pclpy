@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "sample_consensus/sac_model_normal_parallel_plane.hpp"
 
 
-void defineSampleConsensusClasses(py::module &m) {
+void defineSampleConsensusClasses10(py::module &m) {
     py::module m_sample_consensus = m.def_submodule("sample_consensus", "Submodule sample_consensus");
     defineSampleConsensusSacModelNormalPlaneClasses(m_sample_consensus);
     defineSampleConsensusSacModelNormalParallelPlaneClasses(m_sample_consensus);

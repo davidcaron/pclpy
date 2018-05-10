@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/copy_point.hpp"
 
 
-void defineCommonClasses(py::module &m) {
+void defineCommonClasses2(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonCommonClasses(m_common);
     defineCommonCopyPointClasses(m_common);

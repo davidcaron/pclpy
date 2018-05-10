@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "octree/octree_key.hpp"
 
 
-void defineOctreeClasses(py::module &m) {
+void defineOctreeClasses0(py::module &m) {
     py::module m_octree = m.def_submodule("octree", "Submodule octree");
     defineOctreeOctreeContainerClasses(m_octree);
     defineOctreeOctreeKeyClasses(m_octree);

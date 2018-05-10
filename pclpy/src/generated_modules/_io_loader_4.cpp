@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "io/image.hpp"
 
 
-void defineIoClasses(py::module &m) {
+void defineIoClasses4(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
     defineIoImageMetadataWrapperClasses(m_io);
     defineIoImageClasses(m_io);

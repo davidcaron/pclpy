@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "filters/bilateral.hpp"
 
 
-void defineFiltersClasses(py::module &m) {
+void defineFiltersClasses12(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
     defineFiltersProjectInliersClasses(m_filters);
     defineFiltersBilateralClasses(m_filters);

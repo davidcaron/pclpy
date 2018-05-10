@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/point_cloud_color_handlers.hpp"
 
 
-void defineVisualizationClasses(py::module &m) {
+void defineVisualizationClasses4(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
     defineVisualizationPclPlotterClasses(m_visualization);
     defineVisualizationPointCloudColorHandlersClasses(m_visualization);

@@ -4,7 +4,7 @@ from generators.config import common_includes, INDENT, declare_holder_type
 from generators.utils import function_definition_name, include_make_opaque_vectors
 
 
-def generate_loader(module, headers):
+def generate_loader(module, headers, number):
     lines = []
     a = lines.append
     a(common_includes)
@@ -21,7 +21,7 @@ def generate_loader(module, headers):
         a(include_expression)
 
     a("\n")
-    a("void define%sClasses(py::module &m) {" % camelize(module))
+    a("void define%sClasses%s(py::module &m) {" % (camelize(module), number))
 
     # add submodule definition
     submodule_object_name = ("m_%s" % module) if module != "base" else "m"

@@ -13,7 +13,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "common/feature_histogram.hpp"
 
 
-void defineCommonClasses(py::module &m) {
+void defineCommonClasses3(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonDistancesClasses(m_common);
     defineCommonFeatureHistogramClasses(m_common);
