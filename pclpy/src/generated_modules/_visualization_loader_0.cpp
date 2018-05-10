@@ -12,6 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "visualization/area_picking_event.hpp"
 #include "visualization/cloud_viewer.hpp"
 #include "visualization/common.hpp"
+#include "visualization/float_image_utils.hpp"
 
 
 void defineVisualizationClasses0(py::module &m) {
@@ -19,4 +20,5 @@ void defineVisualizationClasses0(py::module &m) {
     defineVisualizationAreaPickingEventClasses(m_visualization);
     defineVisualizationCloudViewerClasses(m_visualization);
     defineVisualizationCommonClasses(m_visualization);
+    defineVisualizationFloatImageUtilsClasses(m_visualization);
 }

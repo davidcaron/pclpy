@@ -9,14 +9,16 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/morphological_filter.hpp"
-#include "filters/normal_refinement.hpp"
-#include "filters/normal_space.hpp"
+#include "filters/random_sample.hpp"
+#include "filters/sampling_surface_normal.hpp"
+#include "filters/shadowpoints.hpp"
+#include "filters/uniform_sampling.hpp"
 
 
 void defineFiltersClasses4(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersMorphologicalFilterClasses(m_filters);
-    defineFiltersNormalRefinementClasses(m_filters);
-    defineFiltersNormalSpaceClasses(m_filters);
+    defineFiltersRandomSampleClasses(m_filters);
+    defineFiltersSamplingSurfaceNormalClasses(m_filters);
+    defineFiltersShadowpointsClasses(m_filters);
+    defineFiltersUniformSamplingClasses(m_filters);
 }

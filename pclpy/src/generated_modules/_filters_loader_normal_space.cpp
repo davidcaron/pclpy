@@ -9,10 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "visualization/window.hpp"
+#include "filters/normal_space.hpp"
 
 
-void defineVisualizationClasses5(py::module &m) {
-    py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
-    defineVisualizationWindowClasses(m_visualization);
+void defineFiltersClassesnormal_space(py::module &m) {
+    py::module m_filters = m.def_submodule("filters", "Submodule filters");
+    defineFiltersNormalSpaceClasses(m_filters);
 }

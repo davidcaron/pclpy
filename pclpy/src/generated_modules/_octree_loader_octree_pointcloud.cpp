@@ -9,10 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "geometry/triangle_mesh.hpp"
+#include "octree/octree_pointcloud.hpp"
 
 
-void defineGeometryClasses3(py::module &m) {
-    py::module m_geometry = m.def_submodule("geometry", "Submodule geometry");
-    defineGeometryTriangleMeshClasses(m_geometry);
+void defineOctreeClassesoctree_pointcloud(py::module &m) {
+    py::module m_octree = m.def_submodule("octree", "Submodule octree");
+    defineOctreeOctreePointcloudClasses(m_octree);
 }

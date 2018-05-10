@@ -12,6 +12,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "surface/processing.hpp"
 #include "surface/bilateral_upsampling.hpp"
 #include "surface/ear_clipping.hpp"
+#include "surface/mls.hpp"
 
 
 void defineSurfaceClasses0(py::module &m) {
@@ -19,4 +20,5 @@ void defineSurfaceClasses0(py::module &m) {
     defineSurfaceProcessingClasses(m_surface);
     defineSurfaceBilateralUpsamplingClasses(m_surface);
     defineSurfaceEarClippingClasses(m_surface);
+    defineSurfaceMlsClasses(m_surface);
 }

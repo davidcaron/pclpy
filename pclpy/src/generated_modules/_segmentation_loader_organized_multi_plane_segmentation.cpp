@@ -9,10 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "segmentation/unary_classifier.hpp"
+#include "segmentation/organized_multi_plane_segmentation.hpp"
 
 
-void defineSegmentationClasses5(py::module &m) {
+void defineSegmentationClassesorganized_multi_plane_segmentation(py::module &m) {
     py::module m_segmentation = m.def_submodule("segmentation", "Submodule segmentation");
-    defineSegmentationUnaryClassifierClasses(m_segmentation);
+    defineSegmentationOrganizedMultiPlaneSegmentationClasses(m_segmentation);
 }

@@ -9,10 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "common/transforms.hpp"
+#include "common/centroid.hpp"
 
 
-void defineCommonClasses6(py::module &m) {
+void defineCommonClassescentroid(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
-    defineCommonTransformsClasses(m_common);
+    defineCommonCentroidClasses(m_common);
 }

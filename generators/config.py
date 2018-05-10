@@ -241,6 +241,7 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("LZFYUV422ImageReader", "", ("PointT",)): ("PCL_RGB_POINT_TYPES",),
 
     ("centroid.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+    ("CentroidPoint", "get", ("PointOutT",)): ("PCL_XYZ_POINT_TYPES",),
     ("centroid.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
     ("centroid.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
     # compromise for weird compile errors... ex: PointXYZINormal and PointXYZI don't work...
@@ -300,6 +301,10 @@ EXPLICIT_INCLUDES = {
 HEADERS_TO_BUILD_ALONE = [
     # headers to build in its own cpp file because of the large ram required
     "feature.h",
+    "octree_pointcloud.h",
+    "centroid.h",
+    "normal_space.h",
+    "organized_multi_plane_segmentation.h",
 ]
 
 # ------------
