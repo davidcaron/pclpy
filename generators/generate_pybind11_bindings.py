@@ -446,10 +446,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
         something_instantiated = len(instantiation_function.split("\n")) > 2
         text = []
         if something_instantiated or keep_if_no_instantiation:
-            text = [common_includes,
-                    declare_holder_type,
-                    include_make_opaque_vectors(depth=2 if module else 1),
-                    class_definitions,
+            text = [class_definitions,
                     function_definitions,
                     instantiation_function]
 
