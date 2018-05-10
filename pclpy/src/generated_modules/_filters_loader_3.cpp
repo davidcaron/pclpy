@@ -9,18 +9,14 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/project_inliers.hpp"
-#include "filters/bilateral.hpp"
-#include "filters/local_maximum.hpp"
-#include "filters/radius_outlier_removal.hpp"
-#include "filters/statistical_outlier_removal.hpp"
+#include "filters/frustum_culling.hpp"
+#include "filters/grid_minimum.hpp"
+#include "filters/median_filter.hpp"
 
 
 void defineFiltersClasses3(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersProjectInliersClasses(m_filters);
-    defineFiltersBilateralClasses(m_filters);
-    defineFiltersLocalMaximumClasses(m_filters);
-    defineFiltersRadiusOutlierRemovalClasses(m_filters);
-    defineFiltersStatisticalOutlierRemovalClasses(m_filters);
+    defineFiltersFrustumCullingClasses(m_filters);
+    defineFiltersGridMinimumClasses(m_filters);
+    defineFiltersMedianFilterClasses(m_filters);
 }

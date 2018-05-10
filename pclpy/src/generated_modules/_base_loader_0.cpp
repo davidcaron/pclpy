@@ -12,20 +12,10 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "correspondence.hpp"
 #include "PCLHeader.hpp"
 #include "ModelCoefficients.hpp"
-#include "PCLImage.hpp"
-#include "PCLPointField.hpp"
-#include "PCLPointCloud2.hpp"
-#include "PointIndices.hpp"
-#include "Vertices.hpp"
 
 
 void defineBaseClasses0(py::module &m) {
     defineCorrespondenceClasses(m);
     definePCLHeaderClasses(m);
     defineModelCoefficientsClasses(m);
-    definePCLImageClasses(m);
-    definePCLPointFieldClasses(m);
-    definePCLPointCloud2Classes(m);
-    definePointIndicesClasses(m);
-    defineVerticesClasses(m);
 }

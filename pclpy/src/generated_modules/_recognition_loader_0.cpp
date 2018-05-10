@@ -12,11 +12,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "recognition/distance_map.hpp"
 #include "recognition/hough_3d.hpp"
 #include "recognition/mask_map.hpp"
-#include "recognition/orr_octree.hpp"
-#include "recognition/orr_octree_zprojection.hpp"
-#include "recognition/point_types.hpp"
-#include "recognition/quantized_map.hpp"
-#include "recognition/region_xy.hpp"
 
 
 void defineRecognitionClasses0(py::module &m) {
@@ -24,9 +19,4 @@ void defineRecognitionClasses0(py::module &m) {
     defineRecognitionDistanceMapClasses(m_recognition);
     defineRecognitionHough3dClasses(m_recognition);
     defineRecognitionMaskMapClasses(m_recognition);
-    defineRecognitionOrrOctreeClasses(m_recognition);
-    defineRecognitionOrrOctreeZprojectionClasses(m_recognition);
-    defineRecognitionPointTypesClasses(m_recognition);
-    defineRecognitionQuantizedMapClasses(m_recognition);
-    defineRecognitionRegionXyClasses(m_recognition);
 }

@@ -378,7 +378,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
     for module, headers in loader_modules.items():
-        chunk_size = 8
+        chunk_size = 3
         for i in range(0, len(headers), chunk_size):
             number = i // chunk_size
             headers_to_append = headers[i:i + chunk_size]

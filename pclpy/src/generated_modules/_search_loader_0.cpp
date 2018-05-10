@@ -12,8 +12,6 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "search/search.hpp"
 #include "search/brute_force.hpp"
 #include "search/kdtree.hpp"
-#include "search/octree.hpp"
-#include "search/organized.hpp"
 
 
 void defineSearchClasses0(py::module &m) {
@@ -21,6 +19,4 @@ void defineSearchClasses0(py::module &m) {
     defineSearchSearchClasses(m_search);
     defineSearchBruteForceClasses(m_search);
     defineSearchKdtreeClasses(m_search);
-    defineSearchOctreeClasses(m_search);
-    defineSearchOrganizedClasses(m_search);
 }
