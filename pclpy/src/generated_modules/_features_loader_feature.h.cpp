@@ -9,10 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/statistical_outlier_removal.hpp"
+#include "features/feature.hpp"
 
 
-void defineFiltersClasses14(py::module &m) {
-    py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersStatisticalOutlierRemovalClasses(m_filters);
+void defineFeaturesClassesfeature.h(py::module &m) {
+    py::module m_features = m.def_submodule("features", "Submodule features");
+    defineFeaturesFeatureClasses(m_features);
 }

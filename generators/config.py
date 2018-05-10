@@ -297,6 +297,11 @@ EXPLICIT_INCLUDES = {
     ("octree", "octree_pointcloud.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
 }
 
+HEADERS_TO_BUILD_ALONE = [
+    # headers to build in its own cpp file because of the large ram required
+    "feature.h",
+]
+
 # ------------
 # what to skip
 # ------------

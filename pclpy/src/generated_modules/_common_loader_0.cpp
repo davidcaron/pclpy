@@ -11,10 +11,14 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
 #include "common/angles.hpp"
 #include "common/bivariate_polynomial.hpp"
+#include "common/centroid.hpp"
+#include "common/colors.hpp"
 
 
 void defineCommonClasses0(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
     defineCommonAnglesClasses(m_common);
     defineCommonBivariatePolynomialClasses(m_common);
+    defineCommonCentroidClasses(m_common);
+    defineCommonColorsClasses(m_common);
 }

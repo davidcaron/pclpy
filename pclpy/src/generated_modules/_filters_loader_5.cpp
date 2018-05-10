@@ -9,12 +9,16 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "filters/grid_minimum.hpp"
-#include "filters/median_filter.hpp"
+#include "filters/voxel_grid.hpp"
+#include "filters/voxel_grid_label.hpp"
+#include "filters/voxel_grid_occlusion_estimation.hpp"
+#include "filters/voxel_grid_covariance.hpp"
 
 
 void defineFiltersClasses5(py::module &m) {
     py::module m_filters = m.def_submodule("filters", "Submodule filters");
-    defineFiltersGridMinimumClasses(m_filters);
-    defineFiltersMedianFilterClasses(m_filters);
+    defineFiltersVoxelGridClasses(m_filters);
+    defineFiltersVoxelGridLabelClasses(m_filters);
+    defineFiltersVoxelGridOcclusionEstimationClasses(m_filters);
+    defineFiltersVoxelGridCovarianceClasses(m_filters);
 }

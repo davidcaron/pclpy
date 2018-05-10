@@ -11,10 +11,14 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
 #include "recognition/distance_map.hpp"
 #include "recognition/hough_3d.hpp"
+#include "recognition/mask_map.hpp"
+#include "recognition/orr_octree.hpp"
 
 
 void defineRecognitionClasses0(py::module &m) {
     py::module m_recognition = m.def_submodule("recognition", "Submodule recognition");
     defineRecognitionDistanceMapClasses(m_recognition);
     defineRecognitionHough3dClasses(m_recognition);
+    defineRecognitionMaskMapClasses(m_recognition);
+    defineRecognitionOrrOctreeClasses(m_recognition);
 }

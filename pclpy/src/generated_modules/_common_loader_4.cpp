@@ -9,12 +9,14 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "common/file_io.hpp"
-#include "common/intersections.hpp"
+#include "common/time.hpp"
+#include "common/transformation_from_correspondences.hpp"
+#include "common/transforms.hpp"
 
 
 void defineCommonClasses4(py::module &m) {
     py::module m_common = m.def_submodule("common", "Submodule common");
-    defineCommonFileIoClasses(m_common);
-    defineCommonIntersectionsClasses(m_common);
+    defineCommonTimeClasses(m_common);
+    defineCommonTransformationFromCorrespondencesClasses(m_common);
+    defineCommonTransformsClasses(m_common);
 }

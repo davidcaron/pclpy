@@ -9,12 +9,16 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "surface/concave_hull.hpp"
-#include "surface/gp3.hpp"
+#include "surface/poisson.hpp"
+#include "surface/simplification_remove_unused_vertices.hpp"
+#include "surface/surfel_smoothing.hpp"
+#include "surface/texture_mapping.hpp"
 
 
 void defineSurfaceClasses3(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
-    defineSurfaceConcaveHullClasses(m_surface);
-    defineSurfaceGp3Classes(m_surface);
+    defineSurfacePoissonClasses(m_surface);
+    defineSurfaceSimplificationRemoveUnusedVerticesClasses(m_surface);
+    defineSurfaceSurfelSmoothingClasses(m_surface);
+    defineSurfaceTextureMappingClasses(m_surface);
 }

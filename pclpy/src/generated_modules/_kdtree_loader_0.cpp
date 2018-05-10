@@ -11,10 +11,12 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
 #include "kdtree/io.hpp"
 #include "kdtree/kdtree.hpp"
+#include "kdtree/kdtree_flann.hpp"
 
 
 void defineKdtreeClasses0(py::module &m) {
     py::module m_kdtree = m.def_submodule("kdtree", "Submodule kdtree");
     defineKdtreeIoClasses(m_kdtree);
     defineKdtreeKdtreeClasses(m_kdtree);
+    defineKdtreeKdtreeFlannClasses(m_kdtree);
 }

@@ -12,7 +12,7 @@ from CppHeaderParser.CppHeaderParser import CppMethod
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
-    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP, declare_holder_type
+    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP, declare_holder_type, HEADERS_TO_BUILD_ALONE
 from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -368,16 +368,25 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
     # loaders
     loader_functions = []
+
+    def append_loader(module, included_headers, suffix):
+        path_loader = join(PATH_MODULES, "_%s_loader_%s.cpp" % (module, suffix))
+        files_to_write[path_loader] = generate_loader(module, included_headers, suffix)
+        loader_functions.append("define%sClasses%s" % (module, suffix))
+
     loader_modules = defaultdict(list)
     for module, header in generated_headers:
         loader_modules[module or "base"].append(header)
     for module, headers in loader_modules.items():
-        chunk_size = 2
+        chunk_size = 4
         for i in range(0, len(headers), chunk_size):
             number = i // chunk_size
-            path_loader = join(PATH_MODULES, "_%s_loader_%s.cpp" % (module, number))
-            files_to_write[path_loader] = generate_loader(module, headers[i:i + chunk_size], number)
-            loader_functions.append("define%sClasses%s" % (module, number))
+            headers_to_append = headers[i:i + chunk_size]
+            for h in headers_to_append[:]:
+                if h in HEADERS_TO_BUILD_ALONE:
+                    headers_to_append.remove(h)
+                    append_loader(module, [h], h)
+            append_loader(module, headers_to_append, number)
 
     files_to_write[PATH_LOADER] = generate_main_loader(loader_functions)
 

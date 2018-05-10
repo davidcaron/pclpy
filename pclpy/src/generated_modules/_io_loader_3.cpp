@@ -9,12 +9,16 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "io/image_depth.hpp"
-#include "io/image_grabber.hpp"
+#include "io/image_yuv422.hpp"
+#include "io/lzf.hpp"
+#include "io/lzf_image_io.hpp"
+#include "io/obj_io.hpp"
 
 
 void defineIoClasses3(py::module &m) {
     py::module m_io = m.def_submodule("io", "Submodule io");
-    defineIoImageDepthClasses(m_io);
-    defineIoImageGrabberClasses(m_io);
+    defineIoImageYuv422Classes(m_io);
+    defineIoLzfClasses(m_io);
+    defineIoLzfImageIoClasses(m_io);
+    defineIoObjIoClasses(m_io);
 }

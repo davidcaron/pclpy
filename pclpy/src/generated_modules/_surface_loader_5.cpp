@@ -9,12 +9,10 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "surface/marching_cubes_rbf.hpp"
-#include "surface/organized_fast_mesh.hpp"
+#include "surface/vtk_utils.hpp"
 
 
 void defineSurfaceClasses5(py::module &m) {
     py::module m_surface = m.def_submodule("surface", "Submodule surface");
-    defineSurfaceMarchingCubesRbfClasses(m_surface);
-    defineSurfaceOrganizedFastMeshClasses(m_surface);
+    defineSurfaceVtkUtilsClasses(m_surface);
 }

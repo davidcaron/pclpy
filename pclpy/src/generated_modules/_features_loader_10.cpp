@@ -9,12 +9,12 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "features/multiscale_feature_persistence.hpp"
-#include "features/normal_3d.hpp"
+#include "features/cvfh.hpp"
+#include "features/our_cvfh.hpp"
 
 
 void defineFeaturesClasses10(py::module &m) {
     py::module m_features = m.def_submodule("features", "Submodule features");
-    defineFeaturesMultiscaleFeaturePersistenceClasses(m_features);
-    defineFeaturesNormal3dClasses(m_features);
+    defineFeaturesCvfhClasses(m_features);
+    defineFeaturesOurCvfhClasses(m_features);
 }

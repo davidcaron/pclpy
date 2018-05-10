@@ -9,12 +9,16 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 #include "../make_opaque_vectors.hpp"
 
-#include "visualization/pcl_image_canvas_source_2d.hpp"
-#include "visualization/image_viewer.hpp"
+#include "visualization/point_picking_event.hpp"
+#include "visualization/pcl_visualizer.hpp"
+#include "visualization/range_image_visualizer.hpp"
+#include "visualization/window.hpp"
 
 
 void defineVisualizationClasses3(py::module &m) {
     py::module m_visualization = m.def_submodule("visualization", "Submodule visualization");
-    defineVisualizationPclImageCanvasSource2dClasses(m_visualization);
-    defineVisualizationImageViewerClasses(m_visualization);
+    defineVisualizationPointPickingEventClasses(m_visualization);
+    defineVisualizationPclVisualizerClasses(m_visualization);
+    defineVisualizationRangeImageVisualizerClasses(m_visualization);
+    defineVisualizationWindowClasses(m_visualization);
 }
