@@ -12,7 +12,7 @@ from CppHeaderParser.CppHeaderParser import CppMethod
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
-    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP, cpp_header
+    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP
 from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -87,6 +87,7 @@ def generate_class_definitions(main_classes,
                                methods_defined_outside: List[CppMethod]) -> str:
     text = []
     a = text.append
+    a(common_includes)
     a(EXPLICIT_INCLUDES.get((module, header_name), ""))
     a(make_header_include_name(module, header_name, path))
     a("")
@@ -360,7 +361,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
     # hpp
     files_to_write = {}
     for (module, header_name), text in generated_headers.items():
-        output_path = join(PATH_MODULES, module, header_name[:-1] + "cpp")
+        output_path = join(PATH_MODULES, module, header_name + "pp")
         files_to_write[output_path] = text
 
     # loaders
@@ -440,7 +441,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
                                         module_enums[(module, header)],
                                         )
         instantiation_function = instantiations.generate_instantiation_function(has_functions=bool(header_functions))
-        text = [common_includes, cpp_header, class_definitions, function_definitions, instantiation_function]
+        text = [class_definitions, function_definitions, instantiation_function]
 
         return "\n".join(text)
 
