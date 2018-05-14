@@ -60,7 +60,7 @@ See the PCL documentation: http://pointclouds.org/documentation/tutorials/resamp
 import pclpy
 from pclpy import pcl
 
-point_cloud = pclpy.io.read_las(test_data("street.las"))
+point_cloud = pclpy.io.las.read(test_data("street.las"), "PointXYZRGBA")
 mls = pcl.surface.MovingLeastSquaresOMP.PointXYZRGBA_PointNormal()
 tree = pcl.search.KdTree.PointXYZRGBA()
 mls.setSearchRadius(0.05)
