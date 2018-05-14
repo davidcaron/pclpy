@@ -8,11 +8,6 @@ from inflection import camelize
 from generators.config import PCL_BASE, common_includes, INDENT, TEMPLATED_METHOD_TYPES
 
 
-def include_make_opaque_vectors(depth=1):
-    dot_dot = "../" * depth
-    return '#include "%smake_opaque_vectors.hpp"' % dot_dot
-
-
 def make_header_include_name(module, header_name, path=None, path_only=False):
     name = path.replace("\\", "/") if path else "/".join([module, header_name]) if module else header_name
     if path_only:

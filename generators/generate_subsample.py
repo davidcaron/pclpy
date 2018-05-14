@@ -16,7 +16,7 @@ def main():
     #     ("filters", "filter_indices.h", ""),
     #     ("", "pcl_base.h", ""),
     # ]
-    modules = ["common"]
+    modules = ["registration"]
     headers = get_headers(modules)
 
     ensure_required(headers)

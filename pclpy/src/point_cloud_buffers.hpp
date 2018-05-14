@@ -6,11 +6,6 @@
 
 #include <pcl/point_cloud.h>
 
-PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
-#include "make_opaque_vectors.hpp"
-
-#include "point_cloud_from_array.hpp"
-
 namespace py = pybind11;
 using namespace pybind11::literals;
 
@@ -443,70 +438,4 @@ void defineBuffers<PointDEM>(py::class_<PointCloud<PointDEM>, boost::shared_ptr<
     cls.def_property_readonly("intensity", &buffer<float, PointDEM, 4, 1>);
     cls.def_property_readonly("intensity_variance", &buffer<float, PointDEM, 5, 1>);
     cls.def_property_readonly("height_variance", &buffer<float, PointDEM, 6, 1>);
-}
-
-template <typename T>
-void definePointCloudBuffers(py::module &m, const char* suffix) {
-    using PointCloud = pcl::PointCloud<T>;
-    using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
-    auto pc = static_cast<Type>(m.attr(suffix));
-    pc.def_static("from_array", &fromArray<T>);
-    defineBuffers<T>(pc);
-}
-
-template <typename T>
-void definePointCloudBuffersRGB(py::module &m, const char* suffix) {
-    using PointCloud = pcl::PointCloud<T>;
-    using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
-    auto pc = static_cast<Type>(m.attr(suffix));
-    pc.def_static("from_array", &fromArrayRGB<T>);
-    defineBuffers<T>(pc);
-}
-
-void definePointClouds(py::module &pc) {
-    definePointCloudBuffers<PointXYZ>(pc, "PointXYZ");
-    definePointCloudBuffers<PointXYZI>(pc, "PointXYZI");
-    definePointCloudBuffers<PointXYZL>(pc, "PointXYZL");
-    definePointCloudBuffers<Label>(pc, "Label");
-    definePointCloudBuffersRGB<PointXYZRGBA>(pc, "PointXYZRGBA");
-    definePointCloudBuffersRGB<PointXYZRGB>(pc, "PointXYZRGB");
-    definePointCloudBuffersRGB<PointXYZRGBL>(pc, "PointXYZRGBL");
-    definePointCloudBuffers<PointXYZHSV>(pc, "PointXYZHSV");
-    definePointCloudBuffers<PointXY>(pc, "PointXY");
-    definePointCloudBuffers<InterestPoint>(pc, "InterestPoint");
-    definePointCloudBuffers<Axis>(pc, "Axis");
-    definePointCloudBuffers<Normal>(pc, "Normal");
-    definePointCloudBuffers<PointNormal>(pc, "PointNormal");
-    definePointCloudBuffersRGB<PointXYZRGBNormal>(pc, "PointXYZRGBNormal");
-    definePointCloudBuffers<PointXYZINormal>(pc, "PointXYZINormal");
-    definePointCloudBuffers<PointXYZLNormal>(pc, "PointXYZLNormal");
-    definePointCloudBuffers<PointWithRange>(pc, "PointWithRange");
-    definePointCloudBuffers<PointWithViewpoint>(pc, "PointWithViewpoint");
-    definePointCloudBuffers<MomentInvariants>(pc, "MomentInvariants");
-    definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
-    definePointCloudBuffers<PrincipalRadiiRSD>(pc, "PrincipalRadiiRSD");
-    definePointCloudBuffers<Boundary>(pc, "Boundary");
-    definePointCloudBuffers<PrincipalCurvatures>(pc, "PrincipalCurvatures");
-    definePointCloudBuffers<PFHSignature125>(pc, "PFHSignature125");
-    definePointCloudBuffers<PFHRGBSignature250>(pc, "PFHRGBSignature250");
-    definePointCloudBuffers<PPFSignature>(pc, "PPFSignature");
-    definePointCloudBuffers<CPPFSignature>(pc, "CPPFSignature");
-    definePointCloudBuffers<PPFRGBSignature>(pc, "PPFRGBSignature");
-    definePointCloudBuffers<NormalBasedSignature12>(pc, "NormalBasedSignature12");
-    definePointCloudBuffers<FPFHSignature33>(pc, "FPFHSignature33");
-    definePointCloudBuffers<VFHSignature308>(pc, "VFHSignature308");
-    definePointCloudBuffers<GRSDSignature21>(pc, "GRSDSignature21");
-    definePointCloudBuffers<ESFSignature640>(pc, "ESFSignature640");
-    definePointCloudBuffers<BRISKSignature512>(pc, "BRISKSignature512");
-    definePointCloudBuffers<Narf36>(pc, "Narf36");
-    definePointCloudBuffers<IntensityGradient>(pc, "IntensityGradient");
-    definePointCloudBuffers<PointWithScale>(pc, "PointWithScale");
-    definePointCloudBuffersRGB<PointSurfel>(pc, "PointSurfel");
-    definePointCloudBuffers<ShapeContext1980>(pc, "ShapeContext1980");
-    definePointCloudBuffers<UniqueShapeContext1960>(pc, "UniqueShapeContext1960");
-    definePointCloudBuffers<SHOT352>(pc, "SHOT352");
-    definePointCloudBuffers<SHOT1344>(pc, "SHOT1344");
-    definePointCloudBuffers<PointUV>(pc, "PointUV");
-    definePointCloudBuffers<ReferenceFrame>(pc, "ReferenceFrame");
-    definePointCloudBuffers<PointDEM>(pc, "PointDEM");
 }
