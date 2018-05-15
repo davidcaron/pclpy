@@ -29,6 +29,22 @@ def temp_las_path(request):
     return path
 
 
+@pytest.fixture
+def temp_file(request):
+    path = test_data("temp.file")
+
+    def fin():
+        try:
+            os.remove(path)
+
+        except WindowsError:
+            time.sleep(.05)
+            os.remove(path)
+
+    request.addfinalizer(fin)
+    return path
+
+
 def test_simple_io_pcd():
     pc = pcl.PointCloud.PointXYZ()
     reader = pcl.io.PCDReader()
@@ -102,3 +118,13 @@ def test_las_read_with_offset(temp_las_path):
     assert np.all(pc.y <= 1)
     assert np.all(pc.z >= 0)
     assert np.all(pc.z <= 1)
+
+
+def test_las_to_pcd(temp_file):
+    pc = pclpy.io.las.read(test_data("street_thinned.las"), "PointXYZ")
+    writer = pcl.io.PCDWriter()
+    writer.writeBinary(temp_file, pc)
+    reader = pcl.io.PCDReader()
+    pcd = pcl.PointCloud.PointXYZ()
+    reader.read(temp_file, pcd)
+    assert pcd.size() == 5025
