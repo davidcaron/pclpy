@@ -14,7 +14,10 @@ def test_data(*args):
 def test_cloud_viewer():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.CloudViewer("viewer")
-    # viewer.showCloud(pc, "hi")
+    viewer.showCloud(pc, "hi")
+    # don't show the cloud in automated tests
+    # while not viewer.wasStopped(10):
+    #     pass
 
 
 def test_pcl_visualizer_simple():
@@ -26,11 +29,13 @@ def test_pcl_visualizer_simple():
     viewer.setPointCloudRenderingProperties(0, 3, "sample cloud")
     viewer.addCoordinateSystem(1.0)
     viewer.initCameraParameters()
+    # don't show the cloud in automated tests
     # while not viewer.wasStopped():
-    #     viewer.spinOnce(10, False)
+    #     viewer.spinOnce(10)
 
 
 def test_viewer_intensity():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZI")
     viewer = pclpy.view.vtk.Viewer(pc)
+    # don't show the cloud in automated tests
     # viewer.show()
