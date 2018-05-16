@@ -431,8 +431,6 @@ METHODS_TO_SKIP = [
 
     ("PointCloud", "insert"),  # templated InputIterator
 
-    ("PCLVisualizer", "getCameraParameters"),  # fix char ** variable type
-
     ("ASCIIReader", "setInputFields"),
     ("PCLPlotter", "addPlotData"),
     ("PCLPlotter", "addFeatureHistogram"),
