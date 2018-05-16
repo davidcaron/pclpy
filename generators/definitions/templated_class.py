@@ -4,7 +4,7 @@ from typing import List
 from CppHeaderParser import CppClass
 from inflection import camelize
 
-from generators.config import INDENT
+from generators.config import INDENT, DONT_HOLD_WITH_BOOST_SHARED_PTR
 from generators.definitions.constructor import Constructor
 from generators.definitions.enum import Enum
 from generators.definitions.method import Method
@@ -54,15 +54,18 @@ class ClassDefinition:
 
     def to_str(self):
         if self.is_templated:
-            s = 'py::class_<Class{inherits}, {ptr}> {cls_var}(m, suffix.c_str())'
+            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, suffix.c_str())'
         else:
-            s = 'py::class_<Class{inherits}, {ptr}> {cls_var}(m, "{name}")'
+            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, "{name}")'
+        ptr = ", boost::shared_ptr<Class>"
+        if self.class_["name"] in DONT_HOLD_WITH_BOOST_SHARED_PTR:
+            ptr = ""
         data = {
             "name": self.class_name,
             "cls_var": self.CLS_VAR,
             # "original_name": self.class_name,
             "inherits": (", %s" % self.inherits) if self.inherits else "",
-            "ptr": "boost::shared_ptr<Class>"
+            "ptr": ptr
         }
         return s.format(**data)
 
