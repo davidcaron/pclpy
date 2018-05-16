@@ -243,7 +243,8 @@ def filter_static_and_non_static_methods(methods: List[Method]):
 def split_methods_by_type(methods: List[CppMethod],
                           class_variables: List[CppVariable],
                           needs_overloading: List[str]):
-    constructors_methods = [m for m in methods if m["constructor"] and not is_copy_constructor(m)]
+    constructors_methods = [m for m in methods if m["constructor"] and
+                            not is_copy_constructor(m) and m["name"] == m["parent"]["name"]]
     copy_const = [m for m in methods if m["constructor"] and is_copy_constructor(m)]
     destructors = [m for m in methods if m["destructor"]]
     setters = [m for m in methods if m["name"].startswith("set")]
