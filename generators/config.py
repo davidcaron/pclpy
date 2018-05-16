@@ -105,6 +105,7 @@ CLASSES_TO_IGNORE = [
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
     ("io", "io_exception.h", "IOException"),  # linking error
+    ("visualization", "interactor_style.h", "PCLHistogramVisualizerInteractorStyle"),  # linking error
 ]
 
 CUSTOM_OVERLOAD_TYPES = {
@@ -301,6 +302,10 @@ EXPLICIT_INCLUDES = {
     ("octree", "octree_pointcloud.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
 }
 
+DONT_HOLD_WITH_BOOST_SHARED_PTR = [
+    "PCLVisualizerInteractorStyle",
+]
+
 # ------------
 # what to skip
 # ------------
@@ -342,7 +347,7 @@ HEADERS_TO_SKIP = [
 
     ("visualization", "pcl_painter2D.h"),  # tricky protected vtkContextItem destructor
     ("visualization", "pcl_context_item.h"),  # tricky protected vtkContextItem destructor
-    ("visualization", "interactor_style.h"),  # tricky protected vtkContextItem destructor
+    # ("visualization", "interactor_style.h"),  # tricky protected vtkContextItem destructor
     ("visualization", "histogram_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
     ("visualization", "simple_buffer_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
     ("visualization", "ren_win_interact_map.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
@@ -446,4 +451,5 @@ METHODS_TO_SKIP = [
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
+    ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
 ]
