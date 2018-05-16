@@ -34,10 +34,6 @@ def filter_methods_to_skip(methods):
             continue
         if "Callback" in m["name"]:
             continue
-        # "Double pointer arguments are not supported by pybind11."  -wjakob
-        parameters_types = [p["type"] for p in m["parameters"]]
-        if any("**" in type_.replace(" ", "") for type_ in parameters_types):
-            continue
         filtered_methods.append(m)
     return filtered_methods
 

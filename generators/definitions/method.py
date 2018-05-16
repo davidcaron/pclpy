@@ -141,6 +141,9 @@ class Method:
         #                                                  "k_sqr_distances"_a
         #                                                  )
         #                                                  """
+        elif any("**" in param["type"].replace(" ", "") for param in params):
+            message = "Double pointer arguments are not supported by pybind11 (%s)" % (self.cppmethod["name"],)
+            ret_val = "// " + message
         elif self.templated_types:
             return_values = []
             names = list(self.templated_types.keys())
