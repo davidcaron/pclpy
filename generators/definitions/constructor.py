@@ -51,6 +51,10 @@ class Constructor:
                 type_ += "*"
             return type_
 
+        if any("**" in param["type"].replace(" ", "") for param in self.params):
+            message = "Double pointer arguments are not supported by pybind11 (%s)" % (self.cppconstructor["name"],)
+            return "// " + message
+
         if len(self.params):
             s = '{cls_var}.def(py::init<{params_types}>(), {params_names})'
             types = ", ".join([init_param_type(p) for p in self.params])
