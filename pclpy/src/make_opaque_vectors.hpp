@@ -7,13 +7,15 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
+#include <pcl/visualization/common/common.h>
 
 #include <Eigen/Geometry>
 
-//PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>);
-PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
 PYBIND11_MAKE_OPAQUE(std::vector<int>);
 PYBIND11_MAKE_OPAQUE(std::vector<float>);
+PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
+PYBIND11_MAKE_OPAQUE(std::vector<pcl::visualization::Camera>);
+
 PYBIND11_MAKE_OPAQUE(Eigen::VectorXf);
 PYBIND11_MAKE_OPAQUE(Eigen::Quaternionf);
 

@@ -5,6 +5,7 @@
 #include <pybind11/stl.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+#include <pcl/visualization/common/common.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -17,10 +18,10 @@ void bindVector(py::module &m, char* suffix) {
 }
 
 void defineVectorClasses(py::module &m_vector) {
-//    bindVector<std::vector<pcl::PointXYZRGBA, Eigen::aligned_allocator<pcl::PointXYZRGBA>>>(m_vector, "PointXYZRGBA");
-    bindVector<std::vector<pcl::PointIndices>>(m_vector, "PointIndices");
     bindVector<std::vector<int>>(m_vector, "Int");
     bindVector<std::vector<float>>(m_vector, "Float");
+    bindVector<std::vector<pcl::PointIndices>>(m_vector, "PointIndices");
+    bindVector<std::vector<pcl::visualization::Camera>>(m_vector, "Camera");
 
     //all pcl point types
     bindVector<std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ>>>(m_vector, "PointXYZ");
