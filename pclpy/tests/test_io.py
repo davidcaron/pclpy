@@ -84,7 +84,7 @@ def test_las_save_extra_dims(temp_las_path):
 
 
 def test_las_read_normals():
-    pc = pclpy.io.las.read(test_data("garbage_with_normals.las"), "PointNormal")
+    pc = pclpy.io.las.read(test_data("street_thinned_with_normals.las"), "PointNormal")
     assert hasattr(pc, "normal_x")
     assert hasattr(pc, "normal_y")
     assert hasattr(pc, "normal_z")
