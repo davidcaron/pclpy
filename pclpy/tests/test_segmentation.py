@@ -20,29 +20,22 @@ def make_pt(x, y, z):
 
 
 def test_region_growing():
-    pc = pclpy.io.read(test_data("bf.las"), "PointXYZRGBA")
+    pc = pclpy.io.read(test_data("street_thinned.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()
     rg.setInputCloud(pc)
     normals_estimation = pcl.features.NormalEstimationOMP.PointXYZRGBA_Normal()
     normals_estimation.setInputCloud(pc)
     normals = pcl.PointCloud.Normal()
-    normals_estimation.setRadiusSearch(0.1)
+    normals_estimation.setRadiusSearch(0.35)
     normals_estimation.compute(normals)
     rg.setInputNormals(normals)
 
-    clouds = []
-    for n, th in enumerate([0.01, 10, 100, 1000]):
-        rg.setMaxClusterSize(10000000)
-        rg.setMinClusterSize(100)
-        rg.setNumberOfNeighbours(15)
-        rg.setSmoothnessThreshold(5 / 180 * math.pi)
-        rg.setCurvatureThreshold(20)
-        rg.setResidualThreshold(th)
-        clusters = pcl.vectors.PointIndices()
-        rg.extract(clusters)
-        cloud = rg.getColoredCloud()
-        clouds.append(cloud)
-        pclpy.io.write(cloud, test_data("bf_rg%s.las" % n))
-
-    # pclpy.view.vtk.view_multiple(*clouds)
-
+    rg.setMaxClusterSize(1000000)
+    rg.setMinClusterSize(10)
+    rg.setNumberOfNeighbours(15)
+    rg.setSmoothnessThreshold(5 / 180 * math.pi)
+    rg.setCurvatureThreshold(5)
+    rg.setResidualThreshold(1)
+    clusters = pcl.vectors.PointIndices()
+    rg.extract(clusters)
+    assert max([len(c.indices) for c in clusters]) == 2449  # ground
