@@ -15,7 +15,7 @@ def test_voxel_centroid_simple():
     vox = pcl.octree.OctreePointCloudVoxelCentroid.PointXYZ(0.3)
     vox.setInputCloud(pc)
     vox.addPointsFromInputCloud()
-    centroids = pcl.vectors.PointXYZ()
-    vox.getVoxelCentroids(centroids)
-    assert len(centroids) == 3148
+    centroids = pcl.PointCloud.PointXYZ()
+    vox.getVoxelCentroids(centroids.points)
+    assert centroids.size() == 3148
 
