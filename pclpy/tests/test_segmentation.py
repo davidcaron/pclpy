@@ -19,37 +19,6 @@ def make_pt(x, y, z):
     return pt
 
 
-# def test_min_cut_segmentation():
-#     pc = pclpy.io.read_las(test_data("bf.las"))
-#     seg = pcl.segmentation.RegionGrowing.PointXYZRGBA()
-#     print(dir(seg))
-#     seg.setInputCloud(pc)
-#
-#     foreground = pcl.PointCloud.PointXYZRGBA()
-#     foreground.push_back(make_pt(5.06, 8.03, 22.16))
-#     seg.setForegroundPoints(foreground)
-#
-#     # background = pcl.PointCloud.PointXYZRGBA()
-#     # background.push_back(make_pt(4.848, 8.426, 21.636))
-#     # background.push_back(make_pt(5.413, 7.513, 21.710))
-#     # seg.setBackgroundPoints(background)
-#
-#     clouds = []
-#     for n, neighbors in enumerate([10, 15, 25]):
-#         seg.setSigma(0.25)
-#         seg.setRadius(1.5)
-#         seg.setNumberOfNeighbours(neighbors)
-#         seg.setSourceWeight(0.8)
-#
-#         clusters = pcl.vector.PointIndices()
-#         seg.extract(clusters)
-#         seg.getColoredCloud()
-#         cloud = seg.getColoredCloud()
-#         clouds.append(cloud)
-#         pclpy.io.to_las(cloud, test_data("bf_min_cut%s.las" % n))
-#
-#     pclpy.view.vtk.view_multiple(clouds)
-
 def test_region_growing():
     pc = pclpy.io.read(test_data("bf.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()
