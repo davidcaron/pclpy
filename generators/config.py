@@ -444,11 +444,6 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "updateFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
 
-    ("PCLVisualizer", "setupInteractor"),
-    # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
-    ("PCLVisualizer", "addOrientationMarkerWidgetAxes"),
-    # an undefined class is not allowed as an argument to compiler intrinsic type trait '__is_base_of'
-
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
