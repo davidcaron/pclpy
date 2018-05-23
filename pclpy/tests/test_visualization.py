@@ -22,13 +22,15 @@ def test_cloud_viewer():
 
 def test_pcl_visualizer_simple():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
-    viewer = pcl.visualization.PCLVisualizer("viewer")
+    viewer = pcl.visualization.PCLVisualizer("viewer", False)
     viewer.setBackgroundColor(0, 0, 0)
     rgb = pcl.visualization.PointCloudColorHandlerRGBAField.PointXYZRGBA(pc)
     viewer.addPointCloud(pc, rgb, "sample cloud")
     viewer.setPointCloudRenderingProperties(0, 3, "sample cloud")
     viewer.addCoordinateSystem(1.0)
     viewer.initCameraParameters()
+    viewer.resetCamera()
+
     # don't show the cloud in automated tests
     # while not viewer.wasStopped():
     #     viewer.spinOnce(10)
