@@ -4,6 +4,7 @@ from pclpy import pcl
 
 class Viewer:
     BG_COLOR = (0.05, 0.25, 0.45)
+    POINT_SIZE = 2
 
     def __init__(self, *clouds, overlay=True):
         self.clouds = clouds
@@ -17,7 +18,9 @@ class Viewer:
                 handler = make_color_handler(pc)
                 name = "cloud%s" % n
                 self.viewer.addPointCloud(pc, handler, name, viewport=0)
-                self.viewer.setPointCloudRenderingProperties(0, 3, name)
+                self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
+                                                             self.POINT_SIZE,
+                                                             name)
         else:
             n_clouds = len(clouds)
             vp_width = 1 / n_clouds
@@ -27,7 +30,9 @@ class Viewer:
                 handler = make_color_handler(pc)
                 name = "cloud%s" % n
                 self.viewer.addPointCloud(pc, handler, name, viewport=n)
-                self.viewer.setPointCloudRenderingProperties(0, 3, name)
+                self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
+                                                             self.POINT_SIZE,
+                                                             name)
 
         self.viewer.resetCamera()
         self.viewer.addCoordinateSystem(1.0)
