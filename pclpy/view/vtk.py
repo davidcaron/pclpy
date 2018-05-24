@@ -1,18 +1,15 @@
-import numpy as np
 
 from pclpy import pcl
 
 
 class Viewer:
-    BG_COLOR = (0.05, 0.35, 0.6)
+    BG_COLOR = (0.05, 0.25, 0.45)
 
     def __init__(self, *clouds, overlay=True):
         self.clouds = clouds
         self.overlay = overlay
 
         self.viewer = pcl.visualization.PCLVisualizer("viewer")
-
-        self.viewer.initCameraParameters()
 
         if overlay:
             self.viewer.setBackgroundColor(*self.BG_COLOR, 0)
@@ -32,12 +29,13 @@ class Viewer:
                 self.viewer.addPointCloud(pc, handler, name, viewport=n)
                 self.viewer.setPointCloudRenderingProperties(0, 3, name)
 
-        self.viewer.addCoordinateSystem(1.0)
         self.viewer.resetCamera()
+        self.viewer.addCoordinateSystem(1.0)
+        self.viewer.setShowFPS(False)
 
     def show(self):
         while not self.viewer.wasStopped():
-            self.viewer.spinOnce(5)
+            self.viewer.spinOnce(50)
 
 
 def make_color_handler(pc):
