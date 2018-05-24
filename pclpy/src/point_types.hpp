@@ -14,6 +14,10 @@ void definePointTypes(py::module &m) {
 
     py::class_<pcl::RGB, boost::shared_ptr<pcl::RGB>> (m_pts, "RGB")
         .def(py::init<>())
+        .def_readwrite("r", &pcl::RGB::r)
+        .def_readwrite("g", &pcl::RGB::g)
+        .def_readwrite("b", &pcl::RGB::b)
+        .def_readwrite("a", &pcl::RGB::a)
         .def_readwrite("rgba", &pcl::RGB::rgba);
 
     py::class_<pcl::Intensity, boost::shared_ptr<pcl::Intensity>> (m_pts, "Intensity")
@@ -39,6 +43,10 @@ void definePointTypes(py::module &m) {
         .def_readwrite("x", &pcl::PointXYZRGBA::x)
         .def_readwrite("y", &pcl::PointXYZRGBA::y)
         .def_readwrite("z", &pcl::PointXYZRGBA::z)
+        .def_readwrite("r", &pcl::PointXYZRGBA::r)
+        .def_readwrite("g", &pcl::PointXYZRGBA::g)
+        .def_readwrite("b", &pcl::PointXYZRGBA::b)
+        .def_readwrite("a", &pcl::PointXYZRGBA::a)
         .def_readwrite("rgba", &pcl::PointXYZRGBA::rgba);
 
     py::class_<pcl::PointXYZRGB, boost::shared_ptr<pcl::PointXYZRGB>> (m_pts, "PointXYZRGB")
@@ -46,6 +54,9 @@ void definePointTypes(py::module &m) {
         .def_readwrite("x", &pcl::PointXYZRGB::x)
         .def_readwrite("y", &pcl::PointXYZRGB::y)
         .def_readwrite("z", &pcl::PointXYZRGB::z)
+        .def_readwrite("r", &pcl::PointXYZRGB::r)
+        .def_readwrite("g", &pcl::PointXYZRGB::g)
+        .def_readwrite("b", &pcl::PointXYZRGB::b)
         .def_readwrite("rgb", &pcl::PointXYZRGB::rgb);
 
     py::class_<pcl::PointXYZRGBL, boost::shared_ptr<pcl::PointXYZRGBL>> (m_pts, "PointXYZRGBL")
@@ -53,6 +64,9 @@ void definePointTypes(py::module &m) {
         .def_readwrite("x", &pcl::PointXYZRGBL::x)
         .def_readwrite("y", &pcl::PointXYZRGBL::y)
         .def_readwrite("z", &pcl::PointXYZRGBL::z)
+        .def_readwrite("r", &pcl::PointXYZRGBL::r)
+        .def_readwrite("g", &pcl::PointXYZRGBL::g)
+        .def_readwrite("b", &pcl::PointXYZRGBL::b)
         .def_readwrite("rgba", &pcl::PointXYZRGBL::rgba)
         .def_readwrite("label", &pcl::PointXYZRGBL::label);
 
@@ -128,6 +142,9 @@ void definePointTypes(py::module &m) {
         .def_readwrite("x", &pcl::PointXYZRGBNormal::x)
         .def_readwrite("y", &pcl::PointXYZRGBNormal::y)
         .def_readwrite("z", &pcl::PointXYZRGBNormal::z)
+        .def_readwrite("r", &pcl::PointXYZRGBNormal::r)
+        .def_readwrite("g", &pcl::PointXYZRGBNormal::g)
+        .def_readwrite("b", &pcl::PointXYZRGBNormal::b)
         .def_readwrite("rgb", &pcl::PointXYZRGBNormal::rgb)
         .def_readwrite("normal_x", &pcl::PointXYZRGBNormal::normal_x)
         .def_readwrite("normal_y", &pcl::PointXYZRGBNormal::normal_y)
