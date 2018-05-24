@@ -13,27 +13,20 @@ class Viewer:
 
         self.viewer = pcl.visualization.PCLVisualizer("viewer")
 
-        if overlay:
-            self.viewer.setBackgroundColor(*self.BG_COLOR, 0)
-            for n, pc in enumerate(clouds, 1):
-                handler = self.make_color_handler(pc, glasbey_lut_id=n)
-                name = "cloud%s" % n
-                self.viewer.addPointCloud(pc, handler, name, viewport=0)
-                self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
-                                                             self.POINT_SIZE,
-                                                             name)
-        else:
-            n_clouds = len(clouds)
-            vp_width = 1 / n_clouds
-            for n, pc in enumerate(clouds, 1):
+        for n, pc in enumerate(clouds, 1):
+            viewport = 0
+            if not overlay:
+                viewport = n
+                vp_width = 1 / len(clouds)
                 self.viewer.createViewPort((n - 1) * vp_width, 0.0, n * vp_width, 1.0, n)
-                self.viewer.setBackgroundColor(*self.BG_COLOR, n)
-                handler = self.make_color_handler(pc, glasbey_lut_id=n)
-                name = "cloud%s" % n
-                self.viewer.addPointCloud(pc, handler, name, viewport=n)
-                self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
-                                                             self.POINT_SIZE,
-                                                             name)
+
+            self.viewer.setBackgroundColor(*self.BG_COLOR, viewport)
+            handler = self.make_color_handler(pc, glasbey_lut_id=n)
+            name = "cloud%s" % n
+            self.viewer.addPointCloud(pc, handler, name, viewport=viewport)
+            self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
+                                                         self.POINT_SIZE,
+                                                         name)
 
         self.viewer.resetCamera()
         self.viewer.addCoordinateSystem(1.0)
