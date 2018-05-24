@@ -5,11 +5,11 @@ class Viewer:
     BG_COLOR = (0.05, 0.25, 0.45)
     POINT_SIZE = 2
 
-    def __init__(self, *clouds, overlay=True):
+    def __init__(self, *clouds, overlay=True, point_xyz_random_color=False):
         self.clouds = clouds
         self.overlay = overlay
 
-        self.point_xyz_random_color = False
+        self.point_xyz_random_color = point_xyz_random_color
 
         self.viewer = pcl.visualization.PCLVisualizer("viewer")
 
