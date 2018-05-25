@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Note: To use the 'upload' functionality of this file, you must:
-#   $ pip install twine
 
 import io
 import os
@@ -24,7 +22,7 @@ from distutils._msvccompiler import MSVCCompiler
 # Package meta-data.
 NAME = 'pclpy'
 DESCRIPTION = 'Python bindings for the Point Cloud Library'
-URL = ''
+URL = 'https://www.github.com/davidcaron/pclpy'
 EMAIL = 'dcaron05@gmail.com'
 AUTHOR = 'David Caron'
 REQUIRES_PYTHON = '==3.6.*'
