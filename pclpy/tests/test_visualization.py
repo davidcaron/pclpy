@@ -43,11 +43,64 @@ def test_viewer_intensity():
     # viewer.show()
 
 
-def test_callback():
+def test_callbacks():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.PCLVisualizer("viewer", True)
     viewer.addPointCloud(pc)
     viewer.resetCamera()
-    viewer.registerKeyboardCallback(lambda event: print("haha"))
-    while not viewer.wasStopped():
-        viewer.spinOnce(50)
+
+    def handle_event_key(event):
+        assert isinstance(event, pcl.visualization.KeyboardEvent)
+
+    def handle_event_mouse(event):
+        assert isinstance(event, pcl.visualization.MouseEvent)
+
+    def handle_event_point(event):
+        assert isinstance(event, pcl.visualization.PointPickingEvent)
+        index = event.getPointIndex()
+        point = pc.at(index)
+        print(point.r, point.g, point.b)
+
+    def handle_event_area(event):
+        # use x to toggle rectangle selection
+        assert isinstance(event, pcl.visualization.AreaPickingEvent)
+        indices = pcl.vectors.Int()
+        event.getPointsIndices(indices)
+
+    viewer.registerKeyboardCallback(handle_event_key)
+    viewer.registerMouseCallback(handle_event_mouse)
+    viewer.registerPointPickingCallback(handle_event_point)
+    viewer.registerAreaPickingCallback(handle_event_area)
+    # don't show the cloud in automated tests
+    # while not viewer.wasStopped():
+    #     viewer.spinOnce(50)
+
+
+def test_open_in_new_window():
+    pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
+    viewer = pcl.visualization.PCLVisualizer("viewer", False)
+    viewer.addPointCloud(pc)
+    viewer.resetCamera()
+
+    viewers = [viewer]
+
+    def handle_event_area(event):
+        # use x to toggle rectangle selection
+        assert isinstance(event, pcl.visualization.AreaPickingEvent)
+        indices = pcl.vectors.Int()
+        event.getPointsIndices(indices)
+
+        other_viewer = pcl.visualization.PCLVisualizer("viewer", False)
+        rgb = np.array([pc.r[indices], pc.g[indices], pc.b[indices]]).T
+        other_pc = pcl.PointCloud.PointXYZRGBA.from_array(pc.xyz[indices], rgb)
+        other_viewer.addPointCloud(other_pc)
+        other_viewer.resetCamera()
+        viewers.append(other_viewer)
+
+    viewer.registerAreaPickingCallback(handle_event_area)
+
+    # don't show the cloud in automated tests
+    # while not all(v.wasStopped() for v in viewers):
+    #     for v in viewers:
+    #         if not v.wasStopped():
+    #             v.spinOnce(50)
