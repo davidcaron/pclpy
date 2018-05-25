@@ -363,8 +363,9 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
 
     # loaders
     loader_modules = defaultdict(list)
-    for module, header in generated_headers:
-        loader_modules[module or "base"].append(header)
+    for (module, header_name), text in generated_headers.items():
+        if text:
+            loader_modules[module or "base"].append(header_name)
     for module, headers in loader_modules.items():
         path_loader = join(PATH_MODULES, "_%s_loader.cpp" % module)
         files_to_write[path_loader] = generate_loader(module, headers)
