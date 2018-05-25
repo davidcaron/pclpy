@@ -137,6 +137,8 @@ class ClassDefinition:
               method.to_str("Class", class_var_name=self.CLS_VAR)]
         data = {
             "ind": ind,
-            "i": i
+            "i": i,
+            "ob": "{ob}",  # will get formatted later
+            "cb": "{cb}",
         }
         return "\n".join([line.format(**data) for line in s])

@@ -289,7 +289,10 @@ EXPLICIT_INCLUDES = {
     ("features", "narf_descriptor.h"): "#include <pcl/range_image/range_image.h>",
     ("features", "from_meshes.h"): "#include <pcl/Vertices.h>",
     ("common", "synchronizer.h"): '#include <boost/thread/mutex.hpp>',
-    ("visualization", "pcl_visualizer.h"): "#pragma warning(disable : 4996)",
+    ("visualization", "interactor_style.h"): "#include <pybind11/functional.h>",
+    ("visualization", "image_viewer.h"): "#include <pybind11/functional.h>",
+    ("visualization", "pcl_visualizer.h"): "#include <pybind11/functional.h>\n"
+                                           "#pragma warning(disable : 4996)",
     ("recognition", "orr_octree.h"): "#pragma warning(disable : 4800)",
     ("recognition", "obj_rec_ransac.h"): "#pragma warning(disable : 4267)",
     ("recognition", "model_library.h"): "#pragma warning(disable : 4267)",

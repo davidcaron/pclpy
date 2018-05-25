@@ -27,6 +27,19 @@ class Method:
         self.needs_lambda_call = False
 
     def make_disambiguation(self, prefix, template_types=None):
+        type_ = self.list_parameter_types(prefix, template_types)
+
+        template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
+        constant_method = ", py::const_" if self.cppmethod["const"] else ""
+        disamb = "py::overload_cast<{type_}> (&{cls}{name}{template}{const})"
+        disamb = disamb.format(type_=type_,
+                               cls=(prefix + "::") if prefix else "",
+                               name=self.cppmethod["name"],
+                               template=template,
+                               const=constant_method)
+        return disamb
+
+    def list_parameter_types(self, prefix, template_types):
         if len(self.cppmethod["parameters"]):
             types = []
             for param in self.cppmethod["parameters"]:
@@ -58,16 +71,7 @@ class Method:
             type_ = ", ".join(types)
         else:
             type_ = ""
-
-        template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
-        constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}{name}{template}{const})"
-        disamb = disamb.format(type_=type_,
-                               cls=(prefix + "::") if prefix else "",
-                               name=self.cppmethod["name"],
-                               template=template,
-                               const=constant_method)
-        return disamb
+        return type_
 
     def clean_unresolved_type(self, param, type_, prefix):
         const = "const " if param["constant"] or "const" in param["type"] else ""
@@ -144,6 +148,18 @@ class Method:
         elif any("**" in param["type"].replace(" ", "") for param in params):
             message = "Double pointer arguments are not supported by pybind11 (%s)" % (self.cppmethod["name"],)
             ret_val = "// " + message
+        elif self.is_boost_function_callback():
+            s = '{cls_var}.def("{name}", []({cls} &v, {types} &cb) {ob} v.{name}(cb); {cb})'
+            types = self.list_parameter_types(prefix, template_types=None)
+            types = types.replace("boost::function", "std::function")
+            data = {"name": self.name,
+                    "cls": prefix,
+                    "cls_var": class_var_name,
+                    "types": types,
+                    "ob": "{ob}",  # will get formatted later
+                    "cb": "{cb}",
+                    }
+            ret_val = s.format(**data)
         elif self.templated_types:
             return_values = []
             names = list(self.templated_types.keys())
@@ -157,16 +173,24 @@ class Method:
             disamb = self.make_disambiguation(prefix)
             ret_val = self.disambiguated_function_call(class_var_name, disamb, args)
         else:
-            s = '{cls_var}.def{static}("{name}", &{cls}{cppname}{args})'
+            s = '{cls_var}.def{static}("{name}", &{cls}{name}{args})'
             data = {"name": self.name,
                     "static": self.static_value(),
                     "cls": (prefix + "::") if prefix else "",
                     "cls_var": class_var_name,
-                    "cppname": self.cppmethod["name"],
                     "args": args,
                     }
             ret_val = s.format(**data)
         return ret_val
+
+    def is_boost_function_callback(self):
+        callback = "Callback" in self.name
+        if callback:
+            single_argument = len(self.cppmethod["parameters"]) == 1
+            if single_argument:
+                if self.cppmethod["parameters"][0]["type"].startswith("boost::function"):
+                    return True
+        return False
 
     def __repr__(self):
         return "<Method %s>" % (self.name,)

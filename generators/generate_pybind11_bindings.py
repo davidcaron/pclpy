@@ -33,7 +33,10 @@ def filter_methods_to_skip(methods):
         if (m["parent"]["name"], m["name"]) in METHODS_TO_SKIP:
             continue
         if "Callback" in m["name"]:
-            continue
+            single_argument = len(m["parameters"]) == 1
+            boost_function = single_argument and m["parameters"][0]["type"].startswith("boost::function")
+            if not boost_function:
+                continue
         filtered_methods.append(m)
     return filtered_methods
 
