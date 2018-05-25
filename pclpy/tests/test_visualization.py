@@ -41,3 +41,13 @@ def test_viewer_intensity():
     viewer = pclpy.view.vtk.Viewer(pc)
     # don't show the cloud in automated tests
     # viewer.show()
+
+
+def test_callback():
+    pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
+    viewer = pcl.visualization.PCLVisualizer("viewer", True)
+    viewer.addPointCloud(pc)
+    viewer.resetCamera()
+    viewer.registerKeyboardCallback(lambda event: print("haha"))
+    while not viewer.wasStopped():
+        viewer.spinOnce(50)
