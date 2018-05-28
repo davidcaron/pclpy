@@ -23,6 +23,11 @@ py::array buffer(boost::shared_ptr<PointCloud<PointT>> &cloud)
         strides.push_back(sizeof(BufferT));
         ndim = 2;
     }
+    if (SIZE < 1) {
+        shape.push_back(-SIZE);
+        strides.push_back(-sizeof(BufferT));
+        ndim = 2;
+    }
     py::buffer_info buf = py::buffer_info(
         (BufferT *) (cloud->points.data()) + OFFSET,    /* Pointer to buffer */
         sizeof(BufferT),                                    /* Size of one scalar */
@@ -75,7 +80,8 @@ void defineBuffers<PointXYZRGBA>(py::class_<PointCloud<PointXYZRGBA>, boost::sha
     cls.def_property_readonly("x", &buffer<float, PointXYZRGBA, 0, 1>);
     cls.def_property_readonly("y", &buffer<float, PointXYZRGBA, 1, 1>);
     cls.def_property_readonly("z", &buffer<float, PointXYZRGBA, 2, 1>);
-    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGBA, 16, 3>);
+    cls.def_property_readonly("rgb", &buffer<uint8_t, PointXYZRGBA, 18, -3>);
+    cls.def_property_readonly("argb", &buffer<uint8_t, PointXYZRGBA, 19, -4>);
     cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGBA, 16, 1>);
     cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGBA, 17, 1>);
     cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBA, 18, 1>);
@@ -88,7 +94,8 @@ void defineBuffers<PointXYZRGB>(py::class_<PointCloud<PointXYZRGB>, boost::share
     cls.def_property_readonly("x", &buffer<float, PointXYZRGB, 0, 1>);
     cls.def_property_readonly("y", &buffer<float, PointXYZRGB, 1, 1>);
     cls.def_property_readonly("z", &buffer<float, PointXYZRGB, 2, 1>);
-    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGB, 16, 3>);
+    cls.def_property_readonly("rgb", &buffer<uint8_t, PointXYZRGB, 18, -3>);
+    cls.def_property_readonly("argb", &buffer<uint8_t, PointXYZRGB, 19, -4>);
     cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGB, 16, 1>);
     cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGB, 17, 1>);
     cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGB, 18, 1>);
@@ -101,7 +108,8 @@ void defineBuffers<PointXYZRGBL>(py::class_<PointCloud<PointXYZRGBL>, boost::sha
     cls.def_property_readonly("x", &buffer<float, PointXYZRGBL, 0, 1>);
     cls.def_property_readonly("y", &buffer<float, PointXYZRGBL, 1, 1>);
     cls.def_property_readonly("z", &buffer<float, PointXYZRGBL, 2, 1>);
-    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGBL, 16, 3>);
+    cls.def_property_readonly("rgb", &buffer<uint8_t, PointXYZRGBL, 18, -3>);
+    cls.def_property_readonly("argb", &buffer<uint8_t, PointXYZRGBL, 19, -4>);
     cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGBL, 16, 1>);
     cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGBL, 17, 1>);
     cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBL, 18, 1>);
@@ -176,7 +184,8 @@ void defineBuffers<PointXYZRGBNormal>(py::class_<PointCloud<PointXYZRGBNormal>, 
     cls.def_property_readonly("normal_x", &buffer<float, PointXYZRGBNormal, 4, 1>);
     cls.def_property_readonly("normal_y", &buffer<float, PointXYZRGBNormal, 5, 1>);
     cls.def_property_readonly("normal_z", &buffer<float, PointXYZRGBNormal, 6, 1>);
-    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointXYZRGBNormal, 32, 3>);
+    cls.def_property_readonly("rgb", &buffer<uint8_t, PointXYZRGBNormal, 34, -3>);
+    cls.def_property_readonly("argb", &buffer<uint8_t, PointXYZRGBNormal, 35, -4>);
     cls.def_property_readonly("b", &buffer<uint8_t, PointXYZRGBNormal, 32, 1>);
     cls.def_property_readonly("g", &buffer<uint8_t, PointXYZRGBNormal, 33, 1>);
     cls.def_property_readonly("r", &buffer<uint8_t, PointXYZRGBNormal, 34, 1>);
@@ -381,7 +390,8 @@ void defineBuffers<PointSurfel>(py::class_<PointCloud<PointSurfel>, boost::share
     cls.def_property_readonly("normal_x", &buffer<float, PointSurfel, 4, 1>);
     cls.def_property_readonly("normal_y", &buffer<float, PointSurfel, 5, 1>);
     cls.def_property_readonly("normal_z", &buffer<float, PointSurfel, 6, 1>);
-    cls.def_property_readonly("rgb_reversed", &buffer<uint8_t, PointSurfel, 32, 3>);
+    cls.def_property_readonly("rgb", &buffer<uint8_t, PointSurfel, 34, -3>);
+    cls.def_property_readonly("argb", &buffer<uint8_t, PointSurfel, 35, -4>);
     cls.def_property_readonly("b", &buffer<uint8_t, PointSurfel, 32, 1>);
     cls.def_property_readonly("g", &buffer<uint8_t, PointSurfel, 33, 1>);
     cls.def_property_readonly("r", &buffer<uint8_t, PointSurfel, 34, 1>);

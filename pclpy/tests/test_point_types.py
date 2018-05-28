@@ -52,8 +52,10 @@ def test_buffers_xyzrgba():
     assert np.allclose(p.r, rgb[:, 0])
     assert np.allclose(p.g, rgb[:, 1])
     assert np.allclose(p.b, rgb[:, 2])
-    assert np.allclose(p.a, np.full(xyz.shape[0], 255))
-    assert np.allclose(p.rgb_reversed[:, ::-1], rgb)
+    alpha = np.full(xyz.shape[0], 255).reshape(-1, 1)
+    assert np.allclose(p.a, alpha)
+    assert np.allclose(p.rgb, rgb)
+    assert np.allclose(p.argb, np.hstack([alpha, rgb]))
 
 
 def test_buffers_xyzrgb():
@@ -67,8 +69,10 @@ def test_buffers_xyzrgb():
     assert np.allclose(p.r, rgb[:, 0])
     assert np.allclose(p.g, rgb[:, 1])
     assert np.allclose(p.b, rgb[:, 2])
-    assert np.allclose(p.a, np.full(xyz.shape[0], 255))
-    assert np.allclose(p.rgb_reversed[:, ::-1], rgb)
+    alpha = np.full(xyz.shape[0], 255).reshape(-1, 1)
+    assert np.allclose(p.a, alpha)
+    assert np.allclose(p.rgb, rgb)
+    assert np.allclose(p.argb, np.hstack([alpha, rgb]))
 
 
 def test_buffers_xyzrgbl():
@@ -84,8 +88,10 @@ def test_buffers_xyzrgbl():
     assert np.allclose(p.r, rgb[:, 0])
     assert np.allclose(p.g, rgb[:, 1])
     assert np.allclose(p.b, rgb[:, 2])
-    assert np.allclose(p.a, np.full(xyz.shape[0], 255))
-    assert np.allclose(p.rgb_reversed[:, ::-1], rgb)
+    alpha = np.full(xyz.shape[0], 255).reshape(-1, 1)
+    assert np.allclose(p.a, alpha)
+    assert np.allclose(p.rgb, rgb)
+    assert np.allclose(p.argb, np.hstack([alpha, rgb]))
 
 
 def test_buffers_xyzhsv():
@@ -166,8 +172,10 @@ def test_buffers_pointxyzrgbnormal():
     assert np.allclose(p.r, rgb[:, 0])
     assert np.allclose(p.g, rgb[:, 1])
     assert np.allclose(p.b, rgb[:, 2])
-    assert np.allclose(p.a, np.full(xyz.shape[0], 255))
-    assert np.allclose(p.rgb_reversed[:, ::-1], rgb)
+    alpha = np.full(xyz.shape[0], 255).reshape(-1, 1)
+    assert np.allclose(p.a, alpha)
+    assert np.allclose(p.rgb, rgb)
+    assert np.allclose(p.argb, np.hstack([alpha, rgb]))
     assert np.allclose(p.curvature, xyz[:, 6])
 
 
@@ -407,8 +415,10 @@ def test_buffers_pointsurfel():
     assert np.allclose(p.r, rgb[:, 0])
     assert np.allclose(p.g, rgb[:, 1])
     assert np.allclose(p.b, rgb[:, 2])
-    assert np.allclose(p.a, np.full(xyz.shape[0], 255))
-    assert np.allclose(p.rgb_reversed[:, ::-1], rgb)
+    alpha = np.full(xyz.shape[0], 255).reshape(-1, 1)
+    assert np.allclose(p.a, alpha)
+    assert np.allclose(p.rgb, rgb)
+    assert np.allclose(p.argb, np.hstack([alpha, rgb]))
     assert np.allclose(p.radius, xyz[:, 6])
     assert np.allclose(p.confidence, xyz[:, 7])
     assert np.allclose(p.curvature, xyz[:, 8])
