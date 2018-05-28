@@ -23,10 +23,13 @@ py::array buffer(boost::shared_ptr<PointCloud<PointT>> &cloud)
         strides.push_back(sizeof(BufferT));
         ndim = 2;
     }
-    if (SIZE < 1) {
+    else if (SIZE < -1) {
         shape.push_back(-SIZE);
         strides.push_back(-sizeof(BufferT));
         ndim = 2;
+    }
+    else {
+        throw std::runtime_error("Incompatible buffer size");
     }
     py::buffer_info buf = py::buffer_info(
         (BufferT *) (cloud->points.data()) + OFFSET,    /* Pointer to buffer */
