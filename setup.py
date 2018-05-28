@@ -6,6 +6,7 @@ import io
 import os
 from os.path import join
 import sys
+import platform
 from shutil import rmtree
 from time import time
 from collections import defaultdict
@@ -16,8 +17,6 @@ import setuptools
 from setuptools.command.build_ext import build_ext
 from setuptools import find_packages, setup, Command, Extension
 from distutils.errors import CompileError, DistutilsExecError
-import distutils._msvccompiler
-from distutils._msvccompiler import MSVCCompiler
 
 # Package meta-data.
 NAME = 'pclpy'
@@ -33,17 +32,26 @@ PYTHON_HOME = os.path.split(sys.executable)[0]
 INCLUDE = join(PYTHON_HOME, r"Library", "include")
 LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
 
+ON_WINDOWS = platform.system() == "Windows"
+
 REQUIRED = [
     'laspy',
     'numpy',
-    'pclpy_dependencies',
 ]
+
+if ON_WINDOWS:
+    REQUIRED.append('pclpy_dependencies')
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-ON_WINDOWS = sys.platform == "win32"
+DEBUG = False
+if "--debug" in sys.argv:
+    sys.argv.remove("--debug")
+    DEBUG = True
 
 if ON_WINDOWS:
+    import distutils._msvccompiler
+
     # monkey-patch msvc to build with x64 compiler
     # this is necessary because ram exceeds 4Gb while compiling for some modules
     old = distutils._msvccompiler._get_vc_env
@@ -55,39 +63,32 @@ if ON_WINDOWS:
     # https://stackoverflow.com/questions/43847542/rc-exe-no-longer-found-in-vs-2015-command-prompt
     os.environ["PATH"] += r";C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x64"
 
-# For MSVC, this flag enables multiprocess compilation
-MSVC_MP_BUILD = False
-N_WORKERS = 4
-if "--msvc-mp-build" in sys.argv:
-    sys.argv.remove("--msvc-mp-build")
-    MSVC_MP_BUILD = True
+    # For MSVC, this flag enables multiprocess compilation
+    MSVC_MP_BUILD = False
+    N_WORKERS = 4
+    if "--msvc-mp-build" in sys.argv:
+        sys.argv.remove("--msvc-mp-build")
+        MSVC_MP_BUILD = True
 
-DEBUG = False
-if "--debug" in sys.argv:
-    sys.argv.remove("--debug")
-    DEBUG = True
+    USE_CLCACHE = False
+    if "--use-clcache" in sys.argv:
+        sys.argv.remove("--use-clcache")
+        USE_CLCACHE = True
 
-USE_CLCACHE = False
-if "--use-clcache" in sys.argv:
-    sys.argv.remove("--use-clcache")
-    USE_CLCACHE = True
+        # ensure clcache exists
+        for path in os.environ["PATH"].split(os.pathsep):
+            if os.path.isfile(os.path.join(path, "clcache.exe")):
+                break
+        else:
+            raise FileNotFoundError("You specified --use-clcache but clcache.exe can't be found.")
 
-    # ensure clcache exists
-    for path in os.environ["PATH"].split(os.pathsep):
-        if os.path.isfile(os.path.join(path, "clcache.exe")):
-            break
-    else:
-        raise FileNotFoundError("You specified --use-clcache but clcache.exe can't be found.")
+    # For MSVC, this flag skips code generation at linking
+    # Do not set for release builds because some optimizations are skipped
+    MSVC_NO_CODE_LINK = False
+    if "--msvc-no-code-link" in sys.argv:
+        sys.argv.remove("--msvc-no-code-link")
+        MSVC_NO_CODE_LINK = True
 
-# For MSVC, this flag skips code generation at linking
-# Do not set for release builds because some optimizations are skipped
-MSVC_NO_CODE_LINK = False
-if "--msvc-no-code-link" in sys.argv:
-    sys.argv.remove("--msvc-no-code-link")
-    MSVC_NO_CODE_LINK = True
-
-# Import the README and use it as the long-description.
-# Note: this will only work if 'README.rst' is present in your MANIFEST.in file!
 with io.open(join(HERE, 'README.md'), encoding='utf-8') as f:
     long_description = '\n' + f.read()
 
@@ -98,43 +99,6 @@ if not VERSION:
         exec(f.read(), about)
 else:
     about['__version__'] = VERSION
-
-
-class UploadCommand(Command):
-    """Support setup.py upload."""
-
-    description = 'Build and publish the package.'
-    user_options = []
-
-    @staticmethod
-    def status(s):
-        """Prints things in bold."""
-        print('\033[1m{0}\033[0m'.format(s))
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        try:
-            self.status('Removing previous builds')
-            rmtree(join(HERE, 'dist'))
-        except OSError:
-            pass
-
-        self.status('Building Source and Wheel distribution')
-        os.system('{0} setup.py bdist_wheel'.format(sys.executable))
-
-        self.status('Uploading the package to PyPi via Twine')
-        os.system('twine upload dist/*')
-
-        self.status('Pushing git tags')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push origin v{0}'.format(about['__version__']))
-
-        sys.exit()
 
 
 class get_pybind_include(object):
@@ -186,7 +150,7 @@ class BuildExt(build_ext):
         'msvc': ['/EHsc', "/openmp"],
         'unix': [],
     }
-    if MSVC_NO_CODE_LINK:
+    if ON_WINDOWS and MSVC_NO_CODE_LINK:
         c_opts['msvc'].append("/bigobj")
     if sys.platform == 'darwin':
         c_opts['unix'] += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
@@ -322,6 +286,8 @@ if ON_WINDOWS:
 
 
     # monkey-patch msvc compiler for faster windows builds
+    from distutils._msvccompiler import MSVCCompiler
+
     MSVCCompiler.compile = compile
     MSVCCompiler.compile_single = compile_single
 
@@ -419,7 +385,6 @@ setup(
     ],
     cmdclass={
         'build_ext': BuildExt,
-        'upload': UploadCommand,
     },
 )
 
