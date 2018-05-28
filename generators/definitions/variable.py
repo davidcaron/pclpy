@@ -13,14 +13,23 @@ class Variable:
         self.is_an_override = False
 
     def to_str(self, class_name, class_var_name):
-        s = '{cls_var}.def_read{only}{static}("{name}", &{cls}::{cppname})'
-        readonly = self.cppvariable["constant"] or self.cppvariable.get("array")
+        if self.cppvariable.get("array"):
+            s = ('{cls_var}.def("{name}", [](py::object &obj) {ob} '
+                 '{cls} &a = obj.cast<{cls}&>(); '
+                 'return py::array_t<{type_}>({ob}{size}{cb}, {ob}sizeof({type_}) * {size}{cb}, a.{name}, obj); '
+                 '{cb})')
+        else:
+            s = '{cls_var}.def_read{only}{static}("{name}", &{cls}::{name})'
+        readonly = self.cppvariable["constant"]
         data = {"name": self.name,
                 "cls": class_name,
                 "cls_var": class_var_name,
-                "cppname": self.cppvariable["name"],
+                "size": self.cppvariable.get("array_size", ""),
+                "type_": self.cppvariable["type"],
                 "only": "only" if readonly else "write",
                 "static": "_static" if self.cppvariable["static"] else "",
+                "ob": "{ob}",  # will be formatted later
+                "cb": "{cb}",
                 }
         ret_val = s.format(**data)
         return ret_val

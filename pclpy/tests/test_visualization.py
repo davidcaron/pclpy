@@ -104,3 +104,13 @@ def test_open_in_new_window():
     #     for v in viewers:
     #         if not v.wasStopped():
     #             v.spinOnce(50)
+
+
+def test_camera_parameters():
+    viewer = pcl.visualization.PCLVisualizer("viewer", False)
+    cameras = pcl.vectors.Camera()
+    viewer.getCameras(cameras)
+    cam = cameras[0]
+    assert cam.pos()[1] != 2
+    cam.pos()[1] = 2
+    assert cam.pos()[1] == 2
