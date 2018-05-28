@@ -6,6 +6,7 @@ import io
 import os
 from os.path import join
 import sys
+import subprocess
 import platform
 from shutil import rmtree
 from time import time
@@ -343,6 +344,84 @@ if ON_WINDOWS:
 
     ext_args['include_dirs'].append(get_pybind_include())
     ext_args['include_dirs'].append(get_pybind_include(user=True))
+
+else:
+
+    if platform.system() == "Darwin":
+        os.environ['ARCHFLAGS'] = ''
+
+    PCL_SUPPORTED = ["-1.8"]
+
+    for pcl_version in PCL_SUPPORTED:
+        if subprocess.call(['pkg-config', 'pcl_common%s' % pcl_version]) == 0:
+            break
+    else:
+        print("%s: error: cannot find PCL, tried" %
+              sys.argv[0], file=sys.stderr)
+        for version in PCL_SUPPORTED:
+            print('    pkg-config pcl_common%s' % version, file=sys.stderr)
+        sys.exit(1)
+
+    # Find build/link options for PCL using pkg-config.
+    pcl_libs = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kdtree', 'keypoints', 'octree',
+                'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
+                'tracking', 'visualization']
+    pcl_libs = ["pcl_%s%s" % (lib, pcl_version) for lib in pcl_libs]
+
+    ext_args = defaultdict(list)
+    ext_args['include_dirs'].append(numpy.get_include())
+
+    def pkgconfig(flag):
+        return subprocess.check_output(['pkg-config', flag] + pcl_libs).decode().split()
+
+    for flag in pkgconfig('--cflags-only-I'):
+        ext_args['include_dirs'].append(flag[2:])
+
+    # openni
+    # ext_args['include_dirs'].append('/usr/include/ni')
+
+    for flag in pkgconfig('--cflags-only-other'):
+        if flag.startswith('-D'):
+            macro, value = flag[2:].split('=', 1)
+            ext_args['define_macros'].append((macro, value))
+        else:
+            ext_args['extra_compile_args'].append(flag)
+
+    # clang?
+    # https://github.com/strawlab/python-pcl/issues/129
+    # gcc base libc++, clang base libstdc++
+    # ext_args['extra_compile_args'].append("-stdlib=libstdc++")
+    # ext_args['extra_compile_args'].append("-stdlib=libc++")
+    if platform.system() == "Darwin":
+        # or gcc5?
+        # ext_args['extra_compile_args'].append("-stdlib=libstdc++")
+        # ext_args['extra_compile_args'].append("-mmacosx-version-min=10.6")
+        # ext_args['extra_compile_args'].append('-openmp')
+        pass
+    else:
+        # gcc4?
+        # ext_args['extra_compile_args'].append("-stdlib=libc++")
+        pass
+
+    for flag in pkgconfig('--libs-only-l'):
+        if flag == "-lflann_cpp-gd":
+            print("skipping -lflann_cpp-gd (see https://github.com/strawlab/python-pcl/issues/29")
+            continue
+        ext_args['libraries'].append(flag[2:])
+
+    for flag in pkgconfig('--libs-only-L'):
+        ext_args['library_dirs'].append(flag[2:])
+
+    for flag in pkgconfig('--libs-only-other'):
+        ext_args['extra_link_args'].append(flag)
+
+    # grabber?
+    # -lboost_system
+    ext_args['extra_link_args'].append('-lboost_system')
+    # ext_args['extra_link_args'].append('-lboost_bind')
+
+    ext_args['define_macros'].append(("EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET", "1"))
+
 
 modules_path = "pclpy/src/generated_modules/"
 
