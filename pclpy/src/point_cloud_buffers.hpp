@@ -28,7 +28,7 @@ py::array buffer(boost::shared_ptr<PointCloud<PointT>> &cloud)
         strides.push_back(-sizeof(BufferT));
         ndim = 2;
     }
-    else {
+    else if (SIZE != 1) {
         throw std::runtime_error("Incompatible buffer size");
     }
     py::buffer_info buf = py::buffer_info(
