@@ -97,6 +97,7 @@ class Instantiations:
                 if types_list:
                     s.append(self.repr_sub_module(c["name"]))
                     for types in types_list:
+                        type_names = "_".join(map(format_class_name, types))
                         define = 'define{sub}{name}<{types}>({sub_module_name}, "{types_names}")'
                         add_pcl = lambda t: ("pcl::" + t) if t not in KEEP_ASIS_TYPES else t
                         types_str = ", ".join([add_pcl(t) for t in types])
@@ -104,10 +105,26 @@ class Instantiations:
                                                name=c["name"],
                                                sub_module_name=sub_module_name,
                                                types=types_str,
-                                               types_names="_".join(types))
+                                               types_names=type_names)
                         s.append(define)
             else:
                 define = 'define{sub}{name}({sub_name})'
                 define = define.format(sub=camelize(self.module), name=c["name"], sub_name=BASE_SUB_MODULE_NAME)
                 s.append(define)
         return s
+
+
+def format_class_name(value):
+    """
+    Example:
+        octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZ> -> OctreePointCloudVoxelCentroidContainer_PointXYZ
+    """
+    if "<" in value:
+        before = format_class_name(value[:value.find("<")])
+        inside = format_class_name(value[value.find("<") + 1:value.rfind(">")])
+        after = format_class_name(value[value.rfind(">")+1:])
+        return "_".join([v for v in (before, inside, after) if v])
+    elif "::" in value:
+        return value[value.rfind("::") + 2:]
+    else:
+        return value
