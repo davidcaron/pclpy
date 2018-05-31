@@ -298,7 +298,8 @@ if ON_WINDOWS:
                 join(PCL_ROOT, "3rdParty", "Boost", "include", "boost-1_64"),
                 join(PCL_ROOT, "3rdParty", "FLANN", "include"),
                 join(PCL_ROOT, "3rdParty", "Qhull", "include"),
-                join(PCL_ROOT, "3rdParty", "VTK", "include", "vtk-8.0")
+                join(INCLUDE, "vtk-8.1"),
+                INCLUDE,
                 ]
 
     ext_args['include_dirs'] += inc_dirs
@@ -307,7 +308,7 @@ if ON_WINDOWS:
                 join(PCL_ROOT, "3rdParty", "Boost", "lib"),
                 join(PCL_ROOT, "3rdParty", "FLANN", "lib"),
                 join(PCL_ROOT, "3rdParty", "Qhull", "lib"),
-                join(PCL_ROOT, "3rdParty", "VTK", "lib"),
+                LIB_DIR,
                 ]
 
     ext_args['library_dirs'] += lib_dirs
@@ -326,8 +327,8 @@ if ON_WINDOWS:
     #     if lib.endswith("vc140-mt-1_64.lib"):
     #         ext_args['libraries'].append(lib[:-4])
 
-    for lib in os.listdir(join(PCL_ROOT, "3rdParty", "VTK", "lib")):
-        endswith = "8.0-gd.lib" if DEBUG else "8.0.lib"
+    for lib in os.listdir(LIB_DIR):
+        endswith = "-8.1-gd.lib" if DEBUG else "-8.1.lib"
         if lib.endswith(endswith):
             ext_args['libraries'].append(lib[:-4])
 
