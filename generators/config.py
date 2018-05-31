@@ -294,6 +294,7 @@ EXPLICIT_INCLUDES = {
     ("visualization", "interactor_style.h"): "#include <pybind11/functional.h>",
     ("visualization", "image_viewer.h"): "#include <pybind11/functional.h>",
     ("visualization", "pcl_visualizer.h"): "#include <pybind11/functional.h>\n"
+                                           '#include "PyVTKObject.h"\n'
                                            "#pragma warning(disable : 4996)",
     ("recognition", "orr_octree.h"): "#pragma warning(disable : 4800)",
     ("recognition", "obj_rec_ransac.h"): "#pragma warning(disable : 4267)",
@@ -310,6 +311,24 @@ EXPLICIT_INCLUDES = {
 DONT_HOLD_WITH_BOOST_SHARED_PTR = [
     "PCLVisualizerInteractorStyle",
 ]
+
+EXTRA_FUNCTIONS = {
+    "PCLVisualizer":
+        """
+        //Extra functions
+        cls.def("getRenderWindow", [] (Class &v) {ob}
+            PyTypeObject *type_ = py::module::import("vtk").attr("vtkRenderWindow")().ptr()->ob_type;
+            PyObject *win = PyVTKObject_FromPointer(type_, nullptr, v.getRenderWindow().Get());
+            py::object win_obj = py::reinterpret_borrow<py::object>(win);
+            return win_obj;
+        {cb});
+        cls.def("setupQWidget", [] (Class &v, py::object &qvtk_widget) {ob}
+            py::object qvtk_interactor = qvtk_widget.attr("_Iren");
+            vtkRenderWindowInteractor *vtk_interactor = static_cast<vtkRenderWindowInteractor*>(PyVTKObject_GetObject(qvtk_interactor.ptr()));
+            v.setupInteractor(vtk_interactor, v.getRenderWindow().Get());
+        {cb});"""
+    ,
+}
 
 # ------------
 # what to skip
@@ -448,6 +467,7 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "updateFeatureHistogram"),
     ("ORROctree", "createLeaf"),  # linking error
+    ("PCLVisualizer", "getRenderWindow"),  # wrapped to return a python vtk object instead
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5

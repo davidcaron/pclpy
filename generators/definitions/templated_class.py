@@ -4,7 +4,7 @@ from typing import List
 from CppHeaderParser import CppClass
 from inflection import camelize
 
-from generators.config import INDENT, DONT_HOLD_WITH_BOOST_SHARED_PTR
+from generators.config import INDENT, DONT_HOLD_WITH_BOOST_SHARED_PTR, EXTRA_FUNCTIONS
 from generators.definitions.constructor import Constructor
 from generators.definitions.enum import Enum
 from generators.definitions.method import Method
@@ -135,6 +135,8 @@ class ClassDefinition:
               if not m in templated_methods]
         s += ["{ind}%s;" % m for method in templated_methods for m in
               method.to_str("Class", class_var_name=self.CLS_VAR)]
+        if self.class_name in EXTRA_FUNCTIONS:
+            s.append(EXTRA_FUNCTIONS[self.class_name])
         data = {
             "ind": ind,
             "i": i,
