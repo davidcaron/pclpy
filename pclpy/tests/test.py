@@ -1,11 +1,9 @@
 import pytest
 import os
 import numpy as np
-import laspy
-import types
 
-from pclpy import pcl
 import pclpy
+from pclpy import pcl
 
 
 @pytest.fixture
@@ -44,18 +42,6 @@ def test_point_indices():
 
 def test_size_xyz(xyz):
     assert xyz.size() == 10
-
-
-def test_initialize_everything():
-    modules = [m for m in dir(pcl) if not m.startswith("__") and m[0].islower()]
-
-    for module_name in modules:
-        module = getattr(pcl, module_name)
-        sub_modules = [c for c in dir(module) if not c.startswith("__")]
-        for name in sub_modules:
-            class_ = getattr(module, name)
-            if isinstance(class_, types.ModuleType):
-                print(class_, type(class_))
 
 
 def test_enums():
