@@ -58,7 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     main_window = MainWindow()
-    path = r"C:\Users\David Caron\Dropbox\python\pclpy\pclpy\tests\test_data\street.las"
+    path = r"..\tests\test_data\street.las"
     pc = pclpy.io.read(path, "PointXYZRGBA")
     main_window.add_point_cloud(pc)
     app.exec_()
