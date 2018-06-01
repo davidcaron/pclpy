@@ -40,7 +40,7 @@ REQUIRED = [
 ]
 
 if ON_WINDOWS:
-    REQUIRED.append('pclpy_dependencies')
+    REQUIRED.append('pclpy_dependencies>=0.2')
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
@@ -328,7 +328,7 @@ if ON_WINDOWS:
     #         ext_args['libraries'].append(lib[:-4])
 
     for lib in os.listdir(LIB_DIR):
-        endswith = "-8.1-gd.lib" if DEBUG else "-8.1.lib"
+        endswith = "D-8.1.lib" if DEBUG else "-8.1.lib"
         if lib.endswith(endswith):
             ext_args['libraries'].append(lib[:-4])
 

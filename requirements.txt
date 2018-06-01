@@ -1,4 +1,3 @@
 numpy
 laspy
-pclpy_dependencies
-# vtk  # conda install vtk
+pclpy_dependencies>=0.2
