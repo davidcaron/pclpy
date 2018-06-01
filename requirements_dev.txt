@@ -2,6 +2,6 @@ pybind11>=2.3dev
 PyYAML
 CppHeaderParser==2.7.3.1
 inflection
-# vtk  # install from conda
+# vtk==8.1  # install from conda
 
 pytest
