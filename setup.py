@@ -40,7 +40,7 @@ REQUIRED = [
 ]
 
 if ON_WINDOWS:
-    REQUIRED.append('pclpy_dependencies>=0.2')
+    REQUIRED.append('pclpy_dependencies>=0.2.1')
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
