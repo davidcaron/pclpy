@@ -1,3 +1,3 @@
 
 
-from pclpy.io.las import read, write
+from .functions import read
