@@ -68,9 +68,9 @@ def write(cloud, path, write_extra_dimensions=True, scale=0.0001, xyz_offset=Non
 
         if xyz_offset is not None:
             f.header.offset = xyz_offset
-            f.x = cloud.x + xyz_offset[0]
-            f.y = cloud.y + xyz_offset[1]
-            f.z = cloud.z + xyz_offset[2]
+            f.x = cloud.x.astype("d") + xyz_offset[0]
+            f.y = cloud.y.astype("d") + xyz_offset[1]
+            f.z = cloud.z.astype("d") + xyz_offset[2]
         else:
             min_ = np.array([cloud.x.min(), cloud.y.min(), cloud.z.min()])
             f.header.offset = min_
