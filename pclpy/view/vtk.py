@@ -25,8 +25,8 @@ class Viewer:
             name = "cloud%s" % n
             self.pcl_visualizer.addPointCloud(pc, handler, name, viewport=viewport)
             self.pcl_visualizer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
-                                                         self.POINT_SIZE,
-                                                         name)
+                                                                 self.POINT_SIZE,
+                                                                 name)
 
         self.pcl_visualizer.resetCamera()
         self.pcl_visualizer.addCoordinateSystem(1.0)
