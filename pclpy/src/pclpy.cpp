@@ -31,7 +31,8 @@ void definePointCloudBuffers(py::module &m, const char* suffix) {
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
-    pc.def_static("from_array", &fromArray<T>);
+    pc.def(py::init([](py::array_t<float> &points) { return fromArray<T>(points); }), "array"_a);
+    pc.def_static("from_array", &fromArray<T>, "array"_a);
     defineBuffers<T>(pc);
 }
 
@@ -40,7 +41,8 @@ void definePointCloudBuffersRGB(py::module &m, const char* suffix) {
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
-    pc.def_static("from_array", &fromArrayRGB<T>);
+    pc.def(py::init([](py::array_t<float> &points, py::array_t<uint8_t> &rgb) { return fromArrayRGB<T>(points, rgb); }), "array"_a, "rgb"_a);
+    pc.def_static("from_array", &fromArrayRGB<T>, "array"_a, "rgb"_a);
     defineBuffers<T>(pc);
 }
 
