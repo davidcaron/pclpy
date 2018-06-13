@@ -11,30 +11,30 @@ class Viewer:
 
         self.point_xyz_random_color = point_xyz_random_color
 
-        self.viewer = pcl.visualization.PCLVisualizer("viewer")
+        self.pcl_visualizer = pcl.visualization.PCLVisualizer("viewer")
 
         for n, pc in enumerate(clouds, 1):
             viewport = 0
             if not overlay:
                 viewport = n
                 vp_width = 1 / len(clouds)
-                self.viewer.createViewPort((n - 1) * vp_width, 0.0, n * vp_width, 1.0, n)
+                self.pcl_visualizer.createViewPort((n - 1) * vp_width, 0.0, n * vp_width, 1.0, n)
 
-            self.viewer.setBackgroundColor(*self.BG_COLOR, viewport)
+            self.pcl_visualizer.setBackgroundColor(*self.BG_COLOR, viewport)
             handler = self.make_color_handler(pc, glasbey_lut_id=n)
             name = "cloud%s" % n
-            self.viewer.addPointCloud(pc, handler, name, viewport=viewport)
-            self.viewer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
+            self.pcl_visualizer.addPointCloud(pc, handler, name, viewport=viewport)
+            self.pcl_visualizer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
                                                          self.POINT_SIZE,
                                                          name)
 
-        self.viewer.resetCamera()
-        self.viewer.addCoordinateSystem(1.0)
-        self.viewer.setShowFPS(False)
+        self.pcl_visualizer.resetCamera()
+        self.pcl_visualizer.addCoordinateSystem(1.0)
+        self.pcl_visualizer.setShowFPS(False)
 
     def show(self):
-        while not self.viewer.wasStopped():
-            self.viewer.spinOnce(50)
+        while not self.pcl_visualizer.wasStopped():
+            self.pcl_visualizer.spinOnce(50)
 
     def make_color_handler(self, pc, glasbey_lut_id=0):
         if isinstance(pc, pcl.PointCloud.PointXYZRGBA):
