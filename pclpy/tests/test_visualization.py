@@ -4,7 +4,6 @@ import pytest
 
 import pclpy
 from pclpy import pcl
-import pclpy.view.vtk
 
 
 def test_data(*args):
@@ -37,8 +36,8 @@ def test_pcl_visualizer_simple():
 
 
 def test_viewer_intensity():
-    pc = pclpy.io.read(test_data("street.las"), "PointXYZI")
-    viewer = pclpy.view.vtk.Viewer(pc)
+    pc = pclpy.read(test_data("street.las"), "PointXYZI")
+    viewer = pclpy.Viewer(pc)
     # don't show the cloud in automated tests
     # viewer.show()
 
