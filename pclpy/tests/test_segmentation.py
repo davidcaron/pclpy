@@ -20,7 +20,7 @@ def make_pt(x, y, z):
 
 
 def test_region_growing():
-    pc = pclpy.io.read(test_data("street_thinned.las"), "PointXYZRGBA")
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()
     rg.setInputCloud(pc)
     normals_estimation = pcl.features.NormalEstimationOMP.PointXYZRGBA_Normal()
@@ -39,3 +39,25 @@ def test_region_growing():
     clusters = pcl.vectors.PointIndices()
     rg.extract(clusters)
     assert max([len(c.indices) for c in clusters]) == 2449  # ground
+
+
+def test_region_growing():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
+    normals = pc.compute_normals(radius=0.35)
+
+    clusters = pclpy.region_growing(pc,
+                                    normals=normals,
+                                    min_size=10,
+                                    max_size=1000000,
+                                    n_neighbours=15,
+                                    smooth_threshold=5,
+                                    curvature_threshold=5,
+                                    residual_threshold=1,
+                                    )
+    assert max([len(c.indices) for c in clusters]) == 2449  # ground
+
+
+def test_euclidean_cluster():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")  # type: pcl.PointCloud.PointXYZRGBA
+    indices = pc.extract_clusters(tolerance=0.5, min_size=10, max_size=100000)
+    assert len(indices[0].indices) == 4799
