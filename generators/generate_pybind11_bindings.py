@@ -98,7 +98,6 @@ def generate_class_definitions(main_classes,
     a("\n")
 
     for class_ in main_classes:
-        doc = class_.get("doxygen", "")
         methods = class_["methods"]["public"]
         methods = filter_methods_for_parser_errors(methods)
         methods = filter_methods_to_skip(methods)

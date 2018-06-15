@@ -26,6 +26,21 @@ class Method:
         self.templated_types = OrderedDict()
         self.needs_lambda_call = False
 
+    def get_doc(self):
+        replace = {
+            "\\": "/",
+            "{": "",
+            "}": "",
+            "≥": ">=",
+            "/** /brief ": "",
+            "\n*/": "",
+            "* ": "",
+        }
+        doc = self.cppmethod.get("doxygen", "")
+        for k, v in replace.items():
+            doc = doc.replace(k, v)
+        return doc
+
     def make_disambiguation(self, prefix, template_types=None):
         type_ = self.list_parameter_types(prefix, template_types)
 
@@ -119,14 +134,17 @@ class Method:
         return "_static" if self.cppmethod["static"] else ""
 
     def disambiguated_function_call(self, cls_var, disamb, args):
-        return '{cls_var}.def{static}("{name}", {disamb}{args})'.format(cls_var=cls_var,
-                                                                        name=self.name,
-                                                                        disamb=disamb,
-                                                                        static=self.static_value(),
-                                                                        args=args)
+        doc = self.get_doc()
+        return '{cls_var}.def{static}("{name}", {disamb}{args}, R"{doc}")'.format(cls_var=cls_var,
+                                                                                 name=self.name,
+                                                                                 disamb=disamb,
+                                                                                 static=self.static_value(),
+                                                                                 args=args,
+                                                                                 doc=doc)
 
     def to_str(self, prefix, class_var_name):
         params = self.cppmethod["parameters"]
+        doc = self.get_doc()
         args = make_pybind_argument_list(params)
         if "operator" in self.cppmethod["name"]:
             message = "Operators not implemented (%s)" % (self.cppmethod["name"],)
@@ -149,7 +167,7 @@ class Method:
             message = "Double pointer arguments are not supported by pybind11 (%s)" % (self.cppmethod["name"],)
             ret_val = "// " + message
         elif self.is_boost_function_callback():
-            s = '{cls_var}.def("{name}", []({cls} &v, {types} &cb) {ob} v.{name}(cb); {cb})'
+            s = '{cls_var}.def("{name}", []({cls} &v, {types} &cb) {ob} v.{name}(cb); {cb}, R"{doc}")'
             types = self.list_parameter_types(prefix, template_types=None)
             types = types.replace("boost::function", "std::function")
             data = {"name": self.name,
@@ -158,6 +176,7 @@ class Method:
                     "types": types,
                     "ob": "{ob}",  # will get formatted later
                     "cb": "{cb}",
+                    "doc": doc,
                     }
             ret_val = s.format(**data)
         elif self.templated_types:
@@ -173,12 +192,13 @@ class Method:
             disamb = self.make_disambiguation(prefix)
             ret_val = self.disambiguated_function_call(class_var_name, disamb, args)
         else:
-            s = '{cls_var}.def{static}("{name}", &{cls}{name}{args})'
+            s = '{cls_var}.def{static}("{name}", &{cls}{name}{args}, R"{doc}")'
             data = {"name": self.name,
                     "static": self.static_value(),
                     "cls": (prefix + "::") if prefix else "",
                     "cls_var": class_var_name,
                     "args": args,
+                    "doc": doc,
                     }
             ret_val = s.format(**data)
         return ret_val
