@@ -133,3 +133,22 @@ def split_overloads(methods, needs_overloading: List[str] = None):
         else:
             unique.append(m1)
     return overloads, unique
+
+
+def clean_doxygen(doxygen):
+    replace = {
+        "/** ": "",
+        "* ": "",
+        "\n*/": "",
+        "*\n": "\n",
+        "{": "",
+        "}": "",
+        "<b>": "",
+        "</b>": "",
+        "≥": ">=",
+        "ﬁ": "fi",
+        "": "",  # invisible character in fast_bilateral_filter.h "Frdo Durand"[2] (no kidding)
+    }
+    for k, v in replace.items():
+        doxygen = doxygen.replace(k, v)
+    return doxygen

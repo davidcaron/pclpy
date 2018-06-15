@@ -11,6 +11,7 @@ from generators.definitions.method import Method
 from generators.definitions.method import filter_template_types
 from generators.definitions.variable import Variable
 from generators.point_types_utils import clean_inheritance
+from generators.utils import clean_doxygen
 
 
 class ClassDefinition:
@@ -54,9 +55,9 @@ class ClassDefinition:
 
     def to_str(self):
         if self.is_templated:
-            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, suffix.c_str())'
+            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, suffix.c_str(), R"({doc})")'
         else:
-            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, "{name}")'
+            s = 'py::class_<Class{inherits}{ptr}> {cls_var}(m, "{name}", R"({doc})")'
         ptr = ", boost::shared_ptr<Class>"
         if self.class_["name"] in DONT_HOLD_WITH_BOOST_SHARED_PTR:
             ptr = ""
@@ -65,7 +66,8 @@ class ClassDefinition:
             "cls_var": self.CLS_VAR,
             # "original_name": self.class_name,
             "inherits": (", %s" % self.inherits) if self.inherits else "",
-            "ptr": ptr
+            "ptr": ptr,
+            "doc": clean_doxygen(self.class_.get("doxygen", "")),
         }
         return s.format(**data)
 
