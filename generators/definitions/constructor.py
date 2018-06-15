@@ -1,6 +1,7 @@
 from CppHeaderParser import CppMethod
 
 from generators.config import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
+from generators.utils import clean_doxygen
 
 
 class Constructor:
@@ -56,13 +57,14 @@ class Constructor:
             return "// " + message
 
         if len(self.params):
-            s = '{cls_var}.def(py::init<{params_types}>(), {params_names})'
+            s = '{cls_var}.def(py::init<{params_types}>(), {params_names}, R"({doc})")'
             types = ", ".join([init_param_type(p) for p in self.params])
             names = ", ".join(['"%s"_a%s' % (p["name"], default(p)) for p in self.params])
             data = {"params_types": types,
                     "params_names": names,
                     "cls_var": class_var_name}
         else:
-            s = '{cls_var}.def(py::init<>())'.format(cls_var=class_var_name)
-            data = {}
+            s = '{cls_var}.def(py::init<>(), R"({doc})")'
+            data = {"cls_var": class_var_name}
+        data["doc"] = clean_doxygen(self.cppconstructor.get("doxygen", ""))
         return s.format(**data)
