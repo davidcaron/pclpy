@@ -146,6 +146,7 @@ def clean_doxygen(doxygen):
         "<b>": "",
         "</b>": "",
         "≥": ">=",
+        "ü": "u",
         "ﬁ": "fi",
         "": "",  # invisible character in fast_bilateral_filter.h "Frdo Durand"[2] (no kidding)
     }
