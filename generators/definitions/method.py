@@ -121,11 +121,11 @@ class Method:
     def disambiguated_function_call(self, cls_var, disamb, args):
         doc = clean_doxygen(self.cppmethod.get("doxygen", ""))
         return '{cls_var}.def{static}("{name}", {disamb}{args}, R"({doc})")'.format(cls_var=cls_var,
-                                                                                 name=self.name,
-                                                                                 disamb=disamb,
-                                                                                 static=self.static_value(),
-                                                                                 args=args,
-                                                                                 doc=doc)
+                                                                                    name=self.name,
+                                                                                    disamb=disamb,
+                                                                                    static=self.static_value(),
+                                                                                    args=args,
+                                                                                    doc=doc)
 
     def to_str(self, prefix, class_var_name):
         params = self.cppmethod["parameters"]
