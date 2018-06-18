@@ -15,4 +15,5 @@ from pclpy.api import (extract_clusters,
                        moving_least_squares,
                        radius_outlier_removal,
                        octree_voxel_centroid,
+                       fit,
                        )

@@ -1,5 +1,7 @@
 import math
 
+import numpy as np
+
 from . import pcl
 from .view.vtk import Viewer
 
@@ -196,6 +198,69 @@ def octree_voxel_centroid(cloud, resolution, epsilon=None):
     centroids = getattr(pcl.PointCloud, pc_type)()
     vox.getVoxelCentroids(centroids.points)
     return centroids
+
+
+@register_point_cloud_function
+def fit(cloud, model, distance, method=pcl.sample_consensus.SAC_RANSAC, indices=None, optimize=True):
+    """
+    Fit a model to a cloud using a sample consensus method
+    :param cloud: input point cloud
+    :param model: str (ex.: 'line', 'sphere', ...) or an instance of pcl.sample_consensus.SacModel
+    :param distance: distance threshold
+    :param method: SAC method to use
+    :param indices: optional indices of the input cloud to use
+    :param optimize: passed to setOptimizeCoefficients
+    :return: (inliers: pcl.PointIndices, coefficients: pcl.ModelCoefficients)
+    """
+    models = [
+        "circle2d",
+        "circle3d",
+        "cone",
+        "cylinder",               # needs normals
+        "line",                   # needs normals
+        "normal_parallel_plane",  # needs normals
+        "normal_plane",           # needs normals
+        "normal_sphere",          # needs normals
+        "parallel_line",
+        "parallel_lines",
+        "parallel_plane",
+        "perpendicular_plane",
+        "plane",
+        "registration",
+        "registration_2d",
+        "sphere",
+        "stick",
+        "torus",                  # needs normals
+    ]
+    if isinstance(model, str):
+        model = model.lower()
+        for model_name in models:
+            if model_name == model:
+                model = getattr(pcl.sample_consensus, "SACMODEL_" + model_name.upper())
+                break
+
+    if not isinstance(model, pcl.sample_consensus.SacModel):  # pcl.sample_consensus.SACMODEL_*
+        message = ("Unrecognized model: %s. Must be either a string "
+                   "or an enum from pcl.sample_consensus.SACMODEL_*")
+        raise ValueError(message)
+
+    pc_type = utils.get_point_cloud_type(cloud)
+    seg = getattr(pcl.segmentation.SACSegmentation, pc_type)()
+    pcl.segmentation
+    seg.setOptimizeCoefficients(optimize)
+    seg.setModelType(model)
+    seg.setMethodType(method)
+    seg.setDistanceThreshold(distance)
+    seg.setInputCloud(cloud)
+
+    if indices is not None:
+        if isinstance(indices, np.ndarray):
+            indices = pcl.vectors.Int(indices)
+        seg.setIndices(indices)
+    coefficients = pcl.ModelCoefficients()
+    inliers = pcl.PointIndices()
+    seg.segment(inliers, coefficients)
+    return inliers, coefficients
 
 
 @register_point_cloud_function
