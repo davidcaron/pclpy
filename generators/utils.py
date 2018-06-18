@@ -2,6 +2,7 @@ import sys
 from collections import OrderedDict
 from os.path import join
 from typing import List
+from unidecode import unidecode
 
 from inflection import camelize
 
@@ -145,12 +146,8 @@ def clean_doxygen(doxygen):
         ("}", ""),
         ("<b>", ""),
         ("</b>", ""),
-        ("≥", ">="),
-        ("ü", "u"),
-        ("–", "-"),
-        ("ﬁ", "fi"),
-        ("", ""),  # invisible character in fast_bilateral_filter.h "Frdo Durand"[2] (no kidding)
     ]
     for k, v in replace:
         doxygen = doxygen.replace(k, v)
+    doxygen = unidecode(doxygen)
     return doxygen
