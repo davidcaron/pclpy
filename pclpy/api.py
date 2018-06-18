@@ -246,7 +246,6 @@ def fit(cloud, model, distance, method=pcl.sample_consensus.SAC_RANSAC, indices=
 
     pc_type = utils.get_point_cloud_type(cloud)
     seg = getattr(pcl.segmentation.SACSegmentation, pc_type)()
-    pcl.segmentation
     seg.setOptimizeCoefficients(optimize)
     seg.setModelType(model)
     seg.setMethodType(method)
