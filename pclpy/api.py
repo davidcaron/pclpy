@@ -6,7 +6,7 @@ from . import pcl
 from .view.vtk import Viewer
 
 from . import utils
-from .utils import register_point_cloud_function
+from .utils import register_point_cloud_function, register_alias
 
 
 @register_point_cloud_function
@@ -119,6 +119,9 @@ def moving_least_squares(cloud,
     return output_cloud
 
 
+mls = register_alias("mls", moving_least_squares)
+
+
 @register_point_cloud_function
 def radius_outlier_removal(cloud,
                            search_radius,
@@ -147,6 +150,7 @@ def radius_outlier_removal(cloud,
     ror_filter.filter(output)
     return output
 
+ror = register_alias("ror", radius_outlier_removal)
 
 @register_point_cloud_function
 def compute_normals(cloud, radius=None, k=None, indices=None, num_threads=1, output_cloud=None):
@@ -216,11 +220,11 @@ def fit(cloud, model, distance, method=pcl.sample_consensus.SAC_RANSAC, indices=
         "circle2d",
         "circle3d",
         "cone",
-        "cylinder",               # needs normals
-        "line",                   # needs normals
+        "cylinder",  # needs normals
+        "line",  # needs normals
         "normal_parallel_plane",  # needs normals
-        "normal_plane",           # needs normals
-        "normal_sphere",          # needs normals
+        "normal_plane",  # needs normals
+        "normal_sphere",  # needs normals
         "parallel_line",
         "parallel_lines",
         "parallel_plane",
@@ -230,7 +234,7 @@ def fit(cloud, model, distance, method=pcl.sample_consensus.SAC_RANSAC, indices=
         "registration_2d",
         "sphere",
         "stick",
-        "torus",                  # needs normals
+        "torus",  # needs normals
     ]
     if isinstance(model, str):
         model = model.lower()

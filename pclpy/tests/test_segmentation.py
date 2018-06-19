@@ -41,7 +41,7 @@ def test_region_growing():
     assert max([len(c.indices) for c in clusters]) == 2449  # ground
 
 
-def test_region_growing():
+def test_region_growing_simple():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
     normals = pc.compute_normals(radius=0.35)
 

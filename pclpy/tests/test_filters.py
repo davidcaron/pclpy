@@ -29,6 +29,13 @@ def test_radius_outlier_removal_simple():
     assert output.size() == 4304
 
 
+def test_radius_outlier_removal_alias():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZ")
+    output1 = pclpy.radius_outlier_removal(pc, search_radius=0.5, min_neighbors=10)
+    output2 = pclpy.ror(pc, search_radius=0.5, min_neighbors=10)
+    assert np.allclose(output1.xyz, output2.xyz)
+
+
 def test_radius_outlier_removal_indices():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZ")
     indices = pcl.vectors.Int(np.arange(10, 1000, dtype="i"))

@@ -18,6 +18,13 @@ def test_moving_least_squares_normals():
     assert np.any(output.normals)
 
 
+def test_moving_least_squares_alias():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZ")
+    output1 = pclpy.moving_least_squares(pc, search_radius=0.5, compute_normals=False)
+    output2 = pclpy.mls(pc, search_radius=0.5, compute_normals=False)
+    assert np.allclose(output1.xyz, output2.xyz)
+
+
 def test_moving_least_squares_no_normals():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZ")
     output = pclpy.moving_least_squares(pc, search_radius=0.5, compute_normals=False)
