@@ -53,14 +53,30 @@ Not working for now. Contributions are welcome!
 
 ## Example
 
+You can use either a high level, more pythonic api, or the wrapper over the PCL api.
+The wrapper is meant to be as close as possible to the original PCL C++ api.
+
 Here is how you would use the library to process Moving Least Squares.
 See the PCL documentation: http://pointclouds.org/documentation/tutorials/resampling.php
+
+Using the higher level api:
+
+```python
+import pclpy
+
+# read a las file
+point_cloud = pclpy.read("street.las", "PointXYZRGBA")
+# compute mls
+output = pclpy.moving_least_squares(pc, search_radius=0.05, compute_normals=True, num_threads=8)
+```
+
+Or the wrapper over the PCL api:
 
 ```python
 import pclpy
 from pclpy import pcl
 
-point_cloud = pclpy.io.las.read(test_data("street.las"), "PointXYZRGBA")
+point_cloud = pclpy.read("street.las", "PointXYZRGBA")
 mls = pcl.surface.MovingLeastSquaresOMP.PointXYZRGBA_PointNormal()
 tree = pcl.search.KdTree.PointXYZRGBA()
 mls.setSearchRadius(0.05)
@@ -73,13 +89,13 @@ output = pcl.PointCloud.PointNormal()
 mls.process(output)
 ```
 
-You can see it's quite similar to the C++ version:
+You can see the wrapper is very close to the C++ version:
 
 ``` c++
 // C++ version
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud (new pcl::PointCloud<pcl::PointXYZ> ());
-pcl::io::loadPCDFile ("bun0.pcd", *point_cloud);
+pcl::io::loadPCDFile ("bunny.pcd", *point_cloud);
 pcl::MovingLeastSquaresOMP<pcl::PointXYZ, pcl::PointNormal> mls;
 pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
 mls.setSearchRadius (0.05);
