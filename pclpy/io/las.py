@@ -3,6 +3,24 @@ import laspy
 
 from pclpy import pcl
 
+def get_las_data_type(array):
+    las_data_types = [
+        "int8",
+        "uint8",
+        "int16",
+        "uint16",
+        "int32",
+        "uint32",
+        "int64",
+        "uint64",
+        "float32",
+        "float64",
+        # "S",  # strings not implemented
+    ]
+    type_ = str(array.dtype)
+    if type_ not in las_data_types:
+        raise NotImplementedError("Array type not implemented: %s" % type_)
+    return las_data_types.index(type_) + 1
 
 def get_offset(path):
     with laspy.file.File(path) as f:
@@ -62,7 +80,8 @@ def write(cloud, path, write_extra_dimensions=True, scale=0.0001, xyz_offset=Non
         if write_extra_dimensions:
             extra_dims = get_extra_dims(cloud)
             for dim in extra_dims:
-                f.define_new_dimension(dim, 5, dim)
+                data_type = get_las_data_type(getattr(cloud, dim))
+                f.define_new_dimension(dim, data_type, dim)
 
         f.header.scale = (scale, scale, scale)
 
