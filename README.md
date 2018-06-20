@@ -67,7 +67,7 @@ import pclpy
 # read a las file
 point_cloud = pclpy.read("street.las", "PointXYZRGBA")
 # compute mls
-output = pclpy.moving_least_squares(pc, search_radius=0.05, compute_normals=True, num_threads=8)
+output = point_cloud.moving_least_squares(search_radius=0.05, compute_normals=True, num_threads=8)
 ```
 
 Or the wrapper over the PCL api:
