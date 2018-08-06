@@ -4,7 +4,7 @@ import sys
 from collections import Counter
 from collections import defaultdict, OrderedDict
 from os.path import join
-from typing import List, Dict
+from typing import List, Dict, Set
 
 from CppHeaderParser import CppHeaderParser
 from CppHeaderParser.CppHeaderParser import CppMethod
@@ -265,17 +265,18 @@ def get_headers(modules=None):
     return headers_to_generate_temp
 
 
-def get_pure_virtual_methods(class_: CppHeaderParser.CppClass):
-    pure_virtual = []
-    for access in ["private", "protected", "public"]:
-        for m in class_["methods"][access]:
-            if m["pure_virtual"]:
-                pure_virtual.append(m["name"])
-    return pure_virtual
+def get_pure_virtual_methods(class_: CppHeaderParser.CppClass) -> Set[str]:
+    access = "private protected public".split()
+    return set([m["name"] for a in access for m in class_["methods"][a] if m["pure_virtual"]])
+
+
+def get_all_class_methods_not_pure_virtual(class_: CppHeaderParser.CppClass) -> Set[str]:
+    access = "private protected public".split()
+    return set([m["name"] for a in access for m in class_["methods"][a] if not m["pure_virtual"]])
 
 
 def flag_instantiatable_class(dependency_tree, main_classes):
-    # determine if the class can be instantiated
+    """determine if the class can be instantiated"""
     main_classes_by_name_namespace = {make_namespace_class(c["namespace"], c["name"]): c
                                       for classes in main_classes.values() for c in classes}
 
@@ -284,16 +285,23 @@ def flag_instantiatable_class(dependency_tree, main_classes):
             can_be_instantiated = True
             if class_["abstract"]:
                 can_be_instantiated = False
-            else:  # check for inherited abstract base classes
-                methods = set([m["name"] for access in "private protected public".split()
-                               for m in class_["methods"][access]])
+            else:
+                # check if any pure virtual method is not implemented
+                all_implemented_inherited_methods = get_all_class_methods_not_pure_virtual(class_)
                 namespace_class = make_namespace_class(class_["namespace"], class_["name"])
                 for base_name_nsp in dependency_tree.breadth_first_iterator(namespace_class):
                     base_class = main_classes_by_name_namespace.get(base_name_nsp)
+                    if base_class:
+                        base_class_methods = get_all_class_methods_not_pure_virtual(base_class)
+                        all_implemented_inherited_methods.update(base_class_methods)
+
+                for base_name_nsp in dependency_tree.breadth_first_iterator(namespace_class):
+                    base_class = main_classes_by_name_namespace.get(base_name_nsp)
                     if base_class and base_class["abstract"]:
-                        base_pure_virtual_methods = set(get_pure_virtual_methods(base_class))
-                        if base_pure_virtual_methods - methods:
+                        base_pure_virtual_methods = get_pure_virtual_methods(base_class)
+                        if base_pure_virtual_methods - all_implemented_inherited_methods:
                             can_be_instantiated = False
+
             class_["can_be_instantiated"] = can_be_instantiated
 
 
