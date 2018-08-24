@@ -39,15 +39,16 @@ def extract_clusters(cloud, tolerance, min_size, max_size, merge_clusters=False)
 
 
 @register_point_cloud_function
-def region_growing(cloud,
-                   normals,
-                   n_neighbours,
-                   min_size,
-                   max_size,
-                   smooth_threshold,
-                   curvature_threshold,
-                   residual_threshold
-                   ):
+def region_growing(
+        cloud,
+        normals,
+        n_neighbours,
+        min_size,
+        max_size,
+        smooth_threshold,
+        curvature_threshold,
+        residual_threshold
+):
     """
     Compute a region growing segmentation
     :param cloud: input point cloud
@@ -55,7 +56,7 @@ def region_growing(cloud,
     :param n_neighbours: number of neighbors to use
     :param min_size: minimum cluster size
     :param max_size: maximum cluster size
-    :param smooth_threshold: passed to setSmoothnessThreshold
+    :param smooth_threshold: (in degrees) converted to radians and passed to setSmoothnessThreshold
     :param curvature_threshold: passed to setCurvatureThreshold
     :param residual_threshold: passed to setResidualThreshold
     :return: a vector of pcl.PointIndices (pcl.vectors.PointIndices)
@@ -150,7 +151,9 @@ def radius_outlier_removal(cloud,
     ror_filter.filter(output)
     return output
 
+
 ror = register_alias("ror", radius_outlier_removal)
+
 
 @register_point_cloud_function
 def compute_normals(cloud, radius=None, k=None, indices=None, num_threads=1, output_cloud=None):
