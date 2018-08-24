@@ -44,3 +44,29 @@ def test_moving_least_squares_with_output():
     output = pcl.PointCloud.PointNormal()
     pclpy.moving_least_squares(pc, search_radius=0.5, output_cloud=output)
     assert output.size() == 4942
+
+
+def test_greedy_projection_triangulation_simple():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
+
+    cloud_with_normals = pcl.PointCloud.PointNormal()
+    pc.compute_normals(radius=0.15, output_cloud=cloud_with_normals, num_threads=8)
+
+    ms = pcl.surface.GreedyProjectionTriangulation.PointNormal()
+
+    pi = 3.141592
+
+    triangles = pcl.PolygonMesh()
+    ms.setSearchRadius(0.2)
+    ms.setMu(2.5)
+    ms.setMaximumNearestNeighbors(100)
+    ms.setMaximumSurfaceAngle(pi / 4)
+    ms.setMinimumAngle(pi / 18)
+    ms.setMaximumAngle(2 * pi / 3)
+    ms.setNormalConsistency(True)
+    ms.setInputCloud(cloud_with_normals)
+    tree2 = pcl.search.KdTree.PointNormal()
+    ms.setSearchMethod(tree2)
+    ms.reconstruct(triangles)
+
+    assert len(triangles.polygons) == 241
