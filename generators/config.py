@@ -304,8 +304,10 @@ EXPLICIT_INCLUDES = {
     ("surface", "concave_hull.h"): "#pragma warning(disable : 4996)",
     ("features", "grsd.h"): "#pragma warning(disable : 4506)",
     ("outofcore", "axes.h"): "#include <vtkPointData.h>",
-    ("octree", "octree_base.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
-    ("octree", "octree_pointcloud.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>",
+    ("octree", "octree_base.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>\n"
+                                 "#include <pcl/octree/octree_pointcloud_singlepoint.h>",
+    ("octree", "octree_pointcloud.h"): "#include <pcl/octree/octree_pointcloud_voxelcentroid.h>\n"
+                                       "#include <pcl/octree/octree_pointcloud_singlepoint.h>",
 }
 
 DONT_HOLD_WITH_BOOST_SHARED_PTR = [

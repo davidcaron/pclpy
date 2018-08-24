@@ -38,13 +38,16 @@ OctreePointCloudVoxelCentroid:
   - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
 OctreePointCloudVoxelCentroidContainer:
   - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
+OctreePointCloudSinglePoint:
+  - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
 OctreePointCloud:
   - - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB]
     - ["octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZ>",
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZI>",
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZL>",
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGBA>",
-       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGB>"]
+       "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGB>",
+       "octree::OctreeContainerPointIndex"]
     - ["octree::OctreeContainerEmpty"]
 OctreeBase:
   - - ["octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZ>",
@@ -52,6 +55,7 @@ OctreeBase:
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZL>",
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGBA>",
        "octree::OctreePointCloudVoxelCentroidContainer<pcl::PointXYZRGB>",
+       "octree::OctreeContainerPointIndex",
        int,
        "octree::OctreeContainerEmpty",
        "octree::OctreeContainerPointIndices"]
@@ -61,3 +65,7 @@ Octree2BufBase:
     - ["octree::OctreeContainerEmpty"]
 MeshIO:
   - ["geometry::PolygonMesh<DefaultMeshTraits<>>", "geometry::TriangleMesh<DefaultMeshTraits<>>"]
+SupervoxelClustering:
+  - [PointXYZRGBA]
+Supervoxel:
+  - [PointXYZRGBA]

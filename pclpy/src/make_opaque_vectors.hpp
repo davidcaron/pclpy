@@ -8,6 +8,7 @@
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
 #include <pcl/visualization/common/common.h>
+#include <pcl/segmentation/supervoxel_clustering.h>
 
 #include <Eigen/Geometry>
 
@@ -65,5 +66,21 @@ PYBIND11_MAKE_OPAQUE(std::vector<pcl::ReferenceFrame, Eigen::aligned_allocator<p
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointDEM, Eigen::aligned_allocator<pcl::PointDEM>>);
 //PYBIND11_MAKE_OPAQUE(std::vector<pcl::GRSDSignature21>);  // Linking error
 
-
-// todo: there are way more than this
+//Supervoxel
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZ>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZI>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZL>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGB>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBL>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZHSV>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::InterestPoint>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointNormal>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBNormal>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZINormal>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZLNormal>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointWithRange>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointWithViewpoint>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointWithScale>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointSurfel>::Ptr>);
+PYBIND11_MAKE_OPAQUE(std::map<uint32_t, pcl::Supervoxel<pcl::PointDEM>::Ptr>);

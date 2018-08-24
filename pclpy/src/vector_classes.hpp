@@ -6,6 +6,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/common/common.h>
+#include <pcl/segmentation/supervoxel_clustering.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -15,6 +16,11 @@ using namespace pybind11::literals;
 template <typename T>
 void bindVector(py::module &m, char* suffix) {
     py::bind_vector<T, boost::shared_ptr<T>>(m, suffix);
+}
+
+template <typename T>
+void bindMap(py::module &m, char* suffix) {
+    py::bind_map<T, boost::shared_ptr<T>>(m, suffix);
 }
 
 void defineVectorClasses(py::module &m_vector) {
@@ -68,4 +74,23 @@ void defineVectorClasses(py::module &m_vector) {
     bindVector<std::vector<pcl::ReferenceFrame, Eigen::aligned_allocator<pcl::ReferenceFrame>>>(m_vector, "ReferenceFrame");
     bindVector<std::vector<pcl::PointDEM, Eigen::aligned_allocator<pcl::PointDEM>>>(m_vector, "PointDEM");
 //    bindVector<std::vector<pcl::GRSDSignature21>>(m_vector, "GRSDSignature21");  // Linking error
+
+    //Supervoxel
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZ>::Ptr>>(m_vector, "map_uint32t_PointXYZ");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZI>::Ptr>>(m_vector, "map_uint32t_PointXYZI");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZL>::Ptr>>(m_vector, "map_uint32t_PointXYZL");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr>>(m_vector, "map_uint32t_PointXYZRGBA");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGB>::Ptr>>(m_vector, "map_uint32t_PointXYZRGB");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBL>::Ptr>>(m_vector, "map_uint32t_PointXYZRGBL");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZHSV>::Ptr>>(m_vector, "map_uint32t_PointXYZHSV");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::InterestPoint>::Ptr>>(m_vector, "map_uint32t_InterestPoint");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointNormal>::Ptr>>(m_vector, "map_uint32t_PointNormal");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZRGBNormal>::Ptr>>(m_vector, "map_uint32t_PointXYZRGBNormal");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZINormal>::Ptr>>(m_vector, "map_uint32t_PointXYZINormal");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZLNormal>::Ptr>>(m_vector, "map_uint32t_PointXYZLNormal");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointWithRange>::Ptr>>(m_vector, "map_uint32t_PointWithRange");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointWithViewpoint>::Ptr>>(m_vector, "map_uint32t_PointWithViewpoint");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointWithScale>::Ptr>>(m_vector, "map_uint32t_PointWithScale");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointSurfel>::Ptr>>(m_vector, "map_uint32t_PointSurfel");
+    bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointDEM>::Ptr>>(m_vector, "map_uint32t_PointDEM");
 }

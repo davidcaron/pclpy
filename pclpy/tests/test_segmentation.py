@@ -19,6 +19,21 @@ def make_pt(x, y, z):
     return pt
 
 
+def test_supervoxel_clustering():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
+    normals = pc.compute_normals(radius=0.3)
+    vox = pcl.segmentation.SupervoxelClustering.PointXYZRGBA(voxel_resolution=1,
+                                                             seed_resolution=2)
+    vox.setInputCloud(pc)
+    vox.setNormalCloud(normals)
+    # vox.setSpatialImportance(2)
+    # vox.setNormalImportance(2)
+    # vox.setColorImportance(2)
+    output = pcl.vectors.map_uint32t_PointXYZRGBA()
+    vox.extract(output)
+    assert len(list(output.items())) == 95
+
+
 def test_region_growing():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()
