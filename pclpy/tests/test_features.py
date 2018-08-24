@@ -60,3 +60,26 @@ def test_difference_of_normals_estimation_simple():
     #     indices.extend(cluster.indices)
     # output2 = pcl.PointCloud.PointNormal(output2, indices)
     # pclpy.show(pc, output2, point_xyz_random_color=True, overlay=False)
+
+
+def test_fpfh_simple():
+    pc = pclpy.read(test_data("street.las"), "PointXYZ")
+
+    pc = pclpy.octree_voxel_downsample(pc, 0.25)
+    normals = pc.compute_normals(radius=0.5, num_threads=8)
+
+    fpfh = pcl.features.FPFHEstimation.PointXYZ_Normal_FPFHSignature33()
+    fpfh.setInputCloud(pc)
+    fpfh.setInputNormals(normals)
+    fpfh.setRadiusSearch(0.5)
+
+    fpfhs = pcl.PointCloud.FPFHSignature33()
+    fpfh.compute(fpfhs)
+
+    expected_bottom_right = np.array([
+        [6.2739134, 2.528063, 2.078603],
+        [1.3269598, 1.0290794, 0.27428713],
+        [0., 0., 0.],
+    ])
+
+    assert np.allclose(fpfhs.histogram[-3:, -3:], expected_bottom_right)
