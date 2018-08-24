@@ -36,8 +36,9 @@ def temp_file(request):
     def fin():
         try:
             os.remove(path)
-
-        except WindowsError:
+        except FileNotFoundError:
+            pass
+        except IOError:
             time.sleep(.05)
             os.remove(path)
 
