@@ -27,6 +27,7 @@ void defineVectorClasses(py::module &m_vector) {
     bindVector<std::vector<int>>(m_vector, "Int");
     bindVector<std::vector<float>>(m_vector, "Float");
     bindVector<std::vector<pcl::PointIndices>>(m_vector, "PointIndices");
+    bindVector<std::vector<pcl::Vertices>>(m_vector, "Vertices");
     bindVector<std::vector<pcl::visualization::Camera>>(m_vector, "Camera");
 
     //all pcl point types

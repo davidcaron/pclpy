@@ -15,6 +15,7 @@
 PYBIND11_MAKE_OPAQUE(std::vector<int>);
 PYBIND11_MAKE_OPAQUE(std::vector<float>);
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
+PYBIND11_MAKE_OPAQUE(std::vector<pcl::Vertices>);
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::visualization::Camera>);
 
 PYBIND11_MAKE_OPAQUE(Eigen::VectorXf);
