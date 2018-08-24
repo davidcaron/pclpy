@@ -129,3 +129,27 @@ def test_las_to_pcd(temp_file):
     pcd = pcl.PointCloud.PointXYZ()
     reader.read(temp_file, pcd)
     assert pcd.size() == 5025
+
+
+def test_ply_to_ply_binary(temp_file):
+    mesh = pcl.PolygonMesh()
+    pcl.io.loadPLYFile(test_data("messy_mesh_binary.ply"), mesh)
+    pcl.io.savePLYFile(temp_file, mesh)
+    mesh2 = pcl.PolygonMesh()
+    pcl.io.loadPLYFile(temp_file, mesh2)
+
+    assert len(mesh.polygons) == len(mesh2.polygons)
+    assert mesh.cloud.width == mesh2.cloud.width
+    assert mesh.cloud.height == mesh2.cloud.height
+
+
+def test_ply_to_ply_ascii(temp_file):
+    mesh = pcl.PolygonMesh()
+    pcl.io.loadPLYFile(test_data("messy_mesh_ascii.ply"), mesh)
+    pcl.io.savePLYFile(temp_file, mesh, precision=4)
+    mesh2 = pcl.PolygonMesh()
+    pcl.io.loadPLYFile(temp_file, mesh2)
+
+    assert len(mesh.polygons) == len(mesh2.polygons)
+    assert mesh.cloud.width == mesh2.cloud.width
+    assert mesh.cloud.height == mesh2.cloud.height
