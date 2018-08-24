@@ -19,6 +19,12 @@ def make_pt(x, y, z):
     return pt
 
 
+def test_approximate_progressive_morphological_filter():
+    pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGB")
+    indices = pc.apmf(base=1.5, max_distance=0.5, slope=20)
+    assert len(indices) == 2116
+
+
 def test_region_growing():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
     rg = pcl.segmentation.RegionGrowing.PointXYZRGBA_Normal()

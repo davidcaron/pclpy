@@ -18,4 +18,6 @@ from pclpy.api import (extract_clusters,
                        ror,
                        octree_voxel_centroid,
                        fit,
+                       approximate_progressive_morphological_filter,
+                       apmf,
                        )

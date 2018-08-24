@@ -38,6 +38,11 @@ def extract_clusters(cloud, tolerance, min_size, max_size, merge_clusters=False)
     return vector_indices
 
 
+base_class = pcl.segmentation.ApproximateProgressiveMorphologicalFilter
+approximate_progressive_morphological_filter = register_wrapper(base_class)
+apmf = register_alias("apmf", approximate_progressive_morphological_filter)
+
+
 @register_point_cloud_function
 def region_growing(cloud,
                    normals,
