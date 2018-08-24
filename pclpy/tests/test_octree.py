@@ -29,5 +29,4 @@ def test_voxel_centroid_api():
 def test_voxel_centroid_api_rgba():
     pc = pclpy.read(test_data("street_thinned.las"), "PointXYZRGBA")
     output = pclpy.octree_voxel_downsample(pc, resolution=0.3, centroids=False)
-    output.show(pc, overlay=False)
     assert output.size() == 3148
