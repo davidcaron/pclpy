@@ -54,15 +54,20 @@ class Method:
                         type_ = type_.replace(name, template_type)
 
                 raw_type_no_pcl = param["raw_type"].replace("pcl::", "")
-                if param["unresolved"]:
-                    type_ = self.clean_unresolved_type(param, type_, prefix)
-                elif type_ in GLOBAL_PCL_IMPORTS:
+                if type_ in GLOBAL_PCL_IMPORTS:
                     type_ = make_namespace_class("pcl", type_)
+                elif param["unresolved"]:
+                    type_ = self.clean_unresolved_type(param, type_, prefix)
                 elif raw_type_no_pcl in GLOBAL_PCL_IMPORTS:
                     # ensure pcl namespace in type
                     pos = type_.find(raw_type_no_pcl)
                     if not type_[pos - 5:pos] == "pcl::":
                         type_ = type_.replace(raw_type_no_pcl, "pcl::" + raw_type_no_pcl)
+
+                if param["constant"] and not type_.startswith("const"):
+                    type_ = "const " + type_
+                if param["reference"] and not "&" in type_:
+                    type_ += " &"
 
                 if param.get("array_size"):
                     type_ += "[%s]" % param.get("array_size")

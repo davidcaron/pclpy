@@ -80,6 +80,7 @@ KEEP_ASIS_TYPES = {
     "boost::uint64_t",
     "uint8_t",
     "unsigned",
+    "unsigned char",
     "uint16_t",
     "uint32_t",
     "uint64_t",
@@ -165,6 +166,7 @@ GLOBAL_PCL_IMPORTS = [
     "ModelCoefficients",
     "PointWithRange",
     "PCLBase",
+    "PointCloud<PointT>",
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
@@ -224,6 +226,8 @@ TEMPLATED_METHOD_TYPES = {
     "real": ["float", "double"],
     "FloatVectorT": ["std::vector<float>"],
     "ValT": ["float", "uint8_t", "uint32_t"],
+    "MeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
+    "HalfEdgeMeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
 
     # Eigen::MatrixBase<Derived>
     "Derived": ["float", "double"],
@@ -254,6 +258,8 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("centroid.h", "computeCentroid", ("PointInT", "PointOutT")): (["pcl::PointXYZ", "pcl::PointXYZRGBA"],
                                                                    ["pcl::PointXYZ", "pcl::PointXYZRGBA"]),
 
+    ("shapes.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+
     ("common.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("filter_indices.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("filter.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
@@ -264,6 +270,8 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("distances.h", "", ("PointType1", "PointType2")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
     ("projection_matrix.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("point_tests.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
+
+    ("from_meshes.h", "", ("PointT", "PointNT")): ("PCL_XYZ_POINT_TYPES", "PCL_NORMAL_POINT_TYPES"),
 
     ("transforms.h", "", ("PointT",)): ("PCL_XYZ_POINT_TYPES",),
     ("transforms.h", "", ("PointT", "Scalar")): ("PCL_XYZ_POINT_TYPES", ["float"]),
@@ -287,6 +295,12 @@ EXPLICIT_INCLUDES = {
     # (module, header_name): "#include...",
     ("geometry", "mesh_io.h"): ("#include <pcl/geometry/polygon_mesh.h>\n"
                                 "#include <pcl/geometry/triangle_mesh.h>"),
+    ("geometry", "get_boundary.h"): ("#include <pcl/geometry/polygon_mesh.h>\n"
+                                     "#include <pcl/geometry/quad_mesh.h>\n"
+                                     "#include <pcl/geometry/triangle_mesh.h>"),
+    ("geometry", "mesh_conversion.h"): ("#include <pcl/geometry/polygon_mesh.h>\n"
+                                        "#include <pcl/geometry/quad_mesh.h>\n"
+                                        "#include <pcl/geometry/triangle_mesh.h>"),
     ("segmentation", "plane_refinement_comparator.h"): "#include <pcl/ModelCoefficients.h>",
     ("features", "narf_descriptor.h"): "#include <pcl/range_image/range_image.h>",
     ("features", "from_meshes.h"): "#include <pcl/Vertices.h>",
@@ -362,6 +376,10 @@ HEADERS_TO_SKIP = [
 
     ("surface", "multi_grid_octree_data.h"),  # compile error in PCL "OctNode is not a member of pcl::poisson"
 
+    ("geometry", "get_boundary.h"),  # some template types need more investigation
+    ("geometry", "mesh_conversion.h"),  # some template types need more investigation
+    ("io", "vtk_lib_io.h"),  # functions overload somehow hard to match with VTK
+
     ("recognition", "hv_go.h"),  # depends on metslib
 
     ("", "exceptions.h"),  # todo: implement exceptions
@@ -370,10 +388,11 @@ HEADERS_TO_SKIP = [
     ("segmentation", "seeded_hue_segmentation.h"),  # not exported in dll for some reason. Linking error.
     ("common", "time_trigger.h"),  # init containing boost::function
     ("common", "synchronizer.h"),
+    ("common", "spring.h"),  # not compiled in Windows PCL release
 
     ("visualization", "pcl_painter2D.h"),  # tricky protected vtkContextItem destructor
     ("visualization", "pcl_context_item.h"),  # tricky protected vtkContextItem destructor
-    # ("visualization", "interactor_style.h"),  # tricky protected vtkContextItem destructor
+    ("visualization", "interactor.h"),  # I think CppHeaderParser chokes because there are too many macros
     ("visualization", "histogram_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
     ("visualization", "simple_buffer_visualizer.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
     ("visualization", "ren_win_interact_map.h"),  # link error (visualization::RenWinInteract::RenWinInteract(void))
@@ -394,6 +413,8 @@ HEADERS_TO_SKIP = [
     ("features", "narf.h"),  # depends on range_image
     ("keypoints", "narf_keypoint.h"),  # depends on range_image and range_image_border_extractor
 
+    ("segmentation", "random_walker.h"),  # not familiar enough to know how to include, skip for now
+
     ("filters", "conditional_removal.h"),
     # todo: parser error for ConditionalRemoval (int extract_removed_indices = false) :
     ("filters", "model_outlier_removal.h"),  # todo: boost::function as parameter
@@ -404,6 +425,8 @@ FUNCTIONS_TO_SKIP = [
     ("file_io.h", "isValueFinite"),
     ("file_io.h", "copyValueString"),
     ("file_io.h", "copyStringValue"),
+    ("png_io.h", "PCL_DEPRECATED"),
+    ("png_io.h", "savePNGFile"),  # no matching overloaded function found
     ("correspondence.h", "getRejectedQueryIndices"),
     ("point_traits.h", "getFieldValue"),
     ("point_traits.h", "setFieldValue"),
@@ -413,6 +436,7 @@ FUNCTIONS_TO_SKIP = [
     ("common.h", "getMinMax"),  # only for point histogram type
     ("file_io.h", "getAllPcdFilesInDirectory"),  # linking error
     ("io.h", "getFieldsSizes"),  # linking error
+    ("io_exception.h", "throwIOException"),  # no matching overloaded function found
     ("filter.h", "removeNaNNormalsFromPointCloud"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointCloudWithNormals"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointWithNormal"),  # (fixable) PointT XYZ and Normal point types for 2 functions
@@ -440,8 +464,8 @@ FUNCTIONS_TO_SKIP = [
     ("normal_3d.h", "flipNormalTowardsViewpoint"),  # no matching overload found...
 ]
 
-SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP = [
-    "pcl::PCLPointCloud2",  # not necessary to implement this for now
+SPECIALIZED_TEMPLATED_TYPES_TO_SKIP = [
+    "pcl::PCLPointCloud2",  # don't implement this for now
 ]
 
 SUBMODULES_TO_SKIP = [

@@ -12,7 +12,7 @@ from CppHeaderParser.CppHeaderParser import CppMethod
 import generators.dependency_tree
 from generators.config import common_includes, PCL_BASE, PATH_LOADER, PATH_MODULES, MODULES_TO_BUILD, \
     HEADERS_TO_SKIP, ATTRIBUTES_TO_SKIP, CLASSES_TO_IGNORE, METHODS_TO_SKIP, SUBMODULES_TO_SKIP, EXPLICIT_INCLUDES, \
-    SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP
+    SPECIALIZED_TEMPLATED_TYPES_TO_SKIP
 from generators.definitions.function import generate_function_definitions, get_methods_defined_outside
 from generators.definitions.method import split_methods_by_type
 from generators.definitions.submodule_loader import generate_loader
@@ -144,7 +144,7 @@ def get_main_classes(header, module, header_name):
     for class_ in main_classes:
         specialized_template = class_.get("template") and "<" in class_["name"]
         if specialized_template:
-            to_skip = any(("<%s>" % type_) in class_["name"] for type_ in SPECIALIZED_TEMPLATED_CLASSES_TO_SKIP)
+            to_skip = any(("<%s>" % type_) in class_["name"] for type_ in SPECIALIZED_TEMPLATED_TYPES_TO_SKIP)
             if not to_skip:
                 message = "Warning: Template class specialization not implemented for class %s in %s"
                 print(message % (class_["name"], header_name))
@@ -157,9 +157,28 @@ def get_main_classes(header, module, header_name):
 
 
 def get_functions(header, module):
-    functions = [f for f in header.functions if f["namespace"] in ("pcl", "pcl::", "pcl::" + module)]
+    functions = [f for f in header.functions if f["namespace"] in ("pcl",
+                                                                   "pcl::",
+                                                                   "pcl::%s" % module,
+                                                                   "pcl::%s::" % module)]
     functions = sorted(functions, key=lambda f: f["name"])
-    return functions
+    filtered = filter_module_level_functions(functions)
+    return filtered
+
+
+def filter_module_level_functions(functions: List[CppMethod]):
+    filtered = []
+    for f in functions:
+        keep = True
+        if f.get("returns_const"):
+            keep = False
+        for param in f["parameters"]:
+            for type_ in SPECIALIZED_TEMPLATED_TYPES_TO_SKIP:
+                if type_ in param["type"]:
+                    keep = False
+        if keep:
+            filtered.append(f)
+    return filtered
 
 
 def get_variables(header):
