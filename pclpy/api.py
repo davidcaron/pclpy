@@ -198,23 +198,30 @@ def compute_normals(cloud,
 
 
 @register_point_cloud_function
-def octree_voxel_centroid(cloud, resolution, epsilon=None):
+def octree_voxel_downsample(cloud, resolution, epsilon=None, centroids=True):
     """
     Subsample the input cloud to the octree's centroids
     :param cloud: input point cloud
     :param resolution: float size of the smallest leaf
     :param epsilon: epsilon precision for nearest neighbor searches, passed to setEpsilon
+    :param centroids: Downsample using the centroid of points or the center of the voxel
     :return: pcl.PointCloud.* same type as input
     """
     pc_type = utils.get_point_cloud_type(cloud)
-    vox = getattr(pcl.octree.OctreePointCloudVoxelCentroid, pc_type)(resolution)
+    if centroids:
+        vox = getattr(pcl.octree.OctreePointCloudVoxelCentroid, pc_type)(resolution)
+    else:
+        vox = getattr(pcl.octree.OctreePointCloudSinglePoint, pc_type)(resolution)
     vox.setInputCloud(cloud)
     vox.addPointsFromInputCloud()
     if epsilon:
         vox.setEpsilon(epsilon)
-    centroids = getattr(pcl.PointCloud, pc_type)()
-    vox.getVoxelCentroids(centroids.points)
-    return centroids
+    voxel_centroids = getattr(pcl.PointCloud, pc_type)()
+    if centroids:
+        vox.getVoxelCentroids(voxel_centroids.points)
+    else:
+        vox.getOccupiedVoxelCenters(voxel_centroids.points)
+    return voxel_centroids
 
 
 @register_point_cloud_function
