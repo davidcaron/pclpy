@@ -156,7 +156,14 @@ ror = register_alias("ror", radius_outlier_removal)
 
 
 @register_point_cloud_function
-def compute_normals(cloud, radius=None, k=None, indices=None, num_threads=1, output_cloud=None):
+def compute_normals(cloud,
+                    radius=None,
+                    k=None,
+                    indices=None,
+                    num_threads=1,
+                    output_cloud=None,
+                    search_surface=None,
+):
     """
     Compute normals for a point cloud
     :param cloud: input point cloud
@@ -165,6 +172,7 @@ def compute_normals(cloud, radius=None, k=None, indices=None, num_threads=1, out
     :param indices: optional indices of the input cloud to use
     :param num_threads: number of threads to do the computation
     :param output_cloud: optional point cloud to compute the normals into
+    :param search_surface: optional point cloud search surface
     :return: a point cloud with normals
     """
     if output_cloud is None:
@@ -182,6 +190,8 @@ def compute_normals(cloud, radius=None, k=None, indices=None, num_threads=1, out
         normals_estimation.setKSearch(k)
     if indices is not None:
         normals_estimation.setIndices(indices)
+    if search_surface is not None:
+        normals_estimation.setSearchSurface(search_surface)
 
     normals_estimation.compute(output_cloud)
     return output_cloud
