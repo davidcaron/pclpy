@@ -23,7 +23,10 @@ class Viewer:
             self.pcl_visualizer.setBackgroundColor(*self.BG_COLOR, viewport)
             handler = self.make_color_handler(pc, glasbey_lut_id=n)
             name = "cloud%s" % n
-            self.pcl_visualizer.addPointCloud(pc, handler, name, viewport=viewport)
+            if handler:
+                self.pcl_visualizer.addPointCloud(pc, handler, name, viewport=viewport)
+            else:
+                self.pcl_visualizer.addPointCloud(pc, name, viewport=viewport)
             self.pcl_visualizer.setPointCloudRenderingProperties(pcl.visualization.PCL_VISUALIZER_POINT_SIZE,
                                                                  self.POINT_SIZE,
                                                                  name)
@@ -38,14 +41,16 @@ class Viewer:
 
     def make_color_handler(self, pc, glasbey_lut_id=0):
         if isinstance(pc, pcl.PointCloud.PointXYZRGBA):
-            return pcl.visualization.PointCloudColorHandlerRGBAField.PointXYZRGBA(pc)
+            return
         elif isinstance(pc, pcl.PointCloud.PointXYZRGB):
-            return pcl.visualization.PointCloudColorHandlerRGBField.PointXYZRGB(pc)
+            return
         elif isinstance(pc, pcl.PointCloud.PointXYZ):
             if self.point_xyz_random_color:
                 color = pcl.common.GlasbeyLUT.at(glasbey_lut_id)
                 return pcl.visualization.PointCloudColorHandlerCustom.PointXYZ(pc, color.r, color.g, color.b)
             else:
                 return pcl.visualization.PointCloudColorHandlerGenericField.PointXYZ(pc, "z")
+        elif isinstance(pc, pcl.PointCloud.PointNormal):
+            return pcl.visualization.PointCloudColorHandlerGenericField.PointNormal(pc, "curvature")
         elif isinstance(pc, pcl.PointCloud.PointXYZI):
             return pcl.visualization.PointCloudColorHandlerGenericField.PointXYZI(pc, "intensity")
