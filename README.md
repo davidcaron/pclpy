@@ -145,6 +145,7 @@ and the _what to skip_ section in `generators/config.py`)
 - PCL_ROOT environment variable must be set to the installation directory of PCL
 - About requirements:
     - Install pybind11 from github (2.3dev version) it includes a necessary bug fix
+        (https://github.com/pybind/pybind11/commit/e88656ab45ae75df7dcb1fcdd2c89805b52e4665)
     - Install CppHeaderParser from https://github.com/davidcaron/CppHeaderParser (specific bug fixes)
 - Generate modules using `generate_pybind11_bindings.py`
 - There is a missing file from the PCL release that you should get from the github repo: 2d/impl/kernel.hpp
