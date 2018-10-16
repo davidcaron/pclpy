@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-
+import glob
 import io
 import os
+import subprocess
 from os.path import join
 import sys
 import platform
@@ -27,10 +27,9 @@ AUTHOR = 'David Caron'
 REQUIRES_PYTHON = '==3.6.*'
 VERSION = None
 
+PCL_VERSION = "1.8"
 PCL_ROOT = os.getenv("PCL_ROOT")
 PYTHON_HOME = os.path.split(sys.executable)[0]
-INCLUDE = join(PYTHON_HOME, r"Library", "include")
-LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
 
 ON_WINDOWS = platform.system() == "Windows"
 
@@ -172,6 +171,7 @@ class BuildExt(build_ext):
 
 
 ext_args = defaultdict(list)
+ext_args['include_dirs'].append(numpy.get_include())
 
 if ON_WINDOWS:
     def compile(self, sources,
@@ -291,15 +291,16 @@ if ON_WINDOWS:
     MSVCCompiler.compile = compile
     MSVCCompiler.compile_single = compile_single
 
-    ext_args['include_dirs'].append(numpy.get_include())
+    INCLUDE_WINDOWS = join(PYTHON_HOME, r"Library", "include")
+    LIB_DIR_WINDOWS = join(PYTHON_HOME, r"Library", "lib")
 
-    inc_dirs = [join(PCL_ROOT, "include", "pcl-1.8"),
+    inc_dirs = [join(PCL_ROOT, "include", "pcl-%s" % PCL_VERSION),
                 join(PCL_ROOT, "3rdParty", "Eigen", "eigen3"),
                 join(PCL_ROOT, "3rdParty", "Boost", "include", "boost-1_64"),
                 join(PCL_ROOT, "3rdParty", "FLANN", "include"),
                 join(PCL_ROOT, "3rdParty", "Qhull", "include"),
-                join(INCLUDE, "vtk-8.1"),
-                INCLUDE,
+                join(INCLUDE_WINDOWS, "vtk-8.1"),
+                INCLUDE_WINDOWS,
                 ]
 
     ext_args['include_dirs'] += inc_dirs
@@ -308,7 +309,7 @@ if ON_WINDOWS:
                 join(PCL_ROOT, "3rdParty", "Boost", "lib"),
                 join(PCL_ROOT, "3rdParty", "FLANN", "lib"),
                 join(PCL_ROOT, "3rdParty", "Qhull", "lib"),
-                LIB_DIR,
+                LIB_DIR_WINDOWS,
                 ]
 
     ext_args['library_dirs'] += lib_dirs
@@ -327,7 +328,7 @@ if ON_WINDOWS:
     #     if lib.endswith("vc140-mt-1_64.lib"):
     #         ext_args['libraries'].append(lib[:-4])
 
-    for lib in os.listdir(LIB_DIR):
+    for lib in os.listdir(LIB_DIR_WINDOWS):
         endswith = "D-8.1.lib" if DEBUG else "-8.1.lib"
         if lib.endswith(endswith):
             ext_args['libraries'].append(lib[:-4])
@@ -339,11 +340,48 @@ if ON_WINDOWS:
     win_opengl_libreleases = ['OpenGL32']
     ext_args['libraries'] += win_opengl_libreleases
 
-    defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
-    ext_args['define_macros'] += defines
 
-    ext_args['include_dirs'].append(get_pybind_include())
-    ext_args['include_dirs'].append(get_pybind_include(user=True))
+else:  # not Windows
+    # to install:
+    # libpcl-dev
+
+    libs_to_build = ['common', 'features', 'filters', 'geometry', 'io', 'kdtree', 'keypoints', 'octree',
+                     'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
+                     'tracking', 'visualization']
+
+    pcl_libraries = ["pcl_%s-%s" % (lib, PCL_VERSION) for lib in libs_to_build]
+
+    def pkg_config_multi(arg, libs):
+        output = []
+        for lib in libs:  # 'ni'?
+            for value in pkg_config(arg, lib):
+                output.append(value[2:])
+        return list(set(output))
+
+    def pkg_config(arg, lib):
+        command = ["pkg-config", arg, lib]
+        output = subprocess.check_output(command).decode().strip()
+        return output.split()
+
+    def find_include(folder, include):
+        return glob.glob(os.path.join(folder, include))[-1]
+
+    # inc_dirs = [
+    #     join(PCL_ROOT, "include", "pcl-%s" % PCL_VERSION),
+    # ]
+    inc_dirs = pkg_config_multi('--cflags-only-I', pcl_libraries)
+
+    # vtk
+    inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
+
+    ext_args['include_dirs'] += inc_dirs
+    print(inc_dirs)
+
+defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
+ext_args['define_macros'] += defines
+
+ext_args['include_dirs'].append(get_pybind_include())
+ext_args['include_dirs'].append(get_pybind_include(user=True))
 
 modules_path = "pclpy/src/generated_modules/"
 
