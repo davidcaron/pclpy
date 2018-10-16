@@ -54,10 +54,7 @@ def sort_headers_by_dependencies(headers):
     headers = list(sorted(headers))
 
     def get_include_lines(path, module):
-        try:
-            lines = open(path).readlines()
-        except UnicodeDecodeError:
-            lines = open(path, encoding="utf8").readlines()
+        lines = read_header_file(path)
         headers = []
         for line in lines:
             stripped = line.strip()
@@ -151,3 +148,39 @@ def clean_doxygen(doxygen):
         doxygen = doxygen.replace(k, v)
     doxygen = unidecode(doxygen)
     return doxygen
+
+
+def replace_some_terms(raw_lines):
+    lines = []
+    append = lines.append
+    for line in raw_lines:
+        line_strip = line.strip()
+        if line_strip.startswith("BOOST_CONCEPT_"):
+            pass
+        elif line_strip.startswith("BOOST_MPL_ASSERT"):
+            pass
+        elif line_strip.startswith("PCL_DEPRECATED"):
+            pass
+        elif line_strip.startswith("POINT_CLOUD_REGISTER_POINT_STRUCT"):
+            pass
+        else:
+            append(line)
+    text = "".join(lines)
+    text = text.replace("EIGEN_ALIGN16", "")
+    text = text.replace("PCL_EXPORTS", "")
+    text = text.replace("<void ()>", "")  # parser chokes on "boost::function<void ()>"
+    text = text.replace("->operator", "-> operator")  # parser error for this expression
+    return text
+
+
+def read_header_file(header_path):
+    print(header_path)
+    multiple_pcl_header_encodings = ["utf8", "ascii", "windows-1252"]
+    for encoding in multiple_pcl_header_encodings:
+        try:
+            header_file_str = replace_some_terms(open(header_path, encoding=encoding).readlines())
+            break
+        except UnicodeDecodeError:
+            if encoding == multiple_pcl_header_encodings[-1]:
+                raise
+    return header_file_str

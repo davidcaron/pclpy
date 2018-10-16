@@ -10,7 +10,7 @@ from generators.config import MODULES_TO_BUILD
 from generators.point_types_utils import PCL_POINT_TYPES
 from generators.utils import parentheses_are_balanced
 
-PCL_REPO_PATH = r"C:\github\pcl"
+PCL_REPO_PATH = os.getenv("PCL_REPO_PATH")
 
 re_instantiate = re.compile(r"^PCL_INSTANTIATE\((.+?),(.+)\);?$")
 re_product = re.compile(r"^PCL_INSTANTIATE_PRODUCT\((.+?),(.+)\);?$")

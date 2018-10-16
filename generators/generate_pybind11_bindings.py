@@ -20,7 +20,7 @@ from generators.definitions.templated_class import ClassDefinition
 from generators.instantiations import Instantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, make_namespace_class
+    generate_main_loader, make_namespace_class, read_header_file
 
 
 def filter_methods_for_parser_errors(methods):
@@ -193,35 +193,9 @@ def get_enums(header):
     return enums
 
 
-def replace_some_terms(raw_lines):
-    lines = []
-    append = lines.append
-    for line in raw_lines:
-        line_strip = line.strip()
-        if line_strip.startswith("BOOST_CONCEPT_"):
-            pass
-        elif line_strip.startswith("BOOST_MPL_ASSERT"):
-            pass
-        elif line_strip.startswith("PCL_DEPRECATED"):
-            pass
-        elif line_strip.startswith("POINT_CLOUD_REGISTER_POINT_STRUCT"):
-            pass
-        else:
-            append(line)
-    text = "".join(lines)
-    text = text.replace("EIGEN_ALIGN16", "")
-    text = text.replace("PCL_EXPORTS", "")
-    text = text.replace("<void ()>", "")  # parser chokes on "boost::function<void ()>"
-    text = text.replace("->operator", "-> operator")  # parser error for this expression
-    return text
-
-
 def read_header(header_path):
     # I tried to do this in multiple threads but it seems like CppHeaderParser is not thread safe...
-    try:
-        header_file_str = replace_some_terms(open(header_path, encoding="utf8").readlines())
-    except UnicodeDecodeError:
-        header_file_str = replace_some_terms(open(header_path).readlines())
+    header_file_str = read_header_file(header_path)
     parser = CppHeaderParser
     parser.debug = False
     header = parser.CppHeader(header_file_str, argType="string")
