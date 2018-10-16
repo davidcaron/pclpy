@@ -20,13 +20,15 @@ class Enum:
         prefix = prefix[:-2] if prefix.endswith("::") else prefix
         s = []
         a = s.append
-        a('py::enum_<{class_name}{cppname}>({parent_var}, "{name}")')
+        a('using {cppname_lower} = typename {class_name}{cppname};')
+        a('{i}py::enum_<{cppname_lower}>({parent_var}, "{name}")')
         for value in self.cppenum["values"]:
             a('{i}{i}.value("%s", {class_name}{cppname}::%s)' % (value["name"], value["name"]))
         a("{i}{i}.export_values()")
         data = {"name": self.name,
                 "i": INDENT,
                 "cppname": self.cppenum["name"],
+                "cppname_lower": self.cppenum["name"].lower(),
                 "class_name": ("%s::" % prefix) if prefix else "",
                 "parent_var": class_var_name,
                 }
