@@ -97,17 +97,17 @@ class ClassDefinition:
                 a = s.append
                 a("{ind}void define{sub}{name}(py::module &m, std::string const & suffix) {ob}")
                 templated_name = "{name}<%s>;" % types
-                a("{ind}{i}using Class = {namespace}%s" % templated_name)
+                a("{ind}{i}using Class = typename {namespace}%s" % templated_name)
                 for typedef in self.typedefs():
-                    a("{ind}{i}using {typedef} = Class::{typedef};".format(ind=ind, i=i, typedef=typedef))
+                    a("{ind}{i}using {typedef} = typename Class::{typedef};".format(ind=ind, i=i, typedef=typedef))
                 a(self.py_class_definition(ind=ind + i) + "\n{ind}{i}{i}")
                 a("{cb}")
         if not self.is_templated:
             a = s.append
             a("{ind}void define{sub}{name}(py::module &m) {ob}")
-            a("{ind}{i}using Class = {namespace}{name}{empty_template};")
+            a("{ind}{i}using Class = typename {namespace}{name}{empty_template};")
             for typedef in self.typedefs():
-                a("{ind}{i}using %s = Class::%s;" % (typedef, typedef))
+                a("{ind}{i}using %s = typename Class::%s;" % (typedef, typedef))
             a(self.py_class_definition(ind=ind + i))
             a("{cb}")
         data = {
