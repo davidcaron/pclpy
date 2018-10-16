@@ -7,6 +7,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
+#include <pcl/Vertices.h>
 #include <pcl/visualization/common/common.h>
 #include <pcl/segmentation/supervoxel_clustering.h>
 
