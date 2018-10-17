@@ -375,7 +375,7 @@ else:  # not Windows
     inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
 
     ext_args['include_dirs'] += inc_dirs
-    print(inc_dirs)
+    ext_args['extra_compile_args '] += ['-Wunused-local-typedefs']
 
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
 ext_args['define_macros'] += defines
