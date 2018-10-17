@@ -4,7 +4,7 @@ import glob
 import io
 import os
 import subprocess
-from distutils.sysconfig import get_config_var
+import distutils.sysconfig
 from os.path import join
 import sys
 import platform
@@ -14,10 +14,12 @@ from collections import defaultdict
 
 import numpy
 
+from multiprocessing.pool import ThreadPool
 import setuptools
 from setuptools.command.build_ext import build_ext
 from setuptools import find_packages, setup, Command, Extension
 from distutils.errors import CompileError, DistutilsExecError
+import distutils.ccompiler
 
 # Package meta-data.
 NAME = 'pclpy'
@@ -173,9 +175,6 @@ class BuildExt(build_ext):
             self.compiler.compiler = [o for o in self.compiler.compiler if o not in opts_remove]
             self.compiler.compiler_cxx = [o for o in self.compiler.compiler_cxx if o not in opts_remove]
             self.compiler.compiler_so = [o for o in self.compiler.compiler_so if o not in opts_remove]
-            # Remove the '-Wstrict-prototypes' compiler option, which isn't valid for C++.
-            os.environ['OPT'] = ' '.join(
-                flag for flag in get_config_var('OPT').split() if flag != '-Wstrict-prototypes')
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
             if opts_remove:
@@ -220,13 +219,13 @@ if ON_WINDOWS:
 
         if MSVC_MP_BUILD:
             workers = N_WORKERS
-            from multiprocessing.pool import ThreadPool
-            t = ThreadPool(workers)
+
+            pool = ThreadPool(workers)
             for obj in objects:
-                t.apply_async(self.compile_single,
-                              [obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs])
-            t.close()
-            t.join()
+                pool.apply_async(self.compile_single,
+                                 [obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs])
+            pool.close()
+            pool.join()
         else:
             for obj in objects:
                 self.compile_single(obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs)
@@ -361,6 +360,34 @@ if ON_WINDOWS:
 else:  # not Windows
     # to install:
     # libpcl-dev
+
+    # monkey-patch for parallel compilation
+    def parallel_compile(self, sources, output_dir=None, macros=None, include_dirs=None, debug=0, extra_preargs=None,
+                         extra_postargs=None, depends=None):
+        # those lines are copied from distutils.ccompiler.CCompiler directly
+        macros, objects, extra_postargs, pp_opts, build = self._setup_compile(output_dir, macros, include_dirs, sources,
+                                                                              depends, extra_postargs)
+        cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
+
+        n_processes = 2  # number of parallel compilations
+
+        def _single_compile(obj):
+            try:
+                src, ext = build[obj]
+            except KeyError:
+                return
+            self._compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
+
+        ThreadPool(n_processes).map(_single_compile, objects, chunksize=1)
+        return objects
+
+    distutils.ccompiler.CCompiler.compile = parallel_compile
+
+    # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
+    cfg_vars = distutils.sysconfig.get_config_vars()
+    for key, value in cfg_vars.items():
+        if type(value) == str:
+            cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
 
     libs_to_build = ['common', 'features', 'filters', 'geometry', 'io', 'kdtree', 'keypoints', 'octree',
                      'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
