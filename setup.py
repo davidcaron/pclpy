@@ -383,8 +383,10 @@ ext_args['define_macros'] += defines
 ext_args['include_dirs'].append(get_pybind_include())
 ext_args['include_dirs'].append(get_pybind_include(user=True))
 
-modules_path = "pclpy/src/generated_modules/"
+src_path = join("pclpy", "src")
+ext_args['include_dirs'].append(src_path)
 
+modules_path = join(src_path, "generated_modules")
 loaders = [join(modules_path, f) for f in os.listdir(modules_path)
            if f.endswith("_loader.cpp") and not f == "__main_loader.cpp"]
 
