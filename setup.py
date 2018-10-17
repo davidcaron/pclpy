@@ -4,6 +4,7 @@ import glob
 import io
 import os
 import subprocess
+from distutils.sysconfig import get_config_var
 from os.path import join
 import sys
 import platform
@@ -147,7 +148,13 @@ class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
     c_opts = {
         'msvc': ['/EHsc', "/openmp"],
-        'unix': [],
+        'unix': ['-Wno-unused-local-typedefs',
+                 ],
+    }
+    c_opts_remove = {
+        'msvc': [],
+        'unix': ['-Wstrict-prototypes',
+                 ],
     }
     if ON_WINDOWS and MSVC_NO_CODE_LINK:
         c_opts['msvc'].append("/bigobj")
@@ -157,13 +164,23 @@ class BuildExt(build_ext):
     def build_extensions(self):
         ct = self.compiler.compiler_type
         opts = self.c_opts.get(ct, [])
+        opts_remove = self.c_opts_remove.get(ct, [])
         if ct == 'unix':
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             opts.append(cpp_flag(self.compiler))
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')
+            self.compiler.compiler = [o for o in self.compiler.compiler if o not in opts_remove]
+            self.compiler.compiler_cxx = [o for o in self.compiler.compiler_cxx if o not in opts_remove]
+            self.compiler.compiler_so = [o for o in self.compiler.compiler_so if o not in opts_remove]
+            # Remove the '-Wstrict-prototypes' compiler option, which isn't valid for C++.
+            os.environ['OPT'] = ' '.join(
+                flag for flag in get_config_var('OPT').split() if flag != '-Wstrict-prototypes')
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
+            if opts_remove:
+                raise NotImplementedError
+
         for ext in self.extensions:
             ext.extra_compile_args = opts
 
@@ -351,6 +368,7 @@ else:  # not Windows
 
     pcl_libraries = ["pcl_%s-%s" % (lib, PCL_VERSION) for lib in libs_to_build]
 
+
     def pkg_config_multi(arg, libs):
         output = []
         for lib in libs:  # 'ni'?
@@ -358,10 +376,12 @@ else:  # not Windows
                 output.append(value[2:])
         return list(set(output))
 
+
     def pkg_config(arg, lib):
         command = ["pkg-config", arg, lib]
         output = subprocess.check_output(command).decode().strip()
         return output.split()
+
 
     def find_include(folder, include):
         return glob.glob(os.path.join(folder, include))[-1]
@@ -375,7 +395,6 @@ else:  # not Windows
     inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
 
     ext_args['include_dirs'] += inc_dirs
-    ext_args['extra_compile_args '] += ['-Wunused-local-typedefs']
 
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
 ext_args['define_macros'] += defines
