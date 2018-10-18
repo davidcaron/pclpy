@@ -30,12 +30,14 @@ class Method:
         type_ = self.list_parameter_types(prefix, template_types)
 
         template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
+        template_keyword = "template " if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}{name}{template}{const})"
+        disamb = "py::overload_cast<{type_}> (&{cls}{template_keyword}{name}{template}{const})"
         disamb = disamb.format(type_=type_,
                                cls=(prefix + "::") if prefix else "",
                                name=self.cppmethod["name"],
                                template=template,
+                               template_keyword=template_keyword,
                                const=constant_method)
         return disamb
 
@@ -66,7 +68,12 @@ class Method:
 
                 if param["constant"] and not type_.startswith("const"):
                     type_ = "const " + type_
-                if param["reference"] and not "&" in type_:
+                if all(c in type_ for c in "<>"):
+                    if type_.startswith("const"):
+                        type_ = "const typename " + type_.replace("const ", "", 1)
+                    else:
+                        type_ = "typename " + type_
+                if param["reference"] and "&" not in type_:
                     type_ += " &"
 
                 if param.get("array_size"):

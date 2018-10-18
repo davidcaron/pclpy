@@ -4,7 +4,7 @@ from typing import List
 from CppHeaderParser import CppClass
 from inflection import camelize
 
-from generators.config import INDENT, DONT_HOLD_WITH_BOOST_SHARED_PTR, EXTRA_FUNCTIONS
+from generators.config import INDENT, DONT_HOLD_WITH_BOOST_SHARED_PTR, EXTRA_FUNCTIONS, GLOBAL_PCL_IMPORTS
 from generators.definitions.constructor import Constructor
 from generators.definitions.enum import Enum
 from generators.definitions.method import Method
@@ -50,8 +50,18 @@ class ClassDefinition:
         named_enums = [e for e in class_["enums"]["public"] if e.get("name")]
         self.enums = list(map(Enum, named_enums))
         self.other_methods = other_methods
-        self.template = class_.get("template")
+        self.template = self.parse_template()
         self.is_templated = False
+
+    def parse_template(self):
+        template = self.class_.get("template")
+        if template:
+            for global_import in GLOBAL_PCL_IMPORTS:
+                # add pcl:: to explicit global pcl imports
+                with_pcl = "pcl::%s" % global_import
+                if re.search(r"[ =]%s\W" % global_import, template):
+                    template = template.replace(global_import, with_pcl)
+        return template
 
     def to_str(self):
         if self.is_templated:
@@ -93,8 +103,9 @@ class ClassDefinition:
             types = ", ".join(filter_template_types(template_info[0]))
             if types:
                 self.is_templated = True
-                s = ["{ind}{template}"]
+                s = []
                 a = s.append
+                a("{ind}{template}")
                 a("{ind}void define{sub}{name}(py::module &m, std::string const & suffix) {ob}")
                 templated_name = "{name}<%s>;" % types
                 a("{ind}{i}using Class = typename {namespace}%s" % templated_name)

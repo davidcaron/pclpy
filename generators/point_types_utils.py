@@ -202,17 +202,20 @@ def fix_templated_inheritance(inherits):
 
 def get_template_typenames_with_defaults(template: str) -> Dict[str, str]:
     template_typenames = {}
+    splitters = ["typename", "class"]
     if template:
         template_string = template[template.find("<") + 1: template.rfind(">")]
-        splitted = template_string.split("typename")
-        for s in splitted:
-            s = s.strip(", ")
-            if "=" in s:
-                pos = s.find("=")
-                val = s[pos + 1:].strip(", ")
-                template_typenames[s[:pos].strip(", ")] = val
-            elif s:
-                template_typenames[s] = ""
+        for name in splitters:
+            splitted = template_string.split(name)
+            for s in splitted:
+                s = s.strip(", ")
+                if "=" in s:
+                    pos = s.find("=")
+                    val = s[pos + 1:].strip(", ")
+                    template_typenames[s[:pos].strip(", ")] = val
+                elif s:
+                    template_typenames[s] = ""
+    template_typenames = {k: v for k, v in template_typenames.items() if not any(s in k for s in splitters)}
     return template_typenames
 
 
@@ -244,6 +247,13 @@ def format_type_with_namespace(type_,
                                namespace_by_class_name,
                                template_typenames_defaults,
                                replace_with_templated_typename):
+    # handle const prefix
+    const = ""
+    if type_.startswith("const "):
+        type_ = type_.replace("const ", "", 1)
+        const = "const "
+
+    is_template_name = type_ in template_typenames_defaults
     typename_default = template_typenames_defaults.get(type_)
     has_default_and_replace = typename_default and replace_with_templated_typename
 
@@ -252,7 +262,11 @@ def format_type_with_namespace(type_,
 
     keep_asis = any(type_.startswith(i) for i in KEEP_ASIS_TYPES)
 
-    if not keep_asis and not typename_default or has_default_and_replace:
+    if keep_asis:
+        pass
+    elif is_template_name:
+        pass
+    elif not is_template_name or has_default_and_replace:
         if type_ in GLOBAL_PCL_IMPORTS:
             base_namespace = "pcl"
 
@@ -263,7 +277,21 @@ def format_type_with_namespace(type_,
                 base_namespace = namespaces[0]
             type_ = make_namespace_class(base_namespace, type_)
 
+    type_ = const + type_
     return type_
+
+
+def fix_cppheaderparser_bugs(inheritance: List[str]) -> List[str]:
+    replace = {
+        "constOctreeNode": "const OctreeNode",
+    }
+    fixed = []
+    for i in inheritance:
+        for k, v in replace.items():
+            if k in i:
+                i = i.replace(k, v)
+        fixed.append(i)
+    return fixed
 
 
 def clean_inheritance(class_,
@@ -272,6 +300,7 @@ def clean_inheritance(class_,
                       formatted=False):
     inheritance = [i["class"] for i in class_["inherits"]]
     inheritance = fix_templated_inheritance(inheritance)
+    inheritance = fix_cppheaderparser_bugs(inheritance)
 
     template_str = class_.get("template", "").replace("\n", "")
     template_typenames_defaults = get_template_typenames_with_defaults(template_str)

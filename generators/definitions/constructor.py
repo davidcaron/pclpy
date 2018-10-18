@@ -48,6 +48,8 @@ class Constructor:
                 type_ = type_only_last_element
             elif class_with_param_name in INHERITED_ENUMS:
                 type_ = "Class::" + type_only_last_element
+            if all(c in type_ for c in "<>"):
+                type_ = "typename " + type_
             if param.get("pointer"):
                 type_ += "*"
             return type_

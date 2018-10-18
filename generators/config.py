@@ -90,6 +90,7 @@ KEEP_ASIS_TYPES = {
     "int32_t",
     "int64_t",
     "bool",
+    "void",
     "char",
     "float",
     "double",
@@ -170,8 +171,9 @@ GLOBAL_PCL_IMPORTS = [
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
-    "InterpolationType",  # local emun
-    "NormType",  # local emun
+    "InterpolationType",  # local enum
+    "NormType",  # local enum
+    "ReferenceFrame",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
@@ -228,6 +230,7 @@ TEMPLATED_METHOD_TYPES = {
     "ValT": ["float", "uint8_t", "uint32_t"],
     "MeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
     "HalfEdgeMeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
+    "MeshTraitsT": [],  # nothing for now
 
     # Eigen::MatrixBase<Derived>
     "Derived": ["float", "double"],
@@ -440,6 +443,8 @@ FUNCTIONS_TO_SKIP = [
     ("filter.h", "removeNaNNormalsFromPointCloud"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointCloudWithNormals"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointWithNormal"),  # (fixable) PointT XYZ and Normal point types for 2 functions
+    ("intersections.h", "planeWithPlaneIntersection"),  # couldn't deduce template parameter ‘Return’
+    ("intersections.h", "threePlanesIntersection"),  # couldn't deduce template parameter ‘Return’
 
     # todo: I think most of these could be removed. They were added before I realized there was a bug.
     ("io.h", "copyPointCloud"),  # no matching overload found...
@@ -498,4 +503,6 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
+
+    ("RSDEstimation", "getHistograms"),  # must declare class for return value: boost::shared_ptr<std::vector<Eigen::MatrixXf, Eigen::aligned_allocator<Eigen::MatrixXf> > >
 ]
