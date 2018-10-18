@@ -320,4 +320,11 @@ def filter_template_types(template_string, keep=None, keep_all=False):
 def is_copy_constructor(method):
     name = method["name"]
     params = method["parameters"]
-    return len(params) == 1 and name in params[0]["type"]
+    if params and name in params[0]["type"]:
+        try:
+            in_doxygen = "Copy constructor" in method["doxygen"].split("\n")[0]
+        except KeyError:
+            in_doxygen = False
+        if len(params) == 1 or in_doxygen:
+            return True
+    return False
