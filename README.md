@@ -125,7 +125,7 @@ mls.process (output);
 - stereo
 - surface
 - tracking
-- visualization
+- visualization (note: not for linux)
 #### These modules are skipped for now
 - ml
 - people

@@ -232,7 +232,7 @@ def check_if_needs_overloading(main_classes):
     return needs_overloading
 
 
-def get_headers(modules=None):
+def get_headers(modules=None, skip_modules=None):
     def listmod(module):
         found_modules = []
         for base, folders, files in os.walk(join(PCL_BASE, module)):
@@ -246,6 +246,9 @@ def get_headers(modules=None):
 
     if modules is None:
         modules = MODULES_TO_BUILD
+
+    if skip_modules is not None:
+        modules = [m for m in modules if m not in skip_modules]
 
     headers_to_generate = [(module, header_name, path) for module in modules
                            for header_name, path in listmod(module)]
@@ -465,12 +468,14 @@ def main():
 
     windows = platform.system() == "Windows"
 
-    if windows:
-        skip_macros = []
-    else:
-        skip_macros = ['_MSC_VER']
+    skip_macros = []
+    skip_modules = []
 
-    all_headers = get_headers()
+    if not windows:
+        skip_macros = ["_MSC_VER"]
+        skip_modules = ["visualization"]
+
+    all_headers = get_headers(skip_modules=skip_modules)
     not_every_point_type = "--not-every-point-type" in sys.argv
     generated_headers = generate(all_headers, skip_macros, not_every_point_type)
     write_stuff_if_needed(generated_headers, delete_others=True)
