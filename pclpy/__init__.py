@@ -1,4 +1,7 @@
-import pclpy_dependencies
+import platform
+
+if platform.system() == "Windows":
+    import pclpy_dependencies
 
 import pclpy.pcl as pcl
 
