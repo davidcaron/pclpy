@@ -52,6 +52,10 @@ class Constructor:
                 type_ = "typename " + type_
             if param.get("pointer"):
                 type_ += "*"
+            if param["constant"] and not type_.startswith("const "):
+                type_ = "const " + type_
+            if param["reference"] and not type_.endswith("&"):
+                type_ += " &"
             return type_
 
         if any("**" in param["type"].replace(" ", "") for param in self.params):
