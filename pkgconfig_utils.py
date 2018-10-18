@@ -10,7 +10,7 @@ pcl_libraries = ["pcl_%s-%s" % (lib, PCL_VERSION) for lib in libs_to_build]
 
 def pkg_config_multi(arg, skip_chars=0):
     output = []
-    for lib in pcl_libraries:  # 'ni'?
+    for lib in pcl_libraries:
         for value in pkg_config(arg, lib):
             output.append(value[skip_chars:])
     return list(set(output))
