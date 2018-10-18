@@ -1,3 +1,5 @@
+import re
+
 from CppHeaderParser import CppMethod
 
 from generators.config import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
@@ -31,6 +33,8 @@ class Constructor:
                 if val in class_enums_names:
                     val = "Class::" + val
                 val = val.replace(" ", "")  # CppHeaderParser addsspace to float values
+                if re.search(r"\df$", val):  # "50f" -> "50.0"
+                    val = val[:-1] + ".0"
                 val = "=" + val
             return val
 
