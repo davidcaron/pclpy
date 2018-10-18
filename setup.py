@@ -149,9 +149,12 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
     c_opts = {
-        'msvc': ['/EHsc', "/openmp"],
+        'msvc': ['/EHsc',
+                 "/openmp"
+                 ],
         'unix': ['-Wno-unused-local-typedefs',
                  '-Wno-unknown-pragmas',
+                 '-fopenmp',
                  ],
     }
     c_opts_remove = {
@@ -369,7 +372,7 @@ else:  # not Windows
                                                                               depends, extra_postargs)
         cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
 
-        n_processes = 2  # number of parallel compilations
+        n_processes = 1  # number of parallel compilations
 
         def _single_compile(obj):
             try:
@@ -380,6 +383,7 @@ else:  # not Windows
 
         ThreadPool(n_processes).map(_single_compile, objects, chunksize=1)
         return objects
+
 
     distutils.ccompiler.CCompiler.compile = parallel_compile
 
@@ -412,6 +416,7 @@ else:  # not Windows
 
     def find_include(folder, include):
         return glob.glob(os.path.join(folder, include))[-1]
+
 
     # inc_dirs = [
     #     join(PCL_ROOT, "include", "pcl-%s" % PCL_VERSION),
