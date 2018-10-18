@@ -162,6 +162,7 @@ CUSTOM_OVERLOAD_TYPES = {
 GLOBAL_PCL_IMPORTS = [
     "IndicesPtr",
     "IndicesConstPtr",
+    "PointIndicesConstPtr",
     "Correspondence",
     "PointIndices",
     "ModelCoefficients",
