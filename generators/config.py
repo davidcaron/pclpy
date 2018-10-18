@@ -493,6 +493,7 @@ METHODS_TO_SKIP = [
     ("PointCloud", "insert"),  # templated InputIterator
 
     ("ASCIIReader", "setInputFields"),
+    ("ASCIIReader", "read"),  # PCLPointCloud2 not implemented for now
     ("PCLPlotter", "addPlotData"),
     ("PCLPlotter", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "spinOnce"),
