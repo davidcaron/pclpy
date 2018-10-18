@@ -364,6 +364,7 @@ EXTRA_FUNCTIONS = {
 HEADERS_TO_SKIP = [
     # ("module", "header")
     ("io", "pxc_grabber.h"),  # deprecated
+    ("io", "dinast_grabber.h"),
     ("", "sse.h"),  # don't need that
     ("", "point_representation.h"),  # I could be wrong, but this seems covered in python with the buffer protocol..
     ("", "conversions.h"),  # can't find overloaded functions
