@@ -504,6 +504,7 @@ METHODS_TO_SKIP = [
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
+    ("OctreePointCloudVoxelCentroid", "getVoxelCentroidAtPoint"),  # error: ‘genOctreeKeyforPoint’ was not declared in this scope
 
     ("RSDEstimation", "getHistograms"),  # must declare class for return value: boost::shared_ptr<std::vector<Eigen::MatrixXf, Eigen::aligned_allocator<Eigen::MatrixXf> > >
 ]
