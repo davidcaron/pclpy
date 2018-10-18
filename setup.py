@@ -151,12 +151,12 @@ class BuildExt(build_ext):
     c_opts = {
         'msvc': ['/EHsc', "/openmp"],
         'unix': ['-Wno-unused-local-typedefs',
+                 '-Wno-unknown-pragmas',
                  ],
     }
     c_opts_remove = {
         'msvc': [],
         'unix': ['-Wstrict-prototypes',
-                 '-Wno-unknown-pragmas',
                  ],
     }
     if ON_WINDOWS and MSVC_NO_CODE_LINK:
@@ -356,7 +356,6 @@ if ON_WINDOWS:
 
     win_opengl_libreleases = ['OpenGL32']
     ext_args['libraries'] += win_opengl_libreleases
-
 
 else:  # not Windows
     # to install:
