@@ -3,12 +3,10 @@
 import glob
 import io
 import os
-import subprocess
 import distutils.sysconfig
 from os.path import join
 import sys
 import platform
-from shutil import rmtree
 from time import time
 from collections import defaultdict
 
@@ -17,9 +15,12 @@ import numpy
 from multiprocessing.pool import ThreadPool
 import setuptools
 from setuptools.command.build_ext import build_ext
-from setuptools import find_packages, setup, Command, Extension
+from setuptools import find_packages, setup, Extension
 from distutils.errors import CompileError, DistutilsExecError
 import distutils.ccompiler
+
+from pkgconfig_utils import pkg_config_multi
+
 
 # Package meta-data.
 NAME = 'pclpy'
@@ -393,39 +394,13 @@ else:  # not Windows
         if type(value) == str:
             cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
 
-    libs_to_build = ['common', 'features', 'filters', 'geometry', 'io', 'kdtree', 'keypoints', 'octree',
-                     'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
-                     'tracking', 'visualization']
-
-    pcl_libraries = ["pcl_%s-%s" % (lib, PCL_VERSION) for lib in libs_to_build]
-
-
-    def pkg_config_multi(arg, libs):
-        output = []
-        for lib in libs:  # 'ni'?
-            for value in pkg_config(arg, lib):
-                output.append(value[2:])
-        return list(set(output))
-
-
-    def pkg_config(arg, lib):
-        command = ["pkg-config", arg, lib]
-        output = subprocess.check_output(command).decode().strip()
-        return output.split()
-
 
     def find_include(folder, include):
         return glob.glob(os.path.join(folder, include))[-1]
 
-
-    # inc_dirs = [
-    #     join(PCL_ROOT, "include", "pcl-%s" % PCL_VERSION),
-    # ]
-    inc_dirs = pkg_config_multi('--cflags-only-I', pcl_libraries)
-
+    inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
     # vtk
     inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
-
     ext_args['include_dirs'] += inc_dirs
 
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]

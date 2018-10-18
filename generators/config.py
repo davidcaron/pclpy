@@ -1,14 +1,21 @@
 import os
 from os.path import join
+import platform
+
+from pkgconfig_utils import get_include_dir
 
 INDENT = " " * 4
 BASE_SUB_MODULE_NAME = "sub_module"
 
-PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
 PATH_SRC = join("..", "pclpy", "src")
 PATH_MAIN_CPP = join(PATH_SRC, "pclpy.cpp")
 PATH_MODULES = join(PATH_SRC, "generated_modules")
 PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
+
+if platform.system() == "Windows":
+    PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
+else:
+    PCL_BASE = join(get_include_dir(), "pcl")
 
 common_includes = """
 #include <pybind11/pybind11.h>
