@@ -35,6 +35,9 @@ class Constructor:
                 val = val.replace(" ", "")  # CppHeaderParser addsspace to float values
                 if re.search(r"\df$", val):  # "50f" -> "50.0"
                     val = val[:-1] + ".0"
+                search = re.search(r"1e(-?\d+)", val)  # "1e-4.0" -> "0.0001"
+                if search:
+                    val = str(1 * 10 ** int(search.group(1)))
                 val = "=" + val
             return val
 
