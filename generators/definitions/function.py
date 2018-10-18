@@ -14,6 +14,10 @@ from generators.utils import function_definition_name
 
 def filter_functions(cppfunctions, header_name):
     filtered = []
+    by_name = defaultdict(list)
+    for f in cppfunctions:
+        by_name[f["name"]].append(f)
+
     for f in cppfunctions:
         if "<" in f["name"] or ">" in f["name"]:
             continue
@@ -22,6 +26,11 @@ def filter_functions(cppfunctions, header_name):
         if "::" in f["rtnType"].replace(" ", ""):  # bug in CppHeaderParser for methods defined outside class
             continue
         if f["template"] and f["template"].replace(" ", "") == "template<>":  # skip specialized templated functions
+            continue
+        other_templated_with_same_name = any(other["template"] and other["template"].replace(" ", "")
+                                             for other in by_name[f["name"]]
+                                             if not other == f)
+        if other_templated_with_same_name:
             continue
         filtered.append(f)
     return filtered

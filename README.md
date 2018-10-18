@@ -114,7 +114,7 @@ mls.process (output);
 - geometry
 - features
 - filters
-- io
+- io (meshes are not implemented)
 - kdtree
 - keypoints
 - octree
