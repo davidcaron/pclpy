@@ -492,6 +492,8 @@ ATTRIBUTES_TO_SKIP = {
     # ("module", "header", "class"): ["attr1", "attr2"]
     ("features", "shot.h", "SHOTColorEstimation"): ["sRGB_LUT", "sXYZ_LUT"],  # todo: linking error
     ("features", "narf.h", "Narf"): ["max_no_of_threads"],  # todo: linking error
+    ("features", "organized_edge_detection.h", "OrganizedEdgeBase"): ["num_of_edgetype_"],  # linking error
+    ("octree", "octree_key.h", "OctreeKey"): ["maxDepth"],  # linking error
     ("recognition", "orr_octree.h", "ORROctree"): ["createLeaf"],  # todo: linking error
 }
 
