@@ -101,6 +101,8 @@ class ClassDefinition:
             template_info = re.findall(r"<(.+)>", str(self.template.replace("\n", "")))
 
             types = ", ".join(filter_template_types(template_info[0]))
+            # <PointXYZT, PointRGBT=PointXYZT> -> <PointXYZT, PointRGBT>
+            types = re.sub(r"=[:\w]+", "", types)
             if types:
                 self.is_templated = True
                 s = []
