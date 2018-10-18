@@ -1,3 +1,4 @@
+import re
 from collections import OrderedDict
 from itertools import chain, product
 from typing import List
@@ -117,10 +118,9 @@ class Method:
             type_ = make_namespace_class("pcl", type_)
         else:
             type_ = "%s::%s" % (prefix, type_)
-        for global_pcl in GLOBAL_PCL_IMPORTS:
-            pos = type_.find(global_pcl)
-            if not type_[pos - 5:pos] == "pcl::":
-                type_ = type_.replace(global_pcl, "pcl::" + global_pcl)
+        for global_import in GLOBAL_PCL_IMPORTS:
+            if re.search(r"[^a-zA-Z:]%s" % global_import, type_):
+                type_ = type_.replace(global_import, "pcl::" + global_import)
         type_ = const + type_ + ref
         if param.get("pointer"):
             type_ = type_.strip() + "*"
