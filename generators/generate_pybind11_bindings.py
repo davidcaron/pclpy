@@ -1,4 +1,5 @@
 import os
+import platform
 import shutil
 import sys
 from collections import Counter
@@ -193,9 +194,11 @@ def get_enums(header):
     return enums
 
 
-def read_header(header_path):
+def read_header(header_path, skip_macros=None):
     # I tried to do this in multiple threads but it seems like CppHeaderParser is not thread safe...
-    header_file_str = read_header_file(header_path)
+    if skip_macros is None:
+        skip_macros = []
+    header_file_str = read_header_file(header_path, skip_macros)
     parser = CppHeaderParser
     parser.debug = False
     header = parser.CppHeader(header_file_str, argType="string")
@@ -381,7 +384,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         delete_other_dirs(modules)
 
 
-def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
+def generate(headers_to_generate, skip_macros, not_every_point_type=False) -> OrderedDict:
     """
     :return: OrderedDict
     """
@@ -389,7 +392,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
 
     for module, header_name, path in headers_to_generate[:]:
         header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
-        header = read_header(header_full_path)
+        header = read_header(header_full_path, skip_macros)
         main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
         module_functions[(module, header_name)] = get_functions(header, module)
         module_variables[(module, header_name)] = get_variables(header)
@@ -411,7 +414,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
     for module, header in main_classes:
         main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
 
-    headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
+    headers_to_generate = sort_headers_by_dependencies(headers_to_generate, skip_macros=skip_macros)
 
     methods_need_overloading = check_if_needs_overloading(main_classes)
 
@@ -460,9 +463,16 @@ def main():
     import time
     t = time.time()
 
+    windows = platform.system() == "Windows"
+
+    if windows:
+        skip_macros = []
+    else:
+        skip_macros = ['_MSC_VER']
+
     all_headers = get_headers()
     not_every_point_type = "--not-every-point-type" in sys.argv
-    generated_headers = generate(all_headers, not_every_point_type)
+    generated_headers = generate(all_headers, skip_macros, not_every_point_type)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
     print("generated in %.2f s" % (time.time() - t,))

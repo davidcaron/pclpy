@@ -50,11 +50,14 @@ def function_definition_name(header_name):
     return camelize(header_name.replace(".h", "")).replace(" ", "")
 
 
-def sort_headers_by_dependencies(headers):
+def sort_headers_by_dependencies(headers, skip_macros=None):
     headers = list(sorted(headers))
 
+    if skip_macros is None:
+        skip_macros = []
+
     def get_include_lines(path, module):
-        lines = read_header_file(path)
+        lines = read_header_file(path, skip_macros)
         headers = []
         for line in lines:
             stripped = line.strip()
@@ -173,14 +176,26 @@ def replace_some_terms(raw_lines):
     return text
 
 
-def read_header_file(header_path):
-    print(header_path)
+def read_header_file(header_path, skip_macros):
     multiple_pcl_header_encodings = ["utf8", "ascii", "windows-1252"]
     for encoding in multiple_pcl_header_encodings:
         try:
-            header_file_str = replace_some_terms(open(header_path, encoding=encoding).readlines())
+            header_lines = open(header_path, encoding=encoding).readlines()
             break
         except UnicodeDecodeError:
             if encoding == multiple_pcl_header_encodings[-1]:
                 raise
+
+    active_macros = []
+    filtered_lines = []
+    a = filtered_lines.append
+    for line in header_lines:
+        if line.startswith("#ifdef"):
+            active_macros.append(line.replace("#ifdef ", "").strip())
+        if line.startswith("#endif") and active_macros:
+            active_macros.pop()
+        if not any(m in active_macros for m in skip_macros):
+            a(line)
+
+    header_file_str = replace_some_terms(filtered_lines)
     return header_file_str
