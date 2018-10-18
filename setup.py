@@ -403,6 +403,10 @@ else:  # not Windows
     inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
     ext_args['include_dirs'] += inc_dirs
 
+    ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
+    ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
+    ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
+
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
 ext_args['define_macros'] += defines
 
