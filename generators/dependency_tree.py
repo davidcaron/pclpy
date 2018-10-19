@@ -1,5 +1,5 @@
-from collections import defaultdict, deque
-from typing import List
+from collections import defaultdict, OrderedDict, deque
+from typing import List, Dict, Generator
 
 from CppHeaderParser import CppClass
 
@@ -26,17 +26,34 @@ class DependencyTree:
 
         self.n_template_point_types = {k: len(v) for inheritance in self.tree.values() for k, v in inheritance.items()}
 
-    def breadth_first_iterator(self, start_class=None):
-        all_inheritances = [make_namespace_class(get_class_namespace(class_), i)
+    def reversed_breadth_first_iterator(self) -> List[str]:
+        """Like breadth_first_iterator, but starts from the base classes."""
+        classes_breadth_first = list(self.breadth_first_iterator())
+        seen = set()
+        unique = []
+        for c in classes_breadth_first:
+            if c not in seen:
+                unique.append(c)
+                seen.add(c)
+        return list(reversed(unique))
+
+    def breadth_first_iterator(self, start_class=None) -> Generator[str, None, None]:
+        """
+        Yields every class that aren't inherited elsewhere, then all their first inherited classes, etc.
+        :param start_class: class name to start from.
+               If None, start from all classes that aren't inherited by any other class.
+        """
+        all_inheritances = {make_namespace_class(get_class_namespace(class_), i)
                             for class_, inheritance in self.tree.items()
-                            for i in inheritance]
+                            for i in inheritance}
         if start_class is None:
             queue = deque(elem for elem in self.tree if elem not in all_inheritances)
         else:
             queue = deque([start_class])
         while queue:
             class_ = queue.popleft()
-            yield class_
+            if class_ != start_class:
+                yield class_
             for inherits in self.tree.get(class_, []):
                 queue.append(inherits)
 
@@ -63,17 +80,24 @@ class DependencyTree:
     def split_namespace_class(self, class_):
         return class_[:class_.rfind("::")], class_[class_.rfind("::") + 2:]
 
-    def get_point_types_with_dependencies(self, classes_point_types):
-        types = defaultdict(list)
-        for class_ in self.breadth_first_iterator():
+    def get_point_types_with_dependencies(self, classes_point_types: Dict) -> OrderedDict:
+        types = OrderedDict()
+
+        def add_to_dict(key, data):
+            if key not in types:
+                types[key] = data[:]
+            else:
+                types[key] += data
+
+        for class_ in self.reversed_breadth_first_iterator():
             namespace, class_name = self.split_namespace_class(class_)
             point_types = classes_point_types.get(class_name)
             if point_types:
                 n_point_types = len(point_types[0])
-                types[class_name] += point_types
+                add_to_dict(class_name, point_types)
                 for base_class_ in self.breadth_first_iterator(class_):
                     _, base_class_name = self.split_namespace_class(base_class_)
-                    if base_class_name == class_name or base_class_name in IGNORE_INHERITED_INSTANTIATIONS:
+                    if base_class_name in IGNORE_INHERITED_INSTANTIATIONS:
                         continue
                     n_point_types_base = self.n_template_point_types[base_class_]
                     if n_point_types_base != n_point_types:
@@ -82,8 +106,10 @@ class DependencyTree:
                         if types_filter:
                             for types_ in point_types:
                                 filtered = tuple(t for i, t in enumerate(types_) if i in types_filter)
-                                types[base_class_name].append(filtered)
-                        types[base_class_name] += [types_[:n_point_types_base] for types_ in point_types]
+                                add_to_dict(base_class_name, [filtered])
+                        add_to_dict(base_class_name, [types_[:n_point_types_base] for types_ in point_types])
                     else:
-                        types[base_class_name] += point_types
-        return {class_name: list(sorted(set(v))) for class_name, v in types.items()}
+                        add_to_dict(base_class_name, point_types)
+        for k, v in types.items():
+            types[k] = list(sorted(set(v)))
+        return types

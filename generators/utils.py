@@ -57,7 +57,7 @@ def sort_headers_by_dependencies(headers, skip_macros=None):
         skip_macros = []
 
     def get_include_lines(path, module):
-        lines = read_header_file(path, skip_macros)
+        lines = read_header_file(path, skip_macros).split("\n")
         headers = []
         for line in lines:
             stripped = line.strip()
@@ -77,7 +77,7 @@ def sort_headers_by_dependencies(headers, skip_macros=None):
 
     sorted_headers = []
     while headers_include_names:
-        for header in headers_include_names.keys():
+        for header in headers_include_names:
             dependencies = headers_dependencies[header]
             if not any(h in dependencies for h in headers_include_names.values()):
                 sorted_headers.append(header)

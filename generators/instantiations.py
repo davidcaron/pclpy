@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 from typing import List, Dict
 
 from CppHeaderParser import CppClass, CppVariable
@@ -16,7 +17,7 @@ class Instantiations:
                  sorted_classes: List[CppClass],
                  module: str,
                  header_name: str,
-                 classes_point_types: Dict,
+                 classes_point_types: OrderedDict,
                  variables: List[CppVariable],
                  enums: List[CppVariable],
                  ):

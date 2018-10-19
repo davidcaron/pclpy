@@ -407,15 +407,16 @@ def generate(headers_to_generate, skip_macros, not_every_point_type=False) -> Or
     dependency_tree = generators.dependency_tree.DependencyTree(classes)
 
     loaded_point_types = load_yaml_point_types(not_every_point_type)
-    all_point_types = dependency_tree.get_point_types_with_dependencies(loaded_point_types)
+    classes_point_types: OrderedDict = dependency_tree.get_point_types_with_dependencies(loaded_point_types)
 
     classes_sorted_base_first = list(dependency_tree.leaf_iterator())
 
-    def key(class_):
+    def index_for_class(class_):
         return classes_sorted_base_first.index(make_namespace_class(class_["namespace"], class_["name"]))
 
+    # sort classes inside modules based on inheritance
     for module, header in main_classes:
-        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
+        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=index_for_class))
 
     headers_to_generate = sort_headers_by_dependencies(headers_to_generate, skip_macros=skip_macros)
 
@@ -443,7 +444,7 @@ def generate(headers_to_generate, skip_macros, not_every_point_type=False) -> Or
         instantiations = Instantiations(header_classes,
                                         module,
                                         header,
-                                        all_point_types,
+                                        classes_point_types,
                                         module_variables[(module, header)],
                                         module_enums[(module, header)],
                                         )
