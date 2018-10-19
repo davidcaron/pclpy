@@ -161,6 +161,7 @@ class BuildExt(build_ext):
     c_opts_remove = {
         'msvc': [],
         'unix': ['-Wstrict-prototypes',
+                 '-Wsign-compare',
                  ],
     }
     if ON_WINDOWS and MSVC_NO_CODE_LINK:
