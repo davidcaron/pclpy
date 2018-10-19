@@ -227,9 +227,9 @@ def flag_templated_methods(methods: List[Method]):
                 method.templated_types[type_name] = types
 
 
-def template_types_generator(type_names, class_name, method_name):
-    method_key = (class_name, method_name, type_names)
-    all_methods_key = (class_name, "", type_names)
+def template_types_generator(type_names, header_or_class_name, method_name):
+    method_key = (header_or_class_name, method_name, type_names)
+    all_methods_key = (header_or_class_name, "", type_names)
     specific = SPECIFIC_TEMPLATED_METHOD_TYPES
     pcl_point_types = specific.get(method_key, specific.get(all_methods_key))
     if not pcl_point_types:
@@ -237,8 +237,8 @@ def template_types_generator(type_names, class_name, method_name):
 
     for type_name, pcl_types in zip(type_names, pcl_point_types):
         if not pcl_types:
-            attrs = (type_name, method_name, class_name)
-            message = "Templated method name not implemented (name=%s method=%s class=%s)"
+            attrs = (type_name, method_name, header_or_class_name)
+            message = "Templated method name not implemented (name=%s method=%s header=%s)"
             raise NotImplementedError(message % attrs)
         if isinstance(pcl_types, list):
             types = pcl_types
