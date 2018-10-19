@@ -424,6 +424,7 @@ HEADERS_TO_SKIP = [
     ("features", "narf_descriptor.h"),  # depends on range_image
     ("features", "narf.h"),  # depends on range_image
     ("keypoints", "narf_keypoint.h"),  # depends on range_image and range_image_border_extractor
+    ("features", "ppfrgb.h"),  # linking error on linux
 
     ("segmentation", "random_walker.h"),  # not familiar enough to know how to include, skip for now
 
