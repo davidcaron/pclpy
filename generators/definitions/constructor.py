@@ -32,9 +32,11 @@ class Constructor:
             if val:
                 if val in class_enums_names:
                     val = "Class::" + val
-                val = val.replace(" ", "")  # CppHeaderParser addsspace to float values
-                if re.search(r"\df$", val):  # "50f" -> "50.0"
-                    val = val[:-1] + ".0"
+                elif p.get('enum') and p.get('enum') not in val:
+                    val = p.get('enum') + '::' + val
+                val = val.replace(" ", "")  # CppHeaderParser adds a space to float values
+                if re.search(r"(?<!\.)\d+f$", val):  # "50f" -> "50.0f"
+                    val = val.replace('f', '.0f')
                 search = re.search(r"1e(-?\d+)", val)  # "1e-4.0" -> "0.0001"
                 if search:
                     val = str(1 * 10 ** int(search.group(1)))
@@ -50,7 +52,10 @@ class Constructor:
             if custom:
                 type_ = custom
             elif param.get("enum"):
-                type_ = "Class::%s" % param.get("enum").split("::")[-1]
+                if param.get('enum').startswith('pcl::'):
+                    type_ = param.get('enum')
+                else:
+                    type_ = "Class::%s" % param.get("enum").split("::")[-1]
             elif type_only_last_element in class_typedefs:
                 type_ = type_only_last_element
             elif class_with_param_name in INHERITED_ENUMS:

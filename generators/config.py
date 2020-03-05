@@ -1,6 +1,7 @@
 import os
 from os.path import join
 import platform
+import sys
 
 from pkgconfig_utils import get_include_dir
 
@@ -12,8 +13,12 @@ PATH_MAIN_CPP = join(PATH_SRC, "pclpy.cpp")
 PATH_MODULES = join(PATH_SRC, "generated_modules")
 PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
 
+CONDA = 'conda' in sys.version or os.path.exists(join(sys.prefix, 'conda-meta'))
+
 if platform.system() == "Windows":
     PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
+elif CONDA:
+    PCL_BASE = join(sys.prefix, "include", "pcl-1.9", "pcl")
 else:
     PCL_BASE = join(get_include_dir(), "pcl")
 
@@ -102,6 +107,7 @@ KEEP_ASIS_TYPES = {
     "float",
     "double",
     "size_t",
+    "off_t",
 }
 
 # explicitely excluded classes
@@ -111,6 +117,7 @@ CLASSES_TO_IGNORE = [
     # (not implemented in pcl source code)
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreBreadthFirstIterator"),
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreLeafIterator"),
+    ("common", "colors.h", "ColorLUT"),  # ColorLUTName tamplate type
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
     ("io", "io_exception.h", "IOException"),  # linking error
@@ -182,6 +189,8 @@ GLOBAL_PCL_IMPORTS = [
     "InterpolationType",  # local enum
     "NormType",  # local enum
     "ReferenceFrame",
+    "GASDSignature512",
+    "GASDSignature984",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
@@ -375,6 +384,8 @@ HEADERS_TO_SKIP = [
     ("2d", "kernel.h"),  # missing impl/kernel.hpp in Windows release
     ("2d", "edge.h"),  # missing impl/kernel.hpp in Windows release
 
+    ("io", "hdl_grabber.h"),
+    ("io", "vlp_grabber.h"),
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
@@ -398,6 +409,7 @@ HEADERS_TO_SKIP = [
     ("registration", "exceptions.h"),  # todo: implement exceptions
     ("segmentation", "conditional_euclidean_clustering.h"),  # setConditionFunction hard to implement...
     ("segmentation", "seeded_hue_segmentation.h"),  # not exported in dll for some reason. Linking error.
+    ("segmentation", "euclidean_cluster_comparator.h"),
     ("common", "time_trigger.h"),  # init containing boost::function
     ("common", "synchronizer.h"),
     ("common", "spring.h"),  # not compiled in Windows PCL release

@@ -8,7 +8,7 @@
 #include <pcl/point_types.h>
 #include <pcl/PointIndices.h>
 #include <pcl/Vertices.h>
-#include <pcl/visualization/common/common.h>
+// #include <pcl/visualization/common/common.h>
 #include <pcl/segmentation/supervoxel_clustering.h>
 
 #include <Eigen/Geometry>
@@ -17,7 +17,7 @@ PYBIND11_MAKE_OPAQUE(std::vector<int>);
 PYBIND11_MAKE_OPAQUE(std::vector<float>);
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::PointIndices>);
 PYBIND11_MAKE_OPAQUE(std::vector<pcl::Vertices>);
-PYBIND11_MAKE_OPAQUE(std::vector<pcl::visualization::Camera>);
+// PYBIND11_MAKE_OPAQUE(std::vector<pcl::visualization::Camera>);
 
 PYBIND11_MAKE_OPAQUE(Eigen::VectorXf);
 PYBIND11_MAKE_OPAQUE(Eigen::Quaternionf);

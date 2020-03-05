@@ -1,630 +1,1971 @@
 ApproxNearestPairPointCloudCoherence:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ApproximateProgressiveMorphologicalFilter:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 ApproximateVoxelGrid:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 BOARDLocalReferenceFrameEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - ReferenceFrame
 BilateralFilter:
-- [PointXYZI, PointXYZINormal]
+- - PointXYZI
+  - PointXYZINormal
 BilateralUpsampling:
-- - [PointXYZRGB, PointXYZRGBA]
-  - [PointXYZRGB, PointXYZRGBA]
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - PointXYZRGB
+    - PointXYZRGBA
 BoundaryEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGBNormal, PointNormal]
-  - [PointXYZRGBNormal, Normal, PointNormal]
-  - [Boundary]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
+  - - PointXYZRGBNormal
+    - Normal
+    - PointNormal
+  - - Boundary
 BruteForce:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 CPCSegmentation:
-- [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
+  - PointXYZRGBNormal
 CPPFEstimation:
-- - [PointXYZRGBA, PointXYZRGBNormal]
-  - [Normal, PointNormal, PointXYZRGBNormal]
-  - [CPPFSignature]
+- - - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+  - - CPPFSignature
 CRHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [Histogram<90>]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - Histogram<90>
 CVFHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [VFHSignature308]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - VFHSignature308
 ComparisonBase:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConcaveHull:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConditionAnd:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConditionBase:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConditionOr:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConditionalEuclideanClustering:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 ConditionalRemoval:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ConvexHull:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 CovarianceSampling:
-- - [PointXYZ, PointNormal, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal]
-  - [Normal, PointNormal, PointXYZRGBNormal]
+- - - PointXYZ
+    - PointNormal
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
 CropBox:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 CropHull:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 DifferenceOfNormalsEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal]
-  - [Normal, PointNormal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - Normal
+    - PointNormal
 DisparityMapConverter:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 DistanceCoherence:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ESFEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointNormal]
-  - [ESFSignature640]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - ESFSignature640
 EuclideanClusterExtraction:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 ExtractIndices:
-- [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, Normal, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGB
+  - PointXYZRGBA
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
 ExtractPolygonalPrismData:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 FLARELocalReferenceFrameEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [ReferenceFrame]
-  - [float]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - ReferenceFrame
+  - - float
 FPFHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal]
-  - [FPFHSignature33]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - FPFHSignature33
 FPFHEstimationOMP:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal]
-  - [FPFHSignature33]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - FPFHSignature33
 FastBilateralFilter:
-- [PointXYZ, PointXYZRGB, PointXYZRGBA]
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
 FastBilateralFilterOMP:
-- [PointXYZ, PointXYZRGB, PointXYZRGBA]
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
 FieldComparison:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 FrustumCulling:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 GASDColorEstimation:
-- - [PointXYZRGB, PointXYZRGBA]
-  - [GASDSignature512, GASDSignature984, GASDSignature7992]
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - GASDSignature512
+    - GASDSignature984
+    - GASDSignature7992
 GASDEstimation:
-- - [PointXYZ, PointXYZRGB, PointXYZRGBA]
-  - [GASDSignature512, GASDSignature984, GASDSignature7992]
+- - - PointXYZ
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - GASDSignature512
+    - GASDSignature984
+    - GASDSignature7992
 GFPFHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZL]
-  - [PointXYZL]
-  - [GFPFHSignature16]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZL
+  - - PointXYZL
+  - - GFPFHSignature16
 GRSDEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [GRSDSignature21]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - GRSDSignature21
 GreedyProjectionTriangulation:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 GridMinimum:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 HSVColorCoherence:
-- [PointXYZRGB, PointXYZRGBNormal, PointXYZRGBA]
+- - PointXYZRGB
+  - PointXYZRGBNormal
+  - PointXYZRGBA
 IntegralImageNormalEstimation:
-- - [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal]
-  - [Normal, PointXYZRGBNormal]
+- - - PointXYZ
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointXYZRGBNormal
 IntensityGradientEstimation:
-- - [PointXYZI]
-  - [Normal]
-  - [IntensityGradient]
+- - - PointXYZI
+  - - Normal
+  - - IntensityGradient
 IntensitySpinEstimation:
-- - [PointXYZI]
-  - [Histogram<20>]
+- - - PointXYZI
+  - - Histogram<20>
 KLDAdaptiveParticleFilterOMPTracker:
-- - [PointNormal, PointXYZINormal, PointXYZRGBNormal]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, InterestPoint, PointWithRange,
-    PointWithViewpoint, PointWithScale]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
+- - - PointNormal
+    - PointXYZINormal
+    - PointXYZRGBNormal
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+    - InterestPoint
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
 KLDAdaptiveParticleFilterTracker:
-- - [PointNormal, PointXYZINormal, PointXYZRGBNormal]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, InterestPoint, PointWithRange,
-    PointWithViewpoint, PointWithScale]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
+- - - PointNormal
+    - PointXYZINormal
+    - PointXYZRGBNormal
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+    - InterestPoint
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
 KdTree:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - Label
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - PointXY
+  - InterestPoint
+  - Axis
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - MomentInvariants
+  - PrincipalRadiiRSD
+  - Boundary
+  - PrincipalCurvatures
+  - PFHSignature125
+  - PFHRGBSignature250
+  - PPFSignature
+  - CPPFSignature
+  - PPFRGBSignature
+  - NormalBasedSignature12
+  - FPFHSignature33
+  - VFHSignature308
+  - GRSDSignature21
+  - ESFSignature640
+  - BRISKSignature512
+  - Narf36
+  - IntensityGradient
+  - PointWithScale
+  - PointSurfel
+  - ShapeContext1980
+  - UniqueShapeContext1960
+  - SHOT352
+  - SHOT1344
+  - PointUV
+  - ReferenceFrame
+  - PointDEM
 KdTreeFLANN:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
-Kmeans:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - Label
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - PointXY
+  - InterestPoint
+  - Axis
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - MomentInvariants
+  - PrincipalRadiiRSD
+  - Boundary
+  - PrincipalCurvatures
+  - PFHSignature125
+  - PFHRGBSignature250
+  - PPFSignature
+  - CPPFSignature
+  - PPFRGBSignature
+  - NormalBasedSignature12
+  - FPFHSignature33
+  - VFHSignature308
+  - GRSDSignature21
+  - ESFSignature640
+  - BRISKSignature512
+  - Narf36
+  - IntensityGradient
+  - PointWithScale
+  - PointSurfel
+  - ShapeContext1980
+  - UniqueShapeContext1960
+  - SHOT352
+  - SHOT1344
+  - PointUV
+  - ReferenceFrame
+  - PointDEM
 LCCPSegmentation:
-- [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal]
-LUM:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
+  - PointXYZRGBNormal
 LabeledEuclideanClusterExtraction:
-- [PointXYZL, PointXYZRGBL, PointXYZLNormal]
+- - PointXYZL
+  - PointXYZRGBL
+  - PointXYZLNormal
 LeastMedianSquares:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 LinearLeastSquaresNormalEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
 LocalMaximum:
-- [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGB
+  - PointXYZRGBA
 MEstimatorSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 MarchingCubes:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 MarchingCubesHoppe:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 MarchingCubesRBF:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 MaximumLikelihoodSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 MedianFilter:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 MinCutSegmentation:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ModelOutlierRemoval:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 MomentInvariantsEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [MomentInvariants]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - MomentInvariants
 MomentOfInertiaEstimation:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointNormal
 MovingLeastSquares:
-- - [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal, PointNormal]
-  - [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal, PointNormal]
-MovingLeastSquaresOMP:
-- - [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal, PointNormal]
-  - [PointXYZ, PointXYZRGB, PointXYZRGBA, PointXYZRGBNormal, PointNormal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
+  - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
 MultiscaleFeaturePersistence:
-- - [PointXYZ, PointXYZRGBA]
-  - [FPFHSignature33]
+- - - PointXYZ
+    - PointXYZRGBA
+  - - FPFHSignature33
 NearestPairPointCloudCoherence:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 NormalBasedSignatureEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [NormalBasedSignature12]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - NormalBasedSignature12
 NormalCoherence:
-- [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointSurfel
 NormalEstimation:
-- - [PointSurfel, PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal, PointXYZRGBNormal]
+- - - PointSurfel
+    - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
 NormalEstimationOMP:
-- - [PointSurfel, PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal, PointXYZRGBNormal]
+- - - PointSurfel
+    - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
 NormalRefinement:
-- [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointSurfel
 NormalSpaceSampling:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
 OURCVFHEstimation:
-- - [PointXYZ, PointXYZRGB]
-  - [Normal]
-  - [VFHSignature308]
+- - - PointXYZ
+    - PointXYZRGB
+  - - Normal
+  - - VFHSignature308
 Octree:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 OctreePointCloudDoubleBufferWithLeafDataTVector:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 OctreePointCloudSearch:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 OctreePointCloudSingleBufferWithEmptyLeaf:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 OctreePointCloudSingleBufferWithLeafDataTVector:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 OrganizedConnectedComponentSegmentation:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Label]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Label
 OrganizedEdgeBase:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Label]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Label
 OrganizedEdgeFromNormals:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
-  - [Label]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
+  - - Label
 OrganizedEdgeFromRGB:
-- - [PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZRGBNormal, PointSurfel]
-  - [Label]
+- - - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZRGBNormal
+    - PointSurfel
+  - - Label
 OrganizedEdgeFromRGBNormals:
-- - [PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZRGBNormal, PointSurfel]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
-  - [Label]
+- - - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZRGBNormal
+    - PointSurfel
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
+  - - Label
 OrganizedFastMesh:
-- [PointXYZ, PointXYZRGB, PointXYZRGBA]
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
 OrganizedMultiPlaneSegmentation:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
-  - [Label]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
+  - - Label
 OrganizedNeighbor:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 PCLBase:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - Label
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - PointXY
+  - InterestPoint
+  - Axis
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - MomentInvariants
+  - PrincipalRadiiRSD
+  - Boundary
+  - PrincipalCurvatures
+  - PFHSignature125
+  - PFHRGBSignature250
+  - PPFSignature
+  - CPPFSignature
+  - PPFRGBSignature
+  - NormalBasedSignature12
+  - FPFHSignature33
+  - VFHSignature308
+  - GRSDSignature21
+  - ESFSignature640
+  - BRISKSignature512
+  - Narf36
+  - IntensityGradient
+  - PointWithScale
+  - PointSurfel
+  - ShapeContext1980
+  - UniqueShapeContext1960
+  - SHOT352
+  - SHOT1344
+  - PointUV
+  - ReferenceFrame
+  - PointDEM
 PFHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [PFHSignature125]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - PFHSignature125
 PFHRGBEstimation:
-- - [PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
-  - [Normal, PointXYZRGBNormal]
-  - [PFHRGBSignature250]
+- - - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBNormal
+  - - Normal
+    - PointXYZRGBNormal
+  - - PFHRGBSignature250
 PPFEstimation:
-- - [PointXYZ, PointXYZI, PointNormal, PointXYZRGBA]
-  - [PointNormal, Normal]
-  - [PPFSignature]
+- - - PointXYZ
+    - PointXYZI
+    - PointNormal
+    - PointXYZRGBA
+  - - PointNormal
+    - Normal
+  - - PPFSignature
 PPFRGBEstimation:
-- - [PointXYZRGBA, PointXYZRGBNormal]
-  - [Normal, PointNormal, PointXYZRGBNormal]
-  - [PPFRGBSignature]
+- - - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+  - - PPFRGBSignature
 PackedHSIComparison:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 PackedRGBComparison:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ParticleFilterOMPTracker:
-- - [PointNormal, PointXYZINormal, PointXYZRGBNormal]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, InterestPoint, PointWithRange,
-    PointWithViewpoint, PointWithScale]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
+- - - PointNormal
+    - PointXYZINormal
+    - PointXYZRGBNormal
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+    - InterestPoint
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
 ParticleFilterTracker:
-- - [PointNormal, PointXYZINormal, PointXYZRGBNormal]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, InterestPoint, PointWithRange,
-    PointWithViewpoint, PointWithScale]
-  - ['tracking::ParticleXYR', 'tracking::ParticleXYZRPY', 'tracking::ParticleXYZR',
-    'tracking::ParticleXYRPY', 'tracking::ParticleXYRP']
+- - - PointNormal
+    - PointXYZINormal
+    - PointXYZRGBNormal
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+    - InterestPoint
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+  - - tracking::ParticleXYR
+    - tracking::ParticleXYZRPY
+    - tracking::ParticleXYZR
+    - tracking::ParticleXYRPY
+    - tracking::ParticleXYRP
 PassThrough:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 PlanarPolygonFusion:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 PointCloudGeometryHandlerSurfaceNormal:
-- [Normal, PointNormal, PointXYZRGBNormal]
+- - Normal
+  - PointNormal
+  - PointXYZRGBNormal
 PointCloudGeometryHandlerXYZ:
-- [PointSurfel, PointXYZ, PointXYZL, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal,
-  PointXYZRGBNormal, PointXYZRGBL, PointWithRange]
+- - PointSurfel
+  - PointXYZ
+  - PointXYZL
+  - PointXYZI
+  - PointXYZRGB
+  - PointXYZRGBA
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZRGBL
+  - PointWithRange
 PointDataAtOffset:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 Poisson:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 PrincipalCurvaturesEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [PrincipalCurvatures]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - PrincipalCurvatures
 ProgressiveMorphologicalFilter:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 ProgressiveSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 ProjectInliers:
-- [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-PyramidFeatureHistogram:
-- - [PFHSignature125, PFHRGBSignature250, PPFSignature, CPPFSignature, PPFRGBSignature,
-    NormalBasedSignature12, FPFHSignature33, VFHSignature308, GRSDSignature21, ESFSignature640,
-    BRISKSignature512, Narf36]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGB
+  - PointXYZRGBA
 RIFTEstimation:
-- - [PointXYZI]
-  - [IntensityGradient]
-  - [Histogram<32>]
+- - - PointXYZI
+  - - IntensityGradient
+  - - Histogram<32>
 ROPSEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointNormal]
-  - [Histogram<135>]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - Histogram<135>
 RSDEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [PrincipalRadiiRSD]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - PrincipalRadiiRSD
 RadiusOutlierRemoval:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 RandomSample:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - Label
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - PointXY
+  - InterestPoint
+  - Axis
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - MomentInvariants
+  - PrincipalRadiiRSD
+  - Boundary
+  - PrincipalCurvatures
+  - PFHSignature125
+  - PFHRGBSignature250
+  - PPFSignature
+  - CPPFSignature
+  - PPFRGBSignature
+  - NormalBasedSignature12
+  - FPFHSignature33
+  - VFHSignature308
+  - GRSDSignature21
+  - ESFSignature640
+  - BRISKSignature512
+  - Narf36
+  - IntensityGradient
+  - PointWithScale
+  - PointSurfel
+  - ShapeContext1980
+  - UniqueShapeContext1960
+  - SHOT352
+  - SHOT1344
+  - PointUV
+  - ReferenceFrame
+  - PointDEM
 RandomSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointNormal, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointNormal
+  - PointXYZRGBNormal
 RandomizedMEstimatorSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 RandomizedRandomSampleConsensus:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 RegionGrowing:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
 SACSegmentation:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SACSegmentationFromNormals:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SHOTColorEstimation:
-- - [PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [SHOT1344]
-  - [ReferenceFrame]
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT1344
+  - - ReferenceFrame
 SHOTColorEstimationOMP:
-- - [PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [SHOT1344]
-  - [ReferenceFrame]
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT1344
+  - - ReferenceFrame
 SHOTEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [SHOT352]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+  - - ReferenceFrame
 SHOTEstimationBase:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [SHOT352, SHOT1344]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+    - SHOT1344
+  - - ReferenceFrame
 SHOTEstimationOMP:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA]
-  - [Normal]
-  - [SHOT352]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+  - - ReferenceFrame
 SHOTLocalReferenceFrameEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - ReferenceFrame
 SHOTLocalReferenceFrameEstimationOMP:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - ReferenceFrame
 SampleConsensusModelCircle2D:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelCircle3D:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelCone:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SampleConsensusModelCylinder:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SampleConsensusModelLine:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelNormalParallelPlane:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SampleConsensusModelNormalPlane:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SampleConsensusModelNormalSphere:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
-  - [Normal]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - Normal
 SampleConsensusModelParallelLine:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelParallelPlane:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelPerpendicularPlane:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelPlane:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelRegistration:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 SampleConsensusModelSphere:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SampleConsensusModelStick:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB, PointXYZRGBNormal]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBNormal
 SamplingSurfaceNormal:
-- [PointNormal, PointXYZRGBNormal, PointXYZINormal]
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 Search:
-- [PointXYZ, PointXYZI, PointXYZL, Label, PointXYZRGBA, PointXYZRGB, PointXYZRGBL,
-  PointXYZHSV, PointXY, InterestPoint, Axis, Normal, PointNormal, PointXYZRGBNormal,
-  PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
-  PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
-  PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-  VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
-  PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
-  SHOT1344, PointUV, ReferenceFrame, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - Label
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - PointXY
+  - InterestPoint
+  - Axis
+  - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - MomentInvariants
+  - PrincipalRadiiRSD
+  - Boundary
+  - PrincipalCurvatures
+  - PFHSignature125
+  - PFHRGBSignature250
+  - PPFSignature
+  - CPPFSignature
+  - PPFRGBSignature
+  - NormalBasedSignature12
+  - FPFHSignature33
+  - VFHSignature308
+  - GRSDSignature21
+  - ESFSignature640
+  - BRISKSignature512
+  - Narf36
+  - IntensityGradient
+  - PointWithScale
+  - PointSurfel
+  - ShapeContext1980
+  - UniqueShapeContext1960
+  - SHOT352
+  - SHOT1344
+  - PointUV
+  - ReferenceFrame
+  - PointDEM
 SegmentDifferences:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 ShadowPoints:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
 ShapeContext3DEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [Normal]
-  - [ShapeContext1980]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - ShapeContext1980
 SmoothedSurfacesKeypoint:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
 SpinImageEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal]
-  - [Histogram<153>]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - Histogram<153>
 StatisticalMultiscaleInterestRegionExtraction:
-- - [PointXYZ]
+- - - PointXYZ
 StatisticalOutlierRemoval:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 SurfelSmoothing:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
-  - [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointSurfel
 TextureMapping:
-- [PointXYZ]
+- - PointXYZ
 TfQuadraticXYZComparison:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 UnaryClassifier:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 UniformSampling:
-- - [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-    InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-    PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZL
+    - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBL
+    - PointXYZHSV
+    - InterestPoint
+    - PointNormal
+    - PointXYZRGBNormal
+    - PointXYZINormal
+    - PointXYZLNormal
+    - PointWithRange
+    - PointWithViewpoint
+    - PointWithScale
+    - PointSurfel
+    - PointDEM
 UniqueShapeContext:
-- - [PointXYZ, PointXYZI, PointXYZRGBA]
-  - [UniqueShapeContext1960]
-  - [ReferenceFrame]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - UniqueShapeContext1960
+  - - ReferenceFrame
 VFHEstimation:
-- - [PointXYZ, PointXYZI, PointXYZRGB, PointXYZRGBA, PointNormal]
-  - [Normal, PointNormal]
-  - [VFHSignature308]
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - VFHSignature308
 VoxelGrid:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 VoxelGridCovariance:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 VoxelGridOcclusionEstimation:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 applyMorphologicalOperator:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 extractEuclideanClusters:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 extractEuclideanClusters_indices:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 extractLabeledEuclideanClusters:
-- [PointXYZL, PointXYZRGBL, PointXYZLNormal]
+- - PointXYZL
+  - PointXYZRGBL
+  - PointXYZLNormal
 getMinMax3D:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 getPointCloudDifference:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 isPointIn2DPolygon:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 isXYPointIn2DXYPolygon:
-- [PointXYZ, PointXYZI, PointXYZRGBA, PointXYZRGB]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointXYZRGB
 removeNaNFromPointCloud:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM
 removeNaNNormalsFromPointCloud:
-- [Normal, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal, PointSurfel]
+- - Normal
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointSurfel
 removeNanFromPointCloud:
-- [PointXYZ, PointXYZI, PointXYZL, PointXYZRGBA, PointXYZRGB, PointXYZRGBL, PointXYZHSV,
-  InterestPoint, PointNormal, PointXYZRGBNormal, PointXYZINormal, PointXYZLNormal,
-  PointWithRange, PointWithViewpoint, PointWithScale, PointSurfel, PointDEM]
+- - PointXYZ
+  - PointXYZI
+  - PointXYZL
+  - PointXYZRGBA
+  - PointXYZRGB
+  - PointXYZRGBL
+  - PointXYZHSV
+  - InterestPoint
+  - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+  - PointXYZLNormal
+  - PointWithRange
+  - PointWithViewpoint
+  - PointWithScale
+  - PointSurfel
+  - PointDEM

@@ -131,7 +131,6 @@ class ClassDefinition:
             "sub": camelize(self.sub_module),
             "template": self.template,
             "empty_template": "<>" if not self.is_templated and self.template else "",
-            "template_types": self.template,
             "ob": "{",
             "cb": "}"
         }

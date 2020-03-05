@@ -35,6 +35,8 @@ PCL_VERSION = "1.8"
 PCL_ROOT = os.getenv("PCL_ROOT")
 PYTHON_HOME = os.path.split(sys.executable)[0]
 
+CONDA = 'conda' in sys.version or os.path.exists(join(sys.prefix, 'conda-meta'))
+
 ON_WINDOWS = platform.system() == "Windows"
 
 REQUIRED = [
@@ -389,24 +391,29 @@ else:  # not Windows
 
     distutils.ccompiler.CCompiler.compile = parallel_compile
 
-    # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
-    cfg_vars = distutils.sysconfig.get_config_vars()
-    for key, value in cfg_vars.items():
-        if type(value) == str:
-            cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
+    if CONDA:
+        ext_args['include_dirs'].append(join(sys.prefix, "include", "pcl-1.9"))
+        ext_args['include_dirs'].append(join(sys.prefix, "include", "eigen3"))
+        ext_args['libraries'].append(join(sys.prefix, "lib"))
+    else:
+        # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
+        cfg_vars = distutils.sysconfig.get_config_vars()
+        for key, value in cfg_vars.items():
+            if type(value) == str:
+                cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
 
 
-    def find_include(folder, include):
-        return glob.glob(os.path.join(folder, include))[-1]
+        def find_include(folder, include):
+            return glob.glob(os.path.join(folder, include))[-1]
 
-    inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
-    # vtk
-    inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
-    ext_args['include_dirs'] += inc_dirs
+        inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
+        # vtk
+        inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
+        ext_args['include_dirs'] += inc_dirs
 
-    ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
-    ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
-    ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
+        ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
+        ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
+        ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
 
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
 ext_args['define_macros'] += defines

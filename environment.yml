@@ -1,0 +1,6 @@
+name: pclpy
+channels:
+  - conda-forge
+dependencies:
+  - pcl=1.9.1
+  - eigen

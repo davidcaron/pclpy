@@ -1,6 +1,6 @@
 import subprocess
 
-PCL_VERSION = "1.8"
+PCL_VERSION = "1.9"
 
 libs_to_build = ['common', 'features', 'filters', 'geometry', 'io', 'kdtree', 'keypoints', 'octree',
                  'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',

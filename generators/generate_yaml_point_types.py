@@ -43,7 +43,7 @@ def parse_point_list(point_list: str) -> List[str]:
     for group, types in PCL_POINT_TYPES.items():
         if group in point_list:
             point_list = point_list.replace(group, ",".join(types))
-    point_list = point_list.replace(")(", ",").replace(")", "").replace("(", "")
+    point_list = point_list.replace(")(", ",").replace(")", "").replace("(", "").replace("pcl::", "")
     return point_list.split(",")
 
 
@@ -93,7 +93,7 @@ def main():
             full = join(PCL_REPO_PATH, module, "src", cpp)
             for class_name, types in get_instantiations(open(full).readlines()):
                 all_classes[class_name].append(types)
-    yaml.dump(dict(all_classes), open("point_types_generated.yml", "w"))
+    yaml.dump(dict(all_classes), open("point_types_generated.yml", "w"), indent=2)
 
 
 if __name__ == '__main__':

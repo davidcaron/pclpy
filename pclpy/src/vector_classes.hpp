@@ -6,7 +6,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/Vertices.h>
-#include <pcl/visualization/common/common.h>
+// #include <pcl/visualization/common/common.h>
 #include <pcl/segmentation/supervoxel_clustering.h>
 
 #include <boost/shared_ptr.hpp>
@@ -29,7 +29,7 @@ void defineVectorClasses(py::module &m_vector) {
     bindVector<std::vector<float>>(m_vector, (char *)"Float");
     bindVector<std::vector<pcl::PointIndices>>(m_vector, (char *)"PointIndices");
     bindVector<std::vector<pcl::Vertices>>(m_vector, (char *)"Vertices");
-    bindVector<std::vector<pcl::visualization::Camera>>(m_vector, (char *)"Camera");
+    // bindVector<std::vector<pcl::visualization::Camera>>(m_vector, (char *)"Camera");
 
     //all pcl point types
     bindVector<std::vector<pcl::PointXYZ, Eigen::aligned_allocator<pcl::PointXYZ>>>(m_vector, (char *)"PointXYZ");

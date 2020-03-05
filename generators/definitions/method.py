@@ -49,8 +49,10 @@ class Method:
                 if param["name"] == "&":  # fix for CppHeaderParser bug
                     param["type"] += " &"
                     param["reference"] = 1
-
                 type_ = param["type"] if not param["unresolved"] else param["raw_type"]
+                
+                if "boost::function<double(constdouble)" in type_:  # fix for CppHeaderParser bug
+                    type_ = type_.replace('constdouble', 'const double')
 
                 if template_types:
                     for name, template_type in template_types:
