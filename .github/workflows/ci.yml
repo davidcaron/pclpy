@@ -19,7 +19,7 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
       - shell: bash -l {0}
-        run: pip install -r requirement-dev.txt
+        run: pip install -r requirements-dev.txt
       - shell: bash -l {0}
         run: scripts/download_pcl.sh
       - shell: bash -l {0}
