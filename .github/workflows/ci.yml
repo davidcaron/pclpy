@@ -19,6 +19,10 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
       - shell: bash -l {0}
-        run: |
-          conda info
-          conda list
+        run: pip install -r requirement-dev.txt
+      - shell: bash -l {0}
+        run: scripts/download_pcl.sh
+      - shell: bash -l {0}
+        run: scripts/generate_points_and_bindings.sh
+      - shell: bash -l {0}
+        run: python setup.py build
