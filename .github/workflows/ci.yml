@@ -35,3 +35,8 @@ jobs:
         run: scripts/generate_points_and_bindings.sh
       - shell: bash -l {0}
         run: python setup.py build
+      - name: Import smoke test
+        shell: bash -l {0}
+        run: |
+          pip install -e .
+          python -c 'import pclpy'
