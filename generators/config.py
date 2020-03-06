@@ -43,9 +43,25 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 # which modules to build
 # ----------------------
 
-MODULES_TO_BUILD = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kdtree', 'keypoints', 'octree',
-                    'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
-                    'tracking', 'visualization']
+MODULES_TO_BUILD = [
+    '2d',
+    'common',
+    'geometry',
+    # 'features',
+    'filters',
+    'io',
+    'kdtree',
+    'keypoints',
+    'octree',
+    'recognition',
+    'sample_consensus',
+    'search',
+    'segmentation',
+    'stereo',
+    #'surface',
+    'tracking',
+    'visualization',
+]
 # skipped for now:
 # , 'ml', 'people', 'outofcore', 'registration']
 
@@ -525,6 +541,8 @@ METHODS_TO_SKIP = [
     ("ORROctree", "createLeaf"),  # linking error
     ("PCLVisualizer", "getRenderWindow"),  # wrapped to return a python vtk object instead
 
+    # ("MLSResult", "computeMLSSurface"),  # not built in conda
+    # ("MLSResult", "calculatePrincipleCurvatures"),  # not built in conda
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
