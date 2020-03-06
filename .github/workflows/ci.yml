@@ -18,6 +18,12 @@ jobs:
           environment-file: environment.yml
           python-version: 3.8
           auto-activate-base: false
+      - name: Install ccache
+        run: sudo apt-get install -y ccache
+      - uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.ccache
       - shell: bash -l {0}
         run: pip install -r requirements-dev.txt
       - shell: bash -l {0}

@@ -9,7 +9,7 @@
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
-#include "make_opaque_vectors.hpp"  // must be first for PYBIND11_MAKE_OPAQUE to work
+#include "make_opaque_vectors.hpp" // must be first for PYBIND11_MAKE_OPAQUE to work
 #include "eigen_bind.hpp"
 #include "generated_modules/__main_loader.hpp"
 #include "point_cloud_buffers.hpp"
@@ -23,7 +23,8 @@ using namespace pybind11::literals;
 using namespace pcl;
 
 template <typename T>
-void definePointCloudBuffers(py::object &m, const char* suffix) {
+void definePointCloudBuffers(py::object &m, const char *suffix)
+{
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
@@ -33,7 +34,8 @@ void definePointCloudBuffers(py::object &m, const char* suffix) {
 }
 
 template <typename T>
-void definePointCloudBuffersRGB(py::object &m, const char* suffix) {
+void definePointCloudBuffersRGB(py::object &m, const char *suffix)
+{
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
@@ -42,7 +44,8 @@ void definePointCloudBuffersRGB(py::object &m, const char* suffix) {
     defineBuffers<T>(pc);
 }
 
-PYBIND11_MODULE(pcl, m) {
+PYBIND11_MODULE(pcl, m)
+{
     m.doc() = "PCL python bindings";
 
     definePointTypes(m);

@@ -3,6 +3,7 @@
 import glob
 import io
 import os
+import subprocess
 import distutils.sysconfig
 from os.path import join
 import sys
@@ -396,10 +397,10 @@ else:  # not Windows
         ext_args['include_dirs'].append(join(sys.prefix, "include", "eigen3"))
         lib_dir = join(sys.prefix, "lib")
         ext_args['library_dirs'].append(lib_dir)
-        # for lib in os.listdir(lib_dir):
-        #     import re
-        #     if re.match(r'libpcl_.+\.so\.1\.9\.1', lib):
-        #         ext_args['libraries'].append(lib[3:lib.find('.')])
+        for lib in os.listdir(lib_dir):
+            import re
+            if re.match(r'libpcl_.+\.so\.1\.9\.1', lib):
+                ext_args['libraries'].append(lib[3:lib.find('.')])
         #     if re.match(r'libboost_.+\.so', lib):
         #         ext_args['libraries'].append(lib[3:lib.find('.')])
     else:
@@ -443,6 +444,12 @@ ext_modules = [
         **ext_args
     ),
 ]
+
+try:
+    subprocess.check_call(['ccache', '--version'])
+    os.environ["CC"] = "ccache gcc"
+except (FileNotFoundError, subprocess.CalledProcessError):
+    pass
 
 t = time()
 setup(
