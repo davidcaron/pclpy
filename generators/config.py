@@ -136,6 +136,7 @@ CLASSES_TO_IGNORE = [
     ("common", "colors.h", "ColorLUT"),  # ColorLUTName tamplate type
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
+    ("filters", "voxel_grid_label.h", "VoxelGridLabel"),  # needs PointXYZRGBL which is skipped
     ("io", "io_exception.h", "IOException"),  # linking error
     ("visualization", "interactor_style.h", "PCLHistogramVisualizerInteractorStyle"),  # linking error
 ]

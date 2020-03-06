@@ -237,7 +237,7 @@ PCL_POINT_TYPES = {
     "PCL_XYZ_POINT_TYPES": [
         "(pcl::PointXYZ)",
         "(pcl::PointXYZI)",
-        "(pcl::PointXYZL)",
+        # "(pcl::PointXYZL)",
         # "(pcl::PointXYZRGBA)",
         "(pcl::PointXYZRGB)",
         # "(pcl::PointXYZRGBL)",
