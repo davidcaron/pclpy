@@ -4,3 +4,5 @@ channels:
 dependencies:
   - pcl=1.9.1
   - eigen
+  - numpy
+  - laspy

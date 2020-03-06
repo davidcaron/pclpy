@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    name: Build
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: goanpeca/setup-miniconda@v1.0.2
+        with:
+          activate-environment: pclpy
+          environment-file: environment.yml
+          python-version: 3.8
+          auto-activate-base: false
+      - shell: bash -l {0}
+        run: pip install -r requirements-dev.txt
+      - shell: bash -l {0}
+        run: scripts/download_pcl.sh
+      - shell: bash -l {0}
+        run: scripts/generate_points_and_bindings.sh
+      - shell: bash -l {0}
+        run: python setup.py build
