@@ -16,4 +16,6 @@ pcl-pcl-*
 errors.txt
 log.txt
 
+pclpy/pcl.cpython*
+
 .vscode

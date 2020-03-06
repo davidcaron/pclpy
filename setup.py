@@ -28,7 +28,7 @@ DESCRIPTION = 'Python bindings for the Point Cloud Library'
 URL = 'https://www.github.com/davidcaron/pclpy'
 EMAIL = 'dcaron05@gmail.com'
 AUTHOR = 'David Caron'
-REQUIRES_PYTHON = '==3.6.*'
+REQUIRES_PYTHON = '==3.8.*'
 VERSION = None
 
 PCL_VERSION = "1.8"
@@ -394,7 +394,14 @@ else:  # not Windows
     if CONDA:
         ext_args['include_dirs'].append(join(sys.prefix, "include", "pcl-1.9"))
         ext_args['include_dirs'].append(join(sys.prefix, "include", "eigen3"))
-        ext_args['libraries'].append(join(sys.prefix, "lib"))
+        lib_dir = join(sys.prefix, "lib")
+        ext_args['library_dirs'].append(lib_dir)
+        # for lib in os.listdir(lib_dir):
+        #     import re
+        #     if re.match(r'libpcl_.+\.so\.1\.9\.1', lib):
+        #         ext_args['libraries'].append(lib[3:lib.find('.')])
+        #     if re.match(r'libboost_.+\.so', lib):
+        #         ext_args['libraries'].append(lib[3:lib.find('.')])
     else:
         # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
         cfg_vars = distutils.sysconfig.get_config_vars()
