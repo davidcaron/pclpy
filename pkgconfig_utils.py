@@ -2,9 +2,25 @@ import subprocess
 
 PCL_VERSION = "1.9"
 
-libs_to_build = ['common', 'features', 'filters', 'geometry', 'io', 'kdtree', 'keypoints', 'octree',
-                 'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
-                 'tracking', 'visualization']
+libs_to_build = [
+    '2d',
+    'common',
+    # 'features',
+    'filters',
+    'geometry',
+    'io',
+    'kdtree',
+    'keypoints',
+    'octree',
+    'recognition',
+    'sample_consensus',
+    'search',
+    'segmentation',
+    'stereo',
+    # 'surface',
+    'tracking',
+    # 'visualization',
+]
 pcl_libraries = ["pcl_%s-%s" % (lib, PCL_VERSION) for lib in libs_to_build]
 
 

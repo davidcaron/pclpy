@@ -393,35 +393,31 @@ else:  # not Windows
     distutils.ccompiler.CCompiler.compile = parallel_compile
 
     if CONDA:
-        ext_args['include_dirs'].append(join(sys.prefix, "include", "pcl-1.9"))
-        ext_args['include_dirs'].append(join(sys.prefix, "include", "eigen3"))
-        lib_dir = join(sys.prefix, "lib")
-        ext_args['library_dirs'].append(lib_dir)
-        for lib in os.listdir(lib_dir):
-            import re
-            if re.match(r'libpcl_.+\.so\.1\.9\.1', lib):
-                ext_args['libraries'].append(lib[3:lib.find('.')])
-        #     if re.match(r'libboost_.+\.so', lib):
-        #         ext_args['libraries'].append(lib[3:lib.find('.')])
-    else:
-        # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
-        cfg_vars = distutils.sysconfig.get_config_vars()
-        for key, value in cfg_vars.items():
-            if type(value) == str:
-                cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
+        pkgconfig_paths = [
+            join(sys.prefix, "lib", "pkgconfig"),
+            join(sys.prefix, "share", "pkgconfig"),
+        ]
+        os.environ["PKG_CONFIG_PATH"] = ':'.join(pkgconfig_paths)
 
 
-        def find_include(folder, include):
-            return glob.glob(os.path.join(folder, include))[-1]
+    # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
+    cfg_vars = distutils.sysconfig.get_config_vars()
+    for key, value in cfg_vars.items():
+        if isinstance(value, str):
+            cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
 
-        inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
-        # vtk
-        inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
-        ext_args['include_dirs'] += inc_dirs
 
-        ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
-        ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
-        ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
+    def find_include(folder, include):
+        return glob.glob(os.path.join(folder, include))[-1]
+
+    inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
+    # vtk
+    # inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
+    ext_args['include_dirs'] += inc_dirs
+
+    ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
+    ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
+    ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
 
 defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
 ext_args['define_macros'] += defines

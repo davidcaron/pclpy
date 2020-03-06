@@ -46,8 +46,8 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 MODULES_TO_BUILD = [
     '2d',
     'common',
-    'geometry',
     # 'features',
+    'geometry',
     'filters',
     'io',
     'kdtree',
@@ -60,7 +60,7 @@ MODULES_TO_BUILD = [
     'stereo',
     #'surface',
     'tracking',
-    'visualization',
+    # 'visualization',
 ]
 # skipped for now:
 # , 'ml', 'people', 'outofcore', 'registration']
