@@ -137,6 +137,7 @@ CLASSES_TO_IGNORE = [
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
     ("filters", "voxel_grid_label.h", "VoxelGridLabel"),  # needs PointXYZRGBL which is skipped
+    ("stereo", "digital_elevation_map.h", "DigitalElevationMapBuilder"),  # needs PointDEM which is skipped
     ("io", "io_exception.h", "IOException"),  # linking error
     ("visualization", "interactor_style.h", "PCLHistogramVisualizerInteractorStyle"),  # linking error
 ]
