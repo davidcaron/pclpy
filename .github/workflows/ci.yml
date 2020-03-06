@@ -24,6 +24,7 @@ jobs:
         id: cache
         with:
           path: ~/.ccache
+          key: ${{ runner.os }}-ccache
       - shell: bash -l {0}
         run: pip install -r requirements-dev.txt
       - shell: bash -l {0}
