@@ -4,12 +4,10 @@ import pytest
 
 import pclpy
 from pclpy import pcl
+from .utils import test_data
 
 
-def test_data(*args):
-    return os.path.join("test_data", *args)
-
-
+@pytest.mark.skip("skip visualization tests")
 def test_cloud_viewer():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.CloudViewer("viewer")
@@ -19,6 +17,7 @@ def test_cloud_viewer():
     #     pass
 
 
+@pytest.mark.skip("skip visualization tests")
 def test_pcl_visualizer_simple():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.PCLVisualizer("viewer", False)
@@ -35,6 +34,7 @@ def test_pcl_visualizer_simple():
     #     viewer.spinOnce(10)
 
 
+@pytest.mark.skip("skip visualization tests")
 def test_viewer_intensity():
     pc = pclpy.read(test_data("street.las"), "PointXYZI")
     viewer = pclpy.Viewer(pc)
@@ -42,6 +42,7 @@ def test_viewer_intensity():
     # viewer.show()
 
 
+@pytest.mark.skip("skip visualization tests")
 def test_callbacks():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.PCLVisualizer("viewer", True)
@@ -74,7 +75,7 @@ def test_callbacks():
     # while not viewer.wasStopped():
     #     viewer.spinOnce(50)
 
-
+@pytest.mark.skip("skip visualization tests")
 def test_open_in_new_window():
     pc = pclpy.io.read(test_data("street.las"), "PointXYZRGBA")
     viewer = pcl.visualization.PCLVisualizer("viewer", False)
@@ -105,6 +106,7 @@ def test_open_in_new_window():
     #             v.spinOnce(50)
 
 
+@pytest.mark.skip("skip visualization tests")
 def test_camera_parameters():
     viewer = pcl.visualization.PCLVisualizer("viewer", False)
     cameras = pcl.vectors.Camera()
