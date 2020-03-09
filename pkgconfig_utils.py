@@ -5,7 +5,7 @@ PCL_VERSION = "1.9"
 libs_to_build = [
     '2d',
     'common',
-    # 'features',
+    'features',
     'filters',
     'geometry',
     'io',
@@ -17,7 +17,7 @@ libs_to_build = [
     'search',
     'segmentation',
     'stereo',
-    # 'surface',
+    'surface',
     'tracking',
     # 'visualization',
 ]

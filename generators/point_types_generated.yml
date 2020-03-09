@@ -13,9 +13,31 @@ ApproximateVoxelGrid:
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+BOARDLocalReferenceFrameEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - ReferenceFrame
 BilateralFilter:
 - - PointXYZI
   - PointXYZINormal
+BilateralUpsampling:
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - PointXYZRGB
+    - PointXYZRGBA
+BoundaryEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
+  - - PointXYZRGBNormal
+    - Normal
+    - PointNormal
+  - - Boundary
 BruteForce:
 - - PointXYZ
   - PointXYZI
@@ -26,7 +48,31 @@ CPCSegmentation:
   - PointXYZRGB
   - PointXYZRGBA
   - PointXYZRGBNormal
+CPPFEstimation:
+- - - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+  - - CPPFSignature
+CRHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - Histogram<90>
+CVFHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - VFHSignature308
 ComparisonBase:
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGB
+  - PointNormal
+ConcaveHull:
 - - PointXYZ
   - PointXYZI
   - PointXYZRGB
@@ -56,6 +102,11 @@ ConditionalRemoval:
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+ConvexHull:
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGB
+  - PointNormal
 CovarianceSampling:
 - - - PointXYZ
     - PointNormal
@@ -75,6 +126,16 @@ CropHull:
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+DifferenceOfNormalsEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - Normal
+    - PointNormal
 DisparityMapConverter:
 - - PointXYZ
   - PointXYZI
@@ -85,6 +146,12 @@ DistanceCoherence:
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+ESFEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - ESFSignature640
 EuclideanClusterExtraction:
 - - PointXYZ
   - PointXYZI
@@ -103,6 +170,32 @@ ExtractPolygonalPrismData:
   - PointXYZI
   - PointXYZRGBA
   - PointXYZRGB
+FLARELocalReferenceFrameEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - ReferenceFrame
+  - - float
+FPFHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - FPFHSignature33
+FPFHEstimationOMP:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - FPFHSignature33
 FastBilateralFilter:
 - - PointXYZ
   - PointXYZRGB
@@ -121,6 +214,36 @@ FrustumCulling:
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+GASDColorEstimation:
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - GASDSignature512
+    - GASDSignature984
+    - GASDSignature7992
+GASDEstimation:
+- - - PointXYZ
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - GASDSignature512
+    - GASDSignature984
+    - GASDSignature7992
+GFPFHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZL
+  - - PointXYZL
+  - - GFPFHSignature16
+GRSDEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - GRSDSignature21
+GreedyProjectionTriangulation:
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 GridMinimum:
 - - PointXYZ
   - PointXYZI
@@ -130,6 +253,20 @@ HSVColorCoherence:
 - - PointXYZRGB
   - PointXYZRGBNormal
   - PointXYZRGBA
+IntegralImageNormalEstimation:
+- - - PointXYZ
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointXYZRGBNormal
+IntensityGradientEstimation:
+- - - PointXYZI
+  - - Normal
+  - - IntensityGradient
+IntensitySpinEstimation:
+- - - PointXYZI
+  - - Histogram<20>
 KLDAdaptiveParticleFilterOMPTracker:
 - - - PointNormal
     - PointXYZINormal
@@ -283,6 +420,12 @@ LeastMedianSquares:
   - PointXYZRGBA
   - PointXYZRGB
   - PointXYZRGBNormal
+LinearLeastSquaresNormalEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
 LocalMaximum:
 - - PointXYZ
   - PointXYZI
@@ -294,6 +437,18 @@ MEstimatorSampleConsensus:
   - PointXYZRGBA
   - PointXYZRGB
   - PointXYZRGBNormal
+MarchingCubes:
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+MarchingCubesHoppe:
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+MarchingCubesRBF:
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
 MaximumLikelihoodSampleConsensus:
 - - PointXYZ
   - PointXYZI
@@ -315,14 +470,67 @@ ModelOutlierRemoval:
   - PointXYZI
   - PointXYZRGBA
   - PointXYZRGB
+MomentInvariantsEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - MomentInvariants
+MomentOfInertiaEstimation:
+- - PointXYZ
+  - PointXYZI
+  - PointXYZRGBA
+  - PointNormal
+MovingLeastSquares:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
+  - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointXYZRGBNormal
+    - PointNormal
+MultiscaleFeaturePersistence:
+- - - PointXYZ
+    - PointXYZRGBA
+  - - FPFHSignature33
 NearestPairPointCloudCoherence:
 - - PointXYZ
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+NormalBasedSignatureEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - NormalBasedSignature12
 NormalCoherence:
 - - Normal
   - PointNormal
+NormalEstimation:
+- - - PointSurfel
+    - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+NormalEstimationOMP:
+- - - PointSurfel
+    - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
 NormalRefinement:
 - - Normal
   - PointNormal
@@ -333,6 +541,11 @@ NormalSpaceSampling:
     - PointNormal
   - - Normal
     - PointNormal
+OURCVFHEstimation:
+- - - PointXYZ
+    - PointXYZRGB
+  - - Normal
+  - - VFHSignature308
 Octree:
 - - PointXYZ
   - PointXYZI
@@ -364,6 +577,32 @@ OrganizedConnectedComponentSegmentation:
     - PointXYZRGB
     - PointNormal
   - - Label
+OrganizedEdgeBase:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointNormal
+  - - Label
+OrganizedEdgeFromNormals:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - Label
+OrganizedEdgeFromRGB:
+- - - PointXYZRGB
+  - - Label
+OrganizedEdgeFromRGBNormals:
+- - - PointXYZRGB
+  - - Normal
+    - PointNormal
+  - - Label
+OrganizedFastMesh:
+- - PointXYZ
+  - PointXYZRGB
+  - PointXYZRGBA
 OrganizedMultiPlaneSegmentation:
 - - - PointXYZ
     - PointXYZI
@@ -425,6 +664,35 @@ PCLBase:
   - PointUV
   - ReferenceFrame
   - PointDEM
+PFHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - PFHSignature125
+PFHRGBEstimation:
+- - - PointXYZRGBA
+    - PointXYZRGB
+    - PointXYZRGBNormal
+  - - Normal
+    - PointXYZRGBNormal
+  - - PFHRGBSignature250
+PPFEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointNormal
+    - PointXYZRGBA
+  - - PointNormal
+    - Normal
+  - - PPFSignature
+PPFRGBEstimation:
+- - - PointXYZRGBA
+    - PointXYZRGBNormal
+  - - Normal
+    - PointNormal
+    - PointXYZRGBNormal
+  - - PPFRGBSignature
 PackedHSIComparison:
 - - PointXYZ
   - PointXYZI
@@ -489,26 +757,21 @@ PlanarPolygonFusion:
   - PointXYZI
   - PointXYZRGBA
   - PointXYZRGB
-PointCloudGeometryHandlerSurfaceNormal:
-- - Normal
-  - PointNormal
-  - PointXYZRGBNormal
-PointCloudGeometryHandlerXYZ:
-- - PointSurfel
-  - PointXYZ
-  - PointXYZL
-  - PointXYZI
-  - PointXYZRGB
-  - PointXYZRGBA
-  - PointNormal
-  - PointXYZRGBNormal
-  - PointXYZRGBL
-  - PointWithRange
 PointDataAtOffset:
 - - PointXYZ
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+Poisson:
+- - PointNormal
+  - PointXYZRGBNormal
+  - PointXYZINormal
+PrincipalCurvaturesEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - PrincipalCurvatures
 ProgressiveMorphologicalFilter:
 - - PointXYZ
   - PointXYZI
@@ -525,6 +788,22 @@ ProjectInliers:
   - PointXYZI
   - PointXYZRGB
   - PointXYZRGBA
+RIFTEstimation:
+- - - PointXYZI
+  - - IntensityGradient
+  - - Histogram<32>
+ROPSEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - Histogram<135>
+RSDEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - PrincipalRadiiRSD
 RadiusOutlierRemoval:
 - - PointXYZ
   - PointXYZI
@@ -615,6 +894,55 @@ SACSegmentationFromNormals:
     - PointXYZRGBA
     - PointXYZRGB
   - - Normal
+SHOTColorEstimation:
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT1344
+  - - ReferenceFrame
+SHOTColorEstimationOMP:
+- - - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT1344
+  - - ReferenceFrame
+SHOTEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+  - - ReferenceFrame
+SHOTEstimationBase:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+    - SHOT1344
+  - - ReferenceFrame
+SHOTEstimationOMP:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+  - - Normal
+  - - SHOT352
+  - - ReferenceFrame
+SHOTLocalReferenceFrameEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - ReferenceFrame
+SHOTLocalReferenceFrameEstimationOMP:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointXYZRGB
+  - - ReferenceFrame
 SampleConsensusModelCircle2D:
 - - PointXYZ
   - PointXYZI
@@ -768,6 +1096,12 @@ ShadowPoints:
     - PointNormal
   - - Normal
     - PointNormal
+ShapeContext3DEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - Normal
+  - - ShapeContext1980
 SmoothedSurfacesKeypoint:
 - - - PointXYZ
     - PointXYZI
@@ -775,11 +1109,30 @@ SmoothedSurfacesKeypoint:
     - PointNormal
   - - Normal
     - PointNormal
+SpinImageEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - Histogram<153>
+StatisticalMultiscaleInterestRegionExtraction:
+- - - PointXYZ
 StatisticalOutlierRemoval:
 - - PointXYZ
   - PointXYZI
   - PointXYZRGB
   - PointNormal
+SurfelSmoothing:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointNormal
+  - - Normal
+    - PointNormal
+TextureMapping:
+- - PointXYZ
 TfQuadraticXYZComparison:
 - - PointXYZ
   - PointXYZI
@@ -795,6 +1148,21 @@ UniformSampling:
     - PointXYZI
     - PointXYZRGB
     - PointNormal
+UniqueShapeContext:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGBA
+  - - UniqueShapeContext1960
+  - - ReferenceFrame
+VFHEstimation:
+- - - PointXYZ
+    - PointXYZI
+    - PointXYZRGB
+    - PointXYZRGBA
+    - PointNormal
+  - - Normal
+    - PointNormal
+  - - VFHSignature308
 VoxelGrid:
 - - PointXYZ
   - PointXYZI

@@ -229,9 +229,9 @@ PCL_POINT_TYPES = {
     "PCL_RGB_POINT_TYPES": [
         # "(pcl::PointXYZRGBA)",
         "(pcl::PointXYZRGB)",
-        "(pcl::PointXYZRGBL)",
-        "(pcl::PointXYZRGBNormal)",
-        "(pcl::PointSurfel)",
+        # "(pcl::PointXYZRGBL)",
+        # "(pcl::PointXYZRGBNormal)",
+        # "(pcl::PointSurfel)",
     ],
 
     "PCL_XYZ_POINT_TYPES": [
@@ -278,6 +278,9 @@ PCL_POINT_TYPES = {
         "(pcl::NormalBasedSignature12)",
         "(pcl::FPFHSignature33)",
         "(pcl::VFHSignature308)",
+        "(pcl::GASDSignature512)",
+        "(pcl::GASDSignature984)",
+        "(pcl::GASDSignature7992)",
         "(pcl::GRSDSignature21)",
         "(pcl::ESFSignature640)",
         "(pcl::BRISKSignature512)",

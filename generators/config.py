@@ -46,7 +46,7 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 MODULES_TO_BUILD = [
     '2d',
     'common',
-    # 'features',
+    'features',
     'geometry',
     'filters',
     'io',
@@ -58,7 +58,7 @@ MODULES_TO_BUILD = [
     'search',
     'segmentation',
     'stereo',
-    #'surface',
+    'surface',
     'tracking',
     # 'visualization',
 ]
@@ -317,6 +317,8 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("transforms.h", "transformPointCloudWithNormals", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT", "Scalar")): ("PCL_NORMAL_POINT_TYPES", ["float"]),
 
+    ("MLSResult", "computeMLSSurface", ("PointT",)): ("PCL_XYZ_POINT_TYPES", ),
+
     # (ShapeContext1980, UniqueShapeContext1960) and (SHOT352, SHOT1344) have fields of the same name
     # this is a workaround
     ("copy_point.h", "", ("PointInT", "PointOutT")): ("PCL_XYZ_POINT_TYPES", "PCL_XYZ_POINT_TYPES"),
@@ -543,8 +545,19 @@ METHODS_TO_SKIP = [
     ("ORROctree", "createLeaf"),  # linking error
     ("PCLVisualizer", "getRenderWindow"),  # wrapped to return a python vtk object instead
 
-    # ("MLSResult", "computeMLSSurface"),  # not built in conda
-    # ("MLSResult", "calculatePrincipleCurvatures"),  # not built in conda
+    # Not build in conda pcl
+    ("MLSResult", "calculatePrincipleCurvatures"),
+    ("MLSResult", "projectPointOrthogonalToPolynomialSurface"),
+    ("MLSResult", "projectPointToMLSPlane"),
+    ("MLSResult", "projectPointSimpleToPolynomialSurface"),
+    ("MLSResult", "projectPoint"),
+    ("MLSResult", "projectQueryPoint"),
+    ("MLSResult", "getMLSCoordinates"),
+    ("MLSResult", "getPolynomialValue"),
+    ("MLSResult", "getPolynomialPartialDerivative"),
+    ("MLSResult", "MLSResult"),
+    # END Not build in conda pcl
+
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
