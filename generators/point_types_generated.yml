@@ -1,7 +1,7 @@
 ApproxNearestPairPointCloudCoherence:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ApproximateProgressiveMorphologicalFilter:
 - - PointXYZ
@@ -11,7 +11,7 @@ ApproximateProgressiveMorphologicalFilter:
 ApproximateVoxelGrid:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 BOARDLocalReferenceFrameEstimation:
 - - - PointXYZ
@@ -41,7 +41,7 @@ BoundaryEstimation:
 BruteForce:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 CPCSegmentation:
 - - PointXYZ
@@ -70,27 +70,27 @@ CVFHEstimation:
 ComparisonBase:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConcaveHull:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConditionAnd:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConditionBase:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConditionOr:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConditionalEuclideanClustering:
 - - PointXYZ
@@ -100,12 +100,12 @@ ConditionalEuclideanClustering:
 ConditionalRemoval:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ConvexHull:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 CovarianceSampling:
 - - - PointXYZ
@@ -119,12 +119,12 @@ CovarianceSampling:
 CropBox:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 CropHull:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 DifferenceOfNormalsEstimation:
 - - - PointXYZ
@@ -139,12 +139,12 @@ DifferenceOfNormalsEstimation:
 DisparityMapConverter:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 DistanceCoherence:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ESFEstimation:
 - - - PointXYZ
@@ -207,12 +207,12 @@ FastBilateralFilterOMP:
 FieldComparison:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 FrustumCulling:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 GASDColorEstimation:
 - - - PointXYZRGB
@@ -247,7 +247,7 @@ GreedyProjectionTriangulation:
 GridMinimum:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 HSVColorCoherence:
 - - PointXYZRGB
@@ -458,12 +458,12 @@ MaximumLikelihoodSampleConsensus:
 MedianFilter:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 MinCutSegmentation:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ModelOutlierRemoval:
 - - PointXYZ
@@ -500,7 +500,7 @@ MultiscaleFeaturePersistence:
 NearestPairPointCloudCoherence:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 NormalBasedSignatureEstimation:
 - - - PointXYZ
@@ -537,7 +537,7 @@ NormalRefinement:
 NormalSpaceSampling:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
@@ -549,53 +549,53 @@ OURCVFHEstimation:
 Octree:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 OctreePointCloudDoubleBufferWithLeafDataTVector:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 OctreePointCloudSearch:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 OctreePointCloudSingleBufferWithEmptyLeaf:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 OctreePointCloudSingleBufferWithLeafDataTVector:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 OrganizedConnectedComponentSegmentation:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Label
 OrganizedEdgeBase:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Label
 OrganizedEdgeFromNormals:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
   - - Label
 OrganizedEdgeFromRGB:
-- - - PointXYZRGB
+- - - PointXYZRGBA
   - - Label
 OrganizedEdgeFromRGBNormals:
-- - - PointXYZRGB
+- - - PointXYZRGBA
   - - Normal
     - PointNormal
   - - Label
@@ -606,7 +606,7 @@ OrganizedFastMesh:
 OrganizedMultiPlaneSegmentation:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
@@ -614,7 +614,7 @@ OrganizedMultiPlaneSegmentation:
 OrganizedNeighbor:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 PCLBase:
 - - PointXYZ
@@ -696,12 +696,12 @@ PPFRGBEstimation:
 PackedHSIComparison:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 PackedRGBComparison:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ParticleFilterOMPTracker:
 - - - PointNormal
@@ -750,7 +750,7 @@ ParticleFilterTracker:
 PassThrough:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 PlanarPolygonFusion:
 - - PointXYZ
@@ -760,7 +760,7 @@ PlanarPolygonFusion:
 PointDataAtOffset:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 Poisson:
 - - PointNormal
@@ -807,7 +807,7 @@ RSDEstimation:
 RadiusOutlierRemoval:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 RandomSample:
 - - PointXYZ
@@ -879,7 +879,7 @@ RandomizedRandomSampleConsensus:
 RegionGrowing:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
 SACSegmentation:
@@ -1087,12 +1087,12 @@ Search:
 SegmentDifferences:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 ShadowPoints:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
@@ -1105,7 +1105,7 @@ ShapeContext3DEstimation:
 SmoothedSurfacesKeypoint:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
@@ -1122,12 +1122,12 @@ StatisticalMultiscaleInterestRegionExtraction:
 StatisticalOutlierRemoval:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 SurfelSmoothing:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
   - - Normal
     - PointNormal
@@ -1136,17 +1136,17 @@ TextureMapping:
 TfQuadraticXYZComparison:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 UnaryClassifier:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 UniformSampling:
 - - - PointXYZ
     - PointXYZI
-    - PointXYZRGB
+    - PointXYZRGBA
     - PointNormal
 UniqueShapeContext:
 - - - PointXYZ
@@ -1166,22 +1166,22 @@ VFHEstimation:
 VoxelGrid:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 VoxelGridCovariance:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 VoxelGridOcclusionEstimation:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 applyMorphologicalOperator:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 extractEuclideanClusters:
 - - PointXYZ
@@ -1198,12 +1198,12 @@ extractLabeledEuclideanClusters:
 getMinMax3D:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 getPointCloudDifference:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 isPointIn2DPolygon:
 - - PointXYZ
@@ -1218,7 +1218,7 @@ isXYPointIn2DXYPolygon:
 removeNaNFromPointCloud:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
 removeNaNNormalsFromPointCloud:
 - - Normal
@@ -1226,5 +1226,5 @@ removeNaNNormalsFromPointCloud:
 removeNanFromPointCloud:
 - - PointXYZ
   - PointXYZI
-  - PointXYZRGB
+  - PointXYZRGBA
   - PointNormal
