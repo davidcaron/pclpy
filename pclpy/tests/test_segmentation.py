@@ -5,10 +5,7 @@ import pytest
 
 import pclpy
 from pclpy import pcl
-
-
-def test_data(*args):
-    return os.path.join("test_data", *args)
+from .utils import test_data
 
 
 def make_pt(x, y, z):
