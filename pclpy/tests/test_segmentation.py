@@ -28,7 +28,7 @@ def test_supervoxel_clustering():
     # vox.setColorImportance(2)
     output = pcl.vectors.map_uint32t_PointXYZRGBA()
     vox.extract(output)
-    assert len(list(output.items())) == 95
+    assert len(list(output.items())) == 91
 
 
 def test_region_growing():

@@ -66,4 +66,4 @@ def test_greedy_projection_triangulation_simple():
     ms.setSearchMethod(tree2)
     ms.reconstruct(triangles)
 
-    assert len(triangles.polygons) == 241
+    assert len(triangles.polygons) == 148
