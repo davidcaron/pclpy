@@ -575,6 +575,61 @@ PointCloud<VFHSignature308>::Ptr fromArray<VFHSignature308>(py::array_t<float> &
     return c;
 }
 
+
+template<>
+PointCloud<GASDSignature512>::Ptr fromArray<GASDSignature512>(py::array_t<float> &points) {
+    PointCloud<GASDSignature512>::Ptr c (new PointCloud<GASDSignature512>);
+    c->resize(points.shape(0));
+    auto r = points.unchecked<2>();
+    GASDSignature512 *pt;
+    for (ssize_t i = 0; i < r.shape(0); i++)
+    {
+        pt = &c->at(i);
+        for (ssize_t d = 0; d < 512; d++)
+        {
+            pt->histogram[d] = r(i, d);
+        }
+    }
+    return c;
+}
+
+
+template<>
+PointCloud<GASDSignature984>::Ptr fromArray<GASDSignature984>(py::array_t<float> &points) {
+    PointCloud<GASDSignature984>::Ptr c (new PointCloud<GASDSignature984>);
+    c->resize(points.shape(0));
+    auto r = points.unchecked<2>();
+    GASDSignature984 *pt;
+    for (ssize_t i = 0; i < r.shape(0); i++)
+    {
+        pt = &c->at(i);
+        for (ssize_t d = 0; d < 984; d++)
+        {
+            pt->histogram[d] = r(i, d);
+        }
+    }
+    return c;
+}
+
+
+template<>
+PointCloud<GASDSignature7992>::Ptr fromArray<GASDSignature7992>(py::array_t<float> &points) {
+    PointCloud<GASDSignature7992>::Ptr c (new PointCloud<GASDSignature7992>);
+    c->resize(points.shape(0));
+    auto r = points.unchecked<2>();
+    GASDSignature7992 *pt;
+    for (ssize_t i = 0; i < r.shape(0); i++)
+    {
+        pt = &c->at(i);
+        for (ssize_t d = 0; d < 7992; d++)
+        {
+            pt->histogram[d] = r(i, d);
+        }
+    }
+    return c;
+}
+
+
 template<>
 PointCloud<GRSDSignature21>::Ptr fromArray<GRSDSignature21>(py::array_t<float> &points) {
     PointCloud<GRSDSignature21>::Ptr c (new PointCloud<GRSDSignature21>);
