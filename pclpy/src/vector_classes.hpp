@@ -15,16 +15,19 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 
 template <typename T>
-void bindVector(py::module &m, char* suffix) {
+void bindVector(py::module &m, char *suffix)
+{
     py::bind_vector<T, boost::shared_ptr<T>>(m, suffix);
 }
 
 template <typename T>
-void bindMap(py::module &m, char* suffix) {
+void bindMap(py::module &m, char *suffix)
+{
     py::bind_map<T, boost::shared_ptr<T>>(m, suffix);
 }
 
-void defineVectorClasses(py::module &m_vector) {
+void defineVectorClasses(py::module &m_vector)
+{
     bindVector<std::vector<int>>(m_vector, (char *)"Int");
     bindVector<std::vector<float>>(m_vector, (char *)"Float");
     bindVector<std::vector<pcl::PointIndices>>(m_vector, (char *)"PointIndices");
@@ -62,6 +65,10 @@ void defineVectorClasses(py::module &m_vector) {
     bindVector<std::vector<pcl::NormalBasedSignature12, Eigen::aligned_allocator<pcl::NormalBasedSignature12>>>(m_vector, (char *)"NormalBasedSignature12");
     bindVector<std::vector<pcl::FPFHSignature33, Eigen::aligned_allocator<pcl::FPFHSignature33>>>(m_vector, (char *)"FPFHSignature33");
     bindVector<std::vector<pcl::VFHSignature308, Eigen::aligned_allocator<pcl::VFHSignature308>>>(m_vector, (char *)"VFHSignature308");
+    bindVector<std::vector<pcl::GASDSignature512, Eigen::aligned_allocator<pcl::GASDSignature512>>>(m_vector, (char *)"GASDSignature512");
+    bindVector<std::vector<pcl::GASDSignature984, Eigen::aligned_allocator<pcl::GASDSignature984>>>(m_vector, (char *)"GASDSignature984");
+    bindVector<std::vector<pcl::GASDSignature7992, Eigen::aligned_allocator<pcl::GASDSignature7992>>>(m_vector, (char *)"GASDSignature7992");
+    bindVector<std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>>>(m_vector, (char *)"GRSDSignature21");
     bindVector<std::vector<pcl::ESFSignature640, Eigen::aligned_allocator<pcl::ESFSignature640>>>(m_vector, (char *)"ESFSignature640");
     bindVector<std::vector<pcl::BRISKSignature512, Eigen::aligned_allocator<pcl::BRISKSignature512>>>(m_vector, (char *)"BRISKSignature512");
     bindVector<std::vector<pcl::Narf36, Eigen::aligned_allocator<pcl::Narf36>>>(m_vector, (char *)"Narf36");
@@ -75,7 +82,7 @@ void defineVectorClasses(py::module &m_vector) {
     bindVector<std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV>>>(m_vector, (char *)"PointUV");
     bindVector<std::vector<pcl::ReferenceFrame, Eigen::aligned_allocator<pcl::ReferenceFrame>>>(m_vector, (char *)"ReferenceFrame");
     bindVector<std::vector<pcl::PointDEM, Eigen::aligned_allocator<pcl::PointDEM>>>(m_vector, (char *)"PointDEM");
-//    bindVector<std::vector<pcl::GRSDSignature21>>(m_vector, (char *)"GRSDSignature21");  // Linking error
+    //    bindVector<std::vector<pcl::GRSDSignature21>>(m_vector, (char *)"GRSDSignature21");  // Linking error
 
     //Supervoxel
     bindMap<std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZ>::Ptr>>(m_vector, (char *)"map_uint32t_PointXYZ");

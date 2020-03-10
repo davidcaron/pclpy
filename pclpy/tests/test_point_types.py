@@ -339,6 +339,27 @@ def test_buffers_vfhsignature308():
         assert pcl.point_types.VFHSignature308.descriptorSize() == 308
 
 
+def test_buffers_gasdsignature512():
+    a = np.random.ranf(5120).reshape(10, 512)
+    for p in [pcl.PointCloud.GASDSignature512(a), pcl.PointCloud.GASDSignature512.from_array(a)]:
+        assert np.allclose(p.histogram, a)
+        assert pcl.point_types.GASDSignature512.descriptorSize() == 512
+
+
+def test_buffers_gasdsignature984():
+    a = np.random.ranf(9840).reshape(10, 984)
+    for p in [pcl.PointCloud.GASDSignature984(a), pcl.PointCloud.GASDSignature984.from_array(a)]:
+        assert np.allclose(p.histogram, a)
+        assert pcl.point_types.GASDSignature984.descriptorSize() == 984
+
+
+def test_buffers_gasdsignature7992():
+    a = np.random.ranf(79920).reshape(10, 7992)
+    for p in [pcl.PointCloud.GASDSignature7992(a), pcl.PointCloud.GASDSignature7992.from_array(a)]:
+        assert np.allclose(p.histogram, a)
+        assert pcl.point_types.GASDSignature7992.descriptorSize() == 7992
+
+
 def test_buffers_grsdsignature21():
     a = np.random.ranf(210).reshape(10, 21)
     for p in [pcl.PointCloud.GRSDSignature21(a), pcl.PointCloud.GRSDSignature21.from_array(a)]:

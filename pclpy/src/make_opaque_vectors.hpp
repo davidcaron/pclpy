@@ -83,6 +83,14 @@ typedef std::vector<pcl::FPFHSignature33, Eigen::aligned_allocator<pcl::FPFHSign
 PYBIND11_MAKE_OPAQUE(make_opaque_FPFHSignature33);
 typedef std::vector<pcl::VFHSignature308, Eigen::aligned_allocator<pcl::VFHSignature308>> make_opaque_VFHSignature308;
 PYBIND11_MAKE_OPAQUE(make_opaque_VFHSignature308);
+typedef std::vector<pcl::GASDSignature512, Eigen::aligned_allocator<pcl::GASDSignature512>> make_opaque_GASDSignature512;
+PYBIND11_MAKE_OPAQUE(make_opaque_GASDSignature512);
+typedef std::vector<pcl::GASDSignature984, Eigen::aligned_allocator<pcl::GASDSignature984>> make_opaque_GASDSignature984;
+PYBIND11_MAKE_OPAQUE(make_opaque_GASDSignature984);
+typedef std::vector<pcl::GASDSignature7992, Eigen::aligned_allocator<pcl::GASDSignature7992>> make_opaque_GASDSignature7992;
+PYBIND11_MAKE_OPAQUE(make_opaque_GASDSignature7992);
+typedef std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>> make_opaque_GRSDSignature21;
+PYBIND11_MAKE_OPAQUE(make_opaque_GRSDSignature21);
 typedef std::vector<pcl::ESFSignature640, Eigen::aligned_allocator<pcl::ESFSignature640>> make_opaque_ESFSignature640;
 PYBIND11_MAKE_OPAQUE(make_opaque_ESFSignature640);
 typedef std::vector<pcl::BRISKSignature512, Eigen::aligned_allocator<pcl::BRISKSignature512>> make_opaque_BRISKSignature512;

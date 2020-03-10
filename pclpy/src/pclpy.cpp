@@ -88,6 +88,9 @@ PYBIND11_MODULE(pcl, m)
     definePointCloudBuffers<NormalBasedSignature12>(pc, "NormalBasedSignature12");
     definePointCloudBuffers<FPFHSignature33>(pc, "FPFHSignature33");
     definePointCloudBuffers<VFHSignature308>(pc, "VFHSignature308");
+    definePointCloudBuffers<GASDSignature512>(pc, "GASDSignature512");
+    definePointCloudBuffers<GASDSignature984>(pc, "GASDSignature984");
+    definePointCloudBuffers<GASDSignature7992>(pc, "GASDSignature7992");
     definePointCloudBuffers<GRSDSignature21>(pc, "GRSDSignature21");
     definePointCloudBuffers<ESFSignature640>(pc, "ESFSignature640");
     definePointCloudBuffers<BRISKSignature512>(pc, "BRISKSignature512");
