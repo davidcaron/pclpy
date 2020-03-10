@@ -20,11 +20,16 @@ jobs:
           auto-activate-base: false
       - name: Install ccache
         run: sudo apt-get install -y ccache
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
       - uses: actions/cache@v1
         id: cache
         with:
           path: ~/.ccache
-          key: ${{ runner.os }}-ccache
+          key: ${{ runner.os }}-ccache-${{ steps.current-time.outputs.time }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
       - name: Show ccache info
         run: ccache -s
       - shell: bash -l {0}
