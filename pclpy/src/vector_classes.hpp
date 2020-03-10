@@ -68,7 +68,7 @@ void defineVectorClasses(py::module &m_vector)
     bindVector<std::vector<pcl::GASDSignature512, Eigen::aligned_allocator<pcl::GASDSignature512>>>(m_vector, (char *)"GASDSignature512");
     bindVector<std::vector<pcl::GASDSignature984, Eigen::aligned_allocator<pcl::GASDSignature984>>>(m_vector, (char *)"GASDSignature984");
     bindVector<std::vector<pcl::GASDSignature7992, Eigen::aligned_allocator<pcl::GASDSignature7992>>>(m_vector, (char *)"GASDSignature7992");
-    bindVector<std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>>>(m_vector, (char *)"GRSDSignature21");
+    // bindVector<std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>>>(m_vector, (char *)"GRSDSignature21");  # linking error
     bindVector<std::vector<pcl::ESFSignature640, Eigen::aligned_allocator<pcl::ESFSignature640>>>(m_vector, (char *)"ESFSignature640");
     bindVector<std::vector<pcl::BRISKSignature512, Eigen::aligned_allocator<pcl::BRISKSignature512>>>(m_vector, (char *)"BRISKSignature512");
     bindVector<std::vector<pcl::Narf36, Eigen::aligned_allocator<pcl::Narf36>>>(m_vector, (char *)"Narf36");

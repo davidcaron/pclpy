@@ -89,8 +89,9 @@ typedef std::vector<pcl::GASDSignature984, Eigen::aligned_allocator<pcl::GASDSig
 PYBIND11_MAKE_OPAQUE(make_opaque_GASDSignature984);
 typedef std::vector<pcl::GASDSignature7992, Eigen::aligned_allocator<pcl::GASDSignature7992>> make_opaque_GASDSignature7992;
 PYBIND11_MAKE_OPAQUE(make_opaque_GASDSignature7992);
-typedef std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>> make_opaque_GRSDSignature21;
-PYBIND11_MAKE_OPAQUE(make_opaque_GRSDSignature21);
+// Linking error
+// typedef std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>> make_opaque_GRSDSignature21;
+// PYBIND11_MAKE_OPAQUE(make_opaque_GRSDSignature21);
 typedef std::vector<pcl::ESFSignature640, Eigen::aligned_allocator<pcl::ESFSignature640>> make_opaque_ESFSignature640;
 PYBIND11_MAKE_OPAQUE(make_opaque_ESFSignature640);
 typedef std::vector<pcl::BRISKSignature512, Eigen::aligned_allocator<pcl::BRISKSignature512>> make_opaque_BRISKSignature512;
@@ -117,9 +118,6 @@ typedef std::vector<pcl::ReferenceFrame, Eigen::aligned_allocator<pcl::Reference
 PYBIND11_MAKE_OPAQUE(make_opaque_ReferenceFrame);
 typedef std::vector<pcl::PointDEM, Eigen::aligned_allocator<pcl::PointDEM>> make_opaque_PointDEM;
 PYBIND11_MAKE_OPAQUE(make_opaque_PointDEM);
-// Linking error
-//typedef std::vector<pcl::GRSDSignature21, Eigen::aligned_allocator<pcl::GRSDSignature21>> make_opaque_GRSDSignature21;
-//PYBIND11_MAKE_OPAQUE(make_opaque_GRSDSignature21);
 
 //Supervoxel
 typedef std::map<uint32_t, pcl::Supervoxel<pcl::PointXYZ>::Ptr> make_opaque_Supervoxel_PointXYZ;
