@@ -335,6 +335,21 @@ void defineBuffers<VFHSignature308>(py::class_<PointCloud<VFHSignature308>, boos
 }
 
 template<>
+void defineBuffers<GRSDSignature512>(py::class_<PointCloud<GRSDSignature512>, boost::shared_ptr<PointCloud<GRSDSignature512>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, GRSDSignature512, 0, 512>);
+}
+
+template<>
+void defineBuffers<GRSDSignature984>(py::class_<PointCloud<GRSDSignature984>, boost::shared_ptr<PointCloud<GRSDSignature984>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, GRSDSignature984, 0, 984>);
+}
+
+template<>
+void defineBuffers<GRSDSignature7992>(py::class_<PointCloud<GRSDSignature7992>, boost::shared_ptr<PointCloud<GRSDSignature7992>>> &cls) {
+    cls.def_property_readonly("histogram", &buffer<float, GRSDSignature7992, 0, 7992>);
+}
+
+template<>
 void defineBuffers<GRSDSignature21>(py::class_<PointCloud<GRSDSignature21>, boost::shared_ptr<PointCloud<GRSDSignature21>>> &cls) {
     cls.def_property_readonly("histogram", &buffer<float, GRSDSignature21, 0, 21>);
 }
