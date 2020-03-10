@@ -15,7 +15,7 @@ from generators.utils import make_namespace_class, clean_doxygen
 
 
 class Method:
-    def __init__(self, method: CppMethod, is_an_overload=False):
+    def __init__(self, method: CppMethod, is_an_overload=False, use_c_overload=False):
         """
         Generates definition for a method
         Example:
@@ -24,6 +24,7 @@ class Method:
         self.cppmethod = method
         self.name = method["name"]
         self.is_an_overload = is_an_overload
+        self.use_c_overload = use_c_overload
         self.templated_types = OrderedDict()
         self.needs_lambda_call = False
 
@@ -33,9 +34,14 @@ class Method:
         template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
         template_keyword = "template " if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}{template_keyword}{name}{template}{const})"
+        return_type = self.cppmethod["rtnType"].replace("inline", "").strip()
+        if self.use_c_overload:
+            disamb = "({return_type} (*)({type_}))(&{cls}{name})"
+        else:
+            disamb = "py::overload_cast<{type_}> (&{cls}{template_keyword}{name}{template}{const})"
         disamb = disamb.format(type_=type_,
                                cls=(prefix + "::") if prefix else "",
+                               return_type=return_type,
                                name=self.cppmethod["name"],
                                template=template,
                                template_keyword=template_keyword,
@@ -327,6 +333,10 @@ def is_copy_constructor(method):
             in_doxygen = "Copy constructor" in method["doxygen"].split("\n")[0]
         except KeyError:
             in_doxygen = False
+
+        # some doxygen strings are wrong, we need to use the number of parameters also
+        if in_doxygen and len(params) >= 2:
+            return False
         if len(params) == 1 or in_doxygen:
             return True
     return False
