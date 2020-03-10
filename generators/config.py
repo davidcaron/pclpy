@@ -557,6 +557,9 @@ METHODS_TO_SKIP = [
     ("MLSResult", "getPolynomialPartialDerivative"),
     ("MLSResult", "MLSResult"),
     # END Not build in conda pcl
+    
+    ("MovingLeastSquares", "getPolynomialFit"),  # deprecated in pcl
+    ("MovingLeastSquares", "setPolynomialFit"),  # deprecated in pcl
 
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
