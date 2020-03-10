@@ -351,7 +351,7 @@ PCL_POINT_TYPES = {
 
 
 def unpack_yaml_point_types(path, not_every_point_type=False):
-    data = yaml.load(open(path))
+    data = yaml.safe_load(open(path))
     for k, v in data.items():
         data[k] = unpack_point_types(v, not_every_point_type)
     return data
