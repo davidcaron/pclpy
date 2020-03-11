@@ -1,8 +1,5 @@
 import platform
 
-if platform.system() == "Windows":
-    import pclpy_dependencies
-
 import pclpy.pcl as pcl
 
 from pclpy.io.functions import read

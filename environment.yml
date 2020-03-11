@@ -6,3 +6,4 @@ dependencies:
   - eigen
   - numpy
   - laspy
+  - pkgconfig

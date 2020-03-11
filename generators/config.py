@@ -16,7 +16,10 @@ PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
 CONDA = 'conda' in sys.version or os.path.exists(join(sys.prefix, 'conda-meta'))
 
 if platform.system() == "Windows":
-    PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
+    if CONDA:
+        PCL_BASE = join(sys.prefix, "Library", "include", "pcl-1.9", "pcl")
+    else:
+        PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
 elif CONDA:
     PCL_BASE = join(sys.prefix, "include", "pcl-1.9", "pcl")
 else:
@@ -556,6 +559,7 @@ METHODS_TO_SKIP = [
     ("MLSResult", "getPolynomialValue"),
     ("MLSResult", "getPolynomialPartialDerivative"),
     ("MLSResult", "MLSResult"),
+    ("MLSResult", "computeMLSSurface"),  # linking error with windows conda pcl
     # END Not build in conda pcl
     
     ("MovingLeastSquares", "getPolynomialFit"),  # deprecated in pcl

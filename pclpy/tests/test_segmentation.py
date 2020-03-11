@@ -50,7 +50,8 @@ def test_region_growing():
     rg.setResidualThreshold(1)
     clusters = pcl.vectors.PointIndices()
     rg.extract(clusters)
-    assert max([len(c.indices) for c in clusters]) == 2449  # ground
+    max_cluster_count = max([len(c.indices) for c in clusters])
+    assert 2445 < max_cluster_count < 2450  # ground
 
 
 def test_region_growing_simple():
