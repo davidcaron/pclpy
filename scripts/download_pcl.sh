@@ -1,3 +1,7 @@
 #! /usr/bin/env bash
 
-wget -c https://github.com/PointCloudLibrary/pcl/archive/pcl-1.9.1.tar.gz -O - | tar -xz
+version="1.9.1"
+
+if [[ ! -d "pcl-pcl-$version" ]]; then
+    wget -c https://github.com/PointCloudLibrary/pcl/archive/pcl-"$version".tar.gz -O - | tar -xz
+fi
