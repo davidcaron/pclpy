@@ -12,6 +12,7 @@ requirements:
   channels:
     - conda-forge
   build:
+    - {{ compiler('cxx') }}  # [win]
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
