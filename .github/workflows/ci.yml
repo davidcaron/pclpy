@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - "*"
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -14,10 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: goanpeca/setup-miniconda@v1.0.2
         with:
-          activate-environment: pclpy
-          environment-file: environment.yml
-          python-version: 3.8
-          auto-activate-base: false
+          auto-update-conda: true
       - name: Install ccache
         run: sudo apt-get install -y ccache
       - name: Get timestamp
@@ -30,28 +29,20 @@ jobs:
           key: ${{ runner.os }}-ccache-${{ steps.current-time.outputs.time }}
           restore-keys: |
             ${{ runner.os }}-ccache-
-      - name: Show ccache stats
-        run: ccache -s
-      - name: Clear ccache stats
-        run: ccache -z
-      - shell: bash -l {0}
-        run: pip install -r requirements-dev.txt
-      - shell: bash -l {0}
-        run: scripts/download_pcl.sh
-      - shell: bash -l {0}
-        run: scripts/generate_points_and_bindings.sh
-      - shell: bash -l {0}
-        run: python setup.py build
-      - name: Show ccache stats
-        run: ccache -s
-      - name: Import smoke test
+      - name: Ccache stats
+        run: |
+          ccache -s
+          ccache -z
+      - name: Install anaconda-client and conda-build
         shell: bash -l {0}
         run: |
-          pip install -e .
-          python -c 'import pclpy'
-      - shell: bash -l {0}
-        run: pip install -r requirements-dev.txt
-      - shell: bash -l {0}
-        run: pytest
-      
-      
+          conda install -y anaconda-client conda-build
+      - name: conda-build
+        shell: bash -l {0}
+        run: conda build -c conda-forge --output-folder . .
+      - name: Upload to anaconda
+        # if: github.event_name == 'release'
+        shell: bash -l {0}
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: anaconda upload --label main linux-64/*.tar.bz2

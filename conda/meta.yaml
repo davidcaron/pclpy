@@ -26,12 +26,16 @@ requirements:
     - python>=3.6
     - pcl=1.9.1
     - eigen
-    - numpy
+    - numpy>=1.18
     - laspy
 
 test:
   imports:
-    - "pclpy"
+    - pclpy
+  requires:
+    - pytest
+  commands:
+    - pytest
 
 about:
   home: https://github.com/davidcaron/pclpy
