@@ -8,4 +8,6 @@ if [[ ! -d "pclpy/src/generated_modules" ]]; then
     scripts/generate_points_and_bindings.sh
 fi
 
+$PYTHON setup.py build
+
 $PYTHON -m pip install . --no-deps
