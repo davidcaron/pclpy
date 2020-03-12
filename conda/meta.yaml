@@ -13,6 +13,7 @@ requirements:
     - conda-forge
   build:
     - {{ compiler('cxx') }}  # [win]
+  host:
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
