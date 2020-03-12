@@ -17,6 +17,9 @@ jobs:
       - uses: goanpeca/setup-miniconda@v1.0.2
         with:
           auto-update-conda: true
+          activate-environment: pclpy
+          environment-file: environment.yml
+          python-version: 3.8
       - name: Install ccache
         run: sudo apt-get install -y ccache
       - name: Get timestamp
@@ -35,10 +38,15 @@ jobs:
           ccache -z
       - shell: bash -l {0}
         run: |
-          conda install -q -y anaconda-client conda-build
+          python -m pip install https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+          scripts/download_pcl.sh
+          scripts/generate_points_and_bindings.sh
+          python setup.py build
       - name: conda-build
         shell: bash -l {0}
-        run: conda build -c conda-forge --output-folder . .
+        run: |
+          conda install -q -y anaconda-client conda-build
+          conda build -c conda-forge --output-folder . .
       - name: Ccache stats
         if: always()
         run: ccache -s
