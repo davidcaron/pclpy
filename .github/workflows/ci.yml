@@ -38,7 +38,7 @@ jobs:
           ccache -z
       - shell: bash -l {0}
         run: |
-          python -m pip install https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+          python -m pip install -r requirements-dev.txt
           scripts/download_pcl.sh
           scripts/generate_points_and_bindings.sh
           python setup.py build
