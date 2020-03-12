@@ -40,6 +40,7 @@ jobs:
         shell: bash -l {0}
         run: conda build -c conda-forge --output-folder . .
       - name: Ccache stats
+        if: always()
         run: ccache -s
       - name: Upload to anaconda
         # if: github.event_name == 'release'
