@@ -9,8 +9,8 @@ on:
     types: [published]
 
 jobs:
-  build:
-    name: Build
+  build-linux:
+    name: Build Linux
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
@@ -33,16 +33,36 @@ jobs:
         run: |
           ccache -s
           ccache -z
-      - name: Install anaconda-client and conda-build
-        shell: bash -l {0}
+      - shell: bash -l {0}
         run: |
-          conda install -y anaconda-client conda-build
+          conda install -q -y anaconda-client conda-build
       - name: conda-build
         shell: bash -l {0}
         run: conda build -c conda-forge --output-folder . .
+      - name: Ccache stats
+        run: ccache -s
       - name: Upload to anaconda
         # if: github.event_name == 'release'
         shell: bash -l {0}
+        env:
+          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: anaconda upload --label main linux-64/*.tar.bz2
+  build-windows:
+    name: Build Windows
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: goanpeca/setup-miniconda@v1.0.2
+        with:
+          auto-update-conda: true
+      - shell: cmd /C CALL {0}
+        run: conda install -q -y anaconda-client conda-build
+      - name: conda-build
+        shell: cmd /C CALL {0}
+        run: conda build -c conda-forge --output-folder . .
+      - name: Upload to anaconda
+        # if: github.event_name == 'release'
+        shell: cmd /C CALL {0}
         env:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: anaconda upload --label main linux-64/*.tar.bz2
