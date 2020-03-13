@@ -36,17 +36,16 @@ jobs:
         run: |
           ccache -s
           ccache -z
-      - shell: bash -l {0}
+      - name: Setup build environment
+        shell: bash -l {0}
         run: |
           python -m pip install -r requirements-dev.txt
           scripts/download_pcl.sh
           scripts/generate_points_and_bindings.sh
-          python setup.py build
-      - name: conda-build
-        shell: bash -l {0}
-        run: |
-          conda install -q -y anaconda-client conda-build
-          conda build -c conda-forge --output-folder . .
+      - shell: bash -l {0}
+        run: python setup.py build
+      - run: conda install -q -y anaconda-client conda-build
+      - run: conda build -c conda-forge --output-folder . .
       - name: Ccache stats
         if: always()
         run: ccache -s
@@ -64,11 +63,18 @@ jobs:
       - uses: goanpeca/setup-miniconda@v1.0.2
         with:
           auto-update-conda: true
-      - shell: cmd /C CALL {0}
-        run: conda install -q -y anaconda-client conda-build
-      - name: conda-build
+      - name: Setup build environment
         shell: cmd /C CALL {0}
-        run: conda build -c conda-forge --output-folder . .
+        run: python -m pip install -r requirements-dev.txt
+      - name: Download pcl
+        shell: pwsh
+        run: scripts/download_pcl.ps1
+      - shell: cmd /C CALL {0}
+        run: scripts/generate_points_and_bindings.bat
+      - shell: cmd /C CALL {0}
+        run: python setup.py build
+      - run: conda install -q -y anaconda-client conda-build
+      - run: conda build -c conda-forge --output-folder . .
       - name: Upload to anaconda
         # if: github.event_name == 'release'
         shell: cmd /C CALL {0}

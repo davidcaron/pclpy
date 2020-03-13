@@ -1,8 +1,6 @@
 
-python -m pip install https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+IF not exist pcl-pcl-1.9.1/nul ( powershell -ExecutionPolicy ByPass -File scripts\download_pcl.ps1 )
 
-powershell -ExecutionPolicy ByPass -File scripts\download_pcl.ps1
-
-call scripts\generate_points_and_bindings.bat
+IF not exist pclpy/src/generated_modules/nul ( call scripts\generate_points_and_bindings.bat )
 
 python -m pip install . --no-deps
