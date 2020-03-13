@@ -63,15 +63,14 @@ jobs:
       - uses: s-weigand/setup-conda@v1
         with:
           activate-conda: true
-          # update-conda: true
+          update-conda: true
           conda-channels: conda-forge
-      - run: python -c "import sys; print(sys.version)"
-      - run: conda env create -n pclpy -f environment.yml
+      - run: conda env create -q -n pclpy -f environment.yml
       - run: conda run -n pclpy python -c "import sys; print(sys.version)"
       - run: conda run -n pclpy python -m pip install -r requirements-dev.txt
       - name: Download pcl
         shell: pwsh
-        run: conda run -n pclpy scripts/download_pcl.ps1
+        run: scripts/download_pcl.ps1
       - run: conda run -n pclpy scripts/generate_points_and_bindings.bat
       - run: conda run -n pclpy python setup.py build
       - run: conda install -q -y anaconda-client conda-build
