@@ -79,7 +79,7 @@ jobs:
       - run: conda run -n pclpy python setup.py build
       - run: conda run -n pclpy python -m pip install --no-deps .
       - run: conda run -n pclpy pytest
-      - run: conda install -q -y anaconda-client conda-build
+      - run: conda install -q -y anaconda-client conda-build console_shortcut powershell_shortcut
       - run: conda build -c conda-forge --output-folder . .
       - name: Upload to anaconda
         # if: github.event_name == 'release'
