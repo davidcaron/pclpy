@@ -60,28 +60,25 @@ jobs:
     runs-on: "windows-latest"
     steps:
       - uses: actions/checkout@v2
-      - uses: goanpeca/setup-miniconda@v1.0.2
+      - uses: s-weigand/setup-conda@v1
         with:
-          auto-update-conda: true
-          activate-environment: pclpy
-          environment-file: environment.yml
+          activate-conda: true
+          update-conda: true
+          conda-channels: conda-forge
           python-version: 3.8
-          auto_activate_base: false
-      - shell: cmd /C CALL {0}
-        run: conda list
+      - run: python -c "import sys; print(sys.version)"
+      - run: conda create -n pclpy -f environment.yml
       - run: conda run -n pclpy python -c "import sys; print(sys.version)"
       - run: conda run -n pclpy python -m pip install -r requirements-dev.txt
       - name: Download pcl
         shell: pwsh
-        run: scripts/download_pcl.ps1
+        run: conda run -n pclpy scripts/download_pcl.ps1
       - run: conda run -n pclpy scripts/generate_points_and_bindings.bat
-      - shell: cmd /C CALL {0}
-        run: python setup.py build
+      - run: conda run -n pclpy python setup.py build
       - run: conda install -q -y anaconda-client conda-build
       - run: conda build -c conda-forge --output-folder . .
       - name: Upload to anaconda
         # if: github.event_name == 'release'
-        shell: cmd /C CALL {0}
         env:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: anaconda upload --label main linux-64/*.tar.bz2
