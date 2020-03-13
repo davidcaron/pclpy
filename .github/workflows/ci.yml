@@ -85,4 +85,4 @@ jobs:
         # if: github.event_name == 'release'
         env:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
-        run: anaconda upload --label main linux-64/*.tar.bz2
+        run: anaconda upload --label main win-64/*.tar.bz2
