@@ -63,6 +63,9 @@ jobs:
       - uses: goanpeca/setup-miniconda@v1.0.2
         with:
           auto-update-conda: true
+          activate-environment: pclpy
+          environment-file: environment.yml
+          python-version: 3.8
       - name: Setup build environment
         shell: cmd /C CALL {0}
         run: python -m pip install -r requirements-dev.txt
