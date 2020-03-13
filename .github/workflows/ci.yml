@@ -80,7 +80,7 @@ jobs:
       - run: conda run -n pclpy python -m pip install --no-deps .
       - run: conda run -n pclpy pytest
       - run: conda install -q -y anaconda-client conda-build console_shortcut powershell_shortcut
-      - run: conda build -c conda-forge --output-folder . .
+      - run: conda run -n base conda build -c conda-forge --output-folder . .
       - name: Upload to anaconda
         # if: github.event_name == 'release'
         env:
