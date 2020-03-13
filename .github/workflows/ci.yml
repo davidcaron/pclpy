@@ -66,6 +66,9 @@ jobs:
           activate-environment: pclpy
           environment-file: environment.yml
           python-version: 3.8
+          auto_activate_base: false
+      - shell: cmd /C CALL {0}
+        run: conda list
       - run: conda run -n pclpy python -c "import sys; print(sys.version)"
       - run: conda run -n pclpy python -m pip install -r requirements-dev.txt
       - name: Download pcl
