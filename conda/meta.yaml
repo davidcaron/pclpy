@@ -32,14 +32,6 @@ requirements:
     - numpy>=1.18
     - laspy
 
-test:
-  imports:
-    - pclpy
-  requires:
-    - pytest
-  commands:
-    - pytest
-
 about:
   home: https://github.com/davidcaron/pclpy
   license: MIT

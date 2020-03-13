@@ -44,6 +44,10 @@ jobs:
           scripts/generate_points_and_bindings.sh
       - shell: bash -l {0}
         run: python setup.py build
+      - shell: bash -l {0}
+        run: python -m pip install --no-deps .
+      - shell: bash -l {0}
+        run: pytest
       - run: conda install -q -y anaconda-client conda-build
       - run: conda build -c conda-forge --output-folder . .
       - name: Ccache stats
@@ -73,6 +77,8 @@ jobs:
         run: scripts/download_pcl.ps1
       - run: conda run -n pclpy scripts/generate_points_and_bindings.bat
       - run: conda run -n pclpy python setup.py build
+      - run: conda run -n pclpy python -m pip install --no-deps .
+      - run: conda run -n pclpy pytest
       - run: conda install -q -y anaconda-client conda-build
       - run: conda build -c conda-forge --output-folder . .
       - name: Upload to anaconda
