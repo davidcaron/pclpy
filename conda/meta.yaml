@@ -14,17 +14,17 @@ requirements:
   build:
     - {{ compiler('cxx') }} # [win]
     - pkgconfig # [win]
-  host:
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
-    - python>=3.6
     - pybind11>=2.4
     - PyYAML
     - inflection
     - unidecode
     - ply
     # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+  host:
+    - python>=3.6
   run:
     - python>=3.6
     - pcl=1.9.1

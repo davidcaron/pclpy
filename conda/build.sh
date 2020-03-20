@@ -14,4 +14,4 @@ fi
 
 $PYTHON setup.py build
 
-$PYTHON -m pip install . --no-deps
+$PYTHON -m pip install --no-deps .
