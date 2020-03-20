@@ -51,6 +51,7 @@ jobs:
       - run: conda install -q -y anaconda-client conda-build
       - run: conda config --set anaconda_upload yes
         # if: github.event_name == 'release'
+      - run: conda env remove -n pclpy
       - run: |
           cd conda
           conda run -n base conda build . -c conda-forge
@@ -83,7 +84,7 @@ jobs:
       - run: conda install -q -y anaconda-client conda-build console_shortcut powershell_shortcut
       - run: conda config --set anaconda_upload yes
         # if: github.event_name == 'release'
-      - run: cd conda && conda build . -c conda-forge
+      - run: cd conda && conda run -n base conda-build . -c conda-forge
         env:
           ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
       - run: dir
