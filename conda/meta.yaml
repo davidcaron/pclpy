@@ -23,8 +23,6 @@ requirements:
     - unidecode
     - ply
     # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
-  host:
-    - python>=3.6
   run:
     - python>=3.6
     - pcl=1.9.1
