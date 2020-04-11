@@ -9,8 +9,8 @@ REM set to 'all' to generate all point types (slower to compile)
 set POINT_GROUPS=%1
 
 @ECHO ON
-python generate_yaml_point_types.py || exit /b
-python generate_pybind11_bindings.py || exit /b
+%PYTHON% generate_yaml_point_types.py || exit /b
+%PYTHON% generate_pybind11_bindings.py || exit /b
 
 @ECHO OFF
 cd ..
