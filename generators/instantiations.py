@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 from typing import List, Dict
 
 from CppHeaderParser import CppClass, CppVariable
@@ -16,7 +17,7 @@ class Instantiations:
                  sorted_classes: List[CppClass],
                  module: str,
                  header_name: str,
-                 classes_point_types: Dict,
+                 classes_point_types: OrderedDict,
                  variables: List[CppVariable],
                  enums: List[CppVariable],
                  ):
@@ -57,15 +58,15 @@ class Instantiations:
         a = s.append
         i = INDENT
         a("{ind}void define{sub}{name}Classes(py::module &{base}) {ob}")
-        for line in self.generate_templated_class_calls():
-            a("{ind}{i}%s;" % line)
-        if has_functions:
-            a("{ind}{i}define{sub}{name}Functions({base});")
         for var in self.variables:
             a("{ind}{i}%s" % define_variable(var))
         for enum in self.enums:
             enum = Enum(enum)
             a("{ind}{i}%s;" % enum.to_str(prefix=enum.cppenum["namespace"], class_var_name=BASE_SUB_MODULE_NAME))
+        for line in self.generate_templated_class_calls():
+            a("{ind}{i}%s;" % line)
+        if has_functions:
+            a("{ind}{i}define{sub}{name}Functions({base});")
         a("{ind}{cb}")
 
         data = {

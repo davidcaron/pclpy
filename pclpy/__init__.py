@@ -1,4 +1,4 @@
-import pclpy_dependencies
+import platform
 
 import pclpy.pcl as pcl
 

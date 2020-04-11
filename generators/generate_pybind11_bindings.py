@@ -1,4 +1,5 @@
 import os
+import platform
 import shutil
 import sys
 from collections import Counter
@@ -20,7 +21,7 @@ from generators.definitions.templated_class import ClassDefinition
 from generators.instantiations import Instantiations
 from generators.point_types_utils import unpack_yaml_point_types
 from generators.utils import make_header_include_name, sort_headers_by_dependencies, \
-    generate_main_loader, make_namespace_class
+    generate_main_loader, make_namespace_class, read_header_file
 
 
 def filter_methods_for_parser_errors(methods):
@@ -193,35 +194,11 @@ def get_enums(header):
     return enums
 
 
-def replace_some_terms(raw_lines):
-    lines = []
-    append = lines.append
-    for line in raw_lines:
-        line_strip = line.strip()
-        if line_strip.startswith("BOOST_CONCEPT_"):
-            pass
-        elif line_strip.startswith("BOOST_MPL_ASSERT"):
-            pass
-        elif line_strip.startswith("PCL_DEPRECATED"):
-            pass
-        elif line_strip.startswith("POINT_CLOUD_REGISTER_POINT_STRUCT"):
-            pass
-        else:
-            append(line)
-    text = "".join(lines)
-    text = text.replace("EIGEN_ALIGN16", "")
-    text = text.replace("PCL_EXPORTS", "")
-    text = text.replace("<void ()>", "")  # parser chokes on "boost::function<void ()>"
-    text = text.replace("->operator", "-> operator")  # parser error for this expression
-    return text
-
-
-def read_header(header_path):
+def read_header(header_path, skip_macros=None):
     # I tried to do this in multiple threads but it seems like CppHeaderParser is not thread safe...
-    try:
-        header_file_str = replace_some_terms(open(header_path, encoding="utf8").readlines())
-    except UnicodeDecodeError:
-        header_file_str = replace_some_terms(open(header_path).readlines())
+    if skip_macros is None:
+        skip_macros = []
+    header_file_str = read_header_file(header_path, skip_macros)
     parser = CppHeaderParser
     parser.debug = False
     header = parser.CppHeader(header_file_str, argType="string")
@@ -255,7 +232,7 @@ def check_if_needs_overloading(main_classes):
     return needs_overloading
 
 
-def get_headers(modules=None):
+def get_headers(modules=None, skip_modules=None):
     def listmod(module):
         found_modules = []
         for base, folders, files in os.walk(join(PCL_BASE, module)):
@@ -269,6 +246,9 @@ def get_headers(modules=None):
 
     if modules is None:
         modules = MODULES_TO_BUILD
+
+    if skip_modules is not None:
+        modules = [m for m in modules if m not in skip_modules]
 
     headers_to_generate = [(module, header_name, path) for module in modules
                            for header_name, path in listmod(module)]
@@ -407,7 +387,7 @@ def write_stuff_if_needed(generated_headers: OrderedDict, delete_others=True):
         delete_other_dirs(modules)
 
 
-def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
+def generate(headers_to_generate, skip_macros, not_every_point_type=False) -> OrderedDict:
     """
     :return: OrderedDict
     """
@@ -415,7 +395,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
 
     for module, header_name, path in headers_to_generate[:]:
         header_full_path = join(PCL_BASE, path) if path else join(PCL_BASE, module, header_name)
-        header = read_header(header_full_path)
+        header = read_header(header_full_path, skip_macros)
         main_classes[(module, header_name)] = get_main_classes(header, module, header_name)
         module_functions[(module, header_name)] = get_functions(header, module)
         module_variables[(module, header_name)] = get_variables(header)
@@ -427,17 +407,18 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
     dependency_tree = generators.dependency_tree.DependencyTree(classes)
 
     loaded_point_types = load_yaml_point_types(not_every_point_type)
-    all_point_types = dependency_tree.get_point_types_with_dependencies(loaded_point_types)
+    classes_point_types: OrderedDict = dependency_tree.get_point_types_with_dependencies(loaded_point_types)
 
     classes_sorted_base_first = list(dependency_tree.leaf_iterator())
 
-    def key(class_):
+    def index_for_class(class_):
         return classes_sorted_base_first.index(make_namespace_class(class_["namespace"], class_["name"]))
 
+    # sort classes inside modules based on inheritance
     for module, header in main_classes:
-        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=key))
+        main_classes[(module, header)] = list(sorted(main_classes[(module, header)], key=index_for_class))
 
-    headers_to_generate = sort_headers_by_dependencies(headers_to_generate)
+    headers_to_generate = sort_headers_by_dependencies(headers_to_generate, skip_macros=skip_macros)
 
     methods_need_overloading = check_if_needs_overloading(main_classes)
 
@@ -463,7 +444,7 @@ def generate(headers_to_generate, not_every_point_type=False) -> OrderedDict:
         instantiations = Instantiations(header_classes,
                                         module,
                                         header,
-                                        all_point_types,
+                                        classes_point_types,
                                         module_variables[(module, header)],
                                         module_enums[(module, header)],
                                         )
@@ -486,9 +467,18 @@ def main():
     import time
     t = time.time()
 
-    all_headers = get_headers()
+    windows = platform.system() == "Windows"
+
+    skip_macros = []
+    skip_modules = []
+
+    if not windows:
+        skip_macros = ["_MSC_VER"]
+        skip_modules = ["visualization"]
+
+    all_headers = get_headers(skip_modules=skip_modules)
     not_every_point_type = "--not-every-point-type" in sys.argv
-    generated_headers = generate(all_headers, not_every_point_type)
+    generated_headers = generate(all_headers, skip_macros, not_every_point_type)
     write_stuff_if_needed(generated_headers, delete_others=True)
 
     print("generated in %.2f s" % (time.time() - t,))

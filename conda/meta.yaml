@@ -1,0 +1,39 @@
+package:
+  name: "pclpy"
+  version: "0.11.0"
+
+source:
+  path: ..
+
+build:
+  number: 0
+
+requirements:
+  channels:
+    - conda-forge
+  build:
+    - {{ compiler('cxx') }} # [win]
+    - pkgconfig # [win]
+  host:
+    - python {{ python }}
+    - pcl=1.9.1
+    - eigen
+    - numpy>=1.18
+    - pybind11>=2.4
+    - PyYAML
+    - inflection
+    - unidecode
+    - ply
+    # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+  run:
+    - python>=3.6
+    - pcl=1.9.1
+    - eigen
+    - numpy>=1.18
+    - laspy
+
+about:
+  home: https://github.com/davidcaron/pclpy
+  license: MIT
+  license_family: MIT
+  summary: Python bindings for the Point Cloud Library (PCL)

@@ -8,15 +8,14 @@
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-void defineQuaternion(py::module & m) {
+void defineQuaternion(py::module &m)
+{
     using Class = Eigen::Quaternionf;
     py::class_<Class, boost::shared_ptr<Class>> cls(m, "Quaternionf");
     cls.def(py::init<>());
     // todo: make this usable...
     // For now, this enables compilation because Quaternion is not in pybind11/eigen.h
-
 }
-
 
 //void defineVectorXf(py::module & m) {
 //    /* Bind MatrixXd (or some other Eigen type) to Python */
@@ -73,7 +72,8 @@ void defineQuaternion(py::module & m) {
 //
 //}
 
-void defineVectorXf(py::module & m) {
+void defineVectorXf(py::module &m)
+{
     /* Bind MatrixXd (or some other Eigen type) to Python */
     typedef Eigen::VectorXf VectorXf;
 
@@ -99,29 +99,28 @@ void defineVectorXf(py::module & m) {
         auto map = Eigen::Map<VectorXf, 0, Strides>(
             static_cast<Scalar *>(info.ptr), info.shape[0], strides);
 
-//        new (&m) Eigen::Map<Matrix<Scalar,Eigen::Dynamic,Eigen::Dynamic>> (static_cast<Scalar *>(info.ptr),
-//            info.shape[0],info.shape[1]);
+        //        new (&m) Eigen::Map<Matrix<Scalar,Eigen::Dynamic,Eigen::Dynamic>> (static_cast<Scalar *>(info.ptr),
+        //            info.shape[0],info.shape[1]);
 
         new (&v) VectorXf(map);
     });
     cls.def_buffer([](VectorXf &v) -> py::buffer_info {
         return py::buffer_info(
-            v.data(),                /* Pointer to buffer */
-            sizeof(Scalar),          /* Size of one scalar */
+            v.data(),       /* Pointer to buffer */
+            sizeof(Scalar), /* Size of one scalar */
             /* Python struct-style format descriptor */
             py::format_descriptor<Scalar>::format(),
             /* Number of dimensions */
             1,
             /* Buffer dimensions */
-            { v.size() },
+            {v.size()},
             /* Strides (in bytes) for each index */
-            { sizeof(Scalar) }
-        );
-     });
-
+            {sizeof(Scalar)});
+    });
 }
 
-void defineEigenClasses(py::module &m) {
+void defineEigenClasses(py::module &m)
+{
     defineQuaternion(m);
     defineVectorXf(m);
 }

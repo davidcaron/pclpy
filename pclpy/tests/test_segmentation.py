@@ -5,10 +5,7 @@ import pytest
 
 import pclpy
 from pclpy import pcl
-
-
-def test_data(*args):
-    return os.path.join("test_data", *args)
+from .utils import test_data
 
 
 def make_pt(x, y, z):
@@ -31,7 +28,7 @@ def test_supervoxel_clustering():
     # vox.setColorImportance(2)
     output = pcl.vectors.map_uint32t_PointXYZRGBA()
     vox.extract(output)
-    assert len(list(output.items())) == 95
+    assert len(list(output.items())) == 91
 
 
 def test_region_growing():
@@ -53,7 +50,8 @@ def test_region_growing():
     rg.setResidualThreshold(1)
     clusters = pcl.vectors.PointIndices()
     rg.extract(clusters)
-    assert max([len(c.indices) for c in clusters]) == 2449  # ground
+    max_cluster_count = max([len(c.indices) for c in clusters])
+    assert 2445 < max_cluster_count < 2450  # ground
 
 
 def test_region_growing_simple():

@@ -1,3 +1,5 @@
+import re
+
 from CppHeaderParser import CppMethod
 
 from generators.config import INHERITED_ENUMS, CUSTOM_OVERLOAD_TYPES
@@ -30,7 +32,14 @@ class Constructor:
             if val:
                 if val in class_enums_names:
                     val = "Class::" + val
-                val = val.replace(" ", "")  # CppHeaderParser addsspace to float values
+                elif p.get('enum') and p.get('enum') not in val:
+                    val = p.get('enum') + '::' + val
+                val = val.replace(" ", "")  # CppHeaderParser adds a space to float values
+                if re.search(r"(?<!\.)\d+f$", val):  # "50f" -> "50.0f"
+                    val = val.replace('f', '.0f')
+                search = re.search(r"1e(-?\d+)", val)  # "1e-4.0" -> "0.0001"
+                if search:
+                    val = str(1 * 10 ** int(search.group(1)))
                 val = "=" + val
             return val
 
@@ -43,13 +52,22 @@ class Constructor:
             if custom:
                 type_ = custom
             elif param.get("enum"):
-                type_ = "Class::%s" % param.get("enum").split("::")[-1]
+                if param.get('enum').startswith('pcl::'):
+                    type_ = param.get('enum')
+                else:
+                    type_ = "Class::%s" % param.get("enum").split("::")[-1]
             elif type_only_last_element in class_typedefs:
                 type_ = type_only_last_element
             elif class_with_param_name in INHERITED_ENUMS:
                 type_ = "Class::" + type_only_last_element
+            if all(c in type_ for c in "<>"):
+                type_ = "typename " + type_
             if param.get("pointer"):
                 type_ += "*"
+            if param["constant"] and not type_.startswith("const "):
+                type_ = "const " + type_
+            if param["reference"] and not type_.endswith("&"):
+                type_ += " &"
             return type_
 
         if any("**" in param["type"].replace(" ", "") for param in self.params):

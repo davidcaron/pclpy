@@ -7,10 +7,13 @@ from typing import List, Tuple
 import yaml
 
 from generators.config import MODULES_TO_BUILD
-from generators.point_types_utils import PCL_POINT_TYPES
+from generators.point_types_utils import PCL_POINT_TYPES, PCL_ALL_POINT_TYPES
 from generators.utils import parentheses_are_balanced
 
-PCL_REPO_PATH = r"C:\github\pcl"
+PCL_REPO_PATH = os.environ["PCL_REPO_PATH"]
+POINT_GROUPS = PCL_POINT_TYPES
+if os.getenv("POINT_GROUPS") == 'all':
+    POINT_GROUPS = PCL_ALL_POINT_TYPES
 
 re_instantiate = re.compile(r"^PCL_INSTANTIATE\((.+?),(.+)\);?$")
 re_product = re.compile(r"^PCL_INSTANTIATE_PRODUCT\((.+?),(.+)\);?$")
@@ -40,10 +43,10 @@ def parenthetic_contents(string):
 
 
 def parse_point_list(point_list: str) -> List[str]:
-    for group, types in PCL_POINT_TYPES.items():
+    for group, types in POINT_GROUPS.items():
         if group in point_list:
             point_list = point_list.replace(group, ",".join(types))
-    point_list = point_list.replace(")(", ",").replace(")", "").replace("(", "")
+    point_list = point_list.replace(")(", ",").replace(")", "").replace("(", "").replace("pcl::", "")
     return point_list.split(",")
 
 
@@ -93,7 +96,7 @@ def main():
             full = join(PCL_REPO_PATH, module, "src", cpp)
             for class_name, types in get_instantiations(open(full).readlines()):
                 all_classes[class_name].append(types)
-    yaml.dump(dict(all_classes), open("point_types_generated.yml", "w"))
+    yaml.dump(dict(all_classes), open("point_types_generated.yml", "w"), indent=2)
 
 
 if __name__ == '__main__':

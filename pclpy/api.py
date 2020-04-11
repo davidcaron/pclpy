@@ -93,7 +93,6 @@ def moving_least_squares(cloud,
     :param search_radius: radius search distance
     :param output_cloud: optional point cloud to compute into
     :param compute_normals: boolean, set to compute normals
-    :param polynomial_fit: boolean, set to compute using a polynomial function instead of a plane
     :param polynomial_order: order of the polynomial function to fit
     :param num_threads: optional number of threads to use
     :return: a smoothed point cloud
@@ -106,16 +105,14 @@ def moving_least_squares(cloud,
             output_cloud = getattr(pcl.PointCloud, cloud_type)()
 
     pc_type = utils.get_point_cloud_type(cloud, output_cloud)
-    if num_threads == 1:
-        mls = getattr(pcl.surface.MovingLeastSquares, pc_type)()
-    else:
-        mls = getattr(pcl.surface.MovingLeastSquaresOMP, pc_type)(num_threads)
 
+    mls = getattr(pcl.surface.MovingLeastSquares, pc_type)()
     mls.setInputCloud(cloud)
     mls.setComputeNormals(compute_normals)
-    mls.setPolynomialFit(polynomial_fit)
     mls.setPolynomialOrder(polynomial_order)
     mls.setSearchRadius(search_radius)
+    if num_threads >= 1:
+        mls.setNumberOfThreads(num_threads)
     mls.process(output_cloud)
     return output_cloud
 

@@ -1,3 +1,4 @@
+import re
 from collections import OrderedDict
 from itertools import chain, product
 from typing import List
@@ -14,7 +15,7 @@ from generators.utils import make_namespace_class, clean_doxygen
 
 
 class Method:
-    def __init__(self, method: CppMethod, is_an_overload=False):
+    def __init__(self, method: CppMethod, is_an_overload=False, use_c_overload=False):
         """
         Generates definition for a method
         Example:
@@ -23,6 +24,7 @@ class Method:
         self.cppmethod = method
         self.name = method["name"]
         self.is_an_overload = is_an_overload
+        self.use_c_overload = use_c_overload
         self.templated_types = OrderedDict()
         self.needs_lambda_call = False
 
@@ -30,12 +32,19 @@ class Method:
         type_ = self.list_parameter_types(prefix, template_types)
 
         template = ("<%s>" % ", ".join([t[1] for t in template_types])) if template_types else ""
+        template_keyword = "template " if template_types else ""
         constant_method = ", py::const_" if self.cppmethod["const"] else ""
-        disamb = "py::overload_cast<{type_}> (&{cls}{name}{template}{const})"
+        return_type = self.cppmethod["rtnType"].replace("inline", "").strip()
+        if self.use_c_overload:
+            disamb = "({return_type} (*)({type_}))(&{cls}{name})"
+        else:
+            disamb = "py::overload_cast<{type_}> (&{cls}{template_keyword}{name}{template}{const})"
         disamb = disamb.format(type_=type_,
                                cls=(prefix + "::") if prefix else "",
+                               return_type=return_type,
                                name=self.cppmethod["name"],
                                template=template,
+                               template_keyword=template_keyword,
                                const=constant_method)
         return disamb
 
@@ -46,8 +55,10 @@ class Method:
                 if param["name"] == "&":  # fix for CppHeaderParser bug
                     param["type"] += " &"
                     param["reference"] = 1
-
                 type_ = param["type"] if not param["unresolved"] else param["raw_type"]
+                
+                if "boost::function<double(constdouble)" in type_:  # fix for CppHeaderParser bug
+                    type_ = type_.replace('constdouble', 'const double')
 
                 if template_types:
                     for name, template_type in template_types:
@@ -66,7 +77,12 @@ class Method:
 
                 if param["constant"] and not type_.startswith("const"):
                     type_ = "const " + type_
-                if param["reference"] and not "&" in type_:
+                if all(c in type_ for c in "<>"):
+                    if type_.startswith("const"):
+                        type_ = "const typename " + type_.replace("const ", "", 1)
+                    else:
+                        type_ = "typename " + type_
+                if param["reference"] and "&" not in type_:
                     type_ += " &"
 
                 if param.get("array_size"):
@@ -110,10 +126,9 @@ class Method:
             type_ = make_namespace_class("pcl", type_)
         else:
             type_ = "%s::%s" % (prefix, type_)
-        for global_pcl in GLOBAL_PCL_IMPORTS:
-            pos = type_.find(global_pcl)
-            if not type_[pos - 5:pos] == "pcl::":
-                type_ = type_.replace(global_pcl, "pcl::" + global_pcl)
+        for global_import in GLOBAL_PCL_IMPORTS:
+            if re.search(r"[^a-zA-Z:]%s" % global_import, type_):
+                type_ = type_.replace(global_import, "pcl::" + global_import)
         type_ = const + type_ + ref
         if param.get("pointer"):
             type_ = type_.strip() + "*"
@@ -220,9 +235,9 @@ def flag_templated_methods(methods: List[Method]):
                 method.templated_types[type_name] = types
 
 
-def template_types_generator(type_names, class_name, method_name):
-    method_key = (class_name, method_name, type_names)
-    all_methods_key = (class_name, "", type_names)
+def template_types_generator(type_names, header_or_class_name, method_name):
+    method_key = (header_or_class_name, method_name, type_names)
+    all_methods_key = (header_or_class_name, "", type_names)
     specific = SPECIFIC_TEMPLATED_METHOD_TYPES
     pcl_point_types = specific.get(method_key, specific.get(all_methods_key))
     if not pcl_point_types:
@@ -230,8 +245,8 @@ def template_types_generator(type_names, class_name, method_name):
 
     for type_name, pcl_types in zip(type_names, pcl_point_types):
         if not pcl_types:
-            attrs = (type_name, method_name, class_name)
-            message = "Templated method name not implemented (name=%s method=%s class=%s)"
+            attrs = (type_name, method_name, header_or_class_name)
+            message = "Templated method name not implemented (name=%s method=%s header=%s)"
             raise NotImplementedError(message % attrs)
         if isinstance(pcl_types, list):
             types = pcl_types
@@ -313,4 +328,15 @@ def filter_template_types(template_string, keep=None, keep_all=False):
 def is_copy_constructor(method):
     name = method["name"]
     params = method["parameters"]
-    return len(params) == 1 and name in params[0]["type"]
+    if params and name in params[0]["type"]:
+        try:
+            in_doxygen = "Copy constructor" in method["doxygen"].split("\n")[0]
+        except KeyError:
+            in_doxygen = False
+
+        # some doxygen strings are wrong, we need to use the number of parameters also
+        if in_doxygen and len(params) >= 2:
+            return False
+        if len(params) == 1 or in_doxygen:
+            return True
+    return False

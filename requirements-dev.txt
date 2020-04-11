@@ -1,0 +1,8 @@
+pybind11>=2.4
+PyYAML
+https://github.com/davidcaron/CppHeaderParser/archive/master.zip
+inflection
+unidecode
+# vtk==8.1  # install from conda
+
+pytest

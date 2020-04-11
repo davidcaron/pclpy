@@ -14,6 +14,7 @@ from generators.utils import function_definition_name
 
 def filter_functions(cppfunctions, header_name):
     filtered = []
+
     for f in cppfunctions:
         if "<" in f["name"] or ">" in f["name"]:
             continue
@@ -24,7 +25,30 @@ def filter_functions(cppfunctions, header_name):
         if f["template"] and f["template"].replace(" ", "") == "template<>":  # skip specialized templated functions
             continue
         filtered.append(f)
+
     return filtered
+
+
+def split_templated_functions_with_same_name(cppfunctions):
+    filtered, has_other_templated_with_same_name = [], []
+    by_name = defaultdict(list)
+    for f in cppfunctions:
+        by_name[f["name"]].append(f)
+
+    for f in cppfunctions:
+        other_templated_with_same_name = any(other["template"] and other["template"].replace(" ", "")
+                                             for other in by_name[f["name"]]
+                                             if not other == f)
+
+        if other_templated_with_same_name:
+            if f["template"]:
+                # Todo: Implement templated functions disambiguation here?
+                continue
+            has_other_templated_with_same_name.append(f)
+        else:
+            filtered.append(f)
+    
+    return filtered, has_other_templated_with_same_name
 
 
 def get_methods_defined_outside(cppfunctions):
@@ -42,7 +66,12 @@ def generate_function_definitions(cppfunctions: List[CppMethod],
                                   not_every_point_type=False):
     cppfunctions = filter_functions(cppfunctions, header_name)
     cppfunctions = list(sorted(cppfunctions, key=lambda x: x["name"]))
+    cppfunctions, cppfunctions_with_other_templated = split_templated_functions_with_same_name(cppfunctions)
+
     functions = [Method(f, is_an_overload=True) for f in cppfunctions]
+    for f in cppfunctions_with_other_templated:
+        functions.append(Method(f, is_an_overload=True, use_c_overload=True))
+
     s = []
     a = s.append
     i = INDENT

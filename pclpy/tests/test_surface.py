@@ -5,10 +5,7 @@ import laspy
 
 from pclpy import pcl
 import pclpy
-
-
-def test_data(*args):
-    return os.path.join("test_data", *args)
+from .utils import test_data
 
 
 def test_moving_least_squares_normals():
@@ -69,4 +66,4 @@ def test_greedy_projection_triangulation_simple():
     ms.setSearchMethod(tree2)
     ms.reconstruct(triangles)
 
-    assert len(triangles.polygons) == 241
+    assert 125 < len(triangles.polygons) < 250  # depending on the build, this number can vary...

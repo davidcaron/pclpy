@@ -31,7 +31,8 @@ PointCloud:
     PointXYZINormal, PointXYZLNormal, PointWithRange, PointWithViewpoint, MomentInvariants,
     PrincipalRadiiRSD, Boundary, PrincipalCurvatures, PFHSignature125, PFHRGBSignature250,
     PPFSignature, CPPFSignature, PPFRGBSignature, NormalBasedSignature12, FPFHSignature33,
-    VFHSignature308, GRSDSignature21, ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
+    VFHSignature308, GRSDSignature21, GASDSignature512, GASDSignature984, GASDSignature7992,
+    ESFSignature640, BRISKSignature512, Narf36, IntensityGradient,
     PointWithScale, PointSurfel, ShapeContext1980, UniqueShapeContext1960, SHOT352,
     SHOT1344, PointUV, ReferenceFrame, PointDEM]
 OctreePointCloudVoxelCentroid:

@@ -9,3 +9,13 @@ vc140.pdb
 *.pyd
 street2.las
 generated_modules
+var
+*.env
+tmp
+pcl-pcl-*
+errors.txt
+log.txt
+
+pclpy/pcl.cpython*
+
+.vscode

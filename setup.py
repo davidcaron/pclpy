@@ -1,22 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-
+import glob
 import io
 import os
+import subprocess
+import distutils.sysconfig
 from os.path import join
 import sys
 import platform
-from shutil import rmtree
 from time import time
 from collections import defaultdict
 
 import numpy
 
+from multiprocessing.pool import ThreadPool
 import setuptools
 from setuptools.command.build_ext import build_ext
-from setuptools import find_packages, setup, Command, Extension
+from setuptools import find_packages, setup, Extension
 from distutils.errors import CompileError, DistutilsExecError
+import distutils.ccompiler
+
+from pkgconfig_utils import pkg_config_multi
+
 
 # Package meta-data.
 NAME = 'pclpy'
@@ -24,13 +29,14 @@ DESCRIPTION = 'Python bindings for the Point Cloud Library'
 URL = 'https://www.github.com/davidcaron/pclpy'
 EMAIL = 'dcaron05@gmail.com'
 AUTHOR = 'David Caron'
-REQUIRES_PYTHON = '==3.6.*'
+REQUIRES_PYTHON = '>=3.6'
 VERSION = None
 
+PCL_VERSION = "1.9"
 PCL_ROOT = os.getenv("PCL_ROOT")
 PYTHON_HOME = os.path.split(sys.executable)[0]
-INCLUDE = join(PYTHON_HOME, r"Library", "include")
-LIB_DIR = join(PYTHON_HOME, r"Library", "lib")
+
+CONDA = 'conda' in sys.version or os.path.exists(join(sys.prefix, 'conda-meta'))
 
 ON_WINDOWS = platform.system() == "Windows"
 
@@ -39,7 +45,7 @@ REQUIRED = [
     'numpy',
 ]
 
-if ON_WINDOWS:
+if ON_WINDOWS and not CONDA:
     REQUIRED.append('pclpy_dependencies>=0.2.1')
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -61,11 +67,11 @@ if ON_WINDOWS:
     # can't find C:\Program Files (x86)\Windows Kits\10\bin\x64\rc.exe
     # for permanent solution see
     # https://stackoverflow.com/questions/43847542/rc-exe-no-longer-found-in-vs-2015-command-prompt
-    os.environ["PATH"] += r";C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x64"
+    # os.environ["PATH"] += r";C:\Program Files (x86)\Windows Kits\10\bin\10.0.17134.0\x64"
 
     # For MSVC, this flag enables multiprocess compilation
     MSVC_MP_BUILD = False
-    N_WORKERS = 4
+    N_WORKERS = 3
     if "--msvc-mp-build" in sys.argv:
         sys.argv.remove("--msvc-mp-build")
         MSVC_MP_BUILD = True
@@ -75,12 +81,17 @@ if ON_WINDOWS:
         sys.argv.remove("--use-clcache")
         USE_CLCACHE = True
 
-        # ensure clcache exists
-        for path in os.environ["PATH"].split(os.pathsep):
-            if os.path.isfile(os.path.join(path, "clcache.exe")):
-                break
-        else:
-            raise FileNotFoundError("You specified --use-clcache but clcache.exe can't be found.")
+        # patch clcache for case sensitive folders in windows (created inside WSL)
+        import clcache.__main__
+        clcache_path = clcache.__main__.__file__
+        clcache_code = open(clcache_path).read()
+        patch = "os.path.normcase = lambda x: x"
+        if not patch in clcache_code:
+            br = "\r\n" if "\r\n" in clcache_code else "\n"
+            find = f"{br}VERSION = "
+            clcache_patched = clcache_code.replace(find, br + patch + br + find)
+            with open(clcache_path, 'w') as f:
+                f.write(clcache_patched)
 
     # For MSVC, this flag skips code generation at linking
     # Do not set for release builds because some optimizations are skipped
@@ -147,8 +158,19 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
     c_opts = {
-        'msvc': ['/EHsc', "/openmp"],
-        'unix': [],
+        'msvc': ['/EHsc',
+                 "/openmp"
+                 ],
+        'unix': ['-Wno-unused-local-typedefs',
+                 '-Wno-unknown-pragmas',
+                 '-fopenmp',
+                 ],
+    }
+    c_opts_remove = {
+        'msvc': [],
+        'unix': ['-Wstrict-prototypes',
+                 '-Wsign-compare',
+                 ],
     }
     if ON_WINDOWS and MSVC_NO_CODE_LINK:
         c_opts['msvc'].append("/bigobj")
@@ -158,13 +180,20 @@ class BuildExt(build_ext):
     def build_extensions(self):
         ct = self.compiler.compiler_type
         opts = self.c_opts.get(ct, [])
+        opts_remove = self.c_opts_remove.get(ct, [])
         if ct == 'unix':
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             opts.append(cpp_flag(self.compiler))
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')
+            self.compiler.compiler = [o for o in self.compiler.compiler if o not in opts_remove]
+            self.compiler.compiler_cxx = [o for o in self.compiler.compiler_cxx if o not in opts_remove]
+            self.compiler.compiler_so = [o for o in self.compiler.compiler_so if o not in opts_remove]
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
+            if opts_remove:
+                raise NotImplementedError
+
         for ext in self.extensions:
             ext.extra_compile_args = opts
 
@@ -172,6 +201,7 @@ class BuildExt(build_ext):
 
 
 ext_args = defaultdict(list)
+ext_args['include_dirs'].append(numpy.get_include())
 
 if ON_WINDOWS:
     def compile(self, sources,
@@ -203,13 +233,13 @@ if ON_WINDOWS:
 
         if MSVC_MP_BUILD:
             workers = N_WORKERS
-            from multiprocessing.pool import ThreadPool
-            t = ThreadPool(workers)
+
+            pool = ThreadPool(workers)
             for obj in objects:
-                t.apply_async(self.compile_single,
-                              [obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs])
-            t.close()
-            t.join()
+                pool.apply_async(self.compile_single,
+                                 [obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs])
+            pool.close()
+            pool.join()
         else:
             for obj in objects:
                 self.compile_single(obj, build, debug, pp_opts, compile_opts, add_cpp_opts, extra_postargs)
@@ -291,62 +321,138 @@ if ON_WINDOWS:
     MSVCCompiler.compile = compile
     MSVCCompiler.compile_single = compile_single
 
-    ext_args['include_dirs'].append(numpy.get_include())
+    if not CONDA:
+        INCLUDE_WINDOWS = join(PYTHON_HOME, r"Library", "include")
+        LIB_DIR_WINDOWS = join(PYTHON_HOME, r"Library", "lib")
 
-    inc_dirs = [join(PCL_ROOT, "include", "pcl-1.8"),
-                join(PCL_ROOT, "3rdParty", "Eigen", "eigen3"),
-                join(PCL_ROOT, "3rdParty", "Boost", "include", "boost-1_64"),
-                join(PCL_ROOT, "3rdParty", "FLANN", "include"),
-                join(PCL_ROOT, "3rdParty", "Qhull", "include"),
-                join(INCLUDE, "vtk-8.1"),
-                INCLUDE,
-                ]
+        inc_dirs = [join(PCL_ROOT, "include", "pcl-%s" % PCL_VERSION),
+                    join(PCL_ROOT, "3rdParty", "Eigen", "eigen3"),
+                    join(PCL_ROOT, "3rdParty", "Boost", "include", "boost-1_64"),
+                    join(PCL_ROOT, "3rdParty", "FLANN", "include"),
+                    join(PCL_ROOT, "3rdParty", "Qhull", "include"),
+                    join(INCLUDE_WINDOWS, "vtk-8.1"),
+                    INCLUDE_WINDOWS,
+                    ]
 
+        ext_args['include_dirs'] += inc_dirs
+
+        lib_dirs = [join(PCL_ROOT, "lib"),
+                    join(PCL_ROOT, "3rdParty", "Boost", "lib"),
+                    join(PCL_ROOT, "3rdParty", "FLANN", "lib"),
+                    join(PCL_ROOT, "3rdParty", "Qhull", "lib"),
+                    LIB_DIR_WINDOWS,
+                    ]
+
+        ext_args['library_dirs'] += lib_dirs
+
+        for lib in os.listdir(join(PCL_ROOT, "lib")):
+            endswith = "debug.lib" if DEBUG else "release.lib"
+            if lib.endswith(endswith):
+                ext_args['libraries'].append(lib[:-4])
+
+        win_libreleases = ['kernel32', 'user32', 'gdi32', 'winspool', 'comdlg32',
+                        'advapi32', 'shell32', 'ole32', 'oleaut32',
+                        'uuid', 'odbc32', 'odbccp32']
+        ext_args['libraries'] += win_libreleases
+
+        # for lib in os.listdir(join(PCL_ROOT, "3rdParty", "Boost", "lib")):
+        #     if lib.endswith("vc140-mt-1_64.lib"):
+        #         ext_args['libraries'].append(lib[:-4])
+
+        for lib in os.listdir(LIB_DIR_WINDOWS):
+            endswith = "D-8.1.lib" if DEBUG else "-8.1.lib"
+            if lib.endswith(endswith):
+                ext_args['libraries'].append(lib[:-4])
+
+        win_opengl_libdirs = ['C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v8.1A\\Lib\\x64']
+
+        ext_args['library_dirs'] += win_opengl_libdirs
+
+        win_opengl_libreleases = ['OpenGL32']
+        ext_args['libraries'] += win_opengl_libreleases
+    else:  # CONDA
+        conda_library = join(sys.prefix, "Library")
+        pkgconfig_paths = [
+            join(conda_library, "lib", "pkgconfig"),
+            join(conda_library, "share", "pkgconfig"),
+        ]
+        os.environ["PKG_CONFIG_PATH"] = ';'.join(pkgconfig_paths)
+        inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
+        ext_args['include_dirs'] += inc_dirs
+
+        # get only pcl_*_release.lib files
+        for lib in pkg_config_multi('--libs-only-l', skip_chars=2):
+            if lib.startswith('pcl_'):
+                lib_path = join(conda_library, "lib", lib)
+                lib_path_release = join(conda_library, "lib", lib + "_release")
+                for path in [lib_path_release, lib_path]:
+                    if os.path.exists(path + ".lib"):
+                        ext_args['libraries'].append(path)
+                        break
+
+        ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
+        ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
+else:  # not Windows
+    # monkey-patch for parallel compilation
+    def parallel_compile(self, sources, output_dir=None, macros=None, include_dirs=None, debug=0, extra_preargs=None,
+                         extra_postargs=None, depends=None):
+        # those lines are copied from distutils.ccompiler.CCompiler directly
+        macros, objects, extra_postargs, pp_opts, build = self._setup_compile(output_dir, macros, include_dirs, sources,
+                                                                              depends, extra_postargs)
+        cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
+
+        n_processes = 1  # number of parallel compilations
+
+        def _single_compile(obj):
+            try:
+                src, ext = build[obj]
+            except KeyError:
+                return
+            self._compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
+
+        ThreadPool(n_processes).map(_single_compile, objects, chunksize=1)
+        return objects
+
+
+    distutils.ccompiler.CCompiler.compile = parallel_compile
+
+    if CONDA:
+        pkgconfig_paths = [
+            join(sys.prefix, "lib", "pkgconfig"),
+            join(sys.prefix, "share", "pkgconfig"),
+        ]
+        os.environ["PKG_CONFIG_PATH"] = ':'.join(pkgconfig_paths)
+
+
+    # Remove the "-Wstrict-prototypes" compiler option, which isn't valid for C++.
+    cfg_vars = distutils.sysconfig.get_config_vars()
+    for key, value in cfg_vars.items():
+        if isinstance(value, str):
+            cfg_vars[key] = value.replace("-Wstrict-prototypes", "")
+
+
+    def find_include(folder, include):
+        return glob.glob(os.path.join(folder, include))[-1]
+
+    inc_dirs = pkg_config_multi('--cflags-only-I', skip_chars=2)
+    # vtk
+    # inc_dirs.append(os.getenv("VTK_INCLUDE_DIR", find_include("/usr/include", "vtk-*")))
     ext_args['include_dirs'] += inc_dirs
 
-    lib_dirs = [join(PCL_ROOT, "lib"),
-                join(PCL_ROOT, "3rdParty", "Boost", "lib"),
-                join(PCL_ROOT, "3rdParty", "FLANN", "lib"),
-                join(PCL_ROOT, "3rdParty", "Qhull", "lib"),
-                LIB_DIR,
-                ]
+    ext_args['libraries'] += pkg_config_multi('--libs-only-l', skip_chars=2)
+    ext_args['library_dirs'] += pkg_config_multi('--libs-only-L', skip_chars=2)
+    ext_args['extra_link_args'] += pkg_config_multi('--libs-only-other', skip_chars=0)
 
-    ext_args['library_dirs'] += lib_dirs
+defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
+ext_args['define_macros'] += defines
 
-    for lib in os.listdir(join(PCL_ROOT, "lib")):
-        endswith = "debug.lib" if DEBUG else "release.lib"
-        if lib.endswith(endswith):
-            ext_args['libraries'].append(lib[:-4])
+ext_args['include_dirs'].append(get_pybind_include())
+ext_args['include_dirs'].append(get_pybind_include(user=True))
 
-    win_libreleases = ['kernel32', 'user32', 'gdi32', 'winspool', 'comdlg32',
-                       'advapi32', 'shell32', 'ole32', 'oleaut32',
-                       'uuid', 'odbc32', 'odbccp32']
-    ext_args['libraries'] += win_libreleases
+src_path = join("pclpy", "src")
+ext_args['include_dirs'].append(src_path)
 
-    # for lib in os.listdir(join(PCL_ROOT, "3rdParty", "Boost", "lib")):
-    #     if lib.endswith("vc140-mt-1_64.lib"):
-    #         ext_args['libraries'].append(lib[:-4])
-
-    for lib in os.listdir(LIB_DIR):
-        endswith = "D-8.1.lib" if DEBUG else "-8.1.lib"
-        if lib.endswith(endswith):
-            ext_args['libraries'].append(lib[:-4])
-
-    win_opengl_libdirs = ['C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v8.1A\\Lib\\x64']
-
-    ext_args['library_dirs'] += win_opengl_libdirs
-
-    win_opengl_libreleases = ['OpenGL32']
-    ext_args['libraries'] += win_opengl_libreleases
-
-    defines = [('EIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET', '1')]
-    ext_args['define_macros'] += defines
-
-    ext_args['include_dirs'].append(get_pybind_include())
-    ext_args['include_dirs'].append(get_pybind_include(user=True))
-
-modules_path = "pclpy/src/generated_modules/"
-
+modules_path = join(src_path, "generated_modules")
 loaders = [join(modules_path, f) for f in os.listdir(modules_path)
            if f.endswith("_loader.cpp") and not f == "__main_loader.cpp"]
 
@@ -358,6 +464,12 @@ ext_modules = [
         **ext_args
     ),
 ]
+
+try:
+    subprocess.check_call(['ccache', '--version'])
+    os.environ["CC"] = "ccache gcc"
+except (FileNotFoundError, subprocess.CalledProcessError):
+    pass
 
 t = time()
 setup(

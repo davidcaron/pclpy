@@ -7,10 +7,7 @@ import laspy
 
 from pclpy import pcl
 import pclpy
-
-
-def test_data(*args):
-    return os.path.join("test_data", *args)
+from .utils import test_data
 
 
 @pytest.fixture

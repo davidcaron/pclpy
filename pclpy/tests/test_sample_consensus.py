@@ -5,10 +5,7 @@ from math import cos, sin, pi
 
 from pclpy import pcl
 import pclpy
-
-
-def test_data(*args):
-    return os.path.join("test_data", *args)
+from .utils import test_data
 
 
 def test_fit_line():

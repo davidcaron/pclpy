@@ -1,7 +1,3 @@
-
-#pragma warning (disable : 4367)
-#pragma warning (disable : 4267)
-
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include <pybind11/stl.h>
@@ -13,7 +9,7 @@
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
 
-#include "make_opaque_vectors.hpp"  // must be first for PYBIND11_MAKE_OPAQUE to work
+#include "make_opaque_vectors.hpp" // must be first for PYBIND11_MAKE_OPAQUE to work
 #include "eigen_bind.hpp"
 #include "generated_modules/__main_loader.hpp"
 #include "point_cloud_buffers.hpp"
@@ -27,7 +23,8 @@ using namespace pybind11::literals;
 using namespace pcl;
 
 template <typename T>
-void definePointCloudBuffers(py::module &m, const char* suffix) {
+void definePointCloudBuffers(py::object &m, const char *suffix)
+{
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
@@ -37,7 +34,8 @@ void definePointCloudBuffers(py::module &m, const char* suffix) {
 }
 
 template <typename T>
-void definePointCloudBuffersRGB(py::module &m, const char* suffix) {
+void definePointCloudBuffersRGB(py::object &m, const char *suffix)
+{
     using PointCloud = pcl::PointCloud<T>;
     using Type = py::class_<PointCloud, boost::shared_ptr<PointCloud>>;
     auto pc = static_cast<Type>(m.attr(suffix));
@@ -46,7 +44,8 @@ void definePointCloudBuffersRGB(py::module &m, const char* suffix) {
     defineBuffers<T>(pc);
 }
 
-PYBIND11_MODULE(pcl, m) {
+PYBIND11_MODULE(pcl, m)
+{
     m.doc() = "PCL python bindings";
 
     definePointTypes(m);
@@ -57,7 +56,7 @@ PYBIND11_MODULE(pcl, m) {
 
     defineClasses(m);
 
-    py::module pc = m.attr("PointCloud");
+    py::object pc = m.attr("PointCloud");
     definePointCloudBuffers<PointXYZ>(pc, "PointXYZ");
     definePointCloudBuffers<PointXYZI>(pc, "PointXYZI");
     definePointCloudBuffers<PointXYZL>(pc, "PointXYZL");
@@ -89,6 +88,9 @@ PYBIND11_MODULE(pcl, m) {
     definePointCloudBuffers<NormalBasedSignature12>(pc, "NormalBasedSignature12");
     definePointCloudBuffers<FPFHSignature33>(pc, "FPFHSignature33");
     definePointCloudBuffers<VFHSignature308>(pc, "VFHSignature308");
+    definePointCloudBuffers<GASDSignature512>(pc, "GASDSignature512");
+    definePointCloudBuffers<GASDSignature984>(pc, "GASDSignature984");
+    definePointCloudBuffers<GASDSignature7992>(pc, "GASDSignature7992");
     definePointCloudBuffers<GRSDSignature21>(pc, "GRSDSignature21");
     definePointCloudBuffers<ESFSignature640>(pc, "ESFSignature640");
     definePointCloudBuffers<BRISKSignature512>(pc, "BRISKSignature512");

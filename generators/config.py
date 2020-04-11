@@ -1,14 +1,29 @@
 import os
 from os.path import join
+import platform
+import sys
+
+from pkgconfig_utils import get_include_dir
 
 INDENT = " " * 4
 BASE_SUB_MODULE_NAME = "sub_module"
 
-PCL_BASE = join(os.environ["PCL_ROOT"], "include\pcl-1.8\pcl")
 PATH_SRC = join("..", "pclpy", "src")
 PATH_MAIN_CPP = join(PATH_SRC, "pclpy.cpp")
 PATH_MODULES = join(PATH_SRC, "generated_modules")
 PATH_LOADER = join(PATH_MODULES, "__main_loader.hpp")
+
+CONDA = 'conda' in sys.version or os.path.exists(join(sys.prefix, 'conda-meta'))
+
+if platform.system() == "Windows":
+    if CONDA:
+        PCL_BASE = join(sys.prefix, "Library", "include", "pcl-1.9", "pcl")
+    else:
+        PCL_BASE = join(os.environ["PCL_ROOT"], "include", "pcl-1.8", "pcl")
+elif CONDA:
+    PCL_BASE = join(sys.prefix, "include", "pcl-1.9", "pcl")
+else:
+    PCL_BASE = join(get_include_dir(), "pcl")
 
 common_includes = """
 #include <pybind11/pybind11.h>
@@ -24,16 +39,32 @@ using namespace pybind11::literals;
 
 cpp_header = """
 PYBIND11_DECLARE_HOLDER_TYPE(T, boost::shared_ptr<T>);
-#include "../make_opaque_vectors.hpp"
+#include "make_opaque_vectors.hpp"
 """
 
 # ----------------------
 # which modules to build
 # ----------------------
 
-MODULES_TO_BUILD = ['2d', 'common', 'geometry', 'features', 'filters', 'io', 'kdtree', 'keypoints', 'octree',
-                    'recognition', 'sample_consensus', 'search', 'segmentation', 'stereo', 'surface',
-                    'tracking', 'visualization']
+MODULES_TO_BUILD = [
+    '2d',
+    'common',
+    'features',
+    'geometry',
+    'filters',
+    'io',
+    'kdtree',
+    'keypoints',
+    'octree',
+    'recognition',
+    'sample_consensus',
+    'search',
+    'segmentation',
+    'stereo',
+    'surface',
+    'tracking',
+    # 'visualization',
+]
 # skipped for now:
 # , 'ml', 'people', 'outofcore', 'registration']
 
@@ -90,10 +121,12 @@ KEEP_ASIS_TYPES = {
     "int32_t",
     "int64_t",
     "bool",
+    "void",
     "char",
     "float",
     "double",
     "size_t",
+    "off_t",
 }
 
 # explicitely excluded classes
@@ -103,8 +136,11 @@ CLASSES_TO_IGNORE = [
     # (not implemented in pcl source code)
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreBreadthFirstIterator"),
     ("outofcore", "outofcore_iterator_base.h", "OutofcoreLeafIterator"),
+    ("common", "colors.h", "ColorLUT"),  # ColorLUTName tamplate type
     # constructor seems to access private member...
     ("io", "obj_io.h", "MTLReader"),
+    ("filters", "voxel_grid_label.h", "VoxelGridLabel"),  # needs PointXYZRGBL which is skipped
+    ("stereo", "digital_elevation_map.h", "DigitalElevationMapBuilder"),  # needs PointDEM which is skipped
     ("io", "io_exception.h", "IOException"),  # linking error
     ("visualization", "interactor_style.h", "PCLHistogramVisualizerInteractorStyle"),  # linking error
 ]
@@ -161,6 +197,7 @@ CUSTOM_OVERLOAD_TYPES = {
 GLOBAL_PCL_IMPORTS = [
     "IndicesPtr",
     "IndicesConstPtr",
+    "PointIndicesConstPtr",
     "Correspondence",
     "PointIndices",
     "ModelCoefficients",
@@ -170,8 +207,11 @@ GLOBAL_PCL_IMPORTS = [
     "PlanarRegion",
     "PointXYZ",
     "SVMData",
-    "InterpolationType",  # local emun
-    "NormType",  # local emun
+    "InterpolationType",  # local enum
+    "NormType",  # local enum
+    "ReferenceFrame",
+    "GASDSignature512",
+    "GASDSignature984",
 ]
 
 EXPLICIT_IMPORTED_TYPES = [
@@ -228,6 +268,7 @@ TEMPLATED_METHOD_TYPES = {
     "ValT": ["float", "uint8_t", "uint32_t"],
     "MeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
     "HalfEdgeMeshT": ["pcl::geometry::PolygonMesh", "pcl::geometry::QuadMesh", "pcl::geometry::TriangleMesh"],
+    "MeshTraitsT": [],  # nothing for now
 
     # Eigen::MatrixBase<Derived>
     "Derived": ["float", "double"],
@@ -278,6 +319,8 @@ SPECIFIC_TEMPLATED_METHOD_TYPES = {
     ("transforms.h", "transformPointWithNormal", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT",)): ("PCL_NORMAL_POINT_TYPES",),
     ("transforms.h", "transformPointCloudWithNormals", ("PointT", "Scalar")): ("PCL_NORMAL_POINT_TYPES", ["float"]),
+
+    ("MLSResult", "computeMLSSurface", ("PointT",)): ("PCL_XYZ_POINT_TYPES", ),
 
     # (ShapeContext1980, UniqueShapeContext1960) and (SHOT352, SHOT1344) have fields of the same name
     # this is a workaround
@@ -353,6 +396,7 @@ EXTRA_FUNCTIONS = {
 HEADERS_TO_SKIP = [
     # ("module", "header")
     ("io", "pxc_grabber.h"),  # deprecated
+    ("io", "dinast_grabber.h"),
     ("", "sse.h"),  # don't need that
     ("", "point_representation.h"),  # I could be wrong, but this seems covered in python with the buffer protocol..
     ("", "conversions.h"),  # can't find overloaded functions
@@ -363,6 +407,8 @@ HEADERS_TO_SKIP = [
     ("2d", "kernel.h"),  # missing impl/kernel.hpp in Windows release
     ("2d", "edge.h"),  # missing impl/kernel.hpp in Windows release
 
+    ("io", "hdl_grabber.h"),
+    ("io", "vlp_grabber.h"),
     ("io", "openni.h"),
     ("io", "openni2_grabber.h"),
     ("io", "openni2_convert.h"),
@@ -386,6 +432,7 @@ HEADERS_TO_SKIP = [
     ("registration", "exceptions.h"),  # todo: implement exceptions
     ("segmentation", "conditional_euclidean_clustering.h"),  # setConditionFunction hard to implement...
     ("segmentation", "seeded_hue_segmentation.h"),  # not exported in dll for some reason. Linking error.
+    ("segmentation", "euclidean_cluster_comparator.h"),
     ("common", "time_trigger.h"),  # init containing boost::function
     ("common", "synchronizer.h"),
     ("common", "spring.h"),  # not compiled in Windows PCL release
@@ -412,6 +459,7 @@ HEADERS_TO_SKIP = [
     ("features", "narf_descriptor.h"),  # depends on range_image
     ("features", "narf.h"),  # depends on range_image
     ("keypoints", "narf_keypoint.h"),  # depends on range_image and range_image_border_extractor
+    ("features", "ppfrgb.h"),  # linking error on linux
 
     ("segmentation", "random_walker.h"),  # not familiar enough to know how to include, skip for now
 
@@ -440,6 +488,8 @@ FUNCTIONS_TO_SKIP = [
     ("filter.h", "removeNaNNormalsFromPointCloud"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointCloudWithNormals"),  # (fixable) PointT XYZ and Normal point types for 2 functions
     ("transforms.h", "transformPointWithNormal"),  # (fixable) PointT XYZ and Normal point types for 2 functions
+    ("intersections.h", "planeWithPlaneIntersection"),  # couldn't deduce template parameter ‘Return’
+    ("intersections.h", "threePlanesIntersection"),  # couldn't deduce template parameter ‘Return’
 
     # todo: I think most of these could be removed. They were added before I realized there was a bug.
     ("io.h", "copyPointCloud"),  # no matching overload found...
@@ -478,6 +528,8 @@ ATTRIBUTES_TO_SKIP = {
     # ("module", "header", "class"): ["attr1", "attr2"]
     ("features", "shot.h", "SHOTColorEstimation"): ["sRGB_LUT", "sXYZ_LUT"],  # todo: linking error
     ("features", "narf.h", "Narf"): ["max_no_of_threads"],  # todo: linking error
+    ("features", "organized_edge_detection.h", "OrganizedEdgeBase"): ["num_of_edgetype_"],  # linking error
+    ("octree", "octree_key.h", "OctreeKey"): ["maxDepth"],  # linking error
     ("recognition", "orr_octree.h", "ORROctree"): ["createLeaf"],  # todo: linking error
 }
 
@@ -487,6 +539,7 @@ METHODS_TO_SKIP = [
     ("PointCloud", "insert"),  # templated InputIterator
 
     ("ASCIIReader", "setInputFields"),
+    ("ASCIIReader", "read"),  # PCLPointCloud2 not implemented for now
     ("PCLPlotter", "addPlotData"),
     ("PCLPlotter", "addFeatureHistogram"),
     ("PCLHistogramVisualizer", "spinOnce"),
@@ -495,7 +548,27 @@ METHODS_TO_SKIP = [
     ("ORROctree", "createLeaf"),  # linking error
     ("PCLVisualizer", "getRenderWindow"),  # wrapped to return a python vtk object instead
 
+    # Not build in conda pcl
+    ("MLSResult", "calculatePrincipleCurvatures"),
+    ("MLSResult", "projectPointOrthogonalToPolynomialSurface"),
+    ("MLSResult", "projectPointToMLSPlane"),
+    ("MLSResult", "projectPointSimpleToPolynomialSurface"),
+    ("MLSResult", "projectPoint"),
+    ("MLSResult", "projectQueryPoint"),
+    ("MLSResult", "getMLSCoordinates"),
+    ("MLSResult", "getPolynomialValue"),
+    ("MLSResult", "getPolynomialPartialDerivative"),
+    ("MLSResult", "MLSResult"),
+    ("MLSResult", "computeMLSSurface"),  # linking error with windows conda pcl
+    # END Not build in conda pcl
+    
+    ("MovingLeastSquares", "getPolynomialFit"),  # deprecated in pcl
+    ("MovingLeastSquares", "setPolynomialFit"),  # deprecated in pcl
+
     ("PCLHistogramVisualizer", "wasStopped"),  # only in vtk 5
     ("PCLHistogramVisualizer", "resetStoppedFlag"),  # only in vtk 5
     ("PCLVisualizerInteractorStyle", "vtkTypeMacro"),  # this is a macro?
+    ("OctreePointCloudVoxelCentroid", "getVoxelCentroidAtPoint"),  # error: ‘genOctreeKeyforPoint’ was not declared in this scope
+
+    ("RSDEstimation", "getHistograms"),  # must declare class for return value: boost::shared_ptr<std::vector<Eigen::MatrixXf, Eigen::aligned_allocator<Eigen::MatrixXf> > >
 ]
