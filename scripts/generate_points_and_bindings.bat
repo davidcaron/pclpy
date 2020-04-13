@@ -8,6 +8,8 @@ set PYTHONPATH=%base%
 REM set to 'all' to generate all point types (slower to compile)
 set POINT_GROUPS=%1
 
+IF "%PYTHON%"=="" set PYTHON=python
+
 @ECHO ON
 %PYTHON% generate_yaml_point_types.py || exit /b
 %PYTHON% generate_pybind11_bindings.py || exit /b
