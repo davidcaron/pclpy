@@ -19,7 +19,7 @@ jobs:
           auto-update-conda: true
           activate-environment: pclpy
           environment-file: environment.yml
-          python-version: 3.8
+          python-version: 3.6
       - name: Install ccache
         run: sudo apt-get install -y ccache
       - name: Get timestamp
@@ -48,19 +48,9 @@ jobs:
         run: python -m pip install --no-dependencies -e .
       - shell: bash -l {0}
         run: pytest
-      - run: conda install -q -y anaconda-client conda-build
-      - run: conda config --set anaconda_upload yes
-        # if: github.event_name == 'release'
-      - run: conda env remove -n pclpy
-      - run: |
-          cd conda
-          conda run -n base conda build . -c conda-forge
-        env:
-          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
       - name: Ccache stats
         if: always()
         run: ccache -s
-      - run: ls -R .
   build-windows:
     name: Build Windows
     runs-on: "windows-latest"
@@ -71,7 +61,8 @@ jobs:
           activate-conda: true
           update-conda: true
           conda-channels: conda-forge
-      - run: conda env create -q -n pclpy -f environment.yml
+      - run: conda env create -q -n pclpy -c conda-forge python=3.6
+      - run: conda env update -q -n pclpy -f environment.yml
       - run: conda run -n pclpy python -c "import sys; print(sys.version)"
       - run: conda run -n pclpy python -m pip install -r requirements-dev.txt
       - name: Download pcl
@@ -81,10 +72,3 @@ jobs:
       - run: conda run -n pclpy python setup.py build
       - run: conda run -n pclpy python -m pip install --no-dependencies -e .
       - run: conda run -n pclpy pytest
-      - run: conda install -q -y anaconda-client conda-build console_shortcut powershell_shortcut
-      - run: conda config --set anaconda_upload yes
-        # if: github.event_name == 'release'
-      - run: cd conda && conda run -n base conda-build . -c conda-forge
-        env:
-          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
-      - run: dir
