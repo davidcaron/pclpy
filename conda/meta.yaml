@@ -1,6 +1,8 @@
+{% set data = load_setup_py_data() %}
+
 package:
   name: "pclpy"
-  version: "0.11.0"
+  version: {{ data['version'] }}
 
 source:
   path: ..
