@@ -61,7 +61,7 @@ jobs:
           activate-conda: true
           update-conda: true
           conda-channels: conda-forge
-      - run: conda env create -q -n pclpy -c conda-forge python=3.6
+      - run: conda create -q -n pclpy -c conda-forge python=3.6
       - run: conda env update -q -n pclpy -f environment.yml
       - run: conda run -n pclpy python -c "import sys; print(sys.version)"
       - run: conda run -n pclpy python -m pip install -r requirements-dev.txt
