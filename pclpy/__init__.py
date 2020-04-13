@@ -10,7 +10,6 @@ from pclpy.api import (
     extract_clusters,
     compute_normals,
     region_growing,
-    show,
     moving_least_squares,
     mls,
     radius_outlier_removal,
