@@ -26,7 +26,7 @@ requirements:
     - ply
     # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
   run:
-    - python>=3.6
+    - python
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
