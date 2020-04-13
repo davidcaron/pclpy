@@ -36,7 +36,7 @@ PCL_VERSION = "1.9"
 PCL_ROOT = os.getenv("PCL_ROOT")
 PYTHON_HOME = os.path.split(sys.executable)[0]
 
-CONDA = Path(sys.prefix, "conda-meta").exists
+CONDA = "conda" in sys.version or Path(sys.prefix, "conda-meta").exists
 
 if not CONDA:
     warnings.warn(
