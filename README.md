@@ -6,11 +6,7 @@
 Python bindings for the Point Cloud Library (PCL).
 Generated from headers using CppHeaderParser and pybind11.
 
-__This library is in active development, the api is likely to change.
-The included modules do work, but tests are incomplete, and corner
-cases are still common.__
-
-Only Windows and python 3.6 x64 are supported at the moment.
+Install using conda: `conda install -c conda-forge -c davidcaron pclpy` (see _Installation_ below)
 
 Contributions, issues, comments are welcome!
 
@@ -19,6 +15,7 @@ Github repository: https://www.github.com/davidcaron/pclpy
 Pypi: https://pypi.org/project/pclpy/
 
 ## Motivation
+
 Many other python libraries tried to bind PCL.
 The most popular one being python-pcl, which uses Cython.
 While Cython is really powerful, binding C++ templates isn't one of
@@ -32,22 +29,21 @@ the buffer protocol are examples of things that are simpler to implement.
 
 The results so far are very promising. A large percentage of PCL is covered.
 
-## Installing
+## Installation
 
-#### Windows with python 3.6 x64
-`pip install pclpy`
+We use conda to release pclpy. To install, use this command:
 
-When pip installs the project, `pclpy_dependencies` is installed as a requirement.
-This simple package contains only the PCL dlls required on Windows so you don't have
-to download a PCL release or build it.
+`conda install -c conda-forge -c davidcaron pclpy`
 
-#### Linux
+Don't forget to add both channels, or else conda won't be able to find all dependencies.
 
-Not working for now. Contributions are welcome!
+**Windows and Linux**, with python **3.6, 3.7 and 3.8** are supported.
+
 
 ## Features
-- All point types are implemented (those specified by the default msvc compile flags)
-- You can view point cloud data as numpy arrays using `cloud.x` or `cloud.xyz`
+
+- Most point types are implemented (those specified by `PCL_ONLY_CORE_POINT_TYPES` in PCL)
+- You can get a numpy view of point cloud data using python properties (e.g. `cloud.x` or `cloud.xyz`)
 - boost::shared_ptr is handled by pybind11 so it's completely abstracted at the python level
 - laspy integration for reading/writing las files
 
@@ -125,40 +121,49 @@ mls.process (output);
 - stereo
 - surface
 - tracking
-- visualization (note: not for linux)
 #### These modules are skipped for now
 - ml
 - people
 - outofcore
 - registration
+- visualization
 - every module not in the PCL Windows release (gpu, cuda, etc.)
 
 ## Not Implemented
 (see [github issues](https://github.com/davidcaron/pclpy/issues)
 and the _what to skip_ section in `generators/config.py`)
 
-## To build
-#### Windows with python 3.6 x64
+## Building
 
-- Download PCL release for Windows (PCL-1.8.1-AllInOne-msvc2017-win64.exe) at:
-    https://github.com/PointCloudLibrary/pcl/releases/download/pcl-1.8.1/PCL-1.8.1-AllInOne-msvc2017-win64.exe
-- PCL_ROOT environment variable must be set to the installation directory of PCL
-- About requirements:
-    - Install pybind11 from github (2.3dev version) it includes a necessary bug fix
-        (https://github.com/pybind/pybind11/commit/e88656ab45ae75df7dcb1fcdd2c89805b52e4665)
-    - Install CppHeaderParser from https://github.com/davidcaron/CppHeaderParser (specific bug fixes)
-- Generate modules using `generate_pybind11_bindings.py`
-- There is a missing file from the PCL release that you should get from the github repo: 2d/impl/kernel.hpp
-- Must be built with x64 version of cl.exe because of the large memory usage (see workaround in setup.py)
-- python setup.py install
-- Useful setup.py arguments:
-    - --msvc-mp-build should enable a multiprocessed build
-    - --msvc-no-code-link makes linking much faster (do not use for releases, see setup.py description)
-    - --use-clcache to cache msvc builds using clcache (must be installed)
-    - --debug to build in debug mode
+Build scripts are in the `scripts` folder.
+
+1. Create your conda environment:
+    `conda env create -n pclpy -f environment.yml`
+
+2. Activate your environment:
+    `conda activate pclpy`
+
+3. Install development dependencies:
+    `pip install -r requirements-dev.txt`
+
+4. Download a copy of PCL
+    Windows: `powershell scripts\download_pcl.ps1`
+    Linux: `scripts\download_pcl.sh`
+
+5. Generate pybind11 bindings
+    Windows: `powershell scripts\generate_points_and_bindings.ps1`
+    Linux: `scripts\generate_points_and_bindings.sh`
+
+6. For development, build inplace using python
+    `python setup.py build_ext -i`
+    
+    For a release, use the scripts/conda_build.bat (or conda_build.sh) script
+
+On Windows, these setup.py arguments can cpeed up the build:
+    - --msvc-mp-build enables a multiprocessed build
+    - --msvc-no-code-link makes the linking step faster (not meant for releases)
+    - --use-clcache to cache msvc builds (clcache must be installed)
 
 ## Roadmap
 - Wrap as much of PCL as reasonably possible
 - More tests
-- CI on Appveyor
-- Make it work on Linux
