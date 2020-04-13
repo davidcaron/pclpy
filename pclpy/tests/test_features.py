@@ -49,7 +49,7 @@ def test_difference_of_normals_estimation_simple():
     output2 = pcl.PointCloud.PointNormal(output, pcl.vectors.Int(indices))
 
     clusters = pclpy.extract_clusters(pcl.PointCloud.PointXYZ(output2.xyz), 0.1, 50, 100000)
-    assert len(clusters) == 32
+    assert len(clusters) in range(30, 35)  # there is some randomness to the results
 
     # display
     # indices = pcl.vectors.Int()
