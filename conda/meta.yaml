@@ -6,16 +6,17 @@ source:
   path: ..
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   channels:
     - conda-forge
   build:
     - {{ compiler('cxx') }} # [win]
-    - pkgconfig # [win]
   host:
     - python {{ python }}
+    - pip
+    - pkgconfig # [win]
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
@@ -26,7 +27,7 @@ requirements:
     - ply
     # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
   run:
-    - python
+    - python {{ python }}
     - pcl=1.9.1
     - eigen
     - numpy>=1.18
@@ -38,7 +39,7 @@ test:
   imports:
     - pclpy
   commands:
-    - pytest
+    - pytest --pyargs pclpy.tests
 
 about:
   home: https://github.com/davidcaron/pclpy

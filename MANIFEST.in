@@ -1,1 +1,2 @@
-include README.md LICENSE
+include requirements.txt pkgconfig_utils.py
+include LICENSE

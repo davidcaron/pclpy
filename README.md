@@ -37,7 +37,9 @@ We use conda to release pclpy. To install, use this command:
 
 Don't forget to add both channels, or else conda won't be able to find all dependencies.
 
-**Windows and Linux**, with python **3.6, 3.7 and 3.8** are supported.
+**Windows**: python **3.6** and **3.7** are supported
+
+**Linux**: python **3.6**, **3.7** and **3.8** are supported
 
 
 ## Features
