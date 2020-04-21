@@ -1,7 +1,12 @@
 # pclpy: PCL for python
 
-[![PyPI](https://img.shields.io/pypi/v/pclpy.svg)](https://pypi.org/project/pclpy/)
-[![PyPI Python version](https://img.shields.io/pypi/pyversions/pclpy.svg)](https://pypi.org/project/pclpy/)
+
+[![conda](https://img.shields.io/conda/v/davidcaron/pclpy?label=conda)](https://anaconda.org/davidcaron/pclpy)
+[![Python version](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8-blue)](https://anaconda.org/davidcaron/pclpy)
+[![conda](https://img.shields.io/conda/pn/davidcaron/pclpy?color=orange)](https://anaconda.org/davidcaron/pclpy)
+[![PCL version](https://img.shields.io/badge/PCL-1.9.1-blue)](https://anaconda.org/conda-forge/pcl)
+
+![.github/workflows/ci.yml](https://github.com/davidcaron/pclpy/workflows/.github/workflows/ci.yml/badge.svg)
 
 Python bindings for the Point Cloud Library (PCL).
 Generated from headers using CppHeaderParser and pybind11.
@@ -11,8 +16,6 @@ Install using conda: `conda install -c conda-forge -c davidcaron pclpy` (see _In
 Contributions, issues, comments are welcome!
 
 Github repository: https://www.github.com/davidcaron/pclpy
-
-Pypi: https://pypi.org/project/pclpy/
 
 ## Motivation
 
