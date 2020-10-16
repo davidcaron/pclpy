@@ -7,6 +7,7 @@ import distutils.sysconfig
 import glob
 import io
 from multiprocessing.pool import ThreadPool
+from multiprocessing import cpu_count
 import os
 from os.path import join
 from pathlib import Path
@@ -22,7 +23,6 @@ from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext
 
 from pkgconfig_utils import pkg_config_multi
-
 
 # Package meta-data.
 NAME = "pclpy"
@@ -376,7 +376,7 @@ else:  # not Windows
         )
         cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
 
-        n_processes = 1  # number of parallel compilations
+        n_processes = cpu_count()  # number of parallel compilations
 
         def _single_compile(obj):
             try:
