@@ -25,6 +25,7 @@ requirements:
     - inflection
     - unidecode
     - ply
+    - qhull=2019.1 # exact version needed for pcl 1.9.1
     # - https://github.com/davidcaron/CppHeaderParser/archive/master.zip
   run:
     - python {{ python }}
